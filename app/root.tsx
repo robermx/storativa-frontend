@@ -1,10 +1,4 @@
-import { Links, type LinksFunction, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const links: LinksFunction = () => [
-  { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
-  // Aquí puedes agregar tus fuentes de Google o CSS externo
-];
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 
 export default function App() {
   return (
@@ -17,9 +11,8 @@ export default function App() {
       </head>
       <body>
         <nav>
-          <a href="/">Inicio ss</a> | <a href="/about">Acerca de</a>
+          <a href="/">Home</a> | <a href="/about">About</a>
         </nav>
-        {/* Aquí se renderizan las rutas hijas */}
         <Outlet />
         <ScrollRestoration />
         <Scripts />
@@ -27,5 +20,3 @@ export default function App() {
     </html>
   );
 }
-
-/* @vite-ignore */
