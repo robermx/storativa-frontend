@@ -19,9 +19,15 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
+    /* Paths */
     "paths": {
       "~/*": ["./app/*"]
     }
   },
-  "include": ["app", ".react-router/types"]
+  "include": [
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "app/env.d.ts",
+    ".react-router/types/**/*.ts"
+  ],
 }
