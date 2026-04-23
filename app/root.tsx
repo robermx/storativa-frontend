@@ -1,6 +1,6 @@
-// 1. Importamos el archivo CSS y el tipo LinksFunction
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 
+import MainLayout from "./layouts/MainLayout";
 import "./app.css";
 
 export default function App() {
@@ -12,19 +12,10 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="bg-gray-50 text-gray-900 antialiased">
-        <nav className="p-4 bg-white shadow-md flex gap-4">
-          <a href="/" className="hover:text-blue-600 font-medium">
-            Home
-          </a>
-          <a href="/about" className="hover:text-blue-600 font-medium">
-            About
-          </a>
-        </nav>
-
-        <main className="container mx-auto p-6">
+      <body className="bg-gray-100 text-gray-900 antialiased">
+        <MainLayout>
           <Outlet />
-        </main>
+        </MainLayout>
 
         <ScrollRestoration />
         <Scripts />
