@@ -45,7 +45,7 @@ const CustomInput: FC<CustomInputProps> = ({
           type={type}
           placeholder={placeholder}
           autoComplete={autoComplete}
-          className={`block w-full rounded-md bg-light px-3 py-1.5 pr-10 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 ${ error ? "focus:outline-red-500 dark:focus:outline-red-600 " : "focus:outline-secondary dark:focus:outline-secundary"} sm:text-sm/6 dark:bg-white/5 dark:text-white dark:outline-white/10 dark:placeholder:text-gray-500 transition-all`}
+          className={`block w-full rounded-md bg-light px-3 py-1.5 pr-10 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 ${ error ? "focus:outline-red-400 dark:focus:outline-red-500 " : "focus:outline-primary"} sm:text-sm/6 dark:bg-white/5 dark:text-white dark:outline-white/10 dark:placeholder:text-gray-500 transition-all`}
         />
 
         <div className="absolute inset-y-0 right-0 flex items-center pr-3">

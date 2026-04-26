@@ -4,6 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import MainIso from "@/assets/logo/MainIso";
 import CustomInput from "@/components/shared/CustomInput";
 import { IFormData, InputEnumType } from "@/interfaces/input.interface";
+import CustomButton from "@/components/shared/CustomButton";
 
 const Register = () => {
   const {
@@ -92,14 +93,12 @@ const Register = () => {
             )}
           />
 
-          <div>
-            <button
-              type="submit"
-              className="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary dark:bg-primary dark:shadow-none dark:hover:bg-primary dark:focus-visible:outline-primary"
-            >
-              Registrarme
-            </button>
-          </div>
+          <CustomButton
+            buttonType="submit"
+            bgColor="primary"
+            displayText="Registrarse"
+            textColor="accent"
+          />
         </form>
 
         <p className="mt-3 text-center text-sm/6 text-gray-500 dark:text-gray-400">

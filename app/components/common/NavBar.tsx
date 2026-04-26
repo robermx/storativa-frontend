@@ -1,18 +1,15 @@
-import { Dispatch, FC } from "react";
+import { FC } from "react";
 import { NavLink } from "react-router";
-import { Moon, Sun } from "lucide-react";
 
 import MainLogo from "@/assets/logo/MainLogo";
 import IsoSimple from "@/assets/logo/IsoSimple";
 
-interface NavBarProps {
-  setIsDarkMode: Dispatch<React.SetStateAction<boolean>>;
-  isDarkMode: boolean;
-}
 
-const NavBar: FC<NavBarProps> = ({ setIsDarkMode, isDarkMode }) => {
+const NavBar: FC = () => {
   return (
-    <nav className="p-4 bg-primary backdrop-blur-md sticky top-0 z-50 flex justify-between items-center px-8">
+    <nav className="bg-primary sticky top-0 z-50 py-2 px-8">
+      <div className="flex justify-between items-center">
+
       <NavLink to="/">
         {({ isActive }) => (
           <div className="flex items-center gap-3">
@@ -40,17 +37,7 @@ const NavBar: FC<NavBarProps> = ({ setIsDarkMode, isDarkMode }) => {
         >
           Login
         </NavLink>
-        <button
-          onClick={() => setIsDarkMode((prev) => !prev)}
-          className="rounded-full transition-all"
-          aria-label="Cambiar tema"
-        >
-          {isDarkMode ? (
-            <Sun className="text-accent fill-accent" size={24} />
-          ) : (
-            <Moon className="text-transparent fill-dark" size={24} />
-          )}
-        </button>
+      </div>
       </div>
     </nav>
   );

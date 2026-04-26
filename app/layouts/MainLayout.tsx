@@ -1,16 +1,12 @@
-import { Dispatch, FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren } from "react";
 import { useLocation } from "react-router";
 
 import NavBar from "@/components/common/NavBar";
 import Footer from "@/components/common/Footer";
 import { excludePaths } from "@/constants/common/layout.constants";
+import { ThemeProps } from "@/interfaces/theme.interface";
 
-interface MainLayoutProps {
-  setIsDarkMode: Dispatch<React.SetStateAction<boolean>>;
-  isDarkMode: boolean;
-}
-
-const MainLayout: FC<PropsWithChildren<MainLayoutProps>> = ({
+const MainLayout: FC<PropsWithChildren<ThemeProps>> = ({
   children,
   setIsDarkMode,
   isDarkMode,
@@ -21,12 +17,14 @@ const MainLayout: FC<PropsWithChildren<MainLayoutProps>> = ({
 
   return (
     <div className="min-h-screen flex flex-col font-sans selection:bg-primary selection:text-white">
-      {!isAuthPage && (
-        <NavBar setIsDarkMode={setIsDarkMode} isDarkMode={isDarkMode} />
-      )}
-      <main className={`grow ${isAuthPage ? "flex items-center justify-center pb-10" : ""}`}>{children}</main>
-      {!isAuthPage && <Footer />}
-      
+      {!isAuthPage && <NavBar />}
+      <main
+        className={`grow ${isAuthPage ? "flex items-center justify-center" : ""}`}
+      >
+        {children}
+      </main>
+
+      <Footer isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
     </div>
   );
 };
