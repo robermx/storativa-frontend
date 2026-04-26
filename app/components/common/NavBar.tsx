@@ -3,6 +3,7 @@ import { NavLink } from "react-router";
 import { Moon, Sun } from "lucide-react";
 
 import MainLogo from "@/assets/logo/MainLogo";
+import IsoSimple from "@/assets/logo/IsoSimple";
 
 interface NavBarProps {
   setIsDarkMode: Dispatch<React.SetStateAction<boolean>>;
@@ -14,9 +15,12 @@ const NavBar: FC<NavBarProps> = ({ setIsDarkMode, isDarkMode }) => {
     <nav className="p-4 bg-primary backdrop-blur-md sticky top-0 z-50 flex justify-between items-center px-8">
       <NavLink to="/">
         {({ isActive }) => (
-          <MainLogo
-            className={`transition-colors ${isActive ? "text-white" : "text-secondary hover:text-white"}`}
-          />
+          <div className="flex items-center gap-3">
+            <IsoSimple />
+            <MainLogo
+              className={`transition-colors ${isActive ? "text-white" : "text-secondary hover:text-white"}`}
+            />
+          </div>
         )}
       </NavLink>
       <div className="flex gap-6">
@@ -42,9 +46,9 @@ const NavBar: FC<NavBarProps> = ({ setIsDarkMode, isDarkMode }) => {
           aria-label="Cambiar tema"
         >
           {isDarkMode ? (
-            <Sun className="text-yellow-400 fill-yellow-400" size={24} />
+            <Sun className="text-accent fill-accent" size={24} />
           ) : (
-            <Moon className="text-transparent fill-gray-600" size={24} />
+            <Moon className="text-transparent fill-dark" size={24} />
           )}
         </button>
       </div>

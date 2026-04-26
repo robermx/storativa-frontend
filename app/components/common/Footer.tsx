@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="p-8 bg-dark text-white text-center">
+    <footer className="p-8 bg-accent text-dark text-center">
       <p>© {new Date().getFullYear()} Derechos Reservados</p>
     </footer>
   );

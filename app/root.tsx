@@ -5,7 +5,7 @@ import "./app.css";
 import { useState } from "react";
 
 export default function App() {
-  const [isDarkMode, setIsDarkMode] = useState(false)
+  const [isDarkMode, setIsDarkMode] = useState(true)
 
   return (
     <html lang="es" className={isDarkMode ? "dark" : ""}>
@@ -15,7 +15,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300 antialiased">
+      <body className="bg-light dark:bg-dark text-dark dark:text-light antialiased">
         <MainLayout setIsDarkMode={setIsDarkMode} isDarkMode={isDarkMode}>
           <Outlet />
         </MainLayout>

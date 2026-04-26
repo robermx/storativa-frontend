@@ -1,7 +1,7 @@
 import { FC } from "react";
-import { ILogo } from "../interfaces/svg.interface";
+import { SvgProps } from "../interfaces/svg.interface";
 
-const MainLogo: FC<ILogo> = ({
+const MainLogo: FC<SvgProps> = ({
   width = "150",
   height = "35",
   className = "",
