@@ -7,7 +7,7 @@ import IsoSimple from "@/assets/logo/IsoSimple";
 
 const NavBar: FC = () => {
   return (
-    <nav className="bg-primary sticky top-0 z-50 py-2 px-8">
+    <nav className="bg-primary sticky top-0 z-50 py-3 px-8">
       <div className="flex justify-between items-center">
 
       <NavLink to="/">

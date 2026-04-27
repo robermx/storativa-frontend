@@ -6,7 +6,7 @@ const ThemeButton: FC<ThemeProps> = ({ setIsDarkMode, isDarkMode }) => {
   return (
     <button
       onClick={() => setIsDarkMode((prev) => !prev)}
-      className="rounded-full transition-all"
+      className="rounded-full transition-all cursor-pointer"
       aria-label="Cambiar tema"
     >
       {isDarkMode ? (
