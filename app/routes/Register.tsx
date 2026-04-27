@@ -10,7 +10,7 @@ const Register = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid, isSubmitting },
   } = useForm<IFormData>({
     defaultValues: {
       email: "",
@@ -89,6 +89,7 @@ const Register = () => {
                 inputName="password"
                 placeholder="Contraseña"
                 error={errors.password?.message}
+
               />
             )}
           />
@@ -96,8 +97,9 @@ const Register = () => {
           <CustomButton
             buttonType="submit"
             bgColor="primary"
-            displayText="Registrarse"
             textColor="accent"
+            displayText={isSubmitting ? "Cargando..." : "Iniciar Sesión"}
+            isDisabled={!isValid || isSubmitting}
           />
         </form>
 

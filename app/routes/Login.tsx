@@ -10,7 +10,7 @@ const Login = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid, isSubmitting },
   } = useForm<IFormData>({
     defaultValues: {
       email: "",
@@ -77,8 +77,9 @@ const Login = () => {
           <CustomButton
             buttonType="submit"
             bgColor="primary"
-            displayText="Ingresar"
             textColor="accent"
+            displayText={isSubmitting ? "Cargando..." : "Iniciar Sesión"}
+            isDisabled={!isValid || isSubmitting}
           />
         </form>
 
