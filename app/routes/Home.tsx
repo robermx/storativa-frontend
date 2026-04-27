@@ -1,7 +1,7 @@
 const Home = () => {
   return (
     <div>
-      <h1>Home desde router</h1>
+      <h1>Home desde outlet</h1>
     </div>
   );
 };

@@ -5,6 +5,7 @@ import NavBar from "@/components/common/NavBar";
 import Footer from "@/components/common/Footer";
 import { excludePaths } from "@/constants/common/layout.constants";
 import { ThemeProps } from "@/interfaces/theme.interface";
+import ThemeButton from "@/components/common/ThemeButton";
 
 const MainLayout: FC<PropsWithChildren<ThemeProps>> = ({
   children,
@@ -18,13 +19,14 @@ const MainLayout: FC<PropsWithChildren<ThemeProps>> = ({
   return (
     <div className="min-h-screen flex flex-col font-sans selection:bg-primary selection:text-white">
       {!isAuthPage && <NavBar />}
+      <ThemeButton setIsDarkMode={setIsDarkMode} isDarkMode={isDarkMode} />
       <main
         className={`grow ${isAuthPage ? "flex items-center justify-center" : ""}`}
       >
         {children}
       </main>
 
-      <Footer isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+      {!isAuthPage && <Footer  />}
     </div>
   );
 };
