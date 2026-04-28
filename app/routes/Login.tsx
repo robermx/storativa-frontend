@@ -1,37 +1,54 @@
-import { NavLink } from "react-router";
+import { NavLink, useLocation, useNavigate } from "react-router";
 import { useForm, Controller } from "react-hook-form";
+import { AxiosError } from "axios";
 
+import { loginRequest } from "@/services/auth.service";
+import { useAuthStore } from "@/store/authStore";
 import MainIso from "@/assets/logo/MainIso";
 import CustomInput from "@/components/shared/CustomInput";
-import { IFormData, InputEnumType } from "@/interfaces/input.interface";
 import CustomButton from "@/components/shared/CustomButton";
+import { IFormData, InputEnumType } from "@/interfaces/input.interface";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/dashboard";
+  console.log('from', from)
+  const { setAuth } = useAuthStore();
   const {
     control,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
+    setError,
   } = useForm<IFormData>({
+    mode: "onChange",
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (data: IFormData) => {
-    console.log("Datos del formulario:", data);
+  const onSubmit = async ({ email, password }: IFormData) => {
+    if (!email || !password) return;
+    try {
+      const { user, token } = await loginRequest({ email, password });
+      setAuth(user, token);
+      navigate(from, { replace: true });
+    } catch (e) {
+      const serverMessage = "Credenciales no válidas";
+      setError("password", { type: "manual", message: serverMessage });
+      throw (new AxiosError(), e);
+    }
   };
 
   return (
     <div className="flex min-h-full flex-col justify-center px-6 lg:px-8 w-full">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <NavLink to="/" className="flex justify-center">
-          <MainIso />
-        </NavLink>
-        <h2 className="mt-4 text-center text-2xl/9 font-bold tracking-tight text-dark dark:text-light">
-          Inicia sesión con tu cuenta
-        </h2>
-      </div>
+      <NavLink to="/" className="flex justify-center">
+        <MainIso />
+      </NavLink>
+      <h2 className="mt-4 text-center text-2xl/9 font-bold tracking-tight text-dark dark:text-light">
+        Inicia sesión con tu cuenta
+      </h2>
 
       <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

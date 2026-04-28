@@ -25,14 +25,12 @@ const Register = () => {
 
   return (
     <div className="flex min-h-full flex-col justify-center px-6 lg:px-8 w-full">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <NavLink to="/" className="flex justify-center">
-          <MainIso />
-        </NavLink>
-        <h2 className="mt-4 text-center text-2xl/9 font-bold tracking-tight text-dark dark:text-light">
-          Ingresa datos para el registro
-        </h2>
-      </div>
+      <NavLink to="/" className="flex justify-center">
+        <MainIso />
+      </NavLink>
+      <h2 className="mt-4 text-center text-2xl/9 font-bold tracking-tight text-dark dark:text-light">
+        Ingresa datos para el registro
+      </h2>
 
       <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -89,7 +87,6 @@ const Register = () => {
                 inputName="password"
                 placeholder="Contraseña"
                 error={errors.password?.message}
-
               />
             )}
           />

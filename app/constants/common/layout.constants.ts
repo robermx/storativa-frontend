@@ -1,4 +1,5 @@
 export const excludePaths = [
   "/login",
-  "/register"
+  "/register",
+  "/dashboard",
 ]
