@@ -30,8 +30,8 @@ const Login = () => {
   const onSubmit = async ({ email, password }: IFormData) => {
     if (!email || !password) return;
     try {
-      const { user, token } = await loginRequest({ email, password });
-      setAuth(user, token);
+      const { user, token, refreshToken } = await loginRequest({ email, password });
+      setAuth(user.fullName, token, refreshToken);
       navigate(from, { replace: true, state: user });
     } catch (e) {
       const serverMessage = "Credenciales no válidas";
