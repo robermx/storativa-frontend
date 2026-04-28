@@ -1,7 +1,13 @@
+import { useLocation } from "react-router";
+
 const Dashboard = () => {
+  const { state } = useLocation();
+  const { fullName, email } = state;
+
   return (
     <div>
-      <h2>DashBoard</h2>
+      <h1>Bienvenido, {fullName || "Usuario"}</h1>
+      <p>Tu correo es: {email}</p>
     </div>
   );
 };

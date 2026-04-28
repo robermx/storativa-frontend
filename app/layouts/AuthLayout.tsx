@@ -1,3 +1,4 @@
+import { useAuthStore } from "@/store/authStore";
 import { useEffect, useState } from "react";
 import { Navigate, Outlet, useLocation } from "react-router";
 
@@ -8,7 +9,7 @@ export default function AuthLayout() {
   const location = useLocation();
 
   useEffect(() => {
-    const token = localStorage.getItem("auth_token");
+   const token = useAuthStore.getState().token;
 
     setTimeout(() => {
       setStatus(token ? "auth" : "unauth");

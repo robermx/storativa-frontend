@@ -13,7 +13,6 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/dashboard";
-  console.log('from', from)
   const { setAuth } = useAuthStore();
   const {
     control,
@@ -33,7 +32,7 @@ const Login = () => {
     try {
       const { user, token } = await loginRequest({ email, password });
       setAuth(user, token);
-      navigate(from, { replace: true });
+      navigate(from, { replace: true, state: user });
     } catch (e) {
       const serverMessage = "Credenciales no válidas";
       setError("password", { type: "manual", message: serverMessage });
