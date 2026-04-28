@@ -1,27 +1,27 @@
-import { useAuthStore } from "@/store/authStore";
-import { useEffect, useState } from "react";
-import { Navigate, Outlet, useLocation } from "react-router";
+import { useAuthStore } from '@/store/authStore';
+import { useEffect, useState } from 'react';
+import { Navigate, Outlet, useLocation } from 'react-router';
 
 export default function AuthLayout() {
-  const [status, setStatus] = useState<"loading" | "auth" | "unauth">(
-    "loading",
+  const [status, setStatus] = useState<'loading' | 'auth' | 'unauth'>(
+    'loading',
   );
   const location = useLocation();
 
   useEffect(() => {
-   const token = useAuthStore.getState().token;
+    const token = useAuthStore.getState().token;
 
     setTimeout(() => {
-      setStatus(token ? "auth" : "unauth");
+      setStatus(token ? 'auth' : 'unauth');
     }, 0);
   }, []);
 
   // Mientras verificamos el token, no renderizamos nada (o un spinner)
-  if (status === "loading") {
+  if (status === 'loading') {
     return null;
   }
 
-  if (status === "unauth") {
+  if (status === 'unauth') {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 

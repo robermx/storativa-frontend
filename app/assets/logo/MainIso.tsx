@@ -1,10 +1,10 @@
-import { FC } from "react";
-import { SvgProps } from "../interfaces/svg.interface";
+import { FC } from 'react';
+import { SvgProps } from '../interfaces/svg.interface';
 
 const MainIso: FC<SvgProps> = ({
-  width = "80",
-  height = "80",
-  className = "",
+  width = '80',
+  height = '80',
+  className = '',
 }) => {
   return (
     <svg

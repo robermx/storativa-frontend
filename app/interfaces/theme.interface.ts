@@ -1,4 +1,4 @@
-import { Dispatch } from "react";
+import { Dispatch } from 'react';
 
 export interface ThemeProps {
   setIsDarkMode: Dispatch<React.SetStateAction<boolean>>;

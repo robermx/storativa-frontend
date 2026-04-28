@@ -1,6 +1,6 @@
-import { FC } from "react";
-import { Moon, Sun } from "lucide-react";
-import { ThemeProps } from "@/interfaces/theme.interface";
+import { FC } from 'react';
+import { Moon, Sun } from 'lucide-react';
+import { ThemeProps } from '@/interfaces/theme.interface';
 
 const ThemeButton: FC<ThemeProps> = ({ setIsDarkMode, isDarkMode }) => {
   return (

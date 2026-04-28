@@ -1,47 +1,50 @@
-import { NavLink, useLocation, useNavigate } from "react-router";
-import { useForm, Controller } from "react-hook-form";
-import { AxiosError } from "axios";
+import { NavLink, useLocation, useNavigate } from 'react-router';
+import { useForm, Controller } from 'react-hook-form';
+import { AxiosError } from 'axios';
 
-import { loginRequest } from "@/services/auth.service";
-import { useAuthStore } from "@/store/authStore";
-import MainIso from "@/assets/logo/MainIso";
-import CustomInput from "@/components/shared/CustomInput";
-import CustomButton from "@/components/shared/CustomButton";
-import { IFormData, InputEnumType } from "@/interfaces/input.interface";
+import { loginRequest } from '@/services/auth.service';
+import { useAuthStore } from '@/store/authStore';
+import MainIso from '@/assets/logo/MainIso';
+import CustomInput from '@/components/shared/CustomInput';
+import CustomButton from '@/components/shared/CustomButton';
+import { IFormData, InputEnumType } from '@/interfaces/input.interface';
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/dashboard";
-  const { setAuth } = useAuthStore();
+  const from = location.state?.from?.pathname || '/dashboard';
+  const setAuth = useAuthStore((state) => state.setAuth);
   const {
     control,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
     setError,
   } = useForm<IFormData>({
-    mode: "onChange",
+    mode: 'onChange',
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
   const onSubmit = async ({ email, password }: IFormData) => {
     if (!email || !password) return;
     try {
-      const { user, token, refreshToken } = await loginRequest({ email, password });
+      const { user, token, refreshToken } = await loginRequest({
+        email,
+        password,
+      });
       setAuth(user.fullName, token, refreshToken);
-      navigate(from, { replace: true, state: user });
+      navigate(from, { replace: true });
     } catch (e) {
-      const serverMessage = "Credenciales no válidas";
-      setError("password", { type: "manual", message: serverMessage });
+      const serverMessage = 'Credenciales no válidas';
+      setError('password', { type: 'manual', message: serverMessage });
       throw (new AxiosError(), e);
     }
   };
 
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 lg:px-8 w-full">
+    <div className="flex flex-col justify-center h-dvh px-6 lg:px-8 w-full">
       <NavLink to="/" className="flex justify-center">
         <MainIso />
       </NavLink>
@@ -55,10 +58,10 @@ const Login = () => {
             name="email"
             control={control}
             rules={{
-              required: "El correo es obligatorio",
+              required: 'El correo es obligatorio',
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "Correo inválido",
+                message: 'Correo inválido',
               },
             }}
             render={({ field }) => (
@@ -76,8 +79,8 @@ const Login = () => {
             name="password"
             control={control}
             rules={{
-              required: "La contraseña es obligatoria",
-              minLength: { value: 6, message: "Mínimo 6 caracteres" },
+              required: 'La contraseña es obligatoria',
+              minLength: { value: 6, message: 'Mínimo 6 caracteres' },
             }}
             render={({ field }) => (
               <CustomInput
@@ -94,13 +97,13 @@ const Login = () => {
             buttonType="submit"
             bgColor="primary"
             textColor="accent"
-            displayText={isSubmitting ? "Cargando..." : "Iniciar Sesión"}
+            displayText={isSubmitting ? 'Cargando...' : 'Iniciar Sesión'}
             isDisabled={!isValid || isSubmitting}
           />
         </form>
 
         <p className="mt-3 text-center text-sm/6 text-gray-500 dark:text-gray-400">
-          ¿No eres miembro aún?{" "}
+          ¿No eres miembro aún?{' '}
           <NavLink to="/register" className="font-bold text-primary">
             Registrate
           </NavLink>

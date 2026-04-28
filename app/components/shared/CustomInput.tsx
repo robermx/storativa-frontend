@@ -1,6 +1,6 @@
-import { FC, useState, useMemo, Fragment } from "react";
-import { Eye, EyeOff, Mail, User } from "lucide-react";
-import { CustomInputProps, InputEnumType } from "@/interfaces/input.interface";
+import { FC, useState, useMemo, Fragment } from 'react';
+import { Eye, EyeOff, Mail, User } from 'lucide-react';
+import { CustomInputProps, InputEnumType } from '@/interfaces/input.interface';
 
 const CustomInput: FC<CustomInputProps> = ({
   inputType,
@@ -14,23 +14,23 @@ const CustomInput: FC<CustomInputProps> = ({
   const inputConfig = useMemo(() => {
     const configs = {
       [InputEnumType.Password]: {
-        type: showPassword ? "text" : "password",
+        type: showPassword ? 'text' : 'password',
         Icon: showPassword ? EyeOff : Eye,
-        autoComplete: "current-password",
+        autoComplete: 'current-password',
       },
       [InputEnumType.Email]: {
-        type: "text",
-        autoComplete: "email",
+        type: 'text',
+        autoComplete: 'email',
         Icon: Mail,
       },
-      [InputEnumType.UserName]: {
-        type: "text",
-        autoComplete: "username",
+      [InputEnumType.fullName]: {
+        type: 'text',
+        autoComplete: 'username',
         Icon: User,
       },
     };
     return (
-      configs[inputType as InputEnumType] || configs[InputEnumType.UserName]
+      configs[inputType as InputEnumType] || configs[InputEnumType.fullName]
     );
   }, [inputType, showPassword]);
 
@@ -45,7 +45,7 @@ const CustomInput: FC<CustomInputProps> = ({
           type={type}
           placeholder={placeholder}
           autoComplete={autoComplete}
-          className={`block w-full rounded-md bg-transparent px-3 py-1.5 pr-10 text-base text-dark outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 ${error ? "focus:outline-red-400 dark:focus:outline-red-500 " : "focus:outline-primary"} sm:text-sm/6 dark:text-light dark:outline-white/10 dark:placeholder:text-gray-500 transition-all`}
+          className={`block w-full rounded-md bg-transparent px-3 py-1.5 pr-10 text-base text-dark outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 ${error ? 'focus:outline-red-400 dark:focus:outline-red-500 ' : 'focus:outline-primary'} sm:text-sm/6 dark:text-light dark:outline-white/10 dark:placeholder:text-gray-500 transition-all`}
         />
 
         <div className="absolute inset-y-0 right-0 flex items-center pr-3">
@@ -56,7 +56,7 @@ const CustomInput: FC<CustomInputProps> = ({
               className="flex items-center justify-center text-gray-400 hover:text-primary dark:text-gray-500 dark:hover:text-primary focus:outline-none transition-colors cursor-pointer"
               tabIndex={-1}
               aria-label={
-                showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+                showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
               }
             >
               <Icon size={20} strokeWidth={2} />

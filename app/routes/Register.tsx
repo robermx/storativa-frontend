@@ -1,47 +1,51 @@
-import { NavLink, useLocation, useNavigate } from "react-router";
-import { useForm, Controller } from "react-hook-form";
+import { NavLink, useLocation, useNavigate } from 'react-router';
+import { useForm, Controller } from 'react-hook-form';
 
-import MainIso from "@/assets/logo/MainIso";
-import CustomInput from "@/components/shared/CustomInput";
-import { IFormData, InputEnumType } from "@/interfaces/input.interface";
-import CustomButton from "@/components/shared/CustomButton";
-import { registerUser } from "@/services/auth.service";
-import { useAuthStore } from "@/store/authStore";
-import { AxiosError } from "axios";
+import MainIso from '@/assets/logo/MainIso';
+import CustomInput from '@/components/shared/CustomInput';
+import { IFormData, InputEnumType } from '@/interfaces/input.interface';
+import CustomButton from '@/components/shared/CustomButton';
+import { registerUser } from '@/services/auth.service';
+import { useAuthStore } from '@/store/authStore';
+import { AxiosError } from 'axios';
 
 const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/dashboard";
-  const { setAuth } = useAuthStore();
+  const from = location.state?.from?.pathname || '/dashboard';
+  const setAuth = useAuthStore((state) => state.setAuth);
   const {
     control,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
-    setError
+    setError,
   } = useForm<IFormData>({
     defaultValues: {
-      email: "",
-      password: "",
-      fullName: "",
+      email: '',
+      password: '',
+      fullName: '',
     },
   });
 
-  const onSubmit = async ({email, password, fullName}: IFormData) => {
-    if (!email || !password || !fullName) return
+  const onSubmit = async ({ email, password, fullName }: IFormData) => {
+    if (!email || !password || !fullName) return;
     try {
-          const { user, token, refreshToken } = await registerUser({ email, password, fullName });
-          setAuth(user.fullName, token, refreshToken);
-          navigate(from, { replace: true, state: user });
-        } catch (e) {
-          const serverMessage = "Usuario registrado con el mismo email";
-          setError("password", { type: "manual", message: serverMessage });
-          throw (new AxiosError(), e);
-        }
+      const { user, token, refreshToken } = await registerUser({
+        email,
+        password,
+        fullName,
+      });
+      setAuth(user.fullName, token, refreshToken);
+      navigate(from, { replace: true });
+    } catch (e) {
+      const serverMessage = 'Usuario registrado con el mismo email';
+      setError('password', { type: 'manual', message: serverMessage });
+      throw (new AxiosError(), e);
+    }
   };
 
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 lg:px-8 w-full">
+    <div className="flex flex-col justify-center h-dvh px-6 lg:px-8 w-full">
       <NavLink to="/" className="flex justify-center">
         <MainIso />
       </NavLink>
@@ -55,8 +59,8 @@ const Register = () => {
             name="fullName"
             control={control}
             rules={{
-              required: "El nombre es obligatorio",
-              minLength: { value: 4, message: "Mínimo 4 caracteres" },
+              required: 'El nombre es obligatorio',
+              minLength: { value: 4, message: 'Mínimo 4 caracteres' },
             }}
             render={({ field }) => (
               <CustomInput
@@ -73,10 +77,10 @@ const Register = () => {
             name="email"
             control={control}
             rules={{
-              required: "El correo es obligatorio",
+              required: 'El correo es obligatorio',
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "Correo inválido",
+                message: 'Correo inválido',
               },
             }}
             render={({ field }) => (
@@ -94,8 +98,8 @@ const Register = () => {
             name="password"
             control={control}
             rules={{
-              required: "La contraseña es obligatoria",
-              minLength: { value: 6, message: "Mínimo 6 caracteres" },
+              required: 'La contraseña es obligatoria',
+              minLength: { value: 6, message: 'Mínimo 6 caracteres' },
             }}
             render={({ field }) => (
               <CustomInput
@@ -112,13 +116,13 @@ const Register = () => {
             buttonType="submit"
             bgColor="primary"
             textColor="accent"
-            displayText={isSubmitting ? "Cargando..." : "Iniciar Sesión"}
+            displayText={isSubmitting ? 'Cargando...' : 'Regístrame'}
             isDisabled={!isValid || isSubmitting}
           />
         </form>
 
         <p className="mt-3 text-center text-sm/6 text-gray-500 dark:text-gray-400">
-          ¿Ya eres miembro?{" "}
+          ¿Ya eres miembro?{' '}
           <NavLink to="/login" className="font-bold text-primary">
             inicia Sesión
           </NavLink>

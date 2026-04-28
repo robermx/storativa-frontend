@@ -1,10 +1,10 @@
-import { FC } from "react";
+import { FC } from 'react';
 
-import { CustomButtonProps } from "@/interfaces/button.interface";
-import { bgClasses, textClasses } from "@/constants/shared/className.contants";
+import { CustomButtonProps } from '@/interfaces/button.interface';
+import { bgClasses, textClasses } from '@/constants/shared/className.contants';
 
 const CustomButton: FC<CustomButtonProps> = ({
-  buttonType = "button",
+  buttonType = 'button',
   bgColor,
   displayText,
   textColor,
@@ -23,7 +23,7 @@ const CustomButton: FC<CustomButtonProps> = ({
         disabled:cursor-not-allowed 
         disabled:shadow-none
         disabled:hover:opacity-100
-        ${!isDisabled ? "active:scale-95" : ""}
+        ${!isDisabled ? 'active:scale-95' : ''}
       `}
       onClick={onClick}
       disabled={isDisabled}

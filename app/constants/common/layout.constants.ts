@@ -1,5 +1,1 @@
-export const excludePaths = [
-  "/login",
-  "/register",
-  "/dashboard",
-]
+export const excludePaths = ['/login', '/register', '/dashboard'];

@@ -1,14 +1,14 @@
-import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router';
 
-import MainLayout from "./layouts/MainLayout";
-import "./app.css";
-import { useState } from "react";
+import MainLayout from './layouts/MainLayout';
+import './app.css';
+import { useState } from 'react';
 
 export default function App() {
-  const [isDarkMode, setIsDarkMode] = useState(true)
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   return (
-    <html lang="es" className={isDarkMode ? "dark" : ""}>
+    <html lang="es" className={isDarkMode ? 'dark' : ''}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

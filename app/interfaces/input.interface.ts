@@ -9,13 +9,13 @@ export interface CustomInputProps {
 }
 
 export enum InputEnumType {
-  Password = "password",
-  Email = "email",
-  fullName = "fullName"
+  Password = 'password',
+  Email = 'email',
+  fullName = 'fullName',
 }
 
 export interface IFormData {
   fullName?: string;
   email?: string;
-  password?: string
+  password?: string;
 }

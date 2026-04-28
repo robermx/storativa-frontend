@@ -1,10 +1,10 @@
-import { FC } from "react";
-import { SvgProps } from "../interfaces/svg.interface";
+import { FC } from 'react';
+import { SvgProps } from '../interfaces/svg.interface';
 
 const MainLogo: FC<SvgProps> = ({
-  width = "150",
-  height = "35",
-  className = "",
+  width = '150',
+  height = '35',
+  className = '',
 }) => {
   return (
     <svg
@@ -18,7 +18,10 @@ const MainLogo: FC<SvgProps> = ({
       strokeLinejoin="round"
       strokeMiterlimit={2}
     >
-      <g transform="matrix(1,0,0,1,-530.277705,-341.768914)" fill="currentColor">
+      <g
+        transform="matrix(1,0,0,1,-530.277705,-341.768914)"
+        fill="currentColor"
+      >
         <g transform="matrix(0.635064,0,0,0.635064,-448.593575,-769.795077)">
           <g transform="matrix(1,0,0,1,-6.62953,0)">
             <path
