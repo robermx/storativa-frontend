@@ -1,7 +1,6 @@
 import { useLocation, useNavigate } from "react-router";
 
 import { useAuthStore } from "@/store/authStore";
-import { checkUserStatus } from "@/services/auth.service";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -13,10 +12,6 @@ const Dashboard = () => {
     navigate("/login");
   };
 
-  const handleCheck = async () => {
-    const { user, token, refreshToken } = await checkUserStatus();
-    console.log({ user, token, refreshToken });
-  };
 
   return (
     <div className="block">
@@ -24,9 +19,6 @@ const Dashboard = () => {
       <p>Tu correo es: {email}</p>
       <button className="bg-primary p-2" onClick={handeleLogout}>
         logout
-      </button>
-      <button className="bg-secondary p-2" onClick={handleCheck}>
-        check status
       </button>
     </div>
   );

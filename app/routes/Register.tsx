@@ -1,26 +1,43 @@
-import { NavLink } from "react-router";
+import { NavLink, useLocation, useNavigate } from "react-router";
 import { useForm, Controller } from "react-hook-form";
 
 import MainIso from "@/assets/logo/MainIso";
 import CustomInput from "@/components/shared/CustomInput";
 import { IFormData, InputEnumType } from "@/interfaces/input.interface";
 import CustomButton from "@/components/shared/CustomButton";
+import { registerUser } from "@/services/auth.service";
+import { useAuthStore } from "@/store/authStore";
+import { AxiosError } from "axios";
 
 const Register = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/dashboard";
+  const { setAuth } = useAuthStore();
   const {
     control,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
+    setError
   } = useForm<IFormData>({
     defaultValues: {
       email: "",
       password: "",
-      userName: "",
+      fullName: "",
     },
   });
 
-  const onSubmit = (data: IFormData) => {
-    console.log("Datos del formulario:", data);
+  const onSubmit = async ({email, password, fullName}: IFormData) => {
+    if (!email || !password || !fullName) return
+    try {
+          const { user, token, refreshToken } = await registerUser({ email, password, fullName });
+          setAuth(user.fullName, token, refreshToken);
+          navigate(from, { replace: true, state: user });
+        } catch (e) {
+          const serverMessage = "Usuario registrado con el mismo email";
+          setError("password", { type: "manual", message: serverMessage });
+          throw (new AxiosError(), e);
+        }
   };
 
   return (
@@ -35,7 +52,7 @@ const Register = () => {
       <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <Controller
-            name="userName"
+            name="fullName"
             control={control}
             rules={{
               required: "El nombre es obligatorio",
@@ -44,10 +61,10 @@ const Register = () => {
             render={({ field }) => (
               <CustomInput
                 {...field}
-                inputType={InputEnumType.UserName}
-                inputName="userName"
+                inputType={InputEnumType.fullName}
+                inputName="fullName"
                 placeholder="Nombre Completo"
-                error={errors.userName?.message}
+                error={errors.fullName?.message}
               />
             )}
           />
