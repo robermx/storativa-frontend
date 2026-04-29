@@ -1,1 +1,0 @@
-import{O as e,t}from"./jsx-runtime-T1NDcdoF.js";var n=t(),r=e(()=>(0,n.jsx)(`div`,{children:(0,n.jsx)(`h1`,{children:`login`})}));export{r as default};
