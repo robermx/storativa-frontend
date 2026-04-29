@@ -18,7 +18,7 @@ const Dashboard = () => {
       <button className="bg-primary p-2" onClick={handeleLogout}>
         logout
       </button>
-      <NavLink to="/">ir a hoem</NavLink>
+      <NavLink to="/">home</NavLink>
     </div>
   );
 };

@@ -2,10 +2,10 @@ import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router';
 
 import MainLayout from './layouts/MainLayout';
 import './app.css';
-import { useState } from 'react';
+import { useThemeStore } from './store/themeStore';
 
 export default function App() {
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
   return (
     <html lang="es" className={isDarkMode ? 'dark' : ''}>
@@ -16,7 +16,7 @@ export default function App() {
         <Links />
       </head>
       <body className="bg-light dark:bg-dark text-dark dark:text-light antialiased">
-        <MainLayout setIsDarkMode={setIsDarkMode} isDarkMode={isDarkMode}>
+        <MainLayout>
           <Outlet />
         </MainLayout>
 

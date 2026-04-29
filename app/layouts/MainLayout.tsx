@@ -4,14 +4,9 @@ import { useLocation } from 'react-router';
 import NavBar from '@/components/common/NavBar';
 import Footer from '@/components/common/Footer';
 import { excludePaths } from '@/constants/common/layout.constants';
-import { ThemeProps } from '@/interfaces/theme.interface';
 import ThemeButton from '@/components/common/ThemeButton';
 
-const MainLayout: FC<PropsWithChildren<ThemeProps>> = ({
-  children,
-  setIsDarkMode,
-  isDarkMode,
-}) => {
+const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   const { pathname } = useLocation();
 
   const isAuthPage = excludePaths.includes(pathname);
@@ -19,7 +14,7 @@ const MainLayout: FC<PropsWithChildren<ThemeProps>> = ({
   return (
     <div className="min-h-screen flex flex-col font-sans selection:bg-primary selection:text-white">
       {!isAuthPage && <NavBar />}
-      <ThemeButton setIsDarkMode={setIsDarkMode} isDarkMode={isDarkMode} />
+      <ThemeButton />
       <main className={`grow`}>{children}</main>
 
       {!isAuthPage && <Footer />}

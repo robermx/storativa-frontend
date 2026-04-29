@@ -1,12 +1,14 @@
 import { FC } from 'react';
 import { Moon, Sun } from 'lucide-react';
-import { ThemeProps } from '@/interfaces/theme.interface';
+import { useThemeStore } from '@/store/themeStore';
 
-const ThemeButton: FC<ThemeProps> = ({ setIsDarkMode, isDarkMode }) => {
+const ThemeButton: FC = () => {
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
+  const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
   return (
     <div className="absolute right-4 sm:right-8 top-6 flex justify-center items-center z-60">
       <button
-        onClick={() => setIsDarkMode((prev) => !prev)}
+        onClick={toggleDarkMode}
         className="rounded-full transition-all cursor-pointer"
         aria-label="Cambiar tema"
       >

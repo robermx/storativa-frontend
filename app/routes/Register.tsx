@@ -45,8 +45,8 @@ const Register = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center h-dvh px-6 lg:px-8 w-full">
-      <NavLink to="/" className="flex justify-center">
+    <div className="flex flex-col justify-center h-dvh px-6 sm:px-8">
+      <NavLink to="/" className="mx-auto">
         <MainIso />
       </NavLink>
       <h2 className="mt-4 text-center text-2xl/9 font-bold tracking-tight text-dark dark:text-light">

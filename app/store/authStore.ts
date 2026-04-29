@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-// import { User } from "@/interfaces/auth.interface";
 
 interface AuthState {
   fullName: string | null;
