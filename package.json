@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "react-router dev --host 0.0.0.0 --port 5174 --no-open",
+    "dev": "react-router dev --host 0.0.0.0 --port 5174",
     "build": "react-router build",
     "typegen": "react-router typegen",
     "start": "react-router-serve ./build/server/index.js"
