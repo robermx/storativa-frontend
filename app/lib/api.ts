@@ -1,5 +1,5 @@
-import axios from "axios";
-import { useAuthStore } from "@/store/authStore";
+import axios from 'axios';
+import { useAuthStore } from '@/store/authStore';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -27,15 +27,18 @@ api.interceptors.response.use(
         const refreshToken = useAuthStore.getState().refreshToken;
 
         if (!refreshToken) {
-          throw new Error("No refresh token available");
+          throw new Error('No refresh token available');
         }
 
         // Llamamos al endpoint de refresh en NestJS
-        // IMPORTANTE: Usamos axios (instancia limpia) para evitar que este post 
+        // IMPORTANTE: Usamos axios (instancia limpia) para evitar que este post
         // entre de nuevo en este interceptor
-        const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/auth/refresh`, {
-          token: refreshToken,
-        });
+        const { data } = await axios.post(
+          `${import.meta.env.VITE_API_URL}/auth/refresh`,
+          {
+            token: refreshToken,
+          },
+        );
 
         // Actualizamos el estado global (asumiendo que tu store tiene una función setTokens)
         // Debería guardar tanto el nuevo 'token' como el nuevo 'refreshToken'
@@ -46,7 +49,6 @@ api.interceptors.response.use(
 
         // Reintentamos la petición original con la configuración actualizada
         return api(originalRequest);
-
       } catch (refreshError) {
         // Si el refresh falla (ej. el refresh token también expiró), cerramos sesión
         useAuthStore.getState().logout();
@@ -55,7 +57,7 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;

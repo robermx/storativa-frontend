@@ -1,21 +1,18 @@
 import { reactRouter } from '@react-router/dev/vite';
 import tailwindcss from '@tailwindcss/vite';
-import { resolve } from 'path';
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 
-export default defineConfig({
-  plugins: [reactRouter(), tailwindcss()],
-  resolve: {
-    tsconfigPaths: true,
-  },
-  server: {
-    host: '0.0.0.0',
-    port: 5174,
-    open: false,
-    strictPort: true,
-    allowedHosts: ['dev.storativa.com'],
-    fs: {
-      allow: [resolve(__dirname)],
+export default defineConfig(({ mode }) => {
+  // Carga el archivo .env basado en el directorio actual y el modo
+  // El tercer parámetro '' carga todas las variables sin necesidad del prefijo VITE_
+  const env = loadEnv(mode, process.cwd(), '');
+
+  return {
+    plugins: [reactRouter(), tailwindcss()],
+    server: {
+      port: Number(env.PORT) || 5174,
+      host: '0.0.0.0', // Recomendado para entornos de desarrollo en VPS
+      allowedHosts: ['dev.storativa.com'], // Manteniendo la configuración que funcionó antes
     },
-  },
+  };
 });
