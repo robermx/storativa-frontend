@@ -12,5 +12,6 @@ export default defineConfig({
     port: 5174,
     open: false,
     strictPort: true,
+    allowedHosts: ['dev.storativa.com'],
   },
 });
