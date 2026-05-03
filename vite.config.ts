@@ -1,5 +1,6 @@
 import { reactRouter } from '@react-router/dev/vite';
 import tailwindcss from '@tailwindcss/vite';
+import { resolve } from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -13,5 +14,8 @@ export default defineConfig({
     open: false,
     strictPort: true,
     allowedHosts: ['dev.storativa.com'],
+    fs: {
+      allow: [resolve(__dirname)],
+    },
   },
 });
