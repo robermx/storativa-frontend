@@ -8,7 +8,9 @@ export default defineConfig({
     tsconfigPaths: true,
   },
   server: {
-    port: 3010,
-    open: true,
+    host: '0.0.0.0',
+    port: 5174,
+    strictPort: true,
+    open: false,
   },
 });
