@@ -9,6 +9,9 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [reactRouter(), tailwindcss()],
+    resolve: {
+      tsconfigPaths: true,
+    },
     server: {
       port: Number(env.PORT) || 5174,
       host: '0.0.0.0', // Recomendado para entornos de desarrollo en VPS
