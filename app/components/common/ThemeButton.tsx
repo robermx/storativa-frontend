@@ -6,7 +6,7 @@ const ThemeButton: FC = () => {
   const isDarkMode = useThemeStore((state) => state.isDarkMode);
   const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
   return (
-    <div className="absolute right-4 sm:right-8 top-6 flex justify-center items-center z-60">
+    <div className="fixed right-4 sm:right-8 top-6 flex justify-center items-center z-60">
       <button
         onClick={toggleDarkMode}
         className="rounded-full transition-all cursor-pointer"
