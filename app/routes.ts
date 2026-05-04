@@ -9,4 +9,5 @@ export default [
     route('dashboard', 'routes/Dashboard.tsx'),
     route('profile', 'routes/Profile.tsx'),
   ]),
+  route('*', 'routes/NotFound.tsx'),
 ] satisfies RouteConfig;

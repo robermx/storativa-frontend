@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation, useMatches } from 'react-router';
 
 import NavBar from '@/components/common/NavBar';
 import Footer from '@/components/common/Footer';
@@ -8,16 +8,20 @@ import ThemeButton from '@/components/common/ThemeButton';
 
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   const { pathname } = useLocation();
+  const matches = useMatches();
 
-  const isAuthPage = excludePaths.includes(pathname);
+  const isNotFound =
+    matches.length > 0 &&
+    matches[matches.length - 1].id.toString().endsWith('NotFound');
+  const excludedRoutes = excludePaths.includes(pathname) || isNotFound;
 
   return (
     <div className="min-h-screen flex flex-col font-sans selection:bg-primary selection:text-white">
-      {!isAuthPage && <NavBar />}
+      {!excludedRoutes && <NavBar />}
       <ThemeButton />
-      <main className={`grow`}>{children}</main>
+      <main className="grow">{children}</main>
 
-      {!isAuthPage && <Footer />}
+      {!excludedRoutes && <Footer />}
     </div>
   );
 };
