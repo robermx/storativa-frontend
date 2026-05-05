@@ -17,7 +17,7 @@ const NavBar: FC = () => {
   };
 
   return (
-    <nav className="bg-primary sticky top-0 z-50 py-3 sm:pl-8 pl-4 pr-15 sm:pr-19">
+    <nav className="bg-primary sticky top-0 z-50 py-3 px-4 sm:px-8">
       <div className="flex justify-between items-center">
         <NavLink to="/">
           {({ isActive }) => (

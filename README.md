@@ -1,75 +1,55 @@
-# React + TypeScript + Vite
+# Storativa Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Dev Commands
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```sh
+pnpm dev          # Start dev server (react-router dev)
+pnpm build        # Production build (react-router build)
+pnpm typegen      # Generate React Router types to .react-router/types/
+pnpm start        # Serve production build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Project Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Framework**: React Router v7 (SSR mode, not CRA)
+- **Entry point**: `app/root.tsx` and `app/routes.ts`
+- **Path alias**: `@/*` maps to `app/*`
+- **Source**: `app/` — all routes, components, stores, services go here
+- **Build output**: `build/`
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Key Config
+
+- `vite.config.ts`: Dev server port from `env.PORT` (via `loadEnv`), defaults to 5174. Allowed host `dev.storativa.com`.
+- **Env types**: `vite-env.d.ts` at project root for Vite config types (separate tsconfig scope from `app/env.d.ts`).
+- `eslint.config.js`: `prettier/prettier` is `"error"` — format before committing.
+- `app/app.css`: Tailwind CSS v4 with custom theme vars (`--color-primary`, `--color-dark`, etc.) and dark mode via `.dark` class on `<html>`.
+
+## React Router
+
+- Routes defined in `app/routes.ts` using route config API, **not** file-system routing.
+- Run `pnpm typegen` after adding routes to generate types in `.react-router/types/`.
+- Catch-all 404 route: `route('*', 'routes/NotFound.tsx')`.
+- Auth routes live under `AuthLayout` at path `/`.
+
+## GSAP + React
+
+- ThemeButton uses `@gsap/react` hook with `scope` config for automatic cleanup.
+- `useGSAP` dependencies array handles state-reactive animations.
+
+## TypeScript
+
+- Strict mode (`noUnusedLocals`, `noUnusedParameters`, `noFallthroughCasesInSwitch`).
+- CSS modules typed in `app/env.d.ts`.
+- Env vars: `VITE_*` prefix (e.g. `VITE_API_URL`).
+
+## Formatting
+
+Run `prettier --write` before committing.
+
+## No Tests
+
+No test files (`*.test.*` or `*.spec.*`).
+
+## Package Manager
+
+pnpm required. Use `pnpm install`, not `npm install`.
