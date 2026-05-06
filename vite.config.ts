@@ -12,8 +12,7 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       port: Number(env.PORT) || 5174,
-      host: '0.0.0.0',
-      allowedHosts: ['dev.storativa.com'],
+      open: true,
     },
   };
 });

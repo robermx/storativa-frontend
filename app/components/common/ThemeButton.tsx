@@ -42,7 +42,7 @@ const ThemeButton: FC = () => {
   return (
     <div
       ref={themeContainer}
-      className="fixed bottom-15 right-0 overflow-hidden"
+      className="fixed bottom-15 right-0 overflow-hidden z-100"
     >
       <div className="animated-container flex justify-end items-center gap-2 border-t border-b border-l rounded-b-md rounded-t-md border-dark/20 dark:border-light/20 py-1 bg-white dark:bg-slate-900">
         <button

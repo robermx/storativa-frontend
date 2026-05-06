@@ -13,3 +13,20 @@
   --color-disabledL: #a0adc1;
   --color-disabledD: #273348;
 }
+
+/* ScrollSmoother styles */
+#smooth-wrapper {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+#smooth-content {
+  overflow: visible;
+  width: 100%;
+}
+
+/* Fixed elements should be outside smooth-wrapper */
+.fixed {
+  position: fixed !important;
+}
