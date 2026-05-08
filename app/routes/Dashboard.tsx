@@ -1,6 +1,9 @@
-import { useNavigate } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 
 import { useAuthStore } from '@/store/authStore';
+import { getUserStorativas } from '@/services/storativa.service';
+import { createClientLoader } from '@/lib/createClientLoader';
+import { HydrateFallback } from '@/components/shared/HydrateFallback';
 
 interface StorageItem {
   id: string;
@@ -66,11 +69,19 @@ const statusLabels = {
   full: 'Lleno',
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
+export const clientLoader = createClientLoader({
+  service: getUserStorativas,
+});
+
+export { HydrateFallback };
+
 const Dashboard = () => {
   const navigate = useNavigate();
-  const fullName = useAuthStore((state) => state.fullName);
+  const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
-
+  const data = useLoaderData<typeof clientLoader>();
+  console.log('data', data);
   const handleLogout = () => {
     logout();
     navigate('/login');
@@ -91,14 +102,14 @@ const Dashboard = () => {
         <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center text-white text-lg font-bold">
-              {fullName ? getInitials(fullName) : 'U'}
+              {user?.fullName ? getInitials(user?.fullName) : 'U'}
             </div>
             <div>
               <h1 className="text-2xl font-bold text-dark dark:text-light">
-                Bienvenido, {fullName || 'Usuario'}
+                Hola, {user?.fullName || 'Usuario'}
               </h1>
               <p className="text-dark/60 dark:text-light/60 text-sm">
-                Panel de control
+                Dashboard
               </p>
             </div>
           </div>

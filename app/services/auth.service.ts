@@ -12,11 +12,6 @@ export const loginRequest = async (
   return response.data;
 };
 
-export const checkUserStatus = async (): Promise<LoginRegisterResponse> => {
-  const response = await api.get('/auth/check-status');
-  return response.data;
-};
-
 export const registerUser = async (
   data: RegisterCredentials,
 ): Promise<LoginRegisterResponse> => {

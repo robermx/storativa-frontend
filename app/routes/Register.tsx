@@ -35,7 +35,7 @@ const Register = () => {
         password,
         fullName,
       });
-      setAuth(user.fullName, token, refreshToken);
+      setAuth(user, token, refreshToken);
       navigate(from, { replace: true });
     } catch (e) {
       const serverMessage = 'Usuario registrado con el mismo email';

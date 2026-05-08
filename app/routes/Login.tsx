@@ -34,7 +34,7 @@ const Login = () => {
         email,
         password,
       });
-      setAuth(user.fullName, token, refreshToken);
+      setAuth(user, token, refreshToken);
       navigate(from, { replace: true });
     } catch (e) {
       const serverMessage = 'Credenciales no válidas';

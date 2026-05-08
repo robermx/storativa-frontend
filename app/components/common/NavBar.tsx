@@ -8,7 +8,7 @@ import IsoSimple from '@/assets/logo/IsoSimple';
 
 const NavBar: FC = () => {
   const navigate = useNavigate();
-  const fullName = useAuthStore((state) => state.fullName);
+  const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
 
   const handleLogout = () => {
@@ -31,9 +31,9 @@ const NavBar: FC = () => {
         </NavLink>
         <Menu className="sm:hidden text-accent" />
         <div className="hidden sm:flex gap-5 hover:text-white">
-          {fullName ? (
+          {user ? (
             <Fragment>
-              <p className="text-accent">{`Hola: ${fullName}`}</p>
+              <p className="text-accent">{`Hola: ${user?.fullName || 'fulano'}`}</p>
               <NavLink
                 to="/dashboard"
                 className={({ isActive }) =>
