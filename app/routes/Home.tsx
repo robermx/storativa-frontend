@@ -21,7 +21,6 @@ const Home = () => {
     () => {
       if (!smoother || !sectionRef.current) return;
 
-      // Create a pinned timeline for all stages
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -121,49 +120,54 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Fixed SVG - siempre visible en el centro */}
-      <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-50">
-        <div className="w-56 h-56 md:w-72 md:h-72 lg:w-80 lg:h-80">
-          <svg
-            viewBox="0 0 100 100"
-            className="w-full h-full"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <radialGradient id="grad-sticky" cx="50%" cy="50%" r="50%">
-                <stop
-                  offset="0%"
-                  stopColor={homeStages[0].svgColor}
-                  stopOpacity="0.9"
-                />
-                <stop
-                  offset="100%"
-                  stopColor={
-                    isDarkMode ? 'var(--color-dark)' : 'var(--color-light)'
-                  }
-                  stopOpacity="0.2"
-                />
-              </radialGradient>
-              <filter id="glow-sticky">
-                <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
-                <feMerge>
-                  <feMergeNode in="coloredBlur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
-            <path
-              ref={svgPathRef}
-              d={homeSvgPaths[0]}
-              fill="url(#grad-sticky)"
-              filter="url(#glow-sticky)"
-            />
-          </svg>
-        </div>
-      </div>
-
       {/* Pinned section - scroll area */}
-      <div ref={sectionRef} className="relative h-screen">
+      <div ref={sectionRef} className="relative h-screen p-6">
+        {/* SVG dentro del pinned section - siempre visible */}
+        <div className="absolute inset-0 flex items-start lg:items-center mt-20 lg:mb-0 justify-center pointer-events-none z-10">
+          <div className="w-56 h-56 md:w-72 md:h-72 lg:w-80 lg:h-80">
+            <svg
+              viewBox="0 0 100 100"
+              className="w-full h-full"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <radialGradient id="grad-sticky" cx="50%" cy="50%" r="50%">
+                  <stop
+                    offset="0%"
+                    stopColor={
+                      isDarkMode
+                        ? 'var(--color-primary)'
+                        : 'var(--color-primary)'
+                    }
+                    stopOpacity="0.9"
+                  />
+                  <stop
+                    offset="90%"
+                    stopColor={
+                      isDarkMode ? 'var(--color-dark)' : 'var(--color-light)'
+                    }
+                    stopOpacity="0.2"
+                  />
+                </radialGradient>
+                <filter id="glow-sticky">
+                  <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
+                  <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+              <path
+                ref={svgPathRef}
+                d={homeSvgPaths[0]}
+                fill="url(#grad-sticky)"
+                filter="url(#glow-sticky)"
+              />
+            </svg>
+          </div>
+        </div>
+
+        {/* Text sections */}
         {homeStages.map((stage, index) => (
           <div
             key={stage.id}
@@ -171,7 +175,7 @@ const Home = () => {
             ref={(el) => {
               stageRefs.current[index] = el;
             }}
-            className="absolute inset-0 flex items-center"
+            className="absolute inset-0 flex items-center z-20 mt-30 lg:mt-0"
           >
             <div
               className={`w-full flex ${
@@ -185,10 +189,10 @@ const Home = () => {
                   index % 2 === 1 ? 'text-left' : 'text-right'
                 }`}
               >
-                <h2 className="stage-title text-3xl md:text-4xl lg:text-5xl font-bold text-primary tracking-tight mb-4">
+                <h2 className="stage-title text-3xl md:text-4xl lg:text-5xl font-bold text-primary tracking-tight mb-1">
                   {stage.title}
                 </h2>
-                <p className="stage-subtitle text-xl md:text-2xl text-dark dark:text-light font-medium mb-6 tracking-wide">
+                <p className="stage-subtitle text-xl md:text-2xl text-dark dark:text-light font-medium mb-5 tracking-wide">
                   {stage.subtitle}
                 </p>
                 <p className="stage-desc text-base md:text-lg text-dark dark:text-light leading-relaxed">
@@ -200,7 +204,7 @@ const Home = () => {
         ))}
       </div>
 
-      <div className="min-h-[60vh] flex flex-col items-center justify-center relative px-6 py-32">
+      <div className="h-[calc(100vh-170px)] flex flex-col items-center justify-center relative px-6 py-32">
         <div className="text-center max-w-3xl">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-dark dark:text-light tracking-tighter mb-6">
             El Ciclo <span className="text-primary">Continúa</span>

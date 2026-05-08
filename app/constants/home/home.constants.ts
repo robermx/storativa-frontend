@@ -2,7 +2,7 @@ export const homeStages = [
   {
     id: 'chispa',
     title: 'La Idea',
-    subtitle: 'Todo comienza con una idea',
+    subtitle: 'Todo comienza desde aqui',
     description:
       'En la quietud de la mente, un destello apenas perceptible. Una pregunta sin respuesta, un deseo sin nombre. Así nace todo lo grande.',
     svgColor: 'var(--color-amber-400)',
@@ -13,7 +13,7 @@ export const homeStages = [
     subtitle: 'La idea toma forma',
     description:
       'Lo que era invisible comienza a delinearse. Contornos suaves, posibilidades infinitas. La mente trabaja en silencio, tejiendo conexiones.',
-    svgColor: 'var(--color-purple-400',
+    svgColor: 'var(--color-purple-400)',
   },
   {
     id: 'forma',
@@ -21,7 +21,7 @@ export const homeStages = [
     subtitle: 'Estructura y propósito',
     description:
       'El caos se organiza. Líneas que convergen, ángulos que definen. Lo abstracto se vuelve tangible, lo etéreo cobra solidez.',
-    svgColor: 'var(--color-lime-400',
+    svgColor: 'var(--color-lime-400)',
   },
   {
     id: 'conexion',
@@ -29,7 +29,7 @@ export const homeStages = [
     subtitle: 'Nada existe aislado',
     description:
       'Las formas se encuentran, se entrelazan. Cada conexión genera nuevas posibilidades. La red crece, se fortalece, se vuelve viva.',
-    svgColor: 'var(--color-red-500',
+    svgColor: 'var(--color-red-500)',
   },
   {
     id: 'expansion',
@@ -37,7 +37,7 @@ export const homeStages = [
     subtitle: 'Más allá de los límites',
     description:
       'Lo que era pequeño ahora se extiende. Colores que explotan, patrones que emergen. La creación trasciende su origen.',
-    svgColor: 'var(--color-fuchsia-400',
+    svgColor: 'var(--color-fuchsia-400)',
   },
   {
     id: 'obra',
