@@ -51,14 +51,14 @@ const NavBar: FC = () => {
             </Fragment>
           ) : (
             <Fragment>
-              <NavLink
+              {/* <NavLink
                 to="/about"
                 className={({ isActive }) =>
                   `transition-colors ${isActive ? 'text-white' : 'text-secondary hover:text-white'}`
                 }
               >
                 About
-              </NavLink>
+              </NavLink> */}
               <NavLink
                 to="/login"
                 className={({ isActive }) =>

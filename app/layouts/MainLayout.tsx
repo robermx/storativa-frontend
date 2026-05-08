@@ -21,15 +21,17 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
     smoothScrollPaths.includes(pathname) && !isNotFound;
 
   return (
-    <SmoothScrollProvider enabled={enableSmoothScroll}>
+    <>
       <ThemeButton />
-      {!excludedRoutes && <NavBar />}
-      <div className="flex flex-col font-sans selection:bg-primary/60 selection:text-white">
-        <main>{children}</main>
+      <SmoothScrollProvider enabled={enableSmoothScroll}>
+        {!excludedRoutes && <NavBar />}
+        <div className="flex flex-col font-sans selection:bg-primary/60 selection:text-white">
+          <main>{children}</main>
 
-        {!excludedRoutes && <Footer />}
-      </div>
-    </SmoothScrollProvider>
+          {!excludedRoutes && <Footer />}
+        </div>
+      </SmoothScrollProvider>
+    </>
   );
 };
 
