@@ -123,8 +123,8 @@ const Home = () => {
       {/* Pinned section - scroll area */}
       <div ref={sectionRef} className="relative h-screen p-6">
         {/* SVG dentro del pinned section - siempre visible */}
-        <div className="absolute inset-0 flex items-start lg:items-center mt-20 lg:mb-0 justify-center pointer-events-none z-10">
-          <div className="w-56 h-56 md:w-72 md:h-72 lg:w-80 lg:h-80">
+        <div className="absolute inset-0 flex items-start lg:items-center mt-20 lg:mt-0 justify-center pointer-events-none z-10">
+          <div className="w-78 h-78 lg:w-100 lg:h-100">
             <svg
               viewBox="0 0 100 100"
               className="w-full h-full"

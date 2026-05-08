@@ -1,6 +1,8 @@
 export interface SvgProps {
   width?: string;
   height?: string;
-  fill?: string;
+  primaryFill?: string;
+  secondaryfill?: string;
+  accentFill?: string;
   className?: string;
 }
