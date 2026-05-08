@@ -4,141 +4,92 @@ import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin';
 
-import {
-  // homeEndParticles,
-  homeStages,
-  homeSvgPaths,
-} from '@/constants/home/home.constants';
+import { homeStages, homeSvgPaths } from '@/constants/home/home.constants';
 import { useSmoothScroll } from '@/context/SmoothScrollContext';
 import { useThemeStore } from '@/store/themeStore';
-// import CustomParticles from '@/components/shared/CustomParticles';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, MorphSVGPlugin);
 
 const Home = () => {
   const { smoother } = useSmoothScroll();
-  const svgPathRefs = useRef<(SVGPathElement | null)[]>([]);
+  const svgPathRef = useRef<SVGPathElement | null>(null);
   const stageRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const sectionRef = useRef<HTMLDivElement | null>(null);
   const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
   useGSAP(
     () => {
-      if (!smoother) return;
+      if (!smoother || !sectionRef.current) return;
 
-      svgPathRefs.current.forEach((path, index) => {
-        if (!path) return;
-
-        const nextIndex = Math.min(index + 1, homeSvgPaths.length - 1);
-
-        gsap.to(path, {
-          morphSVG: {
-            shape: homeSvgPaths[nextIndex],
-            type: 'rotational',
-            shapeIndex: 2,
-          },
-          scrollTrigger: {
-            trigger: stageRefs.current[index],
-            start: 'top center',
-            end: 'bottom center',
-            scrub: 1,
-          },
-        });
+      // Create a pinned timeline for all stages
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: `+=${homeStages.length * 100}%`,
+          pin: true,
+          scrub: 1,
+        },
       });
 
       homeStages.forEach((stage, index) => {
         const section = stageRefs.current[index];
         if (!section) return;
 
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: section,
-            start: 'top 75%',
-            end: 'center center',
-            scrub: 1,
-          },
-        });
+        // Morph SVG path
+        if (svgPathRef.current && index < homeSvgPaths.length - 1) {
+          tl.to(
+            svgPathRef.current,
+            {
+              morphSVG: {
+                shape: homeSvgPaths[index + 1],
+                type: 'rotational',
+                shapeIndex: 2,
+              },
+              duration: 1,
+            },
+            index,
+          );
+        }
 
+        // Entry animation for text
         tl.fromTo(
           `[data-stage="${stage.id}"] .stage-title`,
           { opacity: 0, y: 80, scale: 0.85 },
           { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'power3.out' },
+          index,
         )
           .fromTo(
             `[data-stage="${stage.id}"] .stage-subtitle`,
             { opacity: 0, y: 50 },
             { opacity: 0.8, y: 0, duration: 0.4 },
-            0.15,
+            index + 0.15,
           )
           .fromTo(
             `[data-stage="${stage.id}"] .stage-desc`,
             { opacity: 0, y: 40 },
             { opacity: 0.6, y: 0, duration: 0.4 },
-            0.25,
-          )
-          .fromTo(
-            `[data-stage="${stage.id}"] .stage-number`,
-            { opacity: 0, scale: 0.3, rotation: -20 },
-            { opacity: 0.08, scale: 1, rotation: 0, duration: 0.5 },
-            0.1,
-          )
-          .fromTo(
-            `[data-stage="${stage.id}"] .stage-svg-wrap`,
-            { opacity: 0, scale: 0.4, rotation: -20 },
-            {
-              opacity: 1,
-              scale: 1,
-              rotation: 0,
-              duration: 0.6,
-              ease: 'back.out(1.2)',
-            },
-            0.1,
+            index + 0.25,
           );
 
-        const exitTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: section,
-            start: 'center center',
-            end: 'bottom 25%',
-            scrub: 1,
-          },
-        });
-
-        exitTl
-          .to(`[data-stage="${stage.id}"] .stage-title`, {
-            opacity: 0,
-            y: -60,
-            scale: 1.1,
-            duration: 0.4,
-          })
-          .to(
-            `[data-stage="${stage.id}"] .stage-subtitle`,
-            { opacity: 0, y: -40, duration: 0.3 },
-            0.1,
+        // Exit animation for text (except last stage)
+        if (index < homeStages.length - 1) {
+          tl.to(
+            `[data-stage="${stage.id}"] .stage-title`,
+            { opacity: 0, y: -60, scale: 1.1, duration: 0.4 },
+            index + 0.7,
           )
-          .to(
-            `[data-stage="${stage.id}"] .stage-desc`,
-            { opacity: 0, y: -30, duration: 0.3 },
-            0.15,
-          )
-          .to(
-            `[data-stage="${stage.id}"] .stage-svg-wrap`,
-            { opacity: 0, scale: 1.4, rotation: 15, duration: 0.4 },
-            0.1,
-          );
-      });
-
-      gsap.to('.floating-particle', {
-        y: 'random(-40, 40)',
-        x: 'random(-30, 30)',
-        opacity: 'random(0.15, 0.5)',
-        duration: 'random(3, 6)',
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        stagger: {
-          each: 0.2,
-          from: 'random',
-        },
+            .to(
+              `[data-stage="${stage.id}"] .stage-subtitle`,
+              { opacity: 0, y: -40, duration: 0.3 },
+              index + 0.75,
+            )
+            .to(
+              `[data-stage="${stage.id}"] .stage-desc`,
+              { opacity: 0, y: -30, duration: 0.3 },
+              index + 0.8,
+            );
+        }
       });
     },
     {
@@ -149,7 +100,6 @@ const Home = () => {
   return (
     <Fragment>
       <div className="relative h-[calc(100vh-70px)] flex flex-col items-center justify-center overflow-hidden">
-        {/* <CustomParticles /> */}
         <div className="text-center z-10 px-6 max-w-4xl">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-dark dark:text-light tracking-tighter mb-6">
             Todos tenemos algo que contar...{' '}
@@ -171,109 +121,87 @@ const Home = () => {
         </div>
       </div>
 
-      {homeStages.map((stage, index) => (
-        <div
-          key={stage.id}
-          data-stage={stage.id}
-          ref={(el) => {
-            stageRefs.current[index] = el;
-          }}
-          className="h-[calc(100vh-220px)] flex items-center relative container mx-auto px-6"
-        >
-          <div className="relative mx-auto z-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-              {/** texto y parrafo */}
+      {/* Fixed SVG - siempre visible en el centro */}
+      <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-50">
+        <div className="w-56 h-56 md:w-72 md:h-72 lg:w-80 lg:h-80">
+          <svg
+            viewBox="0 0 100 100"
+            className="w-full h-full"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <radialGradient id="grad-sticky" cx="50%" cy="50%" r="50%">
+                <stop
+                  offset="0%"
+                  stopColor={homeStages[0].svgColor}
+                  stopOpacity="0.9"
+                />
+                <stop
+                  offset="100%"
+                  stopColor={
+                    isDarkMode ? 'var(--color-dark)' : 'var(--color-light)'
+                  }
+                  stopOpacity="0.2"
+                />
+              </radialGradient>
+              <filter id="glow-sticky">
+                <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
+                <feMerge>
+                  <feMergeNode in="coloredBlur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            <path
+              ref={svgPathRef}
+              d={homeSvgPaths[0]}
+              fill="url(#grad-sticky)"
+              filter="url(#glow-sticky)"
+            />
+          </svg>
+        </div>
+      </div>
+
+      {/* Pinned section - scroll area */}
+      <div ref={sectionRef} className="relative h-screen">
+        {homeStages.map((stage, index) => (
+          <div
+            key={stage.id}
+            data-stage={stage.id}
+            ref={(el) => {
+              stageRefs.current[index] = el;
+            }}
+            className="absolute inset-0 flex items-center"
+          >
+            <div
+              className={`w-full flex ${
+                index % 2 === 1
+                  ? 'justify-end pl-8 md:pl-16 lg:pl-32'
+                  : 'justify-start pr-8 md:pr-16 lg:pr-32'
+              }`}
+            >
               <div
-                className={`order-2 ${index % 2 === 1 ? 'md:order-2 text-left' : 'md:order-1 text-right'}`}
+                className={`px-6 md:px-12 max-w-md ${
+                  index % 2 === 1 ? 'text-left' : 'text-right'
+                }`}
               >
-                <h2
-                  className={`stage-title text-3xl md:text-4xl lg:text-5xl font-bold text-primary tracking-tight mb-4`}
-                >
+                <h2 className="stage-title text-3xl md:text-4xl lg:text-5xl font-bold text-primary tracking-tight mb-4">
                   {stage.title}
                 </h2>
-                <p
-                  className={`stage-subtitle text-xl md:text-2xl text-dark dark:text-light font-medium mb-6 tracking-wide`}
-                >
+                <p className="stage-subtitle text-xl md:text-2xl text-dark dark:text-light font-medium mb-6 tracking-wide">
                   {stage.subtitle}
                 </p>
-                <p className="stage-desc text-base md:text-lg text-dark dark:text-light leading-relaxed max-w-lg">
+                <p className="stage-desc text-base md:text-lg text-dark dark:text-light leading-relaxed">
                   {stage.description}
                 </p>
               </div>
-              {/** formas */}
-              <div
-                className={`order-1 ${index % 2 === 1 ? 'md:order-1 md:justify-start' : 'md:order-2 md:justify-end'} flex items-center justify-center`}
-              >
-                <div className="stage-svg-wrap w-56 h-56 md:w-72 md:h-72 lg:w-80 lg:h-80">
-                  <svg
-                    viewBox="0 0 100 100"
-                    className="w-full h-full"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <defs>
-                      <radialGradient
-                        id={`grad-${stage.id}`}
-                        cx="50%"
-                        cy="50%"
-                        r="50%"
-                      >
-                        <stop
-                          offset="0%"
-                          stopColor={stage.svgColor}
-                          stopOpacity="0.9"
-                        />
-                        <stop
-                          offset="100%"
-                          stopColor={
-                            isDarkMode
-                              ? 'var(--color-dark)'
-                              : 'var(--color-light)'
-                          }
-                          stopOpacity="0.2"
-                        />
-                      </radialGradient>
-                      <filter id={`glow-${stage.id}`}>
-                        <feGaussianBlur
-                          stdDeviation="1.5"
-                          result="coloredBlur"
-                        />
-                        <feMerge>
-                          <feMergeNode in="coloredBlur" />
-                          <feMergeNode in="SourceGraphic" />
-                        </feMerge>
-                      </filter>
-                    </defs>
-                    <path
-                      ref={(el) => {
-                        svgPathRefs.current[index] = el;
-                      }}
-                      d={homeSvgPaths[index]}
-                      fill={`url(#grad-${stage.id})`}
-                      filter={`url(#glow-${stage.id})`}
-                    />
-                  </svg>
-                </div>
-              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
 
-      <div className="h-[calc(100vh-140px)] flex flex-col items-center justify-center relative px-6">
-        <div className="absolute inset-0">
-          {/* {homeEndParticles.map((p, i) => (
-            <div
-              key={i}
-              className="floating-particle absolute w-1.5 h-1.5 bg-amber-400/40 rounded-full"
-              style={{
-                left: `${p.left}%`,
-                top: `${p.top}%`,
-              }}
-            />
-          ))} */}
-        </div>
-
-        <div className="text-center z-10 max-w-3xl">
+      <div className="min-h-[60vh] flex flex-col items-center justify-center relative px-6 py-32">
+        <div className="text-center max-w-3xl">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-dark dark:text-light tracking-tighter mb-6">
             El Ciclo <span className="text-primary">Continúa</span>
           </h2>
