@@ -1,12 +1,16 @@
 import { FC, PropsWithChildren } from 'react';
 import { useLocation, useMatches } from 'react-router';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { MorphSVGPlugin, ScrollTrigger } from 'gsap/all';
 
 import NavBar from '@/components/common/NavBar';
 import Footer from '@/components/common/Footer';
-import { excludePaths } from '@/constants/common/layout.constants';
 import ThemeButton from '@/components/common/ThemeButton';
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider';
+import { excludePaths } from '@/constants/common/layout.constants';
 
+gsap.registerPlugin(useGSAP, ScrollTrigger, MorphSVGPlugin);
 const smoothScrollPaths = ['/'];
 
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {
