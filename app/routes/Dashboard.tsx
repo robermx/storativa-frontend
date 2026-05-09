@@ -102,7 +102,7 @@ const Dashboard = () => {
         <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center text-white text-lg font-bold">
-              {user?.fullName ? getInitials(user?.fullName) : 'U'}
+              {user ? getInitials(user?.fullName) : 'U'}
             </div>
             <div>
               <h1 className="text-2xl font-bold text-dark dark:text-light">
