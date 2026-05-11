@@ -1,15 +1,34 @@
-import { FC, Fragment } from 'react';
+import { FC, Fragment, useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router';
+import gsap from 'gsap';
 import { Menu } from 'lucide-react';
 
 import { useAuthStore } from '@/store/authStore';
 import MainLogo from '@/assets/logo/MainLogo';
 import IsoSimple from '@/assets/logo/IsoSimple';
+import { useGSAP } from '@gsap/react';
+import { useThemeStore } from '@/store/themeStore';
 
 const NavBar: FC = () => {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
+  const expanded = useThemeStore((state) => state.expanded);
+  const menuItems = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      gsap.to('.items-wrapper', {
+        x: expanded ? -38 : 0,
+        duration: 0.3,
+        ease: 'power2.in',
+      });
+    },
+    {
+      scope: menuItems,
+      dependencies: [expanded],
+    },
+  );
 
   const handleLogout = () => {
     logout();
@@ -17,7 +36,7 @@ const NavBar: FC = () => {
   };
 
   return (
-    <nav className="bg-primary top-0 z-50 py-3 px-4 sm:px-8">
+    <nav ref={menuItems} className="bg-primary top-0 z-50 py-3 px-4 sm:px-8">
       <div className="flex justify-between items-center">
         <NavLink to="/">
           {({ isActive }) => (
@@ -30,7 +49,7 @@ const NavBar: FC = () => {
           )}
         </NavLink>
         <Menu className="sm:hidden text-accent" />
-        <div className="hidden sm:flex gap-5 hover:text-white">
+        <div className="items-wrapper relative hidden sm:flex right-3.5 gap-5 hover:text-white">
           {user ? (
             <Fragment>
               <p className="text-accent">{`Hola: ${user?.fullName || 'fulano'}`}</p>
@@ -51,18 +70,18 @@ const NavBar: FC = () => {
             </Fragment>
           ) : (
             <Fragment>
-              {/* <NavLink
+              <NavLink
                 to="/about"
                 className={({ isActive }) =>
-                  `transition-colors ${isActive ? 'text-white' : 'text-secondary hover:text-white'}`
+                  `transition-colors font-bold ${isActive ? 'text-white' : 'text-secondary hover:text-white'}`
                 }
               >
                 About
-              </NavLink> */}
+              </NavLink>
               <NavLink
                 to="/login"
                 className={({ isActive }) =>
-                  `transition-colors ${isActive ? 'text-white' : 'text-secondary hover:text-white'}`
+                  `transition-colors font-bold ${isActive ? 'text-white' : 'text-secondary hover:text-white'}`
                 }
               >
                 Login

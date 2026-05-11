@@ -26,10 +26,10 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <>
-      <ThemeButton />
       <SmoothScrollProvider enabled={enableSmoothScroll}>
+        <ThemeButton />
         {!excludedRoutes && <NavBar />}
-        <div className="flex flex-col font-sans selection:bg-primary/60 selection:text-white">
+        <div className="flex flex-col selection:bg-primary/30">
           <main>{children}</main>
 
           {!excludedRoutes && <Footer />}

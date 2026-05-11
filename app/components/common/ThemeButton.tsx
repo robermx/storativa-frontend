@@ -1,12 +1,13 @@
-import { FC, useRef, useState } from 'react';
+import { FC, useRef } from 'react';
+import gsap from 'gsap';
 import { ChevronLeft, Moon, Sun } from 'lucide-react';
 import { useThemeStore } from '@/store/themeStore';
 import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
 
 const ThemeButton: FC = () => {
-  const [expanded, setExpanded] = useState(false);
+  const expanded = useThemeStore((state) => state.expanded);
   const isDarkMode = useThemeStore((state) => state.isDarkMode);
+  const toggleExpand = useThemeStore((state) => state.toggleExpand);
   const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
 
   const themeContainer = useRef<HTMLDivElement>(null);
@@ -14,7 +15,7 @@ const ThemeButton: FC = () => {
   useGSAP(
     () => {
       gsap.to('.animated-container', {
-        x: expanded ? 0 : 40,
+        x: expanded ? -38 : 0,
         duration: 0.3,
         ease: 'power2.in',
       });
@@ -30,23 +31,19 @@ const ThemeButton: FC = () => {
     },
   );
 
-  const handleToggleExpand = () => {
-    setExpanded((prev) => !prev);
-  };
-
   const handleToggleTheme = () => {
     toggleDarkMode();
-    handleToggleExpand();
+    toggleExpand();
   };
 
   return (
     <div
       ref={themeContainer}
-      className="fixed top-22 right-0 overflow-hidden z-100"
+      className="absolute top-5.5 -right-9.5 origin-right z-100"
     >
       <div className="animated-container flex justify-end items-center gap-2 border-t border-b border-l rounded-bl-md rounded-tl-md border-dark/20 dark:border-light/20 py-1 bg-white dark:bg-slate-900">
         <button
-          onClick={handleToggleExpand}
+          onClick={toggleExpand}
           className="px-1 border-r border-dark/20 dark:border-light/20"
           aria-label={expanded ? 'Contraer menú' : 'Expandir menú'}
         >
@@ -64,7 +61,7 @@ const ThemeButton: FC = () => {
           {isDarkMode ? (
             <Sun className="text-accent fill-accent" size={22} />
           ) : (
-            <Moon className="text-dark fill-dark" size={22} />
+            <Moon className="text-transparent fill-dark" size={22} />
           )}
         </button>
       </div>
