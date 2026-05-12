@@ -86,8 +86,11 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
                 </td>
                 <td className="px-5 py-4 hidden lg:table-cell">
                   <p className="flex gap-2 flex-wrap w-full text-sm text-dark/50 dark:text-light/50">
-                    {item.tags.map((i) => (
-                      <span className="bg-accent text-dark px-1.5 py-0.5 font-bold rounded">
+                    {item.tags.map((i, idx) => (
+                      <span
+                        key={idx + 1}
+                        className="bg-accent text-dark px-1.5 py-0.5 font-bold rounded"
+                      >
                         {i}
                       </span>
                     ))}

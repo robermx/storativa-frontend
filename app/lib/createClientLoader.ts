@@ -3,19 +3,41 @@ import { redirect } from 'react-router';
 import { type AxiosError } from 'axios';
 
 type ServiceFn<T> = () => Promise<T>;
-interface ClientLoaderOptions<T> {
-  service: ServiceFn<T>;
+
+type ServiceEntry<K extends string, T> = {
+  key: K;
+  fn: ServiceFn<T>;
+};
+
+type ServicesArray = readonly ServiceEntry<string, unknown>[];
+
+type InferResult<T extends ServicesArray> = {
+  [K in T[number]['key']]: Extract<T[number], { key: K }>['fn'] extends (
+    ...args: never[]
+  ) => Promise<infer R>
+    ? R
+    : never;
+};
+
+interface ClientLoaderOptions<T extends ServicesArray> {
+  services: T;
 }
-export function createClientLoader<T>({ service }: ClientLoaderOptions<T>) {
-  return async function clientLoader() {
+
+export function createClientLoader<T extends ServicesArray>({
+  services,
+}: ClientLoaderOptions<T>) {
+  return async function clientLoader(): Promise<InferResult<T>> {
     const token = useAuthStore.getState().token;
     if (!token) {
       throw redirect('/login');
     }
 
     try {
-      const result = await service();
-      return result;
+      const entries = await Promise.all(
+        services.map(async (entry) => [entry.key, await entry.fn()] as const),
+      );
+
+      return Object.fromEntries(entries) as InferResult<T>;
     } catch (error: unknown) {
       if (error instanceof Response) {
         throw error;

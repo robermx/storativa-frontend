@@ -9,13 +9,13 @@ import DashboardTable from '@/components/dashboard/DashboardTable';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const clientLoader = createClientLoader({
-  service: getUserStorativas,
+  services: [{ key: 'storativas', fn: getUserStorativas }],
 });
 
 export { HydrateFallback };
 
 const Dashboard = () => {
-  const storativas = useLoaderData<typeof clientLoader>();
+  const { storativas } = useLoaderData<typeof clientLoader>();
 
   return (
     <div className="min-h-screen bg-lightness dark:bg-darkness p-6">

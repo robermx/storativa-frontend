@@ -1,6 +1,6 @@
 export function HydrateFallback() {
   return (
-    <div className="min-h-screen bg-lightness dark:bg-darkness p-6 md:p-8">
+    <div className="min-h-screen bg-lightness dark:bg-darkness p-6">
       <div className="max-w-6xl mx-auto animate-pulse">
         {/* Skeleton del header */}
         <div className="flex items-center gap-4 mb-8">

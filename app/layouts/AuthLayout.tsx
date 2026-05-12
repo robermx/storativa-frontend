@@ -1,19 +1,21 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 import { useAuthStore } from '@/store/authStore';
+import useHydrated from '@/hooks/useHydrated';
 
 export const AuthLayout = () => {
+  const hydrated = useHydrated();
   const token = useAuthStore((state) => state.token);
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!token) {
+    if (hydrated && !token) {
       navigate('/login', { state: { from: location }, replace: true });
     }
-  }, [token, navigate, location]);
+  }, [hydrated, token, navigate, location]);
 
-  if (!token) {
+  if (!hydrated || !token) {
     return null;
   }
 
