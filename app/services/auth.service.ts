@@ -6,15 +6,15 @@ import {
 } from '@/interfaces/auth.interface';
 
 export const loginRequest = async (
-  data: LoginCredentials,
+  reqData: LoginCredentials,
 ): Promise<LoginRegisterResponse> => {
-  const response = await api.post('/auth/login', data);
-  return response.data;
+  const { data } = await api.post('/auth/login', reqData);
+  return data;
 };
 
 export const registerUser = async (
-  data: RegisterCredentials,
+  reqData: RegisterCredentials,
 ): Promise<LoginRegisterResponse> => {
-  const response = await api.post('/auth/register', data);
-  return response.data;
+  const { data } = await api.post('/auth/register', reqData);
+  return data;
 };

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { IStorativa } from '@/interfaces/storativa.interfave';
+import { IStorativa } from '@/interfaces/storativa.interface';
 
 interface DashboardStatsProps {
   storativas: IStorativa[];

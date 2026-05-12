@@ -4,7 +4,7 @@ import { daysPassed, percentageDays } from '@/utils/percentageDays';
 import { statusStyles } from '@/utils/statusStyles';
 import { formatDate } from '@/utils/formatDate';
 import { titleFormat } from '@/utils/titleFormat';
-import { IStorativa } from '@/interfaces/storativa.interfave';
+import { IStorativa } from '@/interfaces/storativa.interface';
 
 interface DashboardTableProps {
   storativas: IStorativa[];
@@ -27,7 +27,7 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
                 Título
               </th>
               <th className="text-left px-5 py-3 text-sm font-medium text-dark/60 dark:text-light/60 hidden sm:table-cell">
-                Lugar
+                Fecha de creación
               </th>
               <th className="text-left px-5 py-3 text-sm font-medium text-dark/60 dark:text-light/60">
                 Estado
@@ -56,7 +56,7 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
                 </td>
                 <td className="px-5 py-4 hidden sm:table-cell">
                   <p className="text-sm text-dark/70 dark:text-light/70">
-                    {titleFormat(item.place)}
+                    {formatDate(item.createdAt)}
                   </p>
                 </td>
                 <td className="px-5 py-4">

@@ -1,7 +1,7 @@
 import api from '@/lib/api';
-import { IStorativa } from '@/interfaces/storativa.interfave';
+import { IStorativa } from '@/interfaces/storativa.interface';
 
 export const getUserStorativas = async (): Promise<IStorativa[]> => {
-  const response = await api.get('/storativa');
-  return response.data;
+  const { data } = await api.get('/storativa');
+  return data;
 };
