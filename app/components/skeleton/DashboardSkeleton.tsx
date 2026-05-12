@@ -1,4 +1,4 @@
-export function HydrateFallback() {
+const DashboardSkeleton = () => {
   return (
     <div className="min-h-screen bg-lightness dark:bg-darkness p-6">
       <div className="max-w-6xl mx-auto animate-pulse">
@@ -31,4 +31,6 @@ export function HydrateFallback() {
       </div>
     </div>
   );
-}
+};
+
+export default DashboardSkeleton;

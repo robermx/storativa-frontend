@@ -1,23 +1,30 @@
 import { createClientLoader } from '@/lib/createClientLoader';
-import { HydrateFallback } from '../components/shared/HydrateFallback';
+
 import {
   getCharacterCatalog,
   getContextCatalog,
   getStorySizeCatalog,
 } from '@/services/catalog.service';
 
+import FormSkeleton from '../components/skeleton/FormSkeleton';
+import { useLoaderData } from 'react-router';
+
 // eslint-disable-next-line react-refresh/only-export-components
 export const clientLoader = createClientLoader({
   services: [
-    { key: 'characterType', fn: getCharacterCatalog },
-    { key: 'contextType', fn: getContextCatalog },
-    { key: 'storySizeType', fn: getStorySizeCatalog },
+    { key: 'characterCatalog', fn: getCharacterCatalog },
+    { key: 'contextCatalog', fn: getContextCatalog },
+    { key: 'storySizeCatalog', fn: getStorySizeCatalog },
   ],
 });
 
-export { HydrateFallback };
+export const HydrateFallback = () => <FormSkeleton />;
 
 const Create = () => {
+  const { characterCatalog, contextCatalog, storySizeCatalog } =
+    useLoaderData<typeof clientLoader>();
+
+  console.log({ characterCatalog, contextCatalog, storySizeCatalog });
   return (
     <div>
       <h2>Create</h2>

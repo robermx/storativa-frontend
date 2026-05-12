@@ -1,8 +1,9 @@
 import { useLoaderData } from 'react-router';
 
-import { getUserStorativas } from '@/services/storativa.service';
 import { createClientLoader } from '@/lib/createClientLoader';
-import { HydrateFallback } from '@/components/shared/HydrateFallback';
+import { getUserStorativas } from '@/services/storativa.service';
+
+import DashboardSkeleton from '@/components/skeleton/DashboardSkeleton';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import DashboardStats from '@/components/dashboard/DashboardStats';
 import DashboardTable from '@/components/dashboard/DashboardTable';
@@ -12,7 +13,7 @@ export const clientLoader = createClientLoader({
   services: [{ key: 'storativas', fn: getUserStorativas }],
 });
 
-export { HydrateFallback };
+export const HydrateFallback = () => <DashboardSkeleton />;
 
 const Dashboard = () => {
   const { storativas } = useLoaderData<typeof clientLoader>();
