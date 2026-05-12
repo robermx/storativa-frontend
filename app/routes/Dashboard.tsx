@@ -18,7 +18,7 @@ const Dashboard = () => {
   const storativas = useLoaderData<typeof clientLoader>();
 
   return (
-    <div className="min-h-screen bg-lightness dark:bg-darkness p-6 md:p-8">
+    <div className="min-h-screen bg-lightness dark:bg-darkness p-6">
       <div className="max-w-6xl mx-auto">
         <DashboardHeader />
         <DashboardStats storativas={storativas} />
