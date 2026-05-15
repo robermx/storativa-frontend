@@ -37,7 +37,7 @@ const DashboardHeader = () => {
   return (
     <header
       ref={dashboardHeaderRef}
-      className="flex flex-col sm:flex-row items-start justify-between gap-4 mb-8"
+      className="flex flex-col sm:flex-row items-start justify-between gap-4 mb-6 p-6 bg-lightness dark:bg-darkness rounded-xl shadow-sm border border-dark/10 dark:border-light/10"
     >
       <div className="flex items-center gap-4">
         <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center text-white text-lg font-bold">

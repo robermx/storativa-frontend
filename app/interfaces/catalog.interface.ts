@@ -1,6 +1,6 @@
 export interface Icatalog {
   name: string;
-  selectedValue: number;
+  value: number;
   order: number;
   status: number;
 }

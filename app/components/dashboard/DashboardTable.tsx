@@ -12,8 +12,8 @@ interface DashboardTableProps {
 
 const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
   return (
-    <div className="bg-white dark:bg-dark rounded-xl shadow-sm border border-dark/10 dark:border-light/10 overflow-hidden">
-      <div className="p-5 border-b border-dark/10 dark:border-light/10">
+    <div className="rounded-xl shadow-sm border border-dark/10 dark:border-light/10 overflow-hidden">
+      <div className="bg-primary/40 p-5 border-b border-dark/10 dark:border-light/10">
         <h2 className="text-lg font-semibold text-dark dark:text-light">
           Storativas
         </h2>
@@ -21,24 +21,24 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
 
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-lightness dark:bg-dark/50">
+          <thead className="bg-primary/10">
             <tr>
-              <th className="text-left px-5 py-3 text-sm font-medium text-dark/60 dark:text-light/60">
+              <th className="text-left px-5 py-3 font-medium text-primary">
                 Título
               </th>
-              <th className="text-left px-5 py-3 text-sm font-medium text-dark/60 dark:text-light/60 hidden sm:table-cell">
+              <th className="text-left px-5 py-3 font-medium text-primary hidden sm:table-cell">
                 Fecha de creación
               </th>
-              <th className="text-left px-5 py-3 text-sm font-medium text-dark/60 dark:text-light/60">
+              <th className="text-left px-5 py-3 font-medium text-primary">
                 Estado
               </th>
-              <th className="text-left px-5 py-3 text-sm font-medium text-dark/60 dark:text-light/60 hidden md:table-cell">
+              <th className="text-left px-5 py-3 font-medium text-primary hidden md:table-cell">
                 Días de avance
               </th>
-              <th className="text-left px-5 py-3 text-sm font-medium text-dark/60 dark:text-light/60 hidden md:table-cell">
+              <th className="text-left px-5 py-3 font-medium text-primary hidden md:table-cell">
                 Etiquetas
               </th>
-              <th className="text-left px-5 py-3 text-sm font-medium text-dark/60 dark:text-light/60 hidden lg:table-cell">
+              <th className="text-left px-5 py-3 font-medium text-primary hidden lg:table-cell">
                 Última actualización
               </th>
             </tr>
@@ -47,7 +47,7 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
             {storativas.map((item) => (
               <tr
                 key={item._id}
-                className="hover:bg-lightness dark:hover:bg-dark/30 transition-colors"
+                className="hover:bg-lightness dark:hover:bg-darkness transition-colors"
               >
                 <td className="px-5 py-4">
                   <p className="font-medium text-dark dark:text-light">

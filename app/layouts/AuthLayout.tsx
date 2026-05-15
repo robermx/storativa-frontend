@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 import { useAuthStore } from '@/store/authStore';
 import useHydrated from '@/hooks/useHydrated';
+import DashboardHeader from '@/components/dashboard/DashboardHeader';
 
 export const AuthLayout = () => {
   const hydrated = useHydrated();
@@ -19,7 +20,12 @@ export const AuthLayout = () => {
     return null;
   }
 
-  return <Outlet />;
+  return (
+    <div className="min-h-dvh max-w-6xl mx-auto">
+      <DashboardHeader />
+      <Outlet />
+    </div>
+  );
 };
 
 export default AuthLayout;
