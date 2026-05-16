@@ -12,11 +12,7 @@ type ServiceEntry<K extends string, T> = {
 type ServicesArray = readonly ServiceEntry<string, unknown>[];
 
 type InferResult<T extends ServicesArray> = {
-  [K in T[number]['key']]: Extract<T[number], { key: K }>['fn'] extends (
-    ...args: never[]
-  ) => Promise<infer R>
-    ? R
-    : never;
+  [K in T[number] as K['key']]: K['fn'] extends ServiceFn<infer R> ? R : never;
 };
 
 interface ClientLoaderOptions<T extends ServicesArray> {

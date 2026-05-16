@@ -73,10 +73,10 @@ export interface IAdaptedPeriod {
 export interface ICharacter {
   type: number;
   name: string;
-  personality: string;
   social: string;
   physical: string;
   psychological: string;
+  additional?: string;
 }
 
 export interface ICreateFormData {

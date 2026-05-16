@@ -15,3 +15,8 @@ export const getStorySizeCatalog = async (): Promise<Icatalog[]> => {
   const { data } = await api.get('/story-size');
   return data;
 };
+
+export const getGenderLabelCatalog = async (): Promise<Icatalog[]> => {
+  const { data } = await api.get('/gender-label');
+  return data;
+};

@@ -9,7 +9,7 @@ export interface IStorativa {
   timeToComplete: number;
   initialBasedDate: string;
   adaptedPeriods: AdaptedPeriod[];
-  tags: string[];
+  genderLabels: number[];
   content: string;
   status: number;
   _id: string;
@@ -24,6 +24,7 @@ export interface Character {
   physical: string;
   psychological: string;
   social: string;
+  additional?: string;
 }
 
 export interface AdaptedPeriod {

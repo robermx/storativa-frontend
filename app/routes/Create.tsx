@@ -46,7 +46,7 @@ const Create = () => {
   const { characterCatalog, contextCatalog, storySizeCatalog } =
     useLoaderData<typeof clientLoader>();
 
-  console.log({ characterCatalog, contextCatalog, storySizeCatalog });
+  // console.log({ characterCatalog, contextCatalog, storySizeCatalog });
 
   const {
     control,
@@ -62,7 +62,6 @@ const Create = () => {
         {
           type: 0,
           name: '',
-          personality: '',
           social: '',
           physical: '',
           psychological: '',
@@ -223,20 +222,6 @@ const Create = () => {
           </h3>
           {characterFields.map((field, index) => (
             <div key={field.id} className="flex gap-x-3">
-              {/* <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Personaje {index + 1}
-                  </span>
-                  {characterFields.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => removeCharacter(index)}
-                      className="text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
-                    >
-                      <Trash2 size={18} />
-                    </button>
-                  )}
-                </div> */}
               <div className="grid">
                 <Controller
                   name={`characters.${index}.type`}
@@ -273,22 +258,9 @@ const Create = () => {
 
               <div className="grid grid-cols-2 gap-x-3 flex-1">
                 <Controller
-                  name={`characters.${index}.personality`}
-                  control={control}
-                  render={({ field }) => (
-                    <CustomTextArea
-                      {...field}
-                      inputName={`character-personality-${index}`}
-                      placeholder="Personalidad"
-                      rows={2}
-                      error={errors.characters?.[index]?.social?.message}
-                    />
-                  )}
-                />
-
-                <Controller
                   name={`characters.${index}.social`}
                   control={control}
+                  rules={{ required: 'Rasgos sociales obligatorios' }}
                   render={({ field }) => (
                     <CustomTextArea
                       {...field}
@@ -303,6 +275,7 @@ const Create = () => {
                 <Controller
                   name={`characters.${index}.physical`}
                   control={control}
+                  rules={{ required: 'Rasgos físicos obligatorios' }}
                   render={({ field }) => (
                     <CustomTextArea
                       {...field}
@@ -317,11 +290,26 @@ const Create = () => {
                 <Controller
                   name={`characters.${index}.psychological`}
                   control={control}
+                  rules={{ required: 'Rasgos psicológicos obligatorios' }}
                   render={({ field }) => (
                     <CustomTextArea
                       {...field}
                       inputName={`character-psychological-${index}`}
                       placeholder="Rasgos Psicológicos"
+                      rows={2}
+                      error={errors.characters?.[index]?.psychological?.message}
+                    />
+                  )}
+                />
+
+                <Controller
+                  name={`characters.${index}.additional`}
+                  control={control}
+                  render={({ field }) => (
+                    <CustomTextArea
+                      {...field}
+                      inputName={`character-additional-${index}`}
+                      placeholder="Rasgos Adicionales (Opcional)"
                       rows={2}
                       error={errors.characters?.[index]?.psychological?.message}
                     />
@@ -335,7 +323,6 @@ const Create = () => {
                     appendCharacter({
                       type: 0,
                       name: '',
-                      personality: '',
                       social: '',
                       physical: '',
                       psychological: '',
@@ -356,23 +343,6 @@ const Create = () => {
               )}
             </div>
           ))}
-
-          {/* <button
-              type="button"
-              onClick={() =>
-                appendCharacter({
-                  type: 0,
-                  name: '',
-                  social: '',
-                  physical: '',
-                  psychological: '',
-                })
-              }
-              className="flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors cursor-pointer"
-            >
-              <Plus size={16} />
-              Agregar Personaje
-            </button> */}
 
           <div className="">
             <Controller
