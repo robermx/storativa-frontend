@@ -4,7 +4,7 @@ export interface IStorativa {
   author: string;
   centralIdea: string;
   characters: Character[];
-  contextType: number;
+  contextType: number[];
   storySize: number;
   timeToComplete: number;
   initialBasedDate: string;

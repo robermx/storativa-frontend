@@ -6,6 +6,7 @@ import { createClientLoader } from '@/lib/createClientLoader';
 import {
   getCharacterCatalog,
   getContextCatalog,
+  getGenderLabelCatalog,
   getStorySizeCatalog,
 } from '@/services/catalog.service';
 
@@ -37,6 +38,7 @@ export const clientLoader = createClientLoader({
     { key: 'characterCatalog', fn: getCharacterCatalog },
     { key: 'contextCatalog', fn: getContextCatalog },
     { key: 'storySizeCatalog', fn: getStorySizeCatalog },
+    { key: 'genderLabelCatalog', fn: getGenderLabelCatalog },
   ],
 });
 
@@ -101,11 +103,7 @@ const Create = () => {
   return (
     <div className="flex justify-center">
       <div className="w-full max-w-4xl px-6 lg:px-0">
-        <h2 className="text-center text-2xl font-bold text-primary">
-          Nueva Storativa
-        </h2>
-
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Controller
             name="title"
             control={control}

@@ -4,11 +4,9 @@ import { createClientLoader } from '@/lib/createClientLoader';
 import { getUserStorativas } from '@/services/storativa.service';
 
 import DashboardSkeleton from '@/components/skeleton/DashboardSkeleton';
-// import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import DashboardStats from '@/components/dashboard/DashboardStats';
 import DashboardTable from '@/components/dashboard/DashboardTable';
 import { Fragment } from 'react';
-// import { getGenderLabelCatalog } from '@/services/catalog.service';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const clientLoader = createClientLoader({

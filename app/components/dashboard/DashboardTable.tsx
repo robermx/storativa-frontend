@@ -35,9 +35,6 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
               <th className="text-left px-5 py-3 font-medium text-primary hidden md:table-cell">
                 Días de avance
               </th>
-              <th className="text-left px-5 py-3 font-medium text-primary hidden md:table-cell">
-                Etiquetas
-              </th>
               <th className="text-left px-5 py-3 font-medium text-primary hidden lg:table-cell">
                 Última actualización
               </th>
@@ -83,18 +80,6 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
                       {daysPassed(item.createdAt) + ' / ' + item.timeToComplete}
                     </span>
                   </div>
-                </td>
-                <td className="px-5 py-4 hidden lg:table-cell">
-                  <p className="flex gap-2 flex-wrap w-full text-sm text-dark/50 dark:text-light/50">
-                    {item.genderLabels.map((i, idx) => (
-                      <span
-                        key={idx + 1}
-                        className="bg-accent text-dark px-1.5 py-0.5 font-bold rounded"
-                      >
-                        {i}
-                      </span>
-                    ))}
-                  </p>
                 </td>
                 <td className="px-5 py-4 hidden lg:table-cell">
                   <p className="text-sm text-dark/50 dark:text-light/50">
