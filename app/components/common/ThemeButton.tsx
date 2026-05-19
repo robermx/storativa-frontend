@@ -39,7 +39,7 @@ const ThemeButton: FC = () => {
   return (
     <div
       ref={themeContainer}
-      className="absolute top-5.5 -right-9.5 origin-right z-100"
+      className="absolute top-5 -right-9.5 origin-right z-100"
     >
       <div className="animated-container flex justify-end items-center gap-2 border-t border-b border-l rounded-bl-md rounded-tl-md border-dark/20 dark:border-light/20 py-1 bg-white dark:bg-slate-900">
         <button
