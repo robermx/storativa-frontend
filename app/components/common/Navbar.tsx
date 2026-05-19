@@ -1,18 +1,13 @@
 import { FC, Fragment, useRef } from 'react';
 import { NavLink } from 'react-router';
-import {
-  Navbar as MainNavigate,
-  NavbarBrand,
-  NavbarCollapse,
-  NavbarToggle,
-} from 'flowbite-react';
 import gsap from 'gsap';
+import { Menu } from 'lucide-react';
 import { useGSAP } from '@gsap/react';
 
 import { useAuthStore } from '@/store/authStore';
+import { useThemeStore } from '@/store/themeStore';
 import MainLogo from '@/assets/logo/MainLogo';
 import IsoSimple from '@/assets/logo/IsoSimple';
-import { useThemeStore } from '@/store/themeStore';
 
 const Navbar: FC = () => {
   const user = useAuthStore((state) => state.user);
@@ -34,43 +29,54 @@ const Navbar: FC = () => {
   );
 
   return (
-    <MainNavigate ref={menuItems} className="bg-lightness dark:bg-darkness">
-      <NavbarBrand href="/" as={NavLink}>
-        <div className="flex items-center gap-3">
-          <IsoSimple />
-          <MainLogo className="text-primary" />
+    <nav ref={menuItems} className="bg-primary top-0 z-50 py-3 px-4 sm:px-8">
+      <div className="flex justify-between items-center">
+        <NavLink to="/">
+          {({ isActive }) => (
+            <div className="flex items-center gap-3">
+              <IsoSimple />
+              <MainLogo
+                className={`transition-colors ${isActive ? 'text-white' : 'text-secondary hover:text-white'}`}
+              />
+            </div>
+          )}
+        </NavLink>
+        <Menu className="sm:hidden text-accent" />
+        <div className="items-wrapper relative hidden sm:flex right-3.5 gap-5 hover:text-white">
+          {user ? (
+            <Fragment>
+              <NavLink
+                to="/dashboard"
+                className={({ isActive }) =>
+                  `transition-colors ${isActive ? 'text-white' : 'text-secondary hover:text-white'}`
+                }
+              >
+                Dashboard
+              </NavLink>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  `transition-colors font-bold ${isActive ? 'text-white' : 'text-secondary hover:text-white'}`
+                }
+              >
+                About
+              </NavLink>
+              <NavLink
+                to="/login"
+                className={({ isActive }) =>
+                  `transition-colors font-bold ${isActive ? 'text-white' : 'text-secondary hover:text-white'}`
+                }
+              >
+                Login
+              </NavLink>
+            </Fragment>
+          )}
         </div>
-      </NavbarBrand>
-      <NavbarToggle className="items-wrapper relative right-6" />
-
-      <NavbarCollapse>
-        {user ? (
-          <Fragment>
-            <NavLink
-              className="text-dark dark:text-light px-4 py-2 text-right text-lg m-0"
-              to="/dashboard"
-            >
-              Dashboard
-            </NavLink>
-          </Fragment>
-        ) : (
-          <Fragment>
-            <NavLink
-              className="text-dark dark:text-light px-4 py-2 text-right text-lg m-0"
-              to="/about"
-            >
-              About
-            </NavLink>
-            <NavLink
-              className="text-dark dark:text-light px-4 py-2 text-right text-lg m-0"
-              to="/login"
-            >
-              Login
-            </NavLink>
-          </Fragment>
-        )}
-      </NavbarCollapse>
-    </MainNavigate>
+      </div>
+    </nav>
   );
 };
 
