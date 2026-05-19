@@ -9,10 +9,8 @@ import IsoSimple from '@/assets/logo/IsoSimple';
 import { useGSAP } from '@gsap/react';
 import { useThemeStore } from '@/store/themeStore';
 
-const NavBar: FC = () => {
-  // const navigate = useNavigate();
+const Navbar: FC = () => {
   const user = useAuthStore((state) => state.user);
-  // const logout = useAuthStore((state) => state.logout);
   const expanded = useThemeStore((state) => state.expanded);
   const menuItems = useRef<HTMLDivElement>(null);
 
@@ -29,11 +27,6 @@ const NavBar: FC = () => {
       dependencies: [expanded],
     },
   );
-
-  // const handleLogout = () => {
-  //   logout();
-  //   navigate('/', { replace: true });
-  // };
 
   return (
     <nav ref={menuItems} className="bg-primary top-0 z-50 py-3 px-4 sm:px-8">
@@ -61,12 +54,6 @@ const NavBar: FC = () => {
               >
                 Dashboard
               </NavLink>
-              {/* <button
-                className="text-secondary hover:text-white cursor-pointer"
-                onClick={handleLogout}
-              >
-                Cerrar sesión
-              </button> */}
             </Fragment>
           ) : (
             <Fragment>
@@ -94,4 +81,4 @@ const NavBar: FC = () => {
   );
 };
 
-export default NavBar;
+export default Navbar;

@@ -4,7 +4,7 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { MorphSVGPlugin, ScrollTrigger } from 'gsap/all';
 
-import NavBar from '@/components/common/NavBar';
+import Navbar from '@/components/common/Navbar';
 import Footer from '@/components/common/Footer';
 import ThemeButton from '@/components/common/ThemeButton';
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider';
@@ -27,7 +27,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <SmoothScrollProvider enabled={enableSmoothScroll}>
       <ThemeButton />
-      {!excludedRoutes && <NavBar />}
+      {!excludedRoutes && <Navbar />}
       <div className="flex flex-col selection:bg-primary/30">
         <main>{children}</main>
         {!excludedRoutes && <Footer />}
