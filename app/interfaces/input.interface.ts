@@ -21,13 +21,19 @@ export interface CustomTextAreaProps {
 export interface CustomSelectProps {
   inputName: string;
   placeholder: string;
-  value?: number;
+  value?: number | string | null;
   error?: string;
-  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  onBlur?: (e: React.FocusEvent<HTMLSelectElement>) => void;
-  options: { value: number; name: string }[];
+  onChange?: (value: number | string) => void;
+  onBlur?: () => void;
+  options: IOption[];
 }
 
+export interface IOption {
+  _id: string;
+  value: number;
+  name: string;
+  avatar?: string;
+}
 export interface CustomCalendarInputProps {
   inputName: string;
   placeholder: string;

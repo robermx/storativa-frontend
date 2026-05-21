@@ -1,6 +1,13 @@
-import { FC } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { FC, Fragment, useState } from 'react';
+import {
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+} from '@headlessui/react';
+import { Check, ChevronDown } from 'lucide-react';
 import { CustomSelectProps } from '@/interfaces/input.interface';
+import { titleFormat } from '@/utils/titleFormat';
 
 const CustomSelect: FC<CustomSelectProps> = ({
   inputName,
@@ -11,41 +18,74 @@ const CustomSelect: FC<CustomSelectProps> = ({
   onBlur,
   options,
 }) => {
+  const [isFocused, setIsFocused] = useState(false);
+  const selectedOption = options.find((opt) => opt.value === value);
+
   return (
-    <div className="group w-full">
-      <div className="relative">
-        <select
-          id={inputName}
-          value={value ?? ''}
-          onChange={onChange}
-          onBlur={onBlur}
-          className={`block w-full rounded-md bg-transparent px-3 py-1.5 pr-10 text-base text-dark outline-1 -outline-offset-1 outline-gray-300 appearance-none focus:outline-2 focus:-outline-offset-2 ${error ? 'focus:outline-red-400 dark:focus:outline-red-500' : 'focus:outline-primary'} sm:text-sm/6 dark:text-light dark:outline-white/10 transition-all ${!value ? 'text-gray-400 dark:text-gray-500' : ''}`}
-        >
-          <option value={0} disabled>
-            {placeholder}
-          </option>
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.name}
-            </option>
-          ))}
-        </select>
-        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-          <ChevronDown
-            className="text-gray-400 dark:text-gray-500"
-            size={20}
-            strokeWidth={2}
-          />
+    <Fragment>
+      <Listbox
+        value={value ?? ''}
+        onChange={(newValue) => {
+          onChange?.(newValue);
+        }}
+      >
+        <div className="relative">
+          <ListboxButton
+            id={inputName}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => {
+              setIsFocused(false);
+              onBlur?.();
+            }}
+            className={`grid w-full cursor-default grid-cols-1 rounded-md py-1.5 pr-2 pl-3 text-left outline-1 -outline-offset-1' ${
+              isFocused
+                ? 'outline-2 -outline-offset-2  outline-primary'
+                : 'outline-gray-300 dark:outline-light/10'
+            } sm:text-sm/6 ${error ? 'outline-2 -outline-offset-2 outline-red-400' : ''}`}
+          >
+            <span
+              className={`col-start-1 row-start-1 ${selectedOption?.name ? 'text-dark dark:text-light' : 'text-dark/40 dark:text-light/40'} flex items-center gap-3 pr-6`}
+            >
+              <span className="block truncate">
+                {titleFormat(selectedOption?.name || '') || placeholder}
+              </span>
+            </span>
+            <ChevronDown
+              aria-hidden="true"
+              className="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-400 sm:size-4"
+            />
+          </ListboxButton>
+
+          <ListboxOptions
+            transition
+            className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-lightness dark:bg-darkness py-1 text-base outline-1 -outline-offset-1 outline-white/10 data-leave:transition data-leave:duration-100 data-leave:ease-in data-closed:data-leave:opacity-0 sm:text-sm"
+          >
+            {options.map((option) => (
+              <ListboxOption
+                key={option._id}
+                value={option.value}
+                className="group relative cursor-default py-2 pr-9 pl-3 text-dark dark:text-light select-none data-focus:bg-primary data-focus:outline-hidden"
+              >
+                <div className="flex items-center">
+                  <span className="ml-3 block truncate font-normal group-data-selected:font-semibold">
+                    {titleFormat(option.name)}
+                  </span>
+                </div>
+
+                <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-400 group-not-data-selected:hidden group-data-focus:text-white">
+                  <Check aria-hidden="true" className="size-5" />
+                </span>
+              </ListboxOption>
+            ))}
+          </ListboxOptions>
         </div>
-      </div>
-      <div className="relative">
-        {error && (
-          <span className="absolute text-xs text-red-500 dark:text-red-600 font-medium bottom-1">
-            {error}
-          </span>
-        )}
-      </div>
-    </div>
+      </Listbox>
+      {error && (
+        <span className="mt-1 block text-xs text-red-500 dark:text-red-600 font-medium">
+          {error}
+        </span>
+      )}
+    </Fragment>
   );
 };
 

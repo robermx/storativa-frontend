@@ -309,7 +309,6 @@ const Create = () => {
                       inputName={`character-additional-${index}`}
                       placeholder="Rasgos Adicionales (Opcional)"
                       rows={2}
-                      error={errors.characters?.[index]?.psychological?.message}
                     />
                   )}
                 />
