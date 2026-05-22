@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -13,6 +13,15 @@
   --color-disabledL: #a0adc1;
   --color-disabledD: #273348;
 }
+
+/* DayPicker custom styles */
+.rdp-datepicker-dropdown .rdp-root {
+  --rdp-accent-color: var(--color-primary);
+  .rdp-today {
+    font-weight: 700;
+  }
+}
+
 
 /* ScrollSmoother styles */
 #smooth-wrapper {

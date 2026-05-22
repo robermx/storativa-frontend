@@ -147,7 +147,7 @@ const Create = () => {
                   <CustomDatePicker
                     {...field}
                     inputName={`period-from-${index}`}
-                    placeholder="Desde"
+                    placeholder="Desde (dd/mm/aaaa)"
                     error={errors.adaptedPeriods?.[index]?.from?.message}
                   />
                 )}
@@ -160,7 +160,7 @@ const Create = () => {
                   <CustomDatePicker
                     {...field}
                     inputName={`period-to-${index}`}
-                    placeholder="Hasta"
+                    placeholder="Hasta (dd/mm/aaaa)"
                     error={errors.adaptedPeriods?.[index]?.to?.message}
                   />
                 )}
