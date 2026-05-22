@@ -16,6 +16,7 @@ export interface CustomTextAreaProps {
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLTextAreaElement>) => void;
   rows?: number;
+  maxChar?: number;
 }
 
 export interface CustomSelectProps {

@@ -19,7 +19,7 @@ import FormSkeleton from '../components/skeleton/FormSkeleton';
 import CustomInput from '@/components/shared/CustomInput';
 import CustomButton from '@/components/shared/CustomButton';
 import CustomTextArea from '@/components/shared/CustomTextArea';
-import CustomCalendarInput from '@/components/shared/CustomCalendarInput';
+import CustomDatePicker from '@/components/shared/CustomDatePicker';
 import CustomSelect from '@/components/shared/CustomSelect';
 import CustomMultiSelect from '@/components/shared/CustomMultiSelect';
 import { ICreateFormData, InputEnumType } from '@/interfaces/input.interface';
@@ -96,11 +96,14 @@ const Create = () => {
 
   return (
     <div className="w-full max-w-6xl px-6">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-6">
         <Controller
           name="title"
           control={control}
-          rules={{ required: 'El título es obligatorio' }}
+          rules={{
+            required: 'Título obligatorio',
+            minLength: { value: 4, message: 'Al menos 4 caracteres' },
+          }}
           render={({ field }) => (
             <CustomInput
               {...field}
@@ -115,7 +118,10 @@ const Create = () => {
         <Controller
           name="centralIdea"
           control={control}
-          rules={{ required: 'La idea central es obligatoria' }}
+          rules={{
+            required: 'Idea central obligatoria',
+            minLength: { value: 4, message: 'Al menos 4 caracteres' },
+          }}
           render={({ field }) => (
             <CustomTextArea
               {...field}
@@ -123,92 +129,96 @@ const Create = () => {
               placeholder="Idea Central"
               rows={6}
               error={errors.centralIdea?.message}
+              maxChar={1000}
             />
           )}
         />
-
-        <h3 className="text-lg font-semibold text-dark dark:text-light">
-          Períodos Adaptados
-        </h3>
-        {periodFields.map((field, index) => (
-          <div key={field.id} className="sm:flex">
-            <Controller
-              name={`adaptedPeriods.${index}.from`}
-              control={control}
-              rules={{ required: 'La fecha de inicio es obligatoria' }}
-              render={({ field }) => (
-                <CustomCalendarInput
-                  {...field}
-                  inputName={`period-from-${index}`}
-                  placeholder="Desde"
-                  error={errors.adaptedPeriods?.[index]?.from?.message}
-                />
-              )}
-            />
-            <Controller
-              name={`adaptedPeriods.${index}.to`}
-              control={control}
-              rules={{ required: 'La fecha de fin es obligatoria' }}
-              render={({ field }) => (
-                <CustomCalendarInput
-                  {...field}
-                  inputName={`period-to-${index}`}
-                  placeholder="Hasta"
-                  error={errors.adaptedPeriods?.[index]?.to?.message}
-                />
-              )}
-            />
-            <Controller
-              name={`adaptedPeriods.${index}.place`}
-              control={control}
-              rules={{ required: 'El lugar es obligatorio' }}
-              render={({ field }) => (
-                <CustomInput
-                  {...field}
-                  inputType={InputEnumType.place}
-                  inputName={`period-place-${index}`}
-                  placeholder="Lugar"
-                  error={errors.adaptedPeriods?.[index]?.place?.message}
-                />
-              )}
-            />
-            <Controller
-              name={`adaptedPeriods.${index}.name`}
-              control={control}
-              rules={{ required: 'El período es obligatorio' }}
-              render={({ field }) => (
-                <CustomInput
-                  {...field}
-                  inputType={InputEnumType.period}
-                  inputName={`period-name-${index}`}
-                  placeholder="Período"
-                  error={errors.adaptedPeriods?.[index]?.name?.message}
-                />
-              )}
-            />
-            {index === periodFields.length - 1 ? (
-              <button
-                type="button"
-                onClick={() =>
-                  appendPeriod({ name: '', from: '', to: '', place: '' })
-                }
-                className="w-full flex justify-center gap-x-3 p-1 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors font-medium"
-              >
-                <CalendarPlus size={20} />
-                <span>Agregar periodo</span>
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={() => removePeriod(index)}
-                className="w-full flex justify-center gap-x-3 p-1 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-lg transition-colors font-medium"
-              >
-                <CalendarMinus size={20} />
-                <span>Eliminar periodo</span>
-              </button>
-            )}
-          </div>
-        ))}
+        <div>
+          <h3 className="text-md mb-2 font-medium text-dark dark:text-light">
+            Períodos Adaptados
+          </h3>
+          {periodFields.map((field, index) => (
+            <div key={field.id} className="sm:flex sm:gap-x-3 space-y-6">
+              <Controller
+                name={`adaptedPeriods.${index}.from`}
+                control={control}
+                rules={{ required: 'La fecha de inicio es obligatoria' }}
+                render={({ field }) => (
+                  <CustomDatePicker
+                    {...field}
+                    inputName={`period-from-${index}`}
+                    placeholder="Desde"
+                    error={errors.adaptedPeriods?.[index]?.from?.message}
+                  />
+                )}
+              />
+              <Controller
+                name={`adaptedPeriods.${index}.to`}
+                control={control}
+                rules={{ required: 'La fecha de fin es obligatoria' }}
+                render={({ field }) => (
+                  <CustomDatePicker
+                    {...field}
+                    inputName={`period-to-${index}`}
+                    placeholder="Hasta"
+                    error={errors.adaptedPeriods?.[index]?.to?.message}
+                  />
+                )}
+              />
+              <Controller
+                name={`adaptedPeriods.${index}.place`}
+                control={control}
+                rules={{ required: 'El lugar es obligatorio' }}
+                render={({ field }) => (
+                  <CustomInput
+                    {...field}
+                    inputType={InputEnumType.place}
+                    inputName={`period-place-${index}`}
+                    placeholder="Lugar"
+                    error={errors.adaptedPeriods?.[index]?.place?.message}
+                  />
+                )}
+              />
+              <Controller
+                name={`adaptedPeriods.${index}.name`}
+                control={control}
+                rules={{ required: 'El período es obligatorio' }}
+                render={({ field }) => (
+                  <CustomInput
+                    {...field}
+                    inputType={InputEnumType.period}
+                    inputName={`period-name-${index}`}
+                    placeholder="Período"
+                    error={errors.adaptedPeriods?.[index]?.name?.message}
+                  />
+                )}
+              />
+              <div className="w-full sm:w-fit">
+                {index === periodFields.length - 1 ? (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      appendPeriod({ name: '', from: '', to: '', place: '' })
+                    }
+                    className="flex justify-center gap-x-3 w-full p-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors font-medium"
+                  >
+                    <CalendarPlus size={20} />
+                    <span className="sm:hidden">Añadir periodo</span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => removePeriod(index)}
+                    className="flex justify-center gap-x-3 w-full p-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-lg transition-colors font-medium"
+                  >
+                    <CalendarMinus size={20} />
+                    <span className="sm:hidden">Eliminar periodo</span>
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
 
         <h3 className="text-lg font-semibold text-dark dark:text-light">
           Personajes
@@ -410,7 +420,7 @@ const Create = () => {
             control={control}
             rules={{ required: 'La fecha inicial es obligatoria' }}
             render={({ field }) => (
-              <CustomCalendarInput
+              <CustomDatePicker
                 {...field}
                 inputName="initialBasedDate"
                 placeholder="Fecha Inicial"
