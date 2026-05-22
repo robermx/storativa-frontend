@@ -12,7 +12,7 @@ interface DashboardTableProps {
 
 const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
   return (
-    <div className="rounded-xl shadow-sm border border-dark/10 dark:border-light/10 overflow-hidden">
+    <div className="rounded-xl shadow-sm border border-dark/10 dark:border-light/10">
       <div className="bg-primary/40 p-5 border-b border-dark/10 dark:border-light/10">
         <h2 className="text-lg font-semibold text-dark dark:text-light">
           Storativas
@@ -23,19 +23,19 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
         <table className="w-full">
           <thead className="bg-primary/10">
             <tr>
-              <th className="text-left px-5 py-3 font-medium text-primary">
+              <th className="text-left px-5 py-3 font-medium text-primary min-w-60">
                 Título
               </th>
-              <th className="text-left px-5 py-3 font-medium text-primary hidden sm:table-cell">
-                Fecha de creación
-              </th>
-              <th className="text-left px-5 py-3 font-medium text-primary">
+              <th className="text-left px-5 py-3 font-medium text-primary min-w-20">
                 Estado
               </th>
-              <th className="text-left px-5 py-3 font-medium text-primary hidden md:table-cell">
+              <th className="text-left px-5 py-3 font-medium text-primary min-w-45">
                 Días de avance
               </th>
-              <th className="text-left px-5 py-3 font-medium text-primary hidden lg:table-cell">
+              <th className="text-left px-5 py-3 font-medium text-primary min-w-50">
+                Fecha de creación
+              </th>
+              <th className="text-left px-5 py-3 font-medium text-primary min-w-50">
                 Última actualización
               </th>
             </tr>
@@ -51,11 +51,6 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
                     {titleFormat(item.title)}
                   </p>
                 </td>
-                <td className="px-5 py-4 hidden sm:table-cell">
-                  <p className="text-sm text-dark/70 dark:text-light/70">
-                    {formatDate(item.createdAt)}
-                  </p>
-                </td>
                 <td className="px-5 py-4">
                   <span
                     className={`inline-flex px-2.5 py-1 text-xs font-medium rounded-full border ${statusStyles(item.status).style}`}
@@ -63,7 +58,7 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
                     {statusStyles(item.status).status}
                   </span>
                 </td>
-                <td className="px-5 py-4 hidden md:table-cell">
+                <td className="px-5 py-4">
                   <div className="flex items-center gap-2">
                     <div className="w-20 h-2 bg-light dark:bg-darkness rounded-full overflow-hidden">
                       <div
@@ -81,7 +76,12 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
                     </span>
                   </div>
                 </td>
-                <td className="px-5 py-4 hidden lg:table-cell">
+                <td className="px-5 py-4">
+                  <p className="text-sm text-dark/70 dark:text-light/70">
+                    {formatDate(item.createdAt)}
+                  </p>
+                </td>
+                <td className="px-5 py-4">
                   <p className="text-sm text-dark/50 dark:text-light/50">
                     {formatDate(item.updatedAt)}
                   </p>

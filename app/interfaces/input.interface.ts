@@ -28,6 +28,17 @@ export interface CustomSelectProps {
   options: IOption[];
 }
 
+export interface CustomMultiSelectProps {
+  inputName: string;
+  label?: string;
+  placeholder: string;
+  value?: number[];
+  error?: string;
+  onChange?: (values: number[]) => void;
+  onBlur?: () => void;
+  options: IOption[];
+}
+
 export interface IOption {
   _id: string;
   value: number;
@@ -90,10 +101,10 @@ export interface ICreateFormData {
   centralIdea: string;
   adaptedPeriods: IAdaptedPeriod[];
   characters: ICharacter[];
-  contextType: number;
+  contextType: number[];
   storySize: number;
   timeToComplete: string;
   initialBasedDate: string;
-  tags: string[];
+  genderLabels: number[];
   content: string;
 }
