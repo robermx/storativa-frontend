@@ -1,5 +1,5 @@
-import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { useLoaderData } from 'react-router';
+import { useForm, Controller, useFieldArray, useWatch } from 'react-hook-form';
 import {
   CalendarMinus,
   CalendarPlus,
@@ -14,14 +14,14 @@ import {
   getGenderLabelCatalog,
   getStorySizeCatalog,
 } from '@/services/catalog.service';
-
-import FormSkeleton from '../components/skeleton/FormSkeleton';
 import CustomInput from '@/components/shared/CustomInput';
 import CustomButton from '@/components/shared/CustomButton';
 import CustomTextArea from '@/components/shared/CustomTextArea';
 import CustomDatePicker from '@/components/shared/CustomDatePicker';
 import CustomSelect from '@/components/shared/CustomSelect';
 import CustomMultiSelect from '@/components/shared/CustomMultiSelect';
+import FormSkeleton from '@/components/skeleton/FormSkeleton';
+import { validateDateField } from '@/utils/dateValidation';
 import { ICreateFormData, InputEnumType } from '@/interfaces/input.interface';
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -71,6 +71,8 @@ const Create = () => {
       content: '',
     },
   });
+
+  const adaptedPeriods = useWatch({ control, name: 'adaptedPeriods' });
 
   const {
     fields: periodFields,
@@ -142,7 +144,13 @@ const Create = () => {
               <Controller
                 name={`adaptedPeriods.${index}.from`}
                 control={control}
-                rules={{ required: 'La fecha de inicio es obligatoria' }}
+                rules={{
+                  required: 'Fecha inicio obligatoria',
+                  validate: (from) => {
+                    const to = adaptedPeriods[index]?.to;
+                    return validateDateField(from, to, true);
+                  },
+                }}
                 render={({ field }) => (
                   <CustomDatePicker
                     {...field}
@@ -155,7 +163,13 @@ const Create = () => {
               <Controller
                 name={`adaptedPeriods.${index}.to`}
                 control={control}
-                rules={{ required: 'La fecha de fin es obligatoria' }}
+                rules={{
+                  required: 'La fecha de fin es obligatoria',
+                  validate: (to) => {
+                    const from = adaptedPeriods[index]?.from;
+                    return validateDateField(to, from, false);
+                  },
+                }}
                 render={({ field }) => (
                   <CustomDatePicker
                     {...field}
