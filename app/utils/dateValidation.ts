@@ -1,4 +1,4 @@
-import { parse, isValid } from 'date-fns';
+import { parse, isValid, getDaysInMonth } from 'date-fns';
 
 const INPUT_FORMAT = 'dd/MM/yyyy';
 
@@ -10,8 +10,9 @@ export const isValidDate = (value: string): boolean => {
   const month = parseInt(value.slice(3, 5), 10);
   const year = parseInt(value.slice(6, 10), 10);
   if (month < 1 || month > 12) return false;
-  if (day < 1 || day > 31) return false;
+  if (day < 1 || day > getDaysInMonth(new Date(year, month - 1))) return false;
   if (year < 1) return false;
+  if (year > 9999) return false;
   const parsed = parse(value, INPUT_FORMAT, new Date());
   return isValid(parsed);
 };

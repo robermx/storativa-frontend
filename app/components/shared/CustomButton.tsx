@@ -15,20 +15,20 @@ const CustomButton: FC<CustomButtonProps> = ({
     <button
       type={buttonType}
       className={`
-        flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold shadow-xs transition-all cursor-pointer
+        flex w-full justify-center rounded-md px-3 py-1 text-sm/6 font-semibold shadow-xs transition-all cursor-pointer
         ${bgClasses[bgColor]} 
         ${textClasses[textColor]}
         disabled:bg-disabledL dark:disabled:bg-disabledD
-        disabled:text-gray-200 dark:disabled:text-gray-500
+        disabled:text-gray-300 dark:disabled:text-gray-600
         disabled:cursor-not-allowed 
         disabled:shadow-none
         disabled:hover:opacity-100
-        ${isDisabled ? '' : 'active:scale-95'}
+        ${isDisabled ? '' : 'active:scale-98'}
       `}
       onClick={onClick}
       disabled={isDisabled}
     >
-      {displayText}
+      <span className="text-lg">{displayText}</span>
     </button>
   );
 };

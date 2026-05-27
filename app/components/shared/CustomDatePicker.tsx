@@ -150,7 +150,6 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
           aria-haspopup="listbox"
           aria-expanded={isOpen}
           aria-controls={dropdownId}
-          disabled={typeof error === 'string'}
           className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 transition-colors"
         >
           <Calendar size={20} />

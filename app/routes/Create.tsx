@@ -219,7 +219,10 @@ const Create = () => {
               rules={{
                 required: 'La fecha inicial es obligatoria',
                 validate: (date) => {
-                  return isValidDate(date);
+                  if (!isValidDate(date)) {
+                    return 'Fecha inválida (formato: dd/mm/aaaa)';
+                  }
+                  return true;
                 },
               }}
               render={({ field }) => (
@@ -245,7 +248,7 @@ const Create = () => {
             />
           </div>
         </div>
-        <h3 className="mt-6 bg-primary/15 dark:bg-primary/10 px-3 pt-2 rounded-t-xl max-w-fit text-md font-medium text-dark dark:text-light">
+        <h3 className="mt-6 bg-primary/15 dark:bg-primary/10 px-3 pt-2 rounded-t-xl max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
           Períodos Adaptados
         </h3>
         <div className="bg-primary/15 dark:bg-primary/10 px-3 py-3 rounded-b-xl rounded-tr-xl">
@@ -320,173 +323,170 @@ const Create = () => {
                   />
                 )}
               />
-              <div className="w-full sm:w-fit">
+              <div className="flex justify-end sm:w-fit">
                 {index === periodFields.length - 1 ? (
                   <button
                     type="button"
                     onClick={() =>
                       appendPeriod({ name: '', from: '', to: '', place: '' })
                     }
-                    className="flex justify-center gap-x-3 w-full p-2 bg-primary/20 hover:bg-primary/30 text-primary rounded-lg transition-colors font-medium"
+                    className="flex gap-x-3 p-2 bg-primary/20 hover:bg-primary/30 text-primary rounded-lg transition-colors"
                   >
-                    <CalendarPlus size={20} />
-                    <span className="sm:hidden">Añadir periodo</span>
+                    <CalendarPlus size={18} />
+                    <span className="sm:hidden text-sm">Añadir periodo</span>
                   </button>
                 ) : (
                   <button
                     type="button"
                     onClick={() => removePeriod(index)}
-                    className="flex justify-center gap-x-3 w-full p-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-lg transition-colors font-medium"
+                    className="flex gap-x-3 p-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-lg transition-colors"
                   >
-                    <CalendarMinus size={20} />
-                    <span className="sm:hidden">Eliminar periodo</span>
+                    <CalendarMinus size={18} />
+                    <span className="sm:hidden text-sm">Eliminar periodo</span>
                   </button>
                 )}
               </div>
             </div>
           ))}
         </div>
-        <div>
-          <h3 className="mt-6 bg-primary/15 dark:bg-primary/10 px-3 pt-2 rounded-t-xl max-w-fit text-md font-medium text-dark dark:text-light">
-            Personajes
-          </h3>
-          <div className="bg-primary/15 dark:bg-primary/10 px-3 py-3 rounded-b-xl rounded-tr-xl">
-            {characterFields.map((field, index) => (
-              <div
-                key={field.id}
-                className="pb-6 last:pb-0 flex flex-col gap-y-6"
-              >
-                <div className="flex flex-col gap-y-6 sm:flex-row sm:gap-x-3 sm:gap-y-0">
-                  <Controller
-                    name={`characters.${index}.type`}
-                    control={control}
-                    rules={{
-                      required: 'El tipo de personaje es obligatorio',
-                      validate: (value) =>
-                        value !== 0 || 'El tipo de personaje es obligatorio',
-                    }}
-                    render={({ field }) => (
-                      <CustomSelect
-                        {...field}
-                        inputName={`character-type-${index}`}
-                        placeholder="Tipo de Personaje"
-                        options={characterCatalog}
-                        error={errors.characters?.[index]?.type?.message}
-                      />
-                    )}
-                  />
 
-                  <Controller
-                    name={`characters.${index}.name`}
-                    control={control}
-                    rules={{
-                      required: 'El nombre del personaje es obligatorio',
-                    }}
-                    render={({ field }) => (
-                      <CustomInput
-                        {...field}
-                        inputType={InputEnumType.characterName}
-                        inputName={`character-name-${index}`}
-                        placeholder="Nombre del Personaje"
-                        error={errors.characters?.[index]?.name?.message}
-                      />
-                    )}
-                  />
-                </div>
-
-                <div className="grid sm:grid-cols-2 sm:gap-x-3 gap-y-6">
-                  <Controller
-                    name={`characters.${index}.social`}
-                    control={control}
-                    rules={{ required: 'Rasgos sociales obligatorios' }}
-                    render={({ field }) => (
-                      <CustomTextArea
-                        {...field}
-                        inputName={`character-social-${index}`}
-                        placeholder="Rasgos Sociales"
-                        rows={2}
-                        error={errors.characters?.[index]?.social?.message}
-                      />
-                    )}
-                  />
-
-                  <Controller
-                    name={`characters.${index}.physical`}
-                    control={control}
-                    rules={{ required: 'Rasgos físicos obligatorios' }}
-                    render={({ field }) => (
-                      <CustomTextArea
-                        {...field}
-                        inputName={`character-physical-${index}`}
-                        placeholder="Rasgos Físicos"
-                        rows={2}
-                        error={errors.characters?.[index]?.physical?.message}
-                      />
-                    )}
-                  />
-
-                  <Controller
-                    name={`characters.${index}.psychological`}
-                    control={control}
-                    rules={{ required: 'Rasgos psicológicos obligatorios' }}
-                    render={({ field }) => (
-                      <CustomTextArea
-                        {...field}
-                        inputName={`character-psychological-${index}`}
-                        placeholder="Rasgos Psicológicos"
-                        rows={2}
-                        error={
-                          errors.characters?.[index]?.psychological?.message
-                        }
-                      />
-                    )}
-                  />
-
-                  <Controller
-                    name={`characters.${index}.additional`}
-                    control={control}
-                    render={({ field }) => (
-                      <CustomTextArea
-                        {...field}
-                        inputName={`character-additional-${index}`}
-                        placeholder="Rasgos Adicionales (Opcional)"
-                        rows={2}
-                      />
-                    )}
-                  />
-                </div>
-                <div className="w-full">
-                  {index === characterFields.length - 1 ? (
-                    <button
-                      type="button"
-                      onClick={() =>
-                        appendCharacter({
-                          type: 0,
-                          name: '',
-                          social: '',
-                          physical: '',
-                          psychological: '',
-                        })
-                      }
-                      className="w-full flex justify-center gap-x-3 p-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors"
-                    >
-                      <UserRoundPlus size={20} />
-                      <span>Añadir pesonaje</span>
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => removeCharacter(index)}
-                      className="w-full flex justify-center gap-x-3 p-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-lg transition-colors"
-                    >
-                      <UserRoundMinus size={20} />
-                      <span>Eliminar personaje</span>
-                    </button>
+        <h3 className="mt-6 bg-primary/15 dark:bg-primary/10 px-3 pt-2 rounded-t-xl max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
+          Personajes
+        </h3>
+        <div className="bg-primary/15 dark:bg-primary/10 px-3 py-3 rounded-b-xl rounded-tr-xl">
+          {characterFields.map((field, index) => (
+            <div
+              key={field.id}
+              className="pb-6 last:pb-0 flex flex-col gap-y-6"
+            >
+              <div className="flex flex-col gap-y-6 sm:flex-row sm:gap-x-3 sm:gap-y-0">
+                <Controller
+                  name={`characters.${index}.type`}
+                  control={control}
+                  rules={{
+                    required: 'El tipo de personaje es obligatorio',
+                    validate: (value) =>
+                      value !== 0 || 'El tipo de personaje es obligatorio',
+                  }}
+                  render={({ field }) => (
+                    <CustomSelect
+                      {...field}
+                      inputName={`character-type-${index}`}
+                      placeholder="Tipo de Personaje"
+                      options={characterCatalog}
+                      error={errors.characters?.[index]?.type?.message}
+                    />
                   )}
-                </div>
+                />
+
+                <Controller
+                  name={`characters.${index}.name`}
+                  control={control}
+                  rules={{
+                    required: 'El nombre del personaje es obligatorio',
+                  }}
+                  render={({ field }) => (
+                    <CustomInput
+                      {...field}
+                      inputType={InputEnumType.characterName}
+                      inputName={`character-name-${index}`}
+                      placeholder="Nombre del Personaje"
+                      error={errors.characters?.[index]?.name?.message}
+                    />
+                  )}
+                />
               </div>
-            ))}
-          </div>
+
+              <div className="grid sm:grid-cols-2 sm:gap-x-3 gap-y-6">
+                <Controller
+                  name={`characters.${index}.social`}
+                  control={control}
+                  rules={{ required: 'Rasgos sociales obligatorios' }}
+                  render={({ field }) => (
+                    <CustomTextArea
+                      {...field}
+                      inputName={`character-social-${index}`}
+                      placeholder="Rasgos Sociales"
+                      rows={2}
+                      error={errors.characters?.[index]?.social?.message}
+                    />
+                  )}
+                />
+
+                <Controller
+                  name={`characters.${index}.physical`}
+                  control={control}
+                  rules={{ required: 'Rasgos físicos obligatorios' }}
+                  render={({ field }) => (
+                    <CustomTextArea
+                      {...field}
+                      inputName={`character-physical-${index}`}
+                      placeholder="Rasgos Físicos"
+                      rows={2}
+                      error={errors.characters?.[index]?.physical?.message}
+                    />
+                  )}
+                />
+
+                <Controller
+                  name={`characters.${index}.psychological`}
+                  control={control}
+                  rules={{ required: 'Rasgos psicológicos obligatorios' }}
+                  render={({ field }) => (
+                    <CustomTextArea
+                      {...field}
+                      inputName={`character-psychological-${index}`}
+                      placeholder="Rasgos Psicológicos"
+                      rows={2}
+                      error={errors.characters?.[index]?.psychological?.message}
+                    />
+                  )}
+                />
+
+                <Controller
+                  name={`characters.${index}.additional`}
+                  control={control}
+                  render={({ field }) => (
+                    <CustomTextArea
+                      {...field}
+                      inputName={`character-additional-${index}`}
+                      placeholder="Rasgos Adicionales (Opcional)"
+                      rows={2}
+                    />
+                  )}
+                />
+              </div>
+              <div className="flex justify-end">
+                {index === characterFields.length - 1 ? (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      appendCharacter({
+                        type: 0,
+                        name: '',
+                        social: '',
+                        physical: '',
+                        psychological: '',
+                      })
+                    }
+                    className="flex py-2 px-6 gap-x-3 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-all"
+                  >
+                    <UserRoundPlus size={18} />
+                    <span className="text-sm">Añadir pesonaje</span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => removeCharacter(index)}
+                    className="flex py-2 px-6 gap-x-3 p-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-lg transition-all"
+                  >
+                    <UserRoundMinus size={18} />
+                    <span className="text-sm">Eliminar personaje</span>
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
 
         <div className="mt-6 mb-8">
