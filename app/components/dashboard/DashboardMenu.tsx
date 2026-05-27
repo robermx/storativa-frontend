@@ -1,18 +1,10 @@
 import { FC } from 'react';
 import { useNavigate } from 'react-router';
 
-import { Gauge, Home, LogOut, Plus } from 'lucide-react';
-
-import { useAuthStore } from '@/store/authStore';
+import { Gauge, Home, Plus } from 'lucide-react';
 
 const DashboardMenu: FC = () => {
   const navigate = useNavigate();
-  const logout = useAuthStore((state) => state.logout);
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
 
   return (
     <div className="button-wrapper relative flex gap-3 right-5">
@@ -33,12 +25,6 @@ const DashboardMenu: FC = () => {
         className="flex items-center gap-2 p-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors font-medium"
       >
         <Plus />
-      </button>
-      <button
-        onClick={handleLogout}
-        className="flex items-center gap-2 p-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors font-medium"
-      >
-        <LogOut />
       </button>
     </div>
   );
