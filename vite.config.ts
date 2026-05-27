@@ -12,7 +12,8 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       port: Number(env.PORT) || 5174,
-      open: true,
+      host: true,
+      open: false,
     },
   };
 });

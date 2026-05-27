@@ -25,6 +25,7 @@ lerna-debug.log*
 *.sw?
 /.react-router
 /.flowbite-react
+/.pnpm-store
 
 
 # Local env files
