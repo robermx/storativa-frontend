@@ -21,7 +21,7 @@ import CustomDatePicker from '@/components/shared/CustomDatePicker';
 import CustomSelect from '@/components/shared/CustomSelect';
 import CustomMultiSelect from '@/components/shared/CustomMultiSelect';
 import FormSkeleton from '@/components/skeleton/FormSkeleton';
-import { validateDateField } from '@/utils/dateValidation';
+import { isValidDate, validateDateField } from '@/utils/dateValidation';
 import { ICreateFormData, InputEnumType } from '@/interfaces/input.interface';
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -173,7 +173,11 @@ const Create = () => {
             <Controller
               name="storySize"
               control={control}
-              rules={{ required: 'El tamaño de la historia es obligatorio' }}
+              rules={{
+                required: 'El tamaño de la historia es obligatorio',
+                validate: (value) =>
+                  value !== 0 || 'El tamaño de la historia es obligatorio',
+              }}
               render={({ field }) => (
                 <CustomSelect
                   {...field}
@@ -190,14 +194,17 @@ const Create = () => {
               control={control}
               rules={{
                 required: 'El tiempo es obligatorio',
-                pattern: {
-                  value: /^[0-9]+$/,
-                  message: 'Solo se permiten números',
-                },
+                validate: (value) =>
+                  /^[0-9]+$/.test(value) || 'Solo se permiten números',
               }}
               render={({ field }) => (
                 <CustomInput
                   {...field}
+                  value={field.value}
+                  onChange={(e) => {
+                    const numericValue = e.target.value.replace(/[^0-9]/g, '');
+                    field.onChange(numericValue);
+                  }}
                   inputType={InputEnumType.time}
                   inputName="timeToComplete"
                   placeholder="Tiempo para completar (Días)"
@@ -209,12 +216,17 @@ const Create = () => {
             <Controller
               name="initialBasedDate"
               control={control}
-              rules={{ required: 'La fecha inicial es obligatoria' }}
+              rules={{
+                required: 'La fecha inicial es obligatoria',
+                validate: (date) => {
+                  return isValidDate(date);
+                },
+              }}
               render={({ field }) => (
                 <CustomDatePicker
                   {...field}
                   inputName="initialBasedDate"
-                  placeholder="Fecha Inicial"
+                  placeholder="Fecha inicial"
                   error={errors.initialBasedDate?.message}
                 />
               )}
@@ -348,7 +360,11 @@ const Create = () => {
                   <Controller
                     name={`characters.${index}.type`}
                     control={control}
-                    rules={{ required: 'El tipo de personaje es obligatorio' }}
+                    rules={{
+                      required: 'El tipo de personaje es obligatorio',
+                      validate: (value) =>
+                        value !== 0 || 'El tipo de personaje es obligatorio',
+                    }}
                     render={({ field }) => (
                       <CustomSelect
                         {...field}
@@ -452,7 +468,7 @@ const Create = () => {
                           psychological: '',
                         })
                       }
-                      className="w-full flex justify-center gap-x-3 p-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors font-medium"
+                      className="w-full flex justify-center gap-x-3 p-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors"
                     >
                       <UserRoundPlus size={20} />
                       <span>Añadir pesonaje</span>
@@ -461,7 +477,7 @@ const Create = () => {
                     <button
                       type="button"
                       onClick={() => removeCharacter(index)}
-                      className="w-full flex justify-center gap-x-3 p-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-lg transition-colors font-medium"
+                      className="w-full flex justify-center gap-x-3 p-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-lg transition-colors"
                     >
                       <UserRoundMinus size={20} />
                       <span>Eliminar personaje</span>
@@ -478,7 +494,7 @@ const Create = () => {
             buttonType="submit"
             bgColor="primary"
             textColor="accent"
-            displayText={isSubmitting ? 'Creando...' : 'Crear Historia'}
+            displayText={isSubmitting ? 'Creando...' : 'Crear Storativa'}
             isDisabled={!isValid || isSubmitting}
           />
         </div>

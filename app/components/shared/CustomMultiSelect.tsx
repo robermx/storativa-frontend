@@ -1,4 +1,4 @@
-import { FC, useState, Fragment } from 'react';
+import { FC, useState, Fragment, MouseEvent } from 'react';
 import {
   Listbox,
   ListboxButton,
@@ -85,13 +85,20 @@ const CustomMultiSelect: FC<CustomMultiSelectProps> = ({
                       className="inline-flex items-center gap-1 rounded-md bg-primary/20 text-primary px-2 py-1 text-xs font-medium"
                     >
                       {titleFormat(opt.name)}
-                      <button
-                        type="button"
+                      <span
+                        role="button"
+                        tabIndex={0}
                         onClick={(e) => handleRemove(opt.value, e)}
-                        className="hover:bg-primary/30 rounded-full p-0.5"
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            handleRemove(opt.value, e as unknown as MouseEvent);
+                          }
+                        }}
+                        className="hover:bg-primary/30 rounded-full p-0.5 cursor-pointer"
                       >
                         <X size={12} />
-                      </button>
+                      </span>
                     </span>
                   ))
                 ) : (

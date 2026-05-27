@@ -2,7 +2,7 @@ import { parse, isValid } from 'date-fns';
 
 const INPUT_FORMAT = 'dd/MM/yyyy';
 
-const isValidDate = (value: string): boolean => {
+export const isValidDate = (value: string): boolean => {
   if (!value) return false;
   if (value.length !== 10) return false;
   if (value[2] !== '/' || value[5] !== '/') return false;
