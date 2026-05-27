@@ -23,7 +23,7 @@ const CustomButton: FC<CustomButtonProps> = ({
         disabled:cursor-not-allowed 
         disabled:shadow-none
         disabled:hover:opacity-100
-        ${!isDisabled ? 'active:scale-95' : ''}
+        ${isDisabled ? '' : 'active:scale-95'}
       `}
       onClick={onClick}
       disabled={isDisabled}

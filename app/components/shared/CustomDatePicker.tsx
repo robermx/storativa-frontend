@@ -67,8 +67,6 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
     setIsOpen(false);
   };
 
-  console.log('error', error);
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value.replace(/\D/g, '');
 

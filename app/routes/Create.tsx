@@ -98,49 +98,150 @@ const Create = () => {
 
   return (
     <div className="w-full max-w-6xl px-6">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-6">
-        <Controller
-          name="title"
-          control={control}
-          rules={{
-            required: 'Título obligatorio',
-            minLength: { value: 4, message: 'Al menos 4 caracteres' },
-          }}
-          render={({ field }) => (
-            <CustomInput
-              {...field}
-              inputType={InputEnumType.title}
-              inputName="title"
-              placeholder="Título"
-              error={errors.title?.message}
-            />
-          )}
-        />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex flex-col gap-y-6">
+          <Controller
+            name="title"
+            control={control}
+            rules={{
+              required: 'Título obligatorio',
+              minLength: { value: 4, message: 'Al menos 4 caracteres' },
+            }}
+            render={({ field }) => (
+              <CustomInput
+                {...field}
+                inputType={InputEnumType.title}
+                inputName="title"
+                placeholder="Título"
+                error={errors.title?.message}
+              />
+            )}
+          />
 
-        <Controller
-          name="centralIdea"
-          control={control}
-          rules={{
-            required: 'Idea central obligatoria',
-            minLength: { value: 4, message: 'Al menos 4 caracteres' },
-          }}
-          render={({ field }) => (
-            <CustomTextArea
-              {...field}
-              inputName="centralIdea"
-              placeholder="Idea Central"
-              rows={6}
-              error={errors.centralIdea?.message}
-              maxChar={1000}
+          <Controller
+            name="centralIdea"
+            control={control}
+            rules={{
+              required: 'Idea central obligatoria',
+              minLength: { value: 4, message: 'Al menos 4 caracteres' },
+            }}
+            render={({ field }) => (
+              <CustomTextArea
+                {...field}
+                inputName="centralIdea"
+                placeholder="Idea Central"
+                rows={6}
+                error={errors.centralIdea?.message}
+                maxChar={1000}
+              />
+            )}
+          />
+        </div>
+        <div className="flex flex-col gap-y-6 my-6">
+          <div className="flex flex-col gap-y-6 sm:flex-row sm:gap-y-0 sm:gap-x-3">
+            <Controller
+              name="contextType"
+              control={control}
+              rules={{ required: 'El tipo de contexto es obligatorio' }}
+              render={({ field }) => (
+                <CustomMultiSelect
+                  {...field}
+                  inputName="contextType"
+                  placeholder="Tipo de Contexto"
+                  options={contextCatalog}
+                  error={errors.contextType?.message}
+                />
+              )}
             />
-          )}
-        />
-        <div>
-          <h3 className="text-md mb-2 font-medium text-dark dark:text-light">
-            Períodos Adaptados
-          </h3>
+
+            <Controller
+              name="genderLabels"
+              control={control}
+              rules={{ required: 'El tipo de contexto es obligatorio' }}
+              render={({ field }) => (
+                <CustomMultiSelect
+                  {...field}
+                  inputName="genderLabel"
+                  placeholder="Géneros"
+                  options={genderLabelCatalog}
+                  error={errors.genderLabels?.message}
+                />
+              )}
+            />
+          </div>
+          <div className="grid gap-y-6 sm:grid-cols-3 sm:gap-x-3 sm:gap-y-0 ">
+            <Controller
+              name="storySize"
+              control={control}
+              rules={{ required: 'El tamaño de la historia es obligatorio' }}
+              render={({ field }) => (
+                <CustomSelect
+                  {...field}
+                  inputName="storySize"
+                  placeholder="Tamaño de la Historia"
+                  options={storySizeCatalog}
+                  error={errors.storySize?.message}
+                />
+              )}
+            />
+
+            <Controller
+              name="timeToComplete"
+              control={control}
+              rules={{
+                required: 'El tiempo es obligatorio',
+                pattern: {
+                  value: /^[0-9]+$/,
+                  message: 'Solo se permiten números',
+                },
+              }}
+              render={({ field }) => (
+                <CustomInput
+                  {...field}
+                  inputType={InputEnumType.time}
+                  inputName="timeToComplete"
+                  placeholder="Tiempo para completar (Días)"
+                  error={errors.timeToComplete?.message}
+                />
+              )}
+            />
+
+            <Controller
+              name="initialBasedDate"
+              control={control}
+              rules={{ required: 'La fecha inicial es obligatoria' }}
+              render={({ field }) => (
+                <CustomDatePicker
+                  {...field}
+                  inputName="initialBasedDate"
+                  placeholder="Fecha Inicial"
+                  error={errors.initialBasedDate?.message}
+                />
+              )}
+            />
+
+            <Controller
+              name="content"
+              control={control}
+              render={({ field }) => (
+                <input
+                  type="hidden"
+                  {...field}
+                  value="Are you ready for this?"
+                />
+              )}
+            />
+          </div>
+        </div>
+        <h3 className="mt-6 bg-primary/15 dark:bg-primary/10 px-3 pt-2 rounded-t-xl max-w-fit text-md font-medium text-dark dark:text-light">
+          Períodos Adaptados
+        </h3>
+        <div className="bg-primary/15 dark:bg-primary/10 px-3 py-3 rounded-b-xl rounded-tr-xl">
           {periodFields.map((field, index) => (
-            <div key={field.id} className="sm:flex sm:gap-x-3 space-y-6">
+            <div
+              key={field.id}
+              className="flex flex-col pb-6 last:pb-0 gap-y-6 sm:flex-row sm:gap-x-3"
+            >
               <Controller
                 name={`adaptedPeriods.${index}.from`}
                 control={control}
@@ -214,7 +315,7 @@ const Create = () => {
                     onClick={() =>
                       appendPeriod({ name: '', from: '', to: '', place: '' })
                     }
-                    className="flex justify-center gap-x-3 w-full p-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors font-medium"
+                    className="flex justify-center gap-x-3 w-full p-2 bg-primary/20 hover:bg-primary/30 text-primary rounded-lg transition-colors font-medium"
                   >
                     <CalendarPlus size={20} />
                     <span className="sm:hidden">Añadir periodo</span>
@@ -233,232 +334,154 @@ const Create = () => {
             </div>
           ))}
         </div>
-
-        <h3 className="text-lg font-semibold text-dark dark:text-light">
-          Personajes
-        </h3>
-        {characterFields.map((field, index) => (
-          <div key={field.id} className="">
-            <div className="">
-              <Controller
-                name={`characters.${index}.type`}
-                control={control}
-                rules={{ required: 'El tipo de personaje es obligatorio' }}
-                render={({ field }) => (
-                  <CustomSelect
-                    {...field}
-                    inputName={`character-type-${index}`}
-                    placeholder="Tipo de Personaje"
-                    options={characterCatalog}
-                    error={errors.characters?.[index]?.type?.message}
-                  />
-                )}
-              />
-
-              <Controller
-                name={`characters.${index}.name`}
-                control={control}
-                rules={{
-                  required: 'El nombre del personaje es obligatorio',
-                }}
-                render={({ field }) => (
-                  <CustomInput
-                    {...field}
-                    inputType={InputEnumType.characterName}
-                    inputName={`character-name-${index}`}
-                    placeholder="Nombre del Personaje"
-                    error={errors.characters?.[index]?.name?.message}
-                  />
-                )}
-              />
-            </div>
-
-            <div className="">
-              <Controller
-                name={`characters.${index}.social`}
-                control={control}
-                rules={{ required: 'Rasgos sociales obligatorios' }}
-                render={({ field }) => (
-                  <CustomTextArea
-                    {...field}
-                    inputName={`character-social-${index}`}
-                    placeholder="Rasgos Sociales"
-                    rows={2}
-                    error={errors.characters?.[index]?.social?.message}
-                  />
-                )}
-              />
-
-              <Controller
-                name={`characters.${index}.physical`}
-                control={control}
-                rules={{ required: 'Rasgos físicos obligatorios' }}
-                render={({ field }) => (
-                  <CustomTextArea
-                    {...field}
-                    inputName={`character-physical-${index}`}
-                    placeholder="Rasgos Físicos"
-                    rows={2}
-                    error={errors.characters?.[index]?.physical?.message}
-                  />
-                )}
-              />
-
-              <Controller
-                name={`characters.${index}.psychological`}
-                control={control}
-                rules={{ required: 'Rasgos psicológicos obligatorios' }}
-                render={({ field }) => (
-                  <CustomTextArea
-                    {...field}
-                    inputName={`character-psychological-${index}`}
-                    placeholder="Rasgos Psicológicos"
-                    rows={2}
-                    error={errors.characters?.[index]?.psychological?.message}
-                  />
-                )}
-              />
-
-              <Controller
-                name={`characters.${index}.additional`}
-                control={control}
-                render={({ field }) => (
-                  <CustomTextArea
-                    {...field}
-                    inputName={`character-additional-${index}`}
-                    placeholder="Rasgos Adicionales (Opcional)"
-                    rows={2}
-                  />
-                )}
-              />
-            </div>
-            {index === characterFields.length - 1 ? (
-              <button
-                type="button"
-                onClick={() =>
-                  appendCharacter({
-                    type: 0,
-                    name: '',
-                    social: '',
-                    physical: '',
-                    psychological: '',
-                  })
-                }
-                className="w-full flex justify-center gap-x-3 p-1 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors font-medium"
+        <div>
+          <h3 className="mt-6 bg-primary/15 dark:bg-primary/10 px-3 pt-2 rounded-t-xl max-w-fit text-md font-medium text-dark dark:text-light">
+            Personajes
+          </h3>
+          <div className="bg-primary/15 dark:bg-primary/10 px-3 py-3 rounded-b-xl rounded-tr-xl">
+            {characterFields.map((field, index) => (
+              <div
+                key={field.id}
+                className="pb-6 last:pb-0 flex flex-col gap-y-6"
               >
-                <UserRoundPlus size={20} />
-                <span>Añadir pesonaje</span>
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={() => removeCharacter(index)}
-                className="w-full flex justify-center gap-x-3 p-1 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-lg transition-colors font-medium"
-              >
-                <UserRoundMinus size={20} />
-                <span>Eliminar personaje</span>
-              </button>
-            )}
+                <div className="flex flex-col gap-y-6 sm:flex-row sm:gap-x-3 sm:gap-y-0">
+                  <Controller
+                    name={`characters.${index}.type`}
+                    control={control}
+                    rules={{ required: 'El tipo de personaje es obligatorio' }}
+                    render={({ field }) => (
+                      <CustomSelect
+                        {...field}
+                        inputName={`character-type-${index}`}
+                        placeholder="Tipo de Personaje"
+                        options={characterCatalog}
+                        error={errors.characters?.[index]?.type?.message}
+                      />
+                    )}
+                  />
+
+                  <Controller
+                    name={`characters.${index}.name`}
+                    control={control}
+                    rules={{
+                      required: 'El nombre del personaje es obligatorio',
+                    }}
+                    render={({ field }) => (
+                      <CustomInput
+                        {...field}
+                        inputType={InputEnumType.characterName}
+                        inputName={`character-name-${index}`}
+                        placeholder="Nombre del Personaje"
+                        error={errors.characters?.[index]?.name?.message}
+                      />
+                    )}
+                  />
+                </div>
+
+                <div className="grid sm:grid-cols-2 sm:gap-x-3 gap-y-6">
+                  <Controller
+                    name={`characters.${index}.social`}
+                    control={control}
+                    rules={{ required: 'Rasgos sociales obligatorios' }}
+                    render={({ field }) => (
+                      <CustomTextArea
+                        {...field}
+                        inputName={`character-social-${index}`}
+                        placeholder="Rasgos Sociales"
+                        rows={2}
+                        error={errors.characters?.[index]?.social?.message}
+                      />
+                    )}
+                  />
+
+                  <Controller
+                    name={`characters.${index}.physical`}
+                    control={control}
+                    rules={{ required: 'Rasgos físicos obligatorios' }}
+                    render={({ field }) => (
+                      <CustomTextArea
+                        {...field}
+                        inputName={`character-physical-${index}`}
+                        placeholder="Rasgos Físicos"
+                        rows={2}
+                        error={errors.characters?.[index]?.physical?.message}
+                      />
+                    )}
+                  />
+
+                  <Controller
+                    name={`characters.${index}.psychological`}
+                    control={control}
+                    rules={{ required: 'Rasgos psicológicos obligatorios' }}
+                    render={({ field }) => (
+                      <CustomTextArea
+                        {...field}
+                        inputName={`character-psychological-${index}`}
+                        placeholder="Rasgos Psicológicos"
+                        rows={2}
+                        error={
+                          errors.characters?.[index]?.psychological?.message
+                        }
+                      />
+                    )}
+                  />
+
+                  <Controller
+                    name={`characters.${index}.additional`}
+                    control={control}
+                    render={({ field }) => (
+                      <CustomTextArea
+                        {...field}
+                        inputName={`character-additional-${index}`}
+                        placeholder="Rasgos Adicionales (Opcional)"
+                        rows={2}
+                      />
+                    )}
+                  />
+                </div>
+                <div className="w-full">
+                  {index === characterFields.length - 1 ? (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        appendCharacter({
+                          type: 0,
+                          name: '',
+                          social: '',
+                          physical: '',
+                          psychological: '',
+                        })
+                      }
+                      className="w-full flex justify-center gap-x-3 p-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-colors font-medium"
+                    >
+                      <UserRoundPlus size={20} />
+                      <span>Añadir pesonaje</span>
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => removeCharacter(index)}
+                      className="w-full flex justify-center gap-x-3 p-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-lg transition-colors font-medium"
+                    >
+                      <UserRoundMinus size={20} />
+                      <span>Eliminar personaje</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-
-        <div className="">
-          <Controller
-            name="contextType"
-            control={control}
-            rules={{ required: 'El tipo de contexto es obligatorio' }}
-            render={({ field }) => (
-              <CustomMultiSelect
-                {...field}
-                inputName="contextType"
-                placeholder="Tipo de Contexto"
-                options={contextCatalog}
-                error={errors.contextType?.message}
-              />
-            )}
-          />
-
-          <Controller
-            name="genderLabels"
-            control={control}
-            rules={{ required: 'El tipo de contexto es obligatorio' }}
-            render={({ field }) => (
-              <CustomMultiSelect
-                {...field}
-                inputName="genderLabel"
-                placeholder="Géneros"
-                options={genderLabelCatalog}
-                error={errors.genderLabels?.message}
-              />
-            )}
-          />
-
-          <Controller
-            name="storySize"
-            control={control}
-            rules={{ required: 'El tamaño de la historia es obligatorio' }}
-            render={({ field }) => (
-              <CustomSelect
-                {...field}
-                inputName="storySize"
-                placeholder="Tamaño de la Historia"
-                options={storySizeCatalog}
-                error={errors.storySize?.message}
-              />
-            )}
-          />
-
-          <Controller
-            name="timeToComplete"
-            control={control}
-            rules={{
-              required: 'El tiempo es obligatorio',
-              pattern: {
-                value: /^[0-9]+$/,
-                message: 'Solo se permiten números',
-              },
-            }}
-            render={({ field }) => (
-              <CustomInput
-                {...field}
-                inputType={InputEnumType.time}
-                inputName="timeToComplete"
-                placeholder="Tiempo para completar (Días)"
-                error={errors.timeToComplete?.message}
-              />
-            )}
-          />
-
-          <Controller
-            name="initialBasedDate"
-            control={control}
-            rules={{ required: 'La fecha inicial es obligatoria' }}
-            render={({ field }) => (
-              <CustomDatePicker
-                {...field}
-                inputName="initialBasedDate"
-                placeholder="Fecha Inicial"
-                error={errors.initialBasedDate?.message}
-              />
-            )}
-          />
-
-          <Controller
-            name="content"
-            control={control}
-            render={({ field }) => (
-              <input type="hidden" {...field} value="Are you ready for this?" />
-            )}
-          />
         </div>
 
-        <CustomButton
-          buttonType="submit"
-          bgColor="primary"
-          textColor="accent"
-          displayText={isSubmitting ? 'Creando...' : 'Crear Historia'}
-          isDisabled={!isValid || isSubmitting}
-        />
+        <div className="mt-6 mb-8">
+          <CustomButton
+            buttonType="submit"
+            bgColor="primary"
+            textColor="accent"
+            displayText={isSubmitting ? 'Creando...' : 'Crear Historia'}
+            isDisabled={!isValid || isSubmitting}
+          />
+        </div>
       </form>
     </div>
   );

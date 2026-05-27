@@ -54,7 +54,7 @@ const CustomMultiSelect: FC<CustomMultiSelectProps> = ({
         </label>
       )}
 
-      <div className="relative mt-1">
+      <div className="relative">
         <Listbox
           value={value}
           onChange={(newValue) => {

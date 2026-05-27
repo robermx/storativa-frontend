@@ -1,4 +1,4 @@
-import { FC, Fragment, useState } from 'react';
+import { FC, useState } from 'react';
 import {
   Listbox,
   ListboxButton,
@@ -22,7 +22,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
   const selectedOption = options.find((opt) => opt.value === value);
 
   return (
-    <Fragment>
+    <div className="w-full">
       <Listbox
         value={value ?? ''}
         onChange={(newValue) => {
@@ -85,7 +85,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
           {error}
         </span>
       )}
-    </Fragment>
+    </div>
   );
 };
 
