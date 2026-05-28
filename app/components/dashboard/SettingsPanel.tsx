@@ -17,6 +17,7 @@ const SettingsPanel = () => {
     () => {
       gsap.to(panelRef.current, {
         x: isOpen ? 0 : '-100%',
+        // opacity: isOpen ? 1 : 0,
         duration: 0.4,
         ease: 'power3.inOut',
       });
