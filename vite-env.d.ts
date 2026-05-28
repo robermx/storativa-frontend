@@ -8,3 +8,8 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+declare module '*.css' {
+  const content: { [className: string]: string };
+  export default content;
+}

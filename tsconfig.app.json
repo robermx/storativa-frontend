@@ -27,7 +27,6 @@
   "include": [
     "app/**/*.ts",
     "app/**/*.tsx",
-    "app/env.d.ts",
     "vite-env.d.ts",
     ".react-router/types/**/*.ts"
   ],
