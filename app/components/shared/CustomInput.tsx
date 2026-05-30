@@ -84,7 +84,7 @@ const CustomInput: FC<CustomInputProps> = ({
             autoComplete={autoComplete}
             inputMode={isNumeric ? 'numeric' : undefined}
             pattern={isNumeric ? '[0-9]*' : undefined}
-            className={`block w-full rounded-md bg-transparent px-3 py-1.5 pr-10 text-base text-dark outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 ${error ? 'focus:outline-red-600/50' : 'focus:outline-primary'} sm:text-sm/6 dark:text-light dark:outline-white/10 dark:placeholder:text-gray-500 transition-all`}
+            className={`block w-full rounded-md bg-transparent px-3 py-2.25 pr-10 text-base text-dark outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 ${error ? 'focus:outline-red-600/50' : 'focus:outline-primary'} sm:text-sm/6 dark:text-light dark:outline-white/10 dark:placeholder:text-gray-500 transition-all`}
           />
 
           <div className="absolute inset-y-0 right-0 flex items-center pr-3">

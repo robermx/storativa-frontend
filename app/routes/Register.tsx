@@ -50,12 +50,12 @@ const Register = () => {
       <NavLink to="/" className="mx-auto">
         <MainIso />
       </NavLink>
-      <h2 className="mt-4 text-center text-2xl/9 font-bold tracking-tight text-dark dark:text-light">
+      <h2 className="mt-4 text-center text-2xl font-bold tracking-tight text-dark dark:text-light">
         Ingresa datos para el registro
       </h2>
 
       <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <Controller
             name="fullName"
             control={control}

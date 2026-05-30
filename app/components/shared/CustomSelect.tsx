@@ -37,7 +37,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
               setIsFocused(false);
               onBlur?.();
             }}
-            className={`grid w-full cursor-default grid-cols-1 rounded-md py-1.5 pr-2 pl-3 text-left outline-1 -outline-offset-1' ${
+            className={`grid w-full cursor-default grid-cols-1 rounded-md py-2.25 px-3 text-left outline-1 -outline-offset-1' ${
               isFocused
                 ? 'outline-2 -outline-offset-2  outline-primary'
                 : 'outline-gray-300 dark:outline-light/10'
@@ -52,7 +52,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
             </span>
             <ChevronDown
               aria-hidden="true"
-              className="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-400 sm:size-4"
+              className="col-start-1 row-start-1 size-5 self-center justify-self-end text-gray-400"
             />
           </ListboxButton>
 

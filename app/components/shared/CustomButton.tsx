@@ -28,7 +28,7 @@ const CustomButton: FC<CustomButtonProps> = ({
       onClick={onClick}
       disabled={isDisabled}
     >
-      <div className="flex justify-center items-center p-2">
+      <div className="flex justify-center items-center p-2.25">
         {Icon && (
           <Icon
             size={

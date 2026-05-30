@@ -139,7 +139,7 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
           maxLength={10}
           aria-describedby={error ? `${inputId}-error` : undefined}
           aria-invalid={!!error}
-          className={`peer block w-full rounded-md bg-transparent px-3 py-1.5 pr-10 text-base text-dark outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 cursor-text appearance-none [-webkit-appearance:none] dark:text-light dark:outline-white/10 dark:placeholder:text-gray-500 dark:focus:outline-primary sm:text-sm/6 transition-all ${
+          className={`peer block w-full rounded-md bg-transparent py-2.25 px-3 pr-10 text-base text-dark outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 cursor-text appearance-none [-webkit-appearance:none] dark:text-light dark:outline-white/10 dark:placeholder:text-gray-500 dark:focus:outline-primary sm:text-sm/6 transition-all ${
             error ? 'focus:outline-red-400 dark:focus:outline-red-500' : ''
           }`}
         />

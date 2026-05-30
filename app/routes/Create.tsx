@@ -102,13 +102,13 @@ const Create = () => {
   };
 
   return (
-    <div className="w-full p-6">
+    <div className="w-full sm:px-5">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h3 className="bg-primary/15 dark:bg-primary/10 px-3 pt-2 rounded-t-xl max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
+        <h3 className="mt-5 px-5 pt-2 rounded-tr-lg bg-primary/15 dark:bg-primary/10 max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
           Datos Generales
         </h3>
-        <div className="bg-primary/15 dark:bg-primary/10 px-3 py-3 rounded-b-xl rounded-tr-xl">
-          <div className="flex flex-col gap-y-6">
+        <div className="bg-primary/15 dark:bg-primary/10 p-5 rounded-b-md rounded-tr-md">
+          <div className="flex flex-col gap-y-5">
             <Controller
               name="title"
               control={control}
@@ -146,7 +146,7 @@ const Create = () => {
               )}
             />
 
-            <div className="flex flex-col gap-y-6 sm:flex-row sm:gap-y-0 sm:gap-x-3">
+            <div className="flex flex-col gap-y-5 sm:flex-row sm:gap-y-0 sm:gap-x-3">
               <Controller
                 name="contextType"
                 control={control}
@@ -177,7 +177,7 @@ const Create = () => {
                 )}
               />
             </div>
-            <div className="grid gap-y-6 sm:grid-cols-3 sm:gap-x-3 sm:gap-y-0 ">
+            <div className="grid gap-y-5 sm:grid-cols-3 sm:gap-x-3 sm:gap-y-0 ">
               <Controller
                 name="storySize"
                 control={control}
@@ -240,7 +240,7 @@ const Create = () => {
                   <CustomDatePicker
                     {...field}
                     inputName="initialBasedDate"
-                    placeholder="Fecha inicial"
+                    placeholder="Fecha adatada a la obra"
                     error={errors.initialBasedDate?.message}
                   />
                 )}
@@ -260,14 +260,14 @@ const Create = () => {
             </div>
           </div>
         </div>
-        <h3 className="mt-6 bg-primary/15 dark:bg-primary/10 px-3 pt-2 rounded-t-xl max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
+        <h3 className="mt-6 px-5 pt-2 rounded-tr-lg bg-primary/15 dark:bg-primary/10 max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
           Períodos Adaptados
         </h3>
-        <div className="bg-primary/15 dark:bg-primary/10 px-3 py-3 rounded-b-xl rounded-tr-xl">
+        <div className="bg-primary/15 dark:bg-primary/10 p-5 rounded-b-md rounded-tr-md">
           {periodFields.map((field, index) => (
             <div
               key={field.id}
-              className="flex flex-col pb-6 last:pb-0 gap-y-6 sm:flex-row sm:gap-x-3"
+              className="flex flex-col pb-6 last:pb-0 gap-y-5 sm:flex-row sm:gap-x-3"
             >
               <Controller
                 name={`adaptedPeriods.${index}.from`}
@@ -362,16 +362,16 @@ const Create = () => {
           ))}
         </div>
 
-        <h3 className="mt-6 bg-primary/15 dark:bg-primary/10 px-3 pt-2 rounded-t-xl max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
+        <h3 className="mt-6 px-5 pt-2 rounded-tr-lg bg-primary/15 dark:bg-primary/10 max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
           Personajes
         </h3>
-        <div className="bg-primary/15 dark:bg-primary/10 px-3 py-3 rounded-b-xl rounded-tr-xl">
+        <div className="bg-primary/15 dark:bg-primary/10 p-5 rounded-b-md rounded-tr-md">
           {characterFields.map((field, index) => (
             <div
               key={field.id}
-              className="pb-6 last:pb-0 flex flex-col gap-y-6"
+              className="pb-6 last:pb-0 flex flex-col gap-y-5"
             >
-              <div className="flex flex-col gap-y-6 sm:flex-row sm:gap-x-3 sm:gap-y-0">
+              <div className="flex flex-col gap-y-5 sm:flex-row sm:gap-x-3 sm:gap-y-0">
                 <Controller
                   name={`characters.${index}.type`}
                   control={control}
@@ -409,7 +409,7 @@ const Create = () => {
                 />
               </div>
 
-              <div className="grid sm:grid-cols-2 sm:gap-x-3 gap-y-6">
+              <div className="grid sm:grid-cols-2 sm:gap-x-3 gap-y-5">
                 <Controller
                   name={`characters.${index}.social`}
                   control={control}
@@ -505,13 +505,13 @@ const Create = () => {
           ))}
         </div>
 
-        <div className="mt-6">
+        <div className="my-6 mx-5 sm:mx-0">
           <CustomButton
             buttonType="submit"
             bgColor="bg-primary"
             textColor="text-accent"
             displayText={isSubmitting ? 'Creando...' : 'Crear Storativa'}
-            isDisabled={!isValid || isSubmitting}
+            isDisabled={!isValid || isSubmitting || areSettingsOpen}
             Icon={LayersPlus}
             size="md"
           />
