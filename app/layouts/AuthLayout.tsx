@@ -21,7 +21,7 @@ export const AuthLayout = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto min-h-dvh">
+    <div className="max-w-7xl mx-auto">
       <DashboardHeader />
       <Outlet />
     </div>

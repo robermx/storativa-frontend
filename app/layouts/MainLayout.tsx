@@ -8,10 +8,12 @@ import Navbar from '@/components/common/Navbar';
 import Footer from '@/components/common/Footer';
 import ThemeButton from '@/components/common/ThemeButton';
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider';
-import { excludePaths } from '@/constants/common/layout.constants';
+import {
+  excludePaths,
+  smoothScrollPaths,
+} from '@/constants/common/layout.constants';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, MorphSVGPlugin);
-const smoothScrollPaths = ['/'];
 
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   const { pathname } = useLocation();

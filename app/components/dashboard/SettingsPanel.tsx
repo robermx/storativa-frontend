@@ -23,7 +23,6 @@ const SettingsPanel = () => {
     () => {
       gsap.to('.settings-wrapper', {
         x: areSettingsOpen ? 0 : '-100%',
-        // opacity: areSettingsOpen ? 1 : 0,
         duration: 0.4,
         ease: 'power3.inOut',
       });
@@ -34,15 +33,16 @@ const SettingsPanel = () => {
   return (
     <section
       ref={panelRef}
-      className={`absolute h-full w-full overflow-hidden z-30 ${
+      className={`absolute w-full sm:w-90 overflow-hidden z-40 ${
         areSettingsOpen ? 'pointer-events-auto' : 'pointer-events-none'
       }`}
+      style={{ height: 'calc(100vh - 98px)' }}
     >
       <div
-        className="flex flex-col gap-y-5 settings-wrapper w-full sm:w-90 p-6 absolute bg-lightness dark:bg-darkness border border-t-0 border-dark/10 dark:border-light/10 rounded-b-2xl"
+        className="flex flex-col gap-y-5 settings-wrapper w-full p-6 absolute bg-lightness dark:bg-darkness border border-t-0 border-dark/10 dark:border-light/10 rounded-b-2xl"
         style={{
           transform: 'translateX(-100%)',
-          height: 'calc(100vh - 98px)',
+          height: '100%',
         }}
       >
         <div className="flex items-center justify-between mb-6">
@@ -95,13 +95,6 @@ const SettingsPanel = () => {
             onClick={handleLogout}
           />
         </div>
-        {/* <button
-          onClick={handleLogout}
-          className="w-full mt-auto flex items-center justify-center gap-2 p-3 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary font-medium transition-colors"
-        >
-          <LogOut className="w-5 h-5" />
-          <span>Cerrar sesión</span>
-        </button> */}
       </div>
     </section>
   );

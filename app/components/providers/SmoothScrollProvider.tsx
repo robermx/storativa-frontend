@@ -1,4 +1,11 @@
-import { FC, PropsWithChildren, useRef, useState, useEffect } from 'react';
+import {
+  FC,
+  PropsWithChildren,
+  useRef,
+  useState,
+  useEffect,
+  Fragment,
+} from 'react';
 import gsap from 'gsap';
 import { ScrollSmoother } from 'gsap/ScrollSmoother';
 
@@ -42,11 +49,15 @@ const SmoothScrollProvider: FC<SmoothScrollProviderProps> = ({
 
   return (
     <SmoothScrollContext.Provider value={{ smoother, wrapperRef, contentRef }}>
-      <div ref={wrapperRef} id="smooth-wrapper">
-        <div ref={contentRef} id="smooth-content">
-          {children}
+      {enabled ? (
+        <div ref={wrapperRef} id="smooth-wrapper">
+          <div ref={contentRef} id="smooth-content">
+            {children}
+          </div>
         </div>
-      </div>
+      ) : (
+        <Fragment>{children}</Fragment>
+      )}
     </SmoothScrollContext.Provider>
   );
 };

@@ -3,9 +3,11 @@ import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router';
 import MainLayout from './layouts/MainLayout';
 import './app.css';
 import { useThemeStore } from './store/themeStore';
+import { useSettingsStore } from './store/settingsStore';
 
 export default function App() {
   const isDarkMode = useThemeStore((state) => state.isDarkMode);
+  const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
 
   return (
     <html lang="es" className={isDarkMode ? 'dark' : ''}>
@@ -17,7 +19,12 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="bg-light dark:bg-dark text-dark dark:text-light antialiased">
+      <body
+        className="bg-light dark:bg-dark text-dark dark:text-light antialiased"
+        style={
+          areSettingsOpen ? { overflowY: 'hidden' } : { overflowY: 'auto' }
+        }
+      >
         <MainLayout>
           <Outlet />
         </MainLayout>

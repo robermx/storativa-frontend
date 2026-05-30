@@ -37,35 +37,37 @@ const ThemeButton: FC = () => {
   };
 
   return (
-    <div
+    <section
       ref={themeContainer}
-      className="absolute top-5 -right-9.5 origin-right z-100"
+      className="absolute overflow-hidden right-0 w-17 h-8 top-5"
     >
-      <div className="animated-container flex justify-end items-center gap-2 border-t border-b border-l rounded-bl-md rounded-tl-md border-dark/20 dark:border-light/20 py-1 bg-white dark:bg-slate-900">
-        <button
-          onClick={toggleExpand}
-          className="px-1 border-r border-dark/20 dark:border-light/20"
-          aria-label={expanded ? 'Contraer menú' : 'Expandir menú'}
-        >
-          <ChevronLeft
-            size={18}
-            className="arrow-icon text-dark dark:text-light"
-          />
-        </button>
+      <div className="animated-container absolute -right-9.5">
+        <div className="flex justify-end items-center gap-2 border-t border-b border-l rounded-bl-md rounded-tl-md border-dark/20 dark:border-light/20 py-1 bg-white dark:bg-slate-900">
+          <button
+            onClick={toggleExpand}
+            className="px-1 border-r border-dark/20 dark:border-light/20 cursor-pointer"
+            aria-label={expanded ? 'Contraer menú' : 'Expandir menú'}
+          >
+            <ChevronLeft
+              size={18}
+              className="arrow-icon text-dark dark:text-light"
+            />
+          </button>
 
-        <button
-          onClick={handleToggleTheme}
-          className="pr-2"
-          aria-label="Cambiar tema"
-        >
-          {isDarkMode ? (
-            <Sun className="text-accent fill-accent" size={22} />
-          ) : (
-            <Moon className="text-transparent fill-dark" size={22} />
-          )}
-        </button>
+          <button
+            onClick={handleToggleTheme}
+            className="pr-2 cursor-pointer"
+            aria-label="Cambiar tema"
+          >
+            {isDarkMode ? (
+              <Sun className="text-accent fill-accent" size={22} />
+            ) : (
+              <Moon className="text-transparent fill-dark" size={22} />
+            )}
+          </button>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

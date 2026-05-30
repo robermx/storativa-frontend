@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react';
+import { FC } from 'react';
 import { useNavigate } from 'react-router';
 import { Plus } from 'lucide-react';
 
@@ -27,24 +27,22 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
         </h2>
       </div>
 
-      <div className="overflow-x-auto">
-        {storativas.length === 0 ? (
-          <Fragment>
-            <div className="flex flex-col items-center justify-center text-dark/70 dark:text-light/70">
-              <EmptyState className="max-w-90 sm:max-w-110 h-[calc(100vh-240px)]" />
-              <div className="w-50 mb-8">
-                <CustomButton
-                  bgColor="bg-primary"
-                  textColor="text-light"
-                  displayText="Crear Storativa"
-                  Icon={Plus}
-                  onClick={() => navigate('/create')}
-                  isDisabled={areSettingsOpen}
-                />
-              </div>
-            </div>
-          </Fragment>
-        ) : (
+      {storativas.length === 0 ? (
+        <div className="flex flex-col items-center justify-center text-dark/70 dark:text-light/70">
+          <EmptyState className="max-w-90 sm:max-w-110 min-h-90 h-[calc(100vh-260px)]" />
+          <div className="w-50 mb-8">
+            <CustomButton
+              bgColor="bg-primary"
+              textColor="text-light"
+              displayText="Crear Storativa"
+              Icon={Plus}
+              onClick={() => navigate('/create')}
+              isDisabled={areSettingsOpen}
+            />
+          </div>
+        </div>
+      ) : (
+        <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-primary/10">
               <tr>
@@ -115,8 +113,8 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
               ))}
             </tbody>
           </table>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

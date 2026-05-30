@@ -16,7 +16,6 @@ import {
   getStorySizeCatalog,
 } from '@/services/catalog.service';
 import { useSettingsStore } from '@/store/settingsStore';
-import useIsMobile from '@/hooks/useIsMobile';
 import CustomInput from '@/components/shared/CustomInput';
 import CustomButton from '@/components/shared/CustomButton';
 import CustomTextArea from '@/components/shared/CustomTextArea';
@@ -46,7 +45,6 @@ const Create = () => {
     storySizeCatalog,
     genderLabelCatalog,
   } = useLoaderData<typeof clientLoader>();
-  const { isMobile } = useIsMobile();
   const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
 
   const {
@@ -102,13 +100,13 @@ const Create = () => {
   };
 
   return (
-    <div className="w-full sm:px-5">
+    <div className="w-full">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h3 className="mt-5 px-5 pt-2 rounded-tr-lg bg-primary/15 dark:bg-primary/10 max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
+        <h3 className="mt-7 px-6 pt-3 rounded-tr-lg bg-primary/15 dark:bg-primary/10 max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
           Datos Generales
         </h3>
-        <div className="bg-primary/15 dark:bg-primary/10 p-5 rounded-b-md rounded-tr-md">
-          <div className="flex flex-col gap-y-5">
+        <div className="bg-primary/15 dark:bg-primary/10 px-6 py-7 rounded-b-md rounded-tr-md">
+          <div className="flex flex-col gap-y-7">
             <Controller
               name="title"
               control={control}
@@ -146,7 +144,7 @@ const Create = () => {
               )}
             />
 
-            <div className="flex flex-col gap-y-5 sm:flex-row sm:gap-y-0 sm:gap-x-3">
+            <div className="flex flex-col gap-y-7 sm:flex-row sm:gap-y-0 sm:gap-x-6">
               <Controller
                 name="contextType"
                 control={control}
@@ -177,7 +175,8 @@ const Create = () => {
                 )}
               />
             </div>
-            <div className="grid gap-y-5 sm:grid-cols-3 sm:gap-x-3 sm:gap-y-0 ">
+
+            <div className="grid gap-y-7 sm:grid-cols-3 sm:gap-x-6 sm:gap-y-0 ">
               <Controller
                 name="storySize"
                 control={control}
@@ -260,14 +259,14 @@ const Create = () => {
             </div>
           </div>
         </div>
-        <h3 className="mt-6 px-5 pt-2 rounded-tr-lg bg-primary/15 dark:bg-primary/10 max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
+        <h3 className="mt-8 px-7 pt-3 rounded-tr-lg bg-primary/15 dark:bg-primary/10 max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
           Períodos Adaptados
         </h3>
-        <div className="bg-primary/15 dark:bg-primary/10 p-5 rounded-b-md rounded-tr-md">
+        <div className="bg-primary/15 dark:bg-primary/10 px-6 py-7 rounded-b-md rounded-tr-md">
           {periodFields.map((field, index) => (
             <div
               key={field.id}
-              className="flex flex-col pb-6 last:pb-0 gap-y-5 sm:flex-row sm:gap-x-3"
+              className="grid gap-y-7 md:grid-cols-2 md:gap-x-6 xl:grid-cols-4 xl:gap-y-0"
             >
               <Controller
                 name={`adaptedPeriods.${index}.from`}
@@ -321,57 +320,57 @@ const Create = () => {
                   />
                 )}
               />
-              <Controller
-                name={`adaptedPeriods.${index}.name`}
-                control={control}
-                rules={{ required: 'El período es obligatorio' }}
-                render={({ field }) => (
-                  <CustomInput
-                    {...field}
-                    inputType={InputEnumType.period}
-                    inputName={`period-name-${index}`}
-                    placeholder="Período"
-                    error={errors.adaptedPeriods?.[index]?.name?.message}
-                  />
-                )}
-              />
-              <div className="flex justify-end sm:w-fit">
-                {index === periodFields.length - 1 ? (
-                  <CustomButton
-                    bgColor="bg-primary/10 hover:bg-primary/20"
-                    textColor="text-primary"
-                    Icon={CalendarPlus}
-                    displayText={isMobile ? 'Añadir periodo' : undefined}
-                    onClick={() =>
-                      appendPeriod({ name: '', from: '', to: '', place: '' })
-                    }
-                    isDisabled={areSettingsOpen}
-                  />
-                ) : (
-                  <CustomButton
-                    bgColor="bg-red-500/10 hover:bg-red-500/20"
-                    textColor="text-red-500"
-                    Icon={CalendarMinus}
-                    displayText={isMobile ? 'Eliminar periodo' : undefined}
-                    onClick={() => removePeriod(index)}
-                    isDisabled={areSettingsOpen}
-                  />
-                )}
+              <div className="flex gap-x-6 w-full">
+                <Controller
+                  name={`adaptedPeriods.${index}.name`}
+                  control={control}
+                  rules={{ required: 'El período es obligatorio' }}
+                  render={({ field }) => (
+                    <CustomInput
+                      {...field}
+                      inputType={InputEnumType.period}
+                      inputName={`period-name-${index}`}
+                      placeholder="Período"
+                      error={errors.adaptedPeriods?.[index]?.name?.message}
+                    />
+                  )}
+                />
+                <div className="flex w-fit">
+                  {index === periodFields.length - 1 ? (
+                    <CustomButton
+                      bgColor="bg-primary/10 hover:bg-primary/20"
+                      textColor="text-primary"
+                      Icon={CalendarPlus}
+                      onClick={() =>
+                        appendPeriod({ name: '', from: '', to: '', place: '' })
+                      }
+                      isDisabled={areSettingsOpen}
+                    />
+                  ) : (
+                    <CustomButton
+                      bgColor="bg-red-500/10 hover:bg-red-500/20"
+                      textColor="text-red-500"
+                      Icon={CalendarMinus}
+                      onClick={() => removePeriod(index)}
+                      isDisabled={areSettingsOpen}
+                    />
+                  )}
+                </div>
               </div>
             </div>
           ))}
         </div>
 
-        <h3 className="mt-6 px-5 pt-2 rounded-tr-lg bg-primary/15 dark:bg-primary/10 max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
+        <h3 className="mt-8 px-6 pt-3 rounded-tr-lg bg-primary/15 dark:bg-primary/10 max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
           Personajes
         </h3>
-        <div className="bg-primary/15 dark:bg-primary/10 p-5 rounded-b-md rounded-tr-md">
+        <div className="bg-primary/15 dark:bg-primary/10 px-6 py-7 rounded-b-md rounded-tr-md">
           {characterFields.map((field, index) => (
             <div
               key={field.id}
-              className="pb-6 last:pb-0 flex flex-col gap-y-5"
+              className="pb-6 last:pb-0 flex flex-col gap-y-7"
             >
-              <div className="flex flex-col gap-y-5 sm:flex-row sm:gap-x-3 sm:gap-y-0">
+              <div className="flex flex-col gap-y-7 sm:flex-row sm:gap-x-6 sm:gap-y-0">
                 <Controller
                   name={`characters.${index}.type`}
                   control={control}
@@ -409,7 +408,7 @@ const Create = () => {
                 />
               </div>
 
-              <div className="grid sm:grid-cols-2 sm:gap-x-3 gap-y-5">
+              <div className="grid sm:grid-cols-2 sm:gap-x-6 gap-y-7">
                 <Controller
                   name={`characters.${index}.social`}
                   control={control}
@@ -419,7 +418,7 @@ const Create = () => {
                       {...field}
                       inputName={`character-social-${index}`}
                       placeholder="Rasgos Sociales"
-                      rows={2}
+                      rows={3}
                       error={errors.characters?.[index]?.social?.message}
                     />
                   )}
@@ -434,7 +433,7 @@ const Create = () => {
                       {...field}
                       inputName={`character-physical-${index}`}
                       placeholder="Rasgos Físicos"
-                      rows={2}
+                      rows={3}
                       error={errors.characters?.[index]?.physical?.message}
                     />
                   )}
@@ -449,63 +448,59 @@ const Create = () => {
                       {...field}
                       inputName={`character-psychological-${index}`}
                       placeholder="Rasgos Psicológicos"
-                      rows={2}
+                      rows={3}
                       error={errors.characters?.[index]?.psychological?.message}
                     />
                   )}
                 />
 
-                <Controller
-                  name={`characters.${index}.additional`}
-                  control={control}
-                  render={({ field }) => (
-                    <CustomTextArea
-                      {...field}
-                      inputName={`character-additional-${index}`}
-                      placeholder="Rasgos Adicionales (Opcional)"
-                      rows={2}
-                    />
-                  )}
-                />
-              </div>
-              <div className="flex justify-end">
-                {index === characterFields.length - 1 ? (
-                  <div className="w-full sm:w-50">
-                    <CustomButton
-                      bgColor="bg-primary/10 hover:bg-primary/20"
-                      textColor="text-primary"
-                      displayText="Añadir personaje"
-                      Icon={UserRoundPlus}
-                      onClick={() =>
-                        appendCharacter({
-                          type: 0,
-                          name: '',
-                          social: '',
-                          physical: '',
-                          psychological: '',
-                        })
-                      }
-                      isDisabled={areSettingsOpen}
-                    />
+                <div className="flex gap-x-6">
+                  <Controller
+                    name={`characters.${index}.additional`}
+                    control={control}
+                    render={({ field }) => (
+                      <CustomTextArea
+                        {...field}
+                        inputName={`character-additional-${index}`}
+                        placeholder="Rasgos Adicionales (Opcional)"
+                        rows={3}
+                      />
+                    )}
+                  />
+                  <div className="w-fit flex">
+                    {index === characterFields.length - 1 ? (
+                      <CustomButton
+                        bgColor="bg-primary/10 hover:bg-primary/20"
+                        textColor="text-primary"
+                        Icon={UserRoundPlus}
+                        onClick={() =>
+                          appendCharacter({
+                            type: 0,
+                            name: '',
+                            social: '',
+                            physical: '',
+                            psychological: '',
+                          })
+                        }
+                        isDisabled={areSettingsOpen}
+                      />
+                    ) : (
+                      <CustomButton
+                        bgColor="bg-red-500/10 hover:bg-red-500/20"
+                        textColor="text-red-500"
+                        Icon={UserRoundMinus}
+                        onClick={() => removeCharacter(index)}
+                        isDisabled={areSettingsOpen}
+                      />
+                    )}
                   </div>
-                ) : (
-                  <div className="w-full sm:w-50">
-                    <CustomButton
-                      bgColor="bg-red-500/10 hover:bg-red-500/20"
-                      textColor="text-red-500"
-                      displayText="Añadir personaje"
-                      Icon={UserRoundMinus}
-                      onClick={() => removeCharacter(index)}
-                      isDisabled={areSettingsOpen}
-                    />
-                  </div>
-                )}
+                </div>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="my-6 mx-5 sm:mx-0">
+        <div className="py-7 px-6 bg-darkness">
           <CustomButton
             buttonType="submit"
             bgColor="bg-primary"
