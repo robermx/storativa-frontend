@@ -1,17 +1,24 @@
-import { FC } from 'react';
+import { FC, Fragment } from 'react';
+import { useNavigate } from 'react-router';
+import { Plus } from 'lucide-react';
 
+import { useSettingsStore } from '@/store/settingsStore';
 import { daysPassed, percentageDays } from '@/utils/percentageDays';
 import { statusStyles } from '@/utils/statusStyles';
 import { formatDate } from '@/utils/formatDate';
 import { titleFormat } from '@/utils/titleFormat';
 import { IStorativa } from '@/interfaces/storativa.interface';
 import EmptyState from '@/assets/icons/EmptyState';
+import CustomButton from '../shared/CustomButton';
 
 interface DashboardTableProps {
   storativas: IStorativa[];
 }
 
 const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
+  const navigate = useNavigate();
+  const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
+
   return (
     <div className="rounded-xl">
       <div className="bg-primary/40 p-5 border-b border-dark/10 dark:border-light/10">
@@ -22,12 +29,21 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
 
       <div className="overflow-x-auto">
         {storativas.length === 0 ? (
-          <div className="flex flex-col items-center w-full justify-center pt-15 pb-10 text-dark/70 dark:text-light/70">
-            <EmptyState className="w-full max-w-106 h-auto" />
-            <p className="text-xl font-semibold text-darkness/50 dark:text-lightness/50">
-              Crea una Storativa
-            </p>
-          </div>
+          <Fragment>
+            <div className="flex flex-col items-center justify-center text-dark/70 dark:text-light/70">
+              <EmptyState className="max-w-90 sm:max-w-110 h-[calc(100vh-240px)]" />
+              <div className="w-50 mb-8">
+                <CustomButton
+                  bgColor="bg-primary"
+                  textColor="text-light"
+                  displayText="Crear Storativa"
+                  Icon={Plus}
+                  onClick={() => navigate('/create')}
+                  isDisabled={areSettingsOpen}
+                />
+              </div>
+            </div>
+          </Fragment>
         ) : (
           <table className="w-full">
             <thead className="bg-primary/10">

@@ -1,23 +1,23 @@
 import { FC } from 'react';
 
 import { CustomButtonProps } from '@/interfaces/button.interface';
-import { bgClasses, textClasses } from '@/constants/shared/className.contants';
 
 const CustomButton: FC<CustomButtonProps> = ({
-  buttonType = 'button',
   bgColor,
-  displayText,
   textColor,
+  buttonType = 'button',
+  displayText = null,
   isDisabled = false,
   onClick = () => {},
+  Icon,
+  size = 'sm',
 }) => {
   return (
     <button
       type={buttonType}
-      className={`
-        flex w-full justify-center rounded-md px-3 py-1 text-sm/6 font-semibold shadow-xs transition-all cursor-pointer
-        ${bgClasses[bgColor]} 
-        ${textClasses[textColor]}
+      className={`w-full rounded-md transition-all cursor-pointer
+        ${bgColor} 
+        ${textColor}
         disabled:bg-disabledL dark:disabled:bg-disabledD
         disabled:text-gray-300 dark:disabled:text-gray-600
         disabled:cursor-not-allowed 
@@ -28,7 +28,20 @@ const CustomButton: FC<CustomButtonProps> = ({
       onClick={onClick}
       disabled={isDisabled}
     >
-      <span className="text-lg">{displayText}</span>
+      <div className="flex justify-center items-center p-2">
+        {Icon && (
+          <Icon
+            size={
+              size === 'sm' ? 20 : size === 'md' ? 22 : size === 'lg' ? 24 : 28
+            }
+          />
+        )}
+        {displayText && (
+          <span className={`text-${size} font-semibold pl-3 pr-2`}>
+            {displayText}
+          </span>
+        )}
+      </div>
     </button>
   );
 };

@@ -25,7 +25,7 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
     }
     return new Date();
   });
-  const [isOpen, setIsOpen] = useState(false);
+  const [areSettingsOpen, setareSettingsOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -42,7 +42,7 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
         inputConatinerRef.current &&
         !inputConatinerRef.current.contains(event.target as Node)
       ) {
-        setIsOpen(false);
+        setareSettingsOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -64,7 +64,7 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
       setInputValue(formatted);
       onChange?.(formatted);
     }
-    setIsOpen(false);
+    setareSettingsOpen(false);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,13 +114,13 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
-      setIsOpen(false);
+      setareSettingsOpen(false);
       inputConatinerRef.current?.blur();
     }
   };
 
   const toggleDropdown = () => {
-    setIsOpen((prev) => !prev);
+    setareSettingsOpen((prev) => !prev);
   };
 
   return (
@@ -148,7 +148,7 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
           onClick={toggleDropdown}
           aria-label="Abrir calendario"
           aria-haspopup="listbox"
-          aria-expanded={isOpen}
+          aria-expanded={areSettingsOpen}
           aria-controls={dropdownId}
           className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 transition-colors"
         >
@@ -156,13 +156,13 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
         </button>
       </div>
 
-      {isOpen && (
+      {areSettingsOpen && (
         <div
           ref={dropdownRef}
           id={dropdownId}
           role="listbox"
           aria-label="Elegir fecha"
-          className="absolute z-50 mt-1 left-0 bg-light dark:bg-dark rounded-lg shadow-lg border border-gray-200 dark:border-white/10 p-3 rdp-datepicker-dropdown"
+          className="absolute z-10 mt-1 left-0 bg-light dark:bg-dark rounded-lg shadow-lg border border-gray-200 dark:border-white/10 p-3 rdp-datepicker-dropdown"
         >
           <DayPicker
             mode="single"

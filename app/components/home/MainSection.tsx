@@ -1,7 +1,7 @@
 const MainSection = () => {
   return (
     <section className="relative h-[calc(100vh-70px)] flex flex-col items-center justify-center overflow-hidden">
-      <div className="text-center z-10 px-6 max-w-4xl">
+      <div className="text-center px-6 max-w-4xl">
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-dark dark:text-light tracking-tighter mb-6">
           Todos tenemos algo que contar...{' '}
           <span className="text-primary">

@@ -1,24 +1,19 @@
-import { type MouseEventHandler } from 'react';
+import { type LucideProps } from 'lucide-react';
+import {
+  ForwardRefExoticComponent,
+  RefAttributes,
+  type MouseEventHandler,
+} from 'react';
 
 export type CustomButtonProps = {
-  buttonType: 'reset' | 'submit' | 'button' | undefined;
-  bgColor:
-    | 'primary'
-    | 'secondary'
-    | 'accent'
-    | 'light'
-    | 'dark'
-    | 'lightness'
-    | 'darkness';
-  displayText: string;
-  textColor:
-    | 'primary'
-    | 'secondary'
-    | 'accent'
-    | 'light'
-    | 'dark'
-    | 'lightness'
-    | 'darkness';
+  bgColor: string;
+  textColor: string;
+  buttonType?: 'reset' | 'submit' | 'button' | undefined;
   isDisabled?: boolean;
+  displayText?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
+  Icon?: ForwardRefExoticComponent<
+    Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
+  >;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
 };

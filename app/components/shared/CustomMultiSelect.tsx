@@ -122,7 +122,7 @@ const CustomMultiSelect: FC<CustomMultiSelectProps> = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <ListboxOptions className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-lightness dark:bg-darkness py-2 text-base outline-1 -outline-offset-1 outline-white/10 shadow-lg sm:text-sm">
+              <ListboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-lightness dark:bg-darkness py-2 text-base outline-1 -outline-offset-1 outline-white/10 shadow-lg sm:text-sm">
                 <div className="px-3 pb-2">
                   <div className="relative">
                     <Search

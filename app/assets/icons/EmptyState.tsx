@@ -2,9 +2,9 @@ import { FC } from 'react';
 
 import { SvgProps } from '../interfaces/svg.interface';
 
-const EmptyStateLogo: FC<SvgProps> = ({
+const EmptyState: FC<SvgProps> = ({
   width = '100%',
-  height = 'auto',
+  height = undefined,
   className = '',
 }) => {
   return (
@@ -78,11 +78,20 @@ const EmptyStateLogo: FC<SvgProps> = ({
                 keySplines="0.42 0 0.58 1; 0.42 0 0.58 1"
                 fill="freeze"
               />
-              <path
-                d="M213 125A5 5 0 0 1 218 130V140H228A5 5 0 0 1 233 145A5 5 0 0 1 228 150H218V160A5 5 0 0 1 213 165A5 5 0 0 1 208 160V150H198A5 5 0 0 1 193 145A5 5 0 0 1 198 140H208V130A5 5 0 0 1 213 125Z"
-                fill="currentColor"
-                fillOpacity="0.52"
-              />
+              <g transform="translate(211 145) scale(1.9) translate(-211 -145)">
+                <path
+                  d="M211 121C202.2 121 195 128.2 195 137H205C205 133.7 207.7 131 211 131C214.3 131 217 133.7 217 137C217 140 215.2 141.6 211.8 144.2C207.5 147.6 202 151.7 202 162H212C212 155.8 214.4 154 218.4 151C222.9 147.6 228 143.7 228 136.8C228 128.1 220.9 121 211 121Z"
+                  fill="currentColor"
+                  fillOpacity="0.30"
+                  transform="translate(3 -2)"
+                />
+                <path
+                  d="M205.5 168C205.5 164.9 208 162.4 211.1 162.4C214.2 162.4 216.7 164.9 216.7 168C216.7 171.1 214.2 173.6 211.1 173.6C208 173.6 205.5 171.1 205.5 168Z"
+                  fill="currentColor"
+                  fillOpacity="0.30"
+                  transform="translate(-1 2)"
+                />
+              </g>
             </g>
             <circle
               cx="213"
@@ -100,46 +109,17 @@ const EmptyStateLogo: FC<SvgProps> = ({
               fill="none"
               stroke="currentColor"
               strokeOpacity="0.20"
-              strokeWidth="5"
+              strokeWidth="6"
             />
             <circle
               cx="213"
               cy="145"
-              r="110"
+              r="112"
               fill="none"
               stroke="currentColor"
               strokeOpacity="0.30"
-              strokeWidth="8"
+              strokeWidth="10"
             />
-          </g>
-          <g transform="translate(213,145)">
-            <g>
-              <animateTransform
-                repeatCount="indefinite"
-                type="translate"
-                attributeName="transform"
-                dur="3.2s"
-                begin="0s"
-                values="0 0; 0 -5; 0 0"
-                keyTimes="0; 0.5; 1"
-                calcMode="spline"
-                keySplines="0.42 0 0.58 1; 0.42 0 0.58 1"
-                fill="freeze"
-              />
-              <g transform="scale(2.7)">
-                <g transform="translate(-30,-23)">
-                  <path
-                    d="M10 8.5C16 5.5 23 5.5 30 8.5C36 5.5 43 5.5 50 8.5V40.5C43 37.5 36 37.5 30 40.5C23 37.5 16 37.5 10 40.5Z"
-                    fill="currentColor"
-                    fillOpacity="0.05"
-                    stroke="currentColor"
-                    strokeOpacity="0.52"
-                    strokeWidth="3.5"
-                    strokeLinejoin="round"
-                  />
-                </g>
-              </g>
-            </g>
           </g>
           <g transform="translate(70,33)">
             <g>
@@ -245,4 +225,4 @@ const EmptyStateLogo: FC<SvgProps> = ({
   );
 };
 
-export default EmptyStateLogo;
+export default EmptyState;

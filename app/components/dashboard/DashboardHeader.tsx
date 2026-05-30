@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { Fragment, useRef } from 'react';
 import { useLocation } from 'react-router';
 import { useGSAP } from '@gsap/react';
 
@@ -33,29 +33,31 @@ const DashboardHeader = () => {
   );
 
   return (
-    <header
-      ref={dashboardHeaderRef}
-      className="relative flex flex-col sm:flex-row items-start justify-between gap-4 mb-6 p-6 bg-lightness dark:bg-darkness rounded-b-2xl shadow-sm border border-dark/10 dark:border-light/10 overflow-visible"
-    >
-      <div className="flex items-center gap-4">
-        <div
-          onClick={toggleSettings}
-          className="w-14 h-14 rounded-full bg-primary flex items-center justify-center text-white text-lg font-bold cursor-pointer hover:opacity-90 transition-opacity"
-        >
-          {user ? getInitials(user?.fullName) : 'U'}
+    <Fragment>
+      <header
+        ref={dashboardHeaderRef}
+        className="flex items-start justify-between gap-4 p-5 bg-lightness dark:bg-darkness border border-dark/10 dark:border-light/10 overflow-visible"
+      >
+        <div className="flex items-center gap-4">
+          <div
+            onClick={toggleSettings}
+            className="w-14 h-14 rounded-full bg-primary flex items-center justify-center text-white text-lg font-bold cursor-pointer hover:opacity-90 transition-opacity"
+          >
+            {user ? getInitials(user?.fullName) : 'U'}
+          </div>
+          <div className="hidden sm:block">
+            <h1 className="text-xl font-bold text-dark dark:text-light">
+              Hola, {user?.fullName || 'Usuario'}
+            </h1>
+            <p className="text-dark/60 dark:text-light/60 text-sm">
+              {getSectionSubtitle(location.pathname)}
+            </p>
+          </div>
         </div>
-        <div>
-          <h1 className="text-xl font-bold text-dark dark:text-light">
-            Hola, {user?.fullName || 'Usuario'}
-          </h1>
-          <p className="text-dark/60 dark:text-light/60 text-sm">
-            {getSectionSubtitle(location.pathname)}
-          </p>
-        </div>
-      </div>
-      <DashboardMenu />
+        <DashboardMenu />
+      </header>
       <SettingsPanel />
-    </header>
+    </Fragment>
   );
 };
 

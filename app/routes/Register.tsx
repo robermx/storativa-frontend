@@ -1,5 +1,7 @@
 import { NavLink, useLocation, useNavigate } from 'react-router';
 import { useForm, Controller } from 'react-hook-form';
+import { AxiosError } from 'axios';
+import { Airplay } from 'lucide-react';
 
 import MainIso from '@/assets/logo/MainIso';
 import CustomInput from '@/components/shared/CustomInput';
@@ -7,7 +9,6 @@ import { IFormData, InputEnumType } from '@/interfaces/input.interface';
 import CustomButton from '@/components/shared/CustomButton';
 import { registerUser } from '@/services/auth.service';
 import { useAuthStore } from '@/store/authStore';
-import { AxiosError } from 'axios';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -114,10 +115,12 @@ const Register = () => {
 
           <CustomButton
             buttonType="submit"
-            bgColor="primary"
-            textColor="accent"
+            bgColor="bg-primary"
+            textColor="text-light"
             displayText={isSubmitting ? 'Cargando...' : 'Regístrame'}
             isDisabled={!isValid || isSubmitting}
+            Icon={Airplay}
+            size="md"
           />
         </form>
 

@@ -94,7 +94,7 @@ const StageSection = () => {
 
   return (
     <section ref={sectionRef} className="relative h-screen p-6">
-      <div className="absolute inset-0 flex items-start lg:items-center mt-20 lg:mt-0 justify-center pointer-events-none z-10">
+      <div className="absolute inset-0 flex items-start lg:items-center mt-20 lg:mt-0 justify-center pointer-events-none">
         <div className="w-78 h-78 lg:w-100 lg:h-100">
           <svg
             viewBox="0 0 100 100"

@@ -3,6 +3,7 @@ import { useForm, Controller, useFieldArray, useWatch } from 'react-hook-form';
 import {
   CalendarMinus,
   CalendarPlus,
+  LayersPlus,
   UserRoundMinus,
   UserRoundPlus,
 } from 'lucide-react';
@@ -14,6 +15,8 @@ import {
   getGenderLabelCatalog,
   getStorySizeCatalog,
 } from '@/services/catalog.service';
+import { useSettingsStore } from '@/store/settingsStore';
+import useIsMobile from '@/hooks/useIsMobile';
 import CustomInput from '@/components/shared/CustomInput';
 import CustomButton from '@/components/shared/CustomButton';
 import CustomTextArea from '@/components/shared/CustomTextArea';
@@ -43,6 +46,8 @@ const Create = () => {
     storySizeCatalog,
     genderLabelCatalog,
   } = useLoaderData<typeof clientLoader>();
+  const { isMobile } = useIsMobile();
+  const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
 
   const {
     control,
@@ -97,155 +102,162 @@ const Create = () => {
   };
 
   return (
-    <div className="w-full max-w-6xl px-6">
+    <div className="w-full p-6">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col gap-y-6">
-          <Controller
-            name="title"
-            control={control}
-            rules={{
-              required: 'Título obligatorio',
-              minLength: { value: 4, message: 'Al menos 4 caracteres' },
-            }}
-            render={({ field }) => (
-              <CustomInput
-                {...field}
-                inputType={InputEnumType.title}
-                inputName="title"
-                placeholder="Título"
-                error={errors.title?.message}
-              />
-            )}
-          />
-
-          <Controller
-            name="centralIdea"
-            control={control}
-            rules={{
-              required: 'Idea central obligatoria',
-              minLength: { value: 4, message: 'Al menos 4 caracteres' },
-            }}
-            render={({ field }) => (
-              <CustomTextArea
-                {...field}
-                inputName="centralIdea"
-                placeholder="Idea Central"
-                rows={6}
-                error={errors.centralIdea?.message}
-                maxChar={1000}
-              />
-            )}
-          />
-        </div>
-        <div className="flex flex-col gap-y-6 my-6">
-          <div className="flex flex-col gap-y-6 sm:flex-row sm:gap-y-0 sm:gap-x-3">
+        <h3 className="bg-primary/15 dark:bg-primary/10 px-3 pt-2 rounded-t-xl max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
+          Datos Generales
+        </h3>
+        <div className="bg-primary/15 dark:bg-primary/10 px-3 py-3 rounded-b-xl rounded-tr-xl">
+          <div className="flex flex-col gap-y-6">
             <Controller
-              name="contextType"
-              control={control}
-              rules={{ required: 'El tipo de contexto es obligatorio' }}
-              render={({ field }) => (
-                <CustomMultiSelect
-                  {...field}
-                  inputName="contextType"
-                  placeholder="Tipo de Contexto"
-                  options={contextCatalog}
-                  error={errors.contextType?.message}
-                />
-              )}
-            />
-
-            <Controller
-              name="genderLabels"
-              control={control}
-              rules={{ required: 'El tipo de contexto es obligatorio' }}
-              render={({ field }) => (
-                <CustomMultiSelect
-                  {...field}
-                  inputName="genderLabel"
-                  placeholder="Géneros"
-                  options={genderLabelCatalog}
-                  error={errors.genderLabels?.message}
-                />
-              )}
-            />
-          </div>
-          <div className="grid gap-y-6 sm:grid-cols-3 sm:gap-x-3 sm:gap-y-0 ">
-            <Controller
-              name="storySize"
+              name="title"
               control={control}
               rules={{
-                required: 'El tamaño de la historia es obligatorio',
-                validate: (value) =>
-                  value !== 0 || 'El tamaño de la historia es obligatorio',
-              }}
-              render={({ field }) => (
-                <CustomSelect
-                  {...field}
-                  inputName="storySize"
-                  placeholder="Tamaño de la Historia"
-                  options={storySizeCatalog}
-                  error={errors.storySize?.message}
-                />
-              )}
-            />
-
-            <Controller
-              name="timeToComplete"
-              control={control}
-              rules={{
-                required: 'El tiempo es obligatorio',
-                validate: (value) =>
-                  /^[0-9]+$/.test(value) || 'Solo se permiten números',
+                required: 'Título obligatorio',
+                minLength: { value: 4, message: 'Al menos 4 caracteres' },
               }}
               render={({ field }) => (
                 <CustomInput
                   {...field}
-                  value={field.value}
-                  onChange={(e) => {
-                    const numericValue = e.target.value.replace(/[^0-9]/g, '');
-                    field.onChange(numericValue);
-                  }}
-                  inputType={InputEnumType.time}
-                  inputName="timeToComplete"
-                  placeholder="Tiempo para completar (Días)"
-                  error={errors.timeToComplete?.message}
+                  inputType={InputEnumType.title}
+                  inputName="title"
+                  placeholder="Título"
+                  error={errors.title?.message}
                 />
               )}
             />
 
             <Controller
-              name="initialBasedDate"
+              name="centralIdea"
               control={control}
               rules={{
-                required: 'La fecha inicial es obligatoria',
-                validate: (date) => {
-                  if (!isValidDate(date)) {
-                    return 'Fecha inválida (formato: dd/mm/aaaa)';
-                  }
-                  return true;
-                },
+                required: 'Idea central obligatoria',
+                minLength: { value: 4, message: 'Al menos 4 caracteres' },
               }}
               render={({ field }) => (
-                <CustomDatePicker
+                <CustomTextArea
                   {...field}
-                  inputName="initialBasedDate"
-                  placeholder="Fecha inicial"
-                  error={errors.initialBasedDate?.message}
+                  inputName="centralIdea"
+                  placeholder="Idea Central"
+                  rows={6}
+                  error={errors.centralIdea?.message}
+                  maxChar={1000}
                 />
               )}
             />
 
-            <Controller
-              name="content"
-              control={control}
-              render={({ field }) => (
-                <input
-                  type="hidden"
-                  {...field}
-                  value="Are you ready for this?"
-                />
-              )}
-            />
+            <div className="flex flex-col gap-y-6 sm:flex-row sm:gap-y-0 sm:gap-x-3">
+              <Controller
+                name="contextType"
+                control={control}
+                rules={{ required: 'El tipo de contexto es obligatorio' }}
+                render={({ field }) => (
+                  <CustomMultiSelect
+                    {...field}
+                    inputName="contextType"
+                    placeholder="Tipo de Contexto"
+                    options={contextCatalog}
+                    error={errors.contextType?.message}
+                  />
+                )}
+              />
+
+              <Controller
+                name="genderLabels"
+                control={control}
+                rules={{ required: 'El tipo de contexto es obligatorio' }}
+                render={({ field }) => (
+                  <CustomMultiSelect
+                    {...field}
+                    inputName="genderLabel"
+                    placeholder="Géneros"
+                    options={genderLabelCatalog}
+                    error={errors.genderLabels?.message}
+                  />
+                )}
+              />
+            </div>
+            <div className="grid gap-y-6 sm:grid-cols-3 sm:gap-x-3 sm:gap-y-0 ">
+              <Controller
+                name="storySize"
+                control={control}
+                rules={{
+                  required: 'El tamaño de la historia es obligatorio',
+                  validate: (value) =>
+                    value !== 0 || 'El tamaño de la historia es obligatorio',
+                }}
+                render={({ field }) => (
+                  <CustomSelect
+                    {...field}
+                    inputName="storySize"
+                    placeholder="Tamaño de la Historia"
+                    options={storySizeCatalog}
+                    error={errors.storySize?.message}
+                  />
+                )}
+              />
+
+              <Controller
+                name="timeToComplete"
+                control={control}
+                rules={{
+                  required: 'El tiempo es obligatorio',
+                  validate: (value) =>
+                    /^[0-9]+$/.test(value) || 'Solo se permiten números',
+                }}
+                render={({ field }) => (
+                  <CustomInput
+                    {...field}
+                    value={field.value}
+                    onChange={(e) => {
+                      const numericValue = e.target.value.replace(
+                        /[^0-9]/g,
+                        '',
+                      );
+                      field.onChange(numericValue);
+                    }}
+                    inputType={InputEnumType.time}
+                    inputName="timeToComplete"
+                    placeholder="Tiempo para completar (Días)"
+                    error={errors.timeToComplete?.message}
+                  />
+                )}
+              />
+
+              <Controller
+                name="initialBasedDate"
+                control={control}
+                rules={{
+                  required: 'La fecha inicial es obligatoria',
+                  validate: (date) => {
+                    if (!isValidDate(date)) {
+                      return 'Fecha inválida (formato: dd/mm/aaaa)';
+                    }
+                    return true;
+                  },
+                }}
+                render={({ field }) => (
+                  <CustomDatePicker
+                    {...field}
+                    inputName="initialBasedDate"
+                    placeholder="Fecha inicial"
+                    error={errors.initialBasedDate?.message}
+                  />
+                )}
+              />
+
+              <Controller
+                name="content"
+                control={control}
+                render={({ field }) => (
+                  <input
+                    type="hidden"
+                    {...field}
+                    value="Are you ready for this?"
+                  />
+                )}
+              />
+            </div>
           </div>
         </div>
         <h3 className="mt-6 bg-primary/15 dark:bg-primary/10 px-3 pt-2 rounded-t-xl max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
@@ -325,25 +337,25 @@ const Create = () => {
               />
               <div className="flex justify-end sm:w-fit">
                 {index === periodFields.length - 1 ? (
-                  <button
-                    type="button"
+                  <CustomButton
+                    bgColor="bg-primary/10 hover:bg-primary/20"
+                    textColor="text-primary"
+                    Icon={CalendarPlus}
+                    displayText={isMobile ? 'Añadir periodo' : undefined}
                     onClick={() =>
                       appendPeriod({ name: '', from: '', to: '', place: '' })
                     }
-                    className="flex gap-x-3 p-2 bg-primary/20 hover:bg-primary/30 text-primary rounded-lg transition-colors"
-                  >
-                    <CalendarPlus size={18} />
-                    <span className="sm:hidden text-sm">Añadir periodo</span>
-                  </button>
+                    isDisabled={areSettingsOpen}
+                  />
                 ) : (
-                  <button
-                    type="button"
+                  <CustomButton
+                    bgColor="bg-red-500/10 hover:bg-red-500/20"
+                    textColor="text-red-500"
+                    Icon={CalendarMinus}
+                    displayText={isMobile ? 'Eliminar periodo' : undefined}
                     onClick={() => removePeriod(index)}
-                    className="flex gap-x-3 p-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-lg transition-colors"
-                  >
-                    <CalendarMinus size={18} />
-                    <span className="sm:hidden text-sm">Eliminar periodo</span>
-                  </button>
+                    isDisabled={areSettingsOpen}
+                  />
                 )}
               </div>
             </div>
@@ -458,44 +470,50 @@ const Create = () => {
               </div>
               <div className="flex justify-end">
                 {index === characterFields.length - 1 ? (
-                  <button
-                    type="button"
-                    onClick={() =>
-                      appendCharacter({
-                        type: 0,
-                        name: '',
-                        social: '',
-                        physical: '',
-                        psychological: '',
-                      })
-                    }
-                    className="flex py-2 px-6 gap-x-3 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg transition-all"
-                  >
-                    <UserRoundPlus size={18} />
-                    <span className="text-sm">Añadir pesonaje</span>
-                  </button>
+                  <div className="w-full sm:w-50">
+                    <CustomButton
+                      bgColor="bg-primary/10 hover:bg-primary/20"
+                      textColor="text-primary"
+                      displayText="Añadir personaje"
+                      Icon={UserRoundPlus}
+                      onClick={() =>
+                        appendCharacter({
+                          type: 0,
+                          name: '',
+                          social: '',
+                          physical: '',
+                          psychological: '',
+                        })
+                      }
+                      isDisabled={areSettingsOpen}
+                    />
+                  </div>
                 ) : (
-                  <button
-                    type="button"
-                    onClick={() => removeCharacter(index)}
-                    className="flex py-2 px-6 gap-x-3 p-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-lg transition-all"
-                  >
-                    <UserRoundMinus size={18} />
-                    <span className="text-sm">Eliminar personaje</span>
-                  </button>
+                  <div className="w-full sm:w-50">
+                    <CustomButton
+                      bgColor="bg-red-500/10 hover:bg-red-500/20"
+                      textColor="text-red-500"
+                      displayText="Añadir personaje"
+                      Icon={UserRoundMinus}
+                      onClick={() => removeCharacter(index)}
+                      isDisabled={areSettingsOpen}
+                    />
+                  </div>
                 )}
               </div>
             </div>
           ))}
         </div>
 
-        <div className="mt-6 mb-8">
+        <div className="mt-6">
           <CustomButton
             buttonType="submit"
-            bgColor="primary"
-            textColor="accent"
+            bgColor="bg-primary"
+            textColor="text-accent"
             displayText={isSubmitting ? 'Creando...' : 'Crear Storativa'}
             isDisabled={!isValid || isSubmitting}
+            Icon={LayersPlus}
+            size="md"
           />
         </div>
       </form>

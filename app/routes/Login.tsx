@@ -1,6 +1,7 @@
 import { NavLink, useLocation, useNavigate } from 'react-router';
 import { useForm, Controller } from 'react-hook-form';
 import { AxiosError } from 'axios';
+import { LogIn } from 'lucide-react';
 
 import { loginRequest } from '@/services/auth.service';
 import { useAuthStore } from '@/store/authStore';
@@ -95,10 +96,12 @@ const Login = () => {
 
           <CustomButton
             buttonType="submit"
-            bgColor="primary"
-            textColor="accent"
+            bgColor="bg-primary"
+            textColor="text-light"
             displayText={isSubmitting ? 'Cargando...' : 'Iniciar Sesión'}
             isDisabled={!isValid || isSubmitting}
+            Icon={LogIn}
+            size="md"
           />
         </form>
 

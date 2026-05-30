@@ -4,5 +4,5 @@ export const publicRoutes = [
 ];
 
 export const privateRoutes = [
-  { id: 1, path: '/dashboard', routeName: 'Tablero' },
+  { id: 1, path: '/dashboard', routeName: 'Dashboard' },
 ];
