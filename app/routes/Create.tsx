@@ -100,7 +100,11 @@ const Create = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div
+      aria-hidden={areSettingsOpen}
+      inert={areSettingsOpen}
+      className="max-w-6xl mx-auto"
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
         <h3 className="mt-7 px-6 pt-3 rounded-tr-lg bg-primary/15 dark:bg-primary/10 max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
           Datos Generales
@@ -504,7 +508,7 @@ const Create = () => {
           <CustomButton
             buttonType="submit"
             bgColor="bg-primary"
-            textColor="text-accent"
+            textColor="text-light"
             displayText={isSubmitting ? 'Creando...' : 'Crear Storativa'}
             isDisabled={!isValid || isSubmitting || areSettingsOpen}
             Icon={LayersPlus}

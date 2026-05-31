@@ -36,9 +36,9 @@ const SettingsPanel = () => {
   );
 
   return (
-    <div ref={panelRef}>
+    <div className="relative" ref={panelRef}>
       <section
-        className={`setting-container w-screen absolute overflow-hidden z-40 bg-lightness/50 dark:bg-darkness/70 h-[calc(100vh-98px)] ${
+        className={`setting-container absolute inset-0 h-[calc(100vh-98px)] z-40 bg-lightness/50 dark:bg-darkness/70 ${
           areSettingsOpen ? 'pointer-events-auto' : 'pointer-events-none'
         }`}
       >

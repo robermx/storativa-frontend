@@ -20,8 +20,8 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
   const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
 
   return storativas.length === 0 ? (
-    <div className="flex flex-col items-center justify-center text-dark/70 dark:text-light/70 h-[calc(100vh-150px)]">
-      <EmptyState className="h-80 sm:mb-15" />
+    <div className="flex flex-col items-center justify-center text-dark/70 dark:text-light/70 min-h-[calc(100vh-98px)]">
+      <EmptyState className="h-80 sm:mb-15 sm:mt-5" />
       <p className="text-xl">
         No tienes <span className="text-primary font-semibold">Storativas</span>{' '}
         asignadas.
@@ -29,7 +29,7 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
       <p className="text-3xl font-semibold text-primary mb-4">
         ¡Crea una desde cero!
       </p>
-      <div className="w-50 mb-8">
+      <div className="w-50 mb-7">
         <CustomButton
           bgColor="bg-primary"
           textColor="text-light"
