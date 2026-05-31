@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import { useLoaderData } from 'react-router';
 
 import { createClientLoader } from '@/lib/createClientLoader';
@@ -19,10 +18,10 @@ const Dashboard = () => {
   const { storativas } = useLoaderData<typeof clientLoader>();
 
   return (
-    <Fragment>
+    <div className="max-w-6xl mx-auto">
       {storativas.length !== 0 && <DashboardStats storativas={storativas} />}
       <DashboardTable storativas={storativas} />
-    </Fragment>
+    </div>
   );
 };
 

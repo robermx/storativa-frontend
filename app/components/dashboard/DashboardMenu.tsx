@@ -11,7 +11,7 @@ const DashboardMenu: FC = () => {
   const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
 
   return (
-    <div className="button-wrapper flex gap-x-5 relative right-6 xl:right-0">
+    <div className="button-wrapper flex gap-x-5 relative right-6">
       {dashboarMenuItems
         .filter((filteredItem) => filteredItem.path !== location.pathname)
         .map((item) => (

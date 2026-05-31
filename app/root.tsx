@@ -1,3 +1,4 @@
+import { useSyncExternalStore } from 'react';
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router';
 
 import MainLayout from './layouts/MainLayout';
@@ -6,11 +7,17 @@ import { useThemeStore } from './store/themeStore';
 import { useSettingsStore } from './store/settingsStore';
 
 export default function App() {
+  const hasMounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
+
   const isDarkMode = useThemeStore((state) => state.isDarkMode);
   const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
 
   return (
-    <html lang="es" className={isDarkMode ? 'dark' : ''}>
+    <html lang="es" className={hasMounted && isDarkMode ? 'dark' : ''}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,10 +27,7 @@ export default function App() {
         <Links />
       </head>
       <body
-        className="bg-light dark:bg-dark text-dark dark:text-light antialiased"
-        style={
-          areSettingsOpen ? { overflowY: 'hidden' } : { overflowY: 'auto' }
-        }
+        className={`bg-light dark:bg-dark text-dark dark:text-light antialiased ${hasMounted && areSettingsOpen ? 'overflow-hidden' : 'overflow-auto'}`}
       >
         <MainLayout>
           <Outlet />
