@@ -7,12 +7,12 @@ import { daysPassed, percentageDays } from '@/utils/percentageDays';
 import { statusStyles } from '@/utils/statusStyles';
 import { formatDate } from '@/utils/formatDate';
 import { titleFormat } from '@/utils/titleFormat';
-import { IStorativa } from '@/interfaces/storativa.interface';
+import { IResStorativa } from '@/interfaces/storativa.interface';
 import EmptyState from '@/assets/icons/EmptyState';
 import CustomButton from '../shared/CustomButton';
 
 interface DashboardTableProps {
-  storativas: IStorativa[];
+  storativas: IResStorativa[];
 }
 
 const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {

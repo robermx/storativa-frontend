@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
-import { IStorativa } from '@/interfaces/storativa.interface';
+import { IResStorativa } from '@/interfaces/storativa.interface';
 
 interface DashboardStatsProps {
-  storativas: IStorativa[];
+  storativas: IResStorativa[];
 }
 
 const DashboardStats: FC<DashboardStatsProps> = ({ storativas }) => {

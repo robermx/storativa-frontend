@@ -15,6 +15,7 @@ import {
   getGenderLabelCatalog,
   getStorySizeCatalog,
 } from '@/services/catalog.service';
+import { createUserStorativa } from '@/services/storativa.service';
 import { useSettingsStore } from '@/store/settingsStore';
 import CustomInput from '@/components/shared/CustomInput';
 import CustomButton from '@/components/shared/CustomButton';
@@ -24,7 +25,8 @@ import CustomSelect from '@/components/shared/CustomSelect';
 import CustomMultiSelect from '@/components/shared/CustomMultiSelect';
 import FormSkeleton from '@/components/skeleton/FormSkeleton';
 import { isValidDate, validateDateField } from '@/utils/dateValidation';
-import { ICreateFormData, InputEnumType } from '@/interfaces/input.interface';
+import { InputEnumType } from '@/interfaces/input.interface';
+import { IReqStorativa } from '@/interfaces/storativa.interface';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const clientLoader = createClientLoader({
@@ -51,7 +53,7 @@ const Create = () => {
     control,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
-  } = useForm<ICreateFormData>({
+  } = useForm<IReqStorativa>({
     mode: 'onChange',
     defaultValues: {
       title: '',
@@ -95,8 +97,9 @@ const Create = () => {
     name: 'characters',
   });
 
-  const onSubmit = async (data: ICreateFormData) => {
-    console.log(data);
+  const onSubmit = async (data: IReqStorativa) => {
+    const created = await createUserStorativa(data);
+    console.log('created', created);
   };
 
   return (
@@ -206,12 +209,13 @@ const Create = () => {
                 rules={{
                   required: 'El tiempo es obligatorio',
                   validate: (value) =>
-                    /^[0-9]+$/.test(value) || 'Solo se permiten números',
+                    /^[0-9]+$/.test(value as string) ||
+                    'Solo se permiten números',
                 }}
                 render={({ field }) => (
                   <CustomInput
                     {...field}
-                    value={field.value}
+                    value={field.value as string}
                     onChange={(e) => {
                       const numericValue = e.target.value.replace(
                         /[^0-9]/g,

@@ -1,4 +1,17 @@
-export interface IStorativa {
+export interface IReqStorativa {
+  title: string;
+  centralIdea: string;
+  adaptedPeriods: AdaptedPeriod[];
+  characters: Character[];
+  contextType: number[];
+  storySize: number;
+  timeToComplete: number | string;
+  initialBasedDate: string;
+  genderLabels: number[];
+  content: string;
+}
+
+export interface IResStorativa {
   userId: string;
   title: string;
   author: string;
