@@ -63,13 +63,30 @@ const Create = () => {
       timeToComplete: '',
       initialBasedDate: '',
       genderLabels: [],
-      content: '',
+      content: 'Are you ready for this?',
     },
   });
 
   const onSubmit = async (data: IReqStorativa) => {
-    const created = await createUserStorativa(data);
+    const toIsoDate = (date: string) => {
+      const [day, month, year] = date.split('/');
+
+      return day && month && year ? `${year}-${month}-${day}` : date;
+    };
+
+    const adaptedData: IReqStorativa = {
+      ...data,
+      timeToComplete: Number(data.timeToComplete),
+      initialBasedDate: toIsoDate(data.initialBasedDate),
+      adaptedPeriods: data.adaptedPeriods.map((period) => ({
+        ...period,
+        from: toIsoDate(period.from),
+        to: toIsoDate(period.to),
+      })),
+    };
+    const created = await createUserStorativa(adaptedData);
     console.log('created', created);
+    // TODO: send to content page
   };
 
   return (

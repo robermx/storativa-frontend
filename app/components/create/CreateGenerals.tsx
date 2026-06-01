@@ -172,13 +172,7 @@ const CreateGenerals: FC<CreateGeneralsProps> = ({
             <Controller
               name="content"
               control={control}
-              render={({ field }) => (
-                <input
-                  type="hidden"
-                  {...field}
-                  value="Are you ready for this?"
-                />
-              )}
+              render={({ field }) => <input type="hidden" {...field} />}
             />
           </div>
         </div>

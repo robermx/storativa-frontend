@@ -23,7 +23,7 @@ const Dashboard = () => {
     <div
       aria-hidden={areSettingsOpen}
       inert={areSettingsOpen}
-      className="max-w-6xl mx-auto"
+      className="flex flex-col gap-y-7 max-w-6xl mx-auto"
     >
       {storativas.length !== 0 && <DashboardStats storativas={storativas} />}
       <DashboardTable storativas={storativas} />

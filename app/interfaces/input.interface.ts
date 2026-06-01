@@ -80,32 +80,3 @@ export interface IFormData {
   email?: string;
   password?: string;
 }
-
-// export interface IAdaptedPeriod {
-//   name: string;
-//   from: string;
-//   to: string;
-//   place: string;
-// }
-
-// export interface ICharacter {
-//   type: number;
-//   name: string;
-//   social: string;
-//   physical: string;
-//   psychological: string;
-//   additional?: string;
-// }
-
-// export interface ICreateFormData {
-//   title: string;
-//   centralIdea: string;
-//   adaptedPeriods: IAdaptedPeriod[];
-//   characters: ICharacter[];
-//   contextType: number[];
-//   storySize: number;
-//   timeToComplete: string;
-//   initialBasedDate: string;
-//   genderLabels: number[];
-//   content: string;
-// }

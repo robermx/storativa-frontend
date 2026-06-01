@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react';
+import { FC } from 'react';
 import { useNavigate } from 'react-router';
 import { Plus } from 'lucide-react';
 
@@ -41,10 +41,10 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
       </div>
     </div>
   ) : (
-    <Fragment>
-      <div className="bg-primary/40 p-5 border-b border-dark/10 dark:border-light/10">
+    <div className="relative mt-7">
+      <div className="bg-primary/60 p-5 border-b border-dark/10 dark:border-light/10">
         <h2 className="text-lg font-semibold text-dark dark:text-light">
-          Storativas
+          Control de 9Storativas
         </h2>
       </div>
       <div className="overflow-x-auto">
@@ -110,7 +110,7 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
                   </p>
                 </td>
                 <td className="px-5 py-4">
-                  <p className="text-sm text-dark/50 dark:text-light/50">
+                  <p className="text-sm text-dark/70 dark:text-light/70">
                     {formatDate(item.updatedAt)}
                   </p>
                 </td>
@@ -119,7 +119,7 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
           </tbody>
         </table>
       </div>
-    </Fragment>
+    </div>
   );
 };
 

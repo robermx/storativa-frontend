@@ -23,23 +23,23 @@ const CustomMultiSelect: FC<CustomMultiSelectProps> = ({
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const selectedValues = Array.isArray(value) ? value : [];
 
-  const selectedOptions = options.filter((opt) => value.includes(opt.value));
+  const selectedOptions = options.filter((opt) =>
+    selectedValues.includes(opt.value),
+  );
 
   const filteredOptions = options.filter((opt) =>
     opt.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  const handleToggle = (optionValue: number) => {
-    const newValues = value.includes(optionValue)
-      ? value.filter((v) => v !== optionValue)
-      : [...value, optionValue];
-    onChange?.(newValues);
+  const handleChange = (newValue: number[] | number) => {
+    onChange?.(Array.isArray(newValue) ? newValue : [newValue]);
   };
 
-  const handleRemove = (optionValue: number, e: React.MouseEvent) => {
+  const handleRemove = (optionValue: number, e: MouseEvent) => {
     e.stopPropagation();
-    const newValues = value.filter((v) => v !== optionValue);
+    const newValues = selectedValues.filter((v) => v !== optionValue);
     onChange?.(newValues);
   };
 
@@ -55,12 +55,7 @@ const CustomMultiSelect: FC<CustomMultiSelectProps> = ({
       )}
 
       <div className="relative">
-        <Listbox
-          value={value}
-          onChange={(newValue) => {
-            onChange?.(newValue);
-          }}
-        >
+        <Listbox multiple value={selectedValues} onChange={handleChange}>
           <div className="relative">
             <ListboxButton
               id={inputName}
@@ -146,16 +141,12 @@ const CustomMultiSelect: FC<CustomMultiSelectProps> = ({
                   </div>
                 ) : (
                   filteredOptions.map((option) => {
-                    const isSelected = value.includes(option.value);
+                    const isSelected = selectedValues.includes(option.value);
                     return (
                       <ListboxOption
                         key={option._id}
                         value={option.value}
                         className="group relative cursor-default py-2 pr-12 pl-3 text-dark dark:text-light select-none data-focus:bg-primary data-focus:text-white data-focus:outline-hidden"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleToggle(option.value);
-                        }}
                       >
                         <div className="flex items-center">
                           <div className="mr-3 flex h-5 w-5 items-center justify-center rounded border-2 transition-colors data-checked:border-primary data-checked:bg-primary">
