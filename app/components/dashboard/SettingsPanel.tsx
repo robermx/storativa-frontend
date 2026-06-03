@@ -1,22 +1,30 @@
 import { useRef } from 'react';
+import { useNavigate } from 'react-router';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { X, User, Mail, CreditCard, LogOut } from 'lucide-react';
 
 import { useSettingsStore } from '@/store/settingsStore';
 import { useAuthStore } from '@/store/authStore';
+import { logoutRequest } from '@/services/auth.service';
 import CustomButton from '../shared/CustomButton';
 
 const SettingsPanel = () => {
   const panelRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
   const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
   const closeSettings = useSettingsStore((state) => state.closeSettings);
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
 
-  const handleLogout = () => {
-    logout();
-    closeSettings();
+  const handleLogout = async () => {
+    try {
+      await logoutRequest();
+    } finally {
+      logout();
+      navigate('/login', { replace: true });
+      closeSettings();
+    }
   };
 
   useGSAP(

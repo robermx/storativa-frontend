@@ -31,11 +31,11 @@ const Login = () => {
   const onSubmit = async ({ email, password }: IFormData) => {
     if (!email || !password) return;
     try {
-      const { user, token, refreshToken } = await loginRequest({
+      const { user, token } = await loginRequest({
         email,
         password,
       });
-      setAuth(user, token, refreshToken);
+      setAuth(user, token);
       navigate(from, { replace: true });
     } catch (e) {
       const serverMessage = 'Credenciales no válidas';

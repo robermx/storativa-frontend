@@ -12,7 +12,6 @@ export interface RegisterCredentials {
 export interface LoginRegisterResponse {
   user: User;
   token: string;
-  refreshToken: string;
 }
 
 export interface User {

@@ -31,12 +31,12 @@ const Register = () => {
   const onSubmit = async ({ email, password, fullName }: IFormData) => {
     if (!email || !password || !fullName) return;
     try {
-      const { user, token, refreshToken } = await registerUser({
+      const { user, token } = await registerUser({
         email,
         password,
         fullName,
       });
-      setAuth(user, token, refreshToken);
+      setAuth(user, token);
       navigate(from, { replace: true });
     } catch (e) {
       const serverMessage = 'Usuario registrado con el mismo email';

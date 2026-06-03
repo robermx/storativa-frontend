@@ -6,9 +6,8 @@ import { User } from '@/interfaces/auth.interface';
 interface AuthState {
   user: User | null;
   token: string | null;
-  refreshToken: string | null;
-  setAuth: (user: User, token: string, refreshToken: string) => void;
-  setTokens: (token: string, refreshToken: string) => void;
+  setAuth: (user: User, token: string) => void;
+  setToken: (token: string) => void;
   logout: () => void;
 }
 
@@ -17,15 +16,14 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       user: null,
       token: null,
-      refreshToken: null,
-      setAuth: (user, token, refreshToken) =>
-        set({ user, token, refreshToken }),
-      setTokens: (token, refreshToken) => set({ token, refreshToken }),
-      logout: () => set({ user: null, token: null, refreshToken: null }),
+      setAuth: (user, token) => set({ user, token }),
+      setToken: (token) => set({ token }),
+      logout: () => set({ user: null, token: null }),
     }),
     {
-      name: 'auth_storage',
-      storage: createJSONStorage(() => localStorage),
+      name: 'auth-storage',
+      storage: createJSONStorage(() => sessionStorage),
+      partialize: (state) => ({ user: state.user, token: state.token }),
     },
   ),
 );
