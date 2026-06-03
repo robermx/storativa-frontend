@@ -8,12 +8,13 @@ const api = axios.create({
   withCredentials: true,
 });
 
+let refreshPromise: Promise<string> | null = null;
+
 const authPaths = [
   '/auth/login',
   '/auth/register',
   '/auth/refresh',
   '/auth/logout',
-  '/auth/check-status',
 ];
 
 const isAuthRequest = (url?: string) =>
@@ -21,7 +22,6 @@ const isAuthRequest = (url?: string) =>
 
 api.interceptors.request.use((config) => {
   const token = useAuthStore.getState().token;
-  console.log('token', token);
 
   if (token && config.headers && !isAuthRequest(config.url)) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -44,17 +44,34 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const { data } = await axios.post(
-          `${baseURL}/auth/refresh`,
-          undefined,
-          { withCredentials: true },
-        );
+        const { status } = useAuthStore.getState();
 
-        useAuthStore.getState().setToken(data.token);
+        if (status === 'anonymous') {
+          return Promise.reject(error);
+        }
+
+        if (!refreshPromise) {
+          refreshPromise = axios
+            .post(`${baseURL}/auth/refresh`, undefined, {
+              withCredentials: true,
+            })
+            .then(({ data }) => {
+              useAuthStore.getState().setAuth(data.user, data.token);
+              return data.token as string;
+            })
+            .catch((refreshError) => {
+              useAuthStore.getState().setAnonymous();
+              throw refreshError;
+            })
+            .finally(() => {
+              refreshPromise = null;
+            });
+        }
+
+        await refreshPromise;
 
         return api(originalRequest);
       } catch (refreshError) {
-        useAuthStore.getState().logout();
         return Promise.reject(refreshError);
       }
     }

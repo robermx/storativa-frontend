@@ -1,10 +1,11 @@
-import { useSyncExternalStore } from 'react';
+import { useEffect, useSyncExternalStore } from 'react';
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router';
 
-import MainLayout from './layouts/MainLayout';
-import './app.css';
 import { useThemeStore } from './store/themeStore';
 import { useSettingsStore } from './store/settingsStore';
+import { ensureAuthSession } from './services/auth.service';
+import MainLayout from './layouts/MainLayout';
+import './app.css';
 
 export default function App() {
   const hasMounted = useSyncExternalStore(
@@ -12,9 +13,12 @@ export default function App() {
     () => true,
     () => false,
   );
-
   const isDarkMode = useThemeStore((state) => state.isDarkMode);
   const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
+
+  useEffect(() => {
+    void ensureAuthSession();
+  }, []);
 
   return (
     <html lang="es" className={hasMounted && isDarkMode ? 'dark' : ''}>

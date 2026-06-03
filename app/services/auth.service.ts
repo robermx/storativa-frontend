@@ -22,8 +22,8 @@ export const registerUser = async (
   return data;
 };
 
-export const checkStatusRequest = async (): Promise<LoginRegisterResponse> => {
-  const { data } = await api.get('/auth/check-status');
+export const refreshRequest = async (): Promise<LoginRegisterResponse> => {
+  const { data } = await api.post('/auth/refresh');
   return data;
 };
 
@@ -32,20 +32,24 @@ export const logoutRequest = async (): Promise<void> => {
 };
 
 export const ensureAuthSession = async (): Promise<boolean> => {
-  const token = useAuthStore.getState().token;
+  const { shouldBootstrap, token } = useAuthStore.getState();
 
   if (token) {
     return true;
   }
 
+  if (!shouldBootstrap()) {
+    return false;
+  }
+
   if (!authBootstrapPromise) {
-    authBootstrapPromise = checkStatusRequest()
+    authBootstrapPromise = refreshRequest()
       .then(({ user, token: nextToken }) => {
         useAuthStore.getState().setAuth(user, nextToken);
         return true;
       })
       .catch(() => {
-        useAuthStore.getState().logout();
+        useAuthStore.getState().setAnonymous();
         return false;
       })
       .finally(() => {
