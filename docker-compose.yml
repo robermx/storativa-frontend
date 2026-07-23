@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: node:22
+    image: node:24
     working_dir: /app
     volumes:
       - .:/app
