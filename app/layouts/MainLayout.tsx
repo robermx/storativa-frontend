@@ -35,7 +35,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
       <SmoothScrollProvider enabled={enableSmoothScroll}>
         {user && <SettingsPanel />}
         <main className="selection:bg-primary/30">{children}</main>
-        <Footer />
+        {Boolean(user) || (!areExcludedPaths && <Footer />)}
       </SmoothScrollProvider>
     </>
   );

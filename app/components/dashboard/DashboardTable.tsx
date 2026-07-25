@@ -20,7 +20,7 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
   const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
 
   return storativas.length === 0 ? (
-    <div className="flex flex-col items-center justify-center text-dark/70 dark:text-light/70 min-h-[calc(100vh-98px)]">
+    <div className="flex flex-col items-center justify-center text-dark/70 dark:text-light/70 min-h-dvh">
       <EmptyState className="h-80 sm:mb-15 sm:mt-5" />
       <p className="text-xl">
         No tienes <span className="text-primary font-semibold">Storativas</span>{' '}

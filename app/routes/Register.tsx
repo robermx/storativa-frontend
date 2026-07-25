@@ -62,7 +62,7 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-140px)] flex flex-col justify-center px-6 sm:px-8">
+    <div className="min-h-dvh flex flex-col justify-center px-6 sm:px-8">
       <NavLink to="/" className="mx-auto">
         <MainIso />
       </NavLink>

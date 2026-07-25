@@ -93,7 +93,7 @@ const Create = () => {
     <div
       aria-hidden={areSettingsOpen}
       inert={areSettingsOpen}
-      className="max-w-6xl mx-auto"
+      className="max-w-7xl mx-auto pt-30"
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <CreateGenerals

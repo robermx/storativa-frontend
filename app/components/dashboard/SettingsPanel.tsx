@@ -46,12 +46,12 @@ const SettingsPanel = () => {
   return (
     <div className="relative" ref={panelRef}>
       <section
-        className={`setting-container absolute inset-0 h-[calc(100vh-74px)] z-40 bg-lightness/50 dark:bg-darkness/70 ${
+        className={`setting-container absolute inset-0 h-dvh z-40 bg-lightness/50 dark:bg-darkness/70 ${
           areSettingsOpen ? 'pointer-events-auto' : 'pointer-events-none'
         }`}
       >
         <div
-          className="w-full h-full sm:w-90 flex flex-col gap-y-5 settings-wrapper p-6 absolute bg-lightness dark:bg-darkness border border-t-0 border-dark/10 dark:border-light/10"
+          className="w-full h-[calc(100vh-74px)] mt-18.5 sm:w-90 flex flex-col gap-y-5 settings-wrapper p-6 absolute bg-lightness dark:bg-darkness border border-t-0 border-dark/10 dark:border-light/10"
           style={{
             transform: 'translateX(-100%)',
           }}

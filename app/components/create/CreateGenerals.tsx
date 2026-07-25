@@ -28,7 +28,7 @@ const CreateGenerals: FC<CreateGeneralsProps> = ({
 }) => {
   return (
     <Fragment>
-      <h3 className="mt-7 px-6 pt-3 rounded-tr-lg bg-primary/15 dark:bg-primary/10 max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
+      <h3 className="px-6 pt-3 rounded-tr-lg bg-primary/15 dark:bg-primary/10 max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
         Datos Generales
       </h3>
       <div className="bg-primary/15 dark:bg-primary/10 px-6 py-7 rounded-b-md rounded-tr-md">
