@@ -11,7 +11,7 @@ pnpm start        # Serve production build
 
 ## Project Structure
 
-- **Framework**: React Router v7 (SSR mode, not CRA)
+- **Framework**: React Router v8 (SSR mode, not CRA)
 - **Entry point**: `app/root.tsx` and `app/routes.ts`
 - **Path alias**: `@/*` maps to `app/*`
 - **Source**: `app/` — all routes, components, stores, services go here
@@ -53,3 +53,45 @@ No test files (`*.test.*` or `*.spec.*`).
 ## Package Manager
 
 pnpm required. Use `pnpm install`, not `npm install`.
+
+## VPS Deployment
+
+The `dev` branch is deployed to `dev.storativa.com` with Docker. The root Compose project is stored on the VPS at `/opt/storativa`:
+
+```text
+/opt/storativa/
+├── backend/       # backend repository, branch dev
+├── frontend/      # this repository, branch dev
+├── docker-compose.yml
+└── .env           # VPS secrets and deployment variables
+```
+
+Prepare and publish frontend changes locally:
+
+```bash
+git checkout dev
+git pull origin dev
+pnpm install
+pnpm run build
+git add .
+git commit -m "describe the change"
+git push origin dev
+```
+
+Update the VPS from SSH:
+
+```bash
+cd /opt/storativa
+git -C frontend pull origin dev
+docker compose build frontend
+docker compose up -d frontend
+docker compose logs --tail=100 frontend
+```
+
+The production image uses Node 24, builds the SSR output, and starts it with `react-router-serve`. `VITE_API_URL` is a build-time variable and should be set in the VPS `.env` as:
+
+```env
+VITE_API_URL=https://dev.storativa.com/api/v1
+```
+
+Nginx serves the frontend at `https://dev.storativa.com/` and forwards API requests under `/api/` to the backend. Do not commit the VPS `.env` or private SSH keys.
