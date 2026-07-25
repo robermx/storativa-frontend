@@ -110,7 +110,7 @@ const CustomInput: FC<CustomInputProps> = ({
           </div>
         </div>
         {error && (
-          <div className="relative top-0.5">
+          <div className="relative top-1">
             <span className="absolute text-xs text-red-600/80 font-medium">
               {error}
             </span>

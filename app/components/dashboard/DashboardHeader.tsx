@@ -14,7 +14,7 @@ import { useThemeStore } from '@/store/themeStore';
 const DashboardHeader = () => {
   const location = useLocation();
   const dashboardHeaderRef = useRef<HTMLDivElement>(null);
-  const expanded = useThemeStore((state) => state.expanded);
+  const themeExpanded = useThemeStore((state) => state.themeExpanded);
   const user = useAuthStore((state) => state.user);
   const toggleSettings = useSettingsStore((state) => state.toggleSettings);
 
@@ -43,14 +43,14 @@ const DashboardHeader = () => {
   useGSAP(
     () => {
       gsap.to('.button-wrapper', {
-        x: expanded ? -38 : 0,
+        x: themeExpanded ? -38 : 0,
         duration: 0.3,
         ease: 'power2.in',
       });
     },
     {
       scope: dashboardHeaderRef,
-      dependencies: [expanded],
+      dependencies: [themeExpanded],
     },
   );
 

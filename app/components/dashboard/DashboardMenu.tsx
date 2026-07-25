@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router';
 
 import { useSettingsStore } from '@/store/settingsStore';
 import CustomButton from '../shared/CustomButton';
-import { dashboarMenuItems } from '@/constants/common/dashboard.constants';
+import { dashboardMenuItems } from '@/constants/common/dashboard.constants';
 
 const DashboardMenu: FC = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const DashboardMenu: FC = () => {
 
   return (
     <div className="button-wrapper flex gap-x-5 relative right-6">
-      {dashboarMenuItems
+      {dashboardMenuItems
         .filter((filteredItem) => filteredItem.path !== location.pathname)
         .map((item) => (
           <CustomButton

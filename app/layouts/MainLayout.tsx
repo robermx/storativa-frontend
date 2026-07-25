@@ -12,29 +12,32 @@ import {
   excludePaths,
   smoothScrollPaths,
 } from '@/constants/common/layout.constants';
+import SettingsPanel from '@/components/dashboard/SettingsPanel';
+import { useAuthStore } from '@/store/authStore';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, MorphSVGPlugin);
 
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   const { pathname } = useLocation();
   const matches = useMatches();
+  const user = useAuthStore((state) => state.user);
+  const enableSmoothScroll = smoothScrollPaths.includes(pathname);
 
   const isNotFound =
     matches.length > 0 &&
     matches[matches.length - 1].id.toString().endsWith('NotFound');
-  const excludedRoutes = excludePaths.includes(pathname) || isNotFound;
-  const enableSmoothScroll =
-    smoothScrollPaths.includes(pathname) && !isNotFound;
+  const areExcludedPaths = excludePaths.includes(pathname) || isNotFound;
 
   return (
-    <SmoothScrollProvider enabled={enableSmoothScroll}>
+    <>
       <ThemeButton />
-      {!excludedRoutes && <Navbar />}
-      <div className="flex flex-col selection:bg-primary/30">
-        <main>{children}</main>
-        {!excludedRoutes && <Footer />}
-      </div>
-    </SmoothScrollProvider>
+      <Navbar areExcludedPaths={areExcludedPaths} />
+      <SmoothScrollProvider enabled={enableSmoothScroll}>
+        {user && <SettingsPanel />}
+        <main className="selection:bg-primary/30">{children}</main>
+        <Footer />
+      </SmoothScrollProvider>
+    </>
   );
 };
 

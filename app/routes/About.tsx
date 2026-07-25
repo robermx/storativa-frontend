@@ -30,7 +30,7 @@ const stages = [
 
 const About = () => {
   return (
-    <main className="relative overflow-hidden px-6 py-16 sm:px-8 lg:px-10">
+    <div className="relative overflow-hidden px-6 pb-16 pt-35 sm:px-8 lg:px-10">
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(0,160,232,0.16),_transparent_42%),radial-gradient(circle_at_bottom_right,_rgba(156,213,189,0.16),_transparent_38%)]" />
 
       <section className="mx-auto flex min-h-[calc(100vh-140px)] max-w-6xl flex-col justify-center gap-14 lg:gap-20">
@@ -154,7 +154,7 @@ const About = () => {
           </p>
         </section>
       </section>
-    </main>
+    </div>
   );
 };
 

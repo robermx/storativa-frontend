@@ -5,9 +5,9 @@ import { useThemeStore } from '@/store/themeStore';
 import { useGSAP } from '@gsap/react';
 
 const ThemeButton: FC = () => {
-  const expanded = useThemeStore((state) => state.expanded);
+  const themeExpanded = useThemeStore((state) => state.themeExpanded);
   const isDarkMode = useThemeStore((state) => state.isDarkMode);
-  const toggleExpand = useThemeStore((state) => state.toggleExpand);
+  const toggleThemeExpand = useThemeStore((state) => state.toggleThemeExpand);
   const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
 
   const themeContainer = useRef<HTMLDivElement>(null);
@@ -15,38 +15,38 @@ const ThemeButton: FC = () => {
   useGSAP(
     () => {
       gsap.to('.animated-container', {
-        x: expanded ? -38 : 0,
+        x: themeExpanded ? -38 : 0,
         duration: 0.3,
         ease: 'power2.in',
       });
       gsap.to('.arrow-icon', {
-        rotate: expanded ? 180 : 0,
+        rotate: themeExpanded ? 180 : 0,
         duration: 0.3,
         ease: 'power2.in',
       });
     },
     {
       scope: themeContainer,
-      dependencies: [expanded],
+      dependencies: [themeExpanded],
     },
   );
 
   const handleToggleTheme = () => {
     toggleDarkMode();
-    toggleExpand();
+    toggleThemeExpand();
   };
 
   return (
     <section
       ref={themeContainer}
-      className="absolute overflow-hidden right-0 w-17 h-8 top-5"
+      className="fixed overflow-hidden right-0 w-17 h-8 top-5 z-60 pointer-events-none"
     >
-      <div className="animated-container absolute -right-9.5">
+      <div className="animated-container absolute -right-9.5 pointer-events-auto">
         <div className="flex justify-end items-center gap-2 border-t border-b border-l rounded-bl-md rounded-tl-md border-dark/20 dark:border-light/20 py-1 bg-white dark:bg-slate-900">
           <button
-            onClick={toggleExpand}
+            onClick={toggleThemeExpand}
             className="px-1 border-r border-dark/20 dark:border-light/20 cursor-pointer"
-            aria-label={expanded ? 'Contraer menú' : 'Expandir menú'}
+            aria-label={themeExpanded ? 'Contraer menú' : 'Expandir menú'}
           >
             <ChevronLeft
               size={18}

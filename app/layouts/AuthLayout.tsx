@@ -1,10 +1,8 @@
 import { Outlet } from 'react-router';
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
 
 export const AuthLayout = () => {
   return (
-    <div className="w-full ">
-      <DashboardHeader />
+    <div className="w-full">
       <Outlet />
     </div>
   );

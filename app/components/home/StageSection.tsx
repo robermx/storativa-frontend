@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { useSmoothScroll } from '@/context/SmoothScrollContext';
 import { homeStages, homeSvgPaths } from '@/constants/home/home.constants';
@@ -21,9 +22,10 @@ const StageSection = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: `+=${homeStages.length * 100}%`,
+          end: `+=${Math.max(homeStages.length - 1, 1) * 100}%`,
           pin: true,
           scrub: 1,
+          invalidateOnRefresh: true,
         },
       });
 
@@ -86,6 +88,11 @@ const StageSection = () => {
             );
         }
       });
+
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+        smoother.refresh();
+      });
     },
     {
       dependencies: [smoother],
@@ -93,8 +100,8 @@ const StageSection = () => {
   );
 
   return (
-    <section ref={sectionRef} className="relative h-screen p-6">
-      <div className="absolute inset-0 flex items-start lg:items-center mt-20 lg:mt-0 justify-center pointer-events-none">
+    <section ref={sectionRef} className="relative h-dvh max-w-7xl mx-auto p-6">
+      <div className="absolute inset-0 flex items-start lg:items-center mt-[30%] lg:mt-0 justify-center pointer-events-none">
         <div className="w-78 h-78 lg:w-100 lg:h-100">
           <svg
             viewBox="0 0 100 100"
@@ -143,7 +150,7 @@ const StageSection = () => {
           ref={(el) => {
             stageRefs.current[index] = el;
           }}
-          className="absolute inset-0 flex items-center z-20 mt-30 lg:mt-0"
+          className="absolute inset-0 flex items-center z-20 mt-[65%] lg:mt-0"
         >
           <div
             className={`w-full flex ${

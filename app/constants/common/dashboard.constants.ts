@@ -1,6 +1,6 @@
 import { Home, Gauge, Plus } from 'lucide-react';
 
-export const dashboarMenuItems = [
+export const dashboardMenuItems = [
   {
     id: 1,
     icon: Home,

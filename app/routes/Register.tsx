@@ -39,23 +39,36 @@ const Register = () => {
       setAuth(user, token);
       navigate(from, { replace: true });
     } catch (e) {
-      const serverMessage = 'Usuario registrado con el mismo email';
-      setError('password', { type: 'manual', message: serverMessage });
-      throw (new AxiosError(), e);
+      if (e instanceof AxiosError) {
+        const responseData = e.response?.data as
+          | { message?: string | string[] }
+          | undefined;
+        const message = Array.isArray(responseData?.message)
+          ? responseData.message[0]
+          : responseData?.message;
+
+        setError('password', {
+          type: 'server',
+          message: message ?? 'No fue posible completar el registro',
+        });
+        return;
+      }
+
+      setError('password', {
+        type: 'server',
+        message: 'No fue posible completar el registro',
+      });
     }
   };
 
   return (
-    <div className="flex flex-col justify-center h-dvh px-6 sm:px-8">
+    <div className="min-h-[calc(100vh-140px)] flex flex-col justify-center px-6 sm:px-8">
       <NavLink to="/" className="mx-auto">
         <MainIso />
       </NavLink>
-      <h2 className="mt-4 text-center text-2xl font-bold tracking-tight text-dark dark:text-light">
-        Ingresa datos para el registro
-      </h2>
 
-      <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <div className="my-8 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           <Controller
             name="fullName"
             control={control}
@@ -81,7 +94,7 @@ const Register = () => {
               required: 'El correo es obligatorio',
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'Correo inválido',
+                message: 'Correo no válido',
               },
             }}
             render={({ field }) => (
@@ -117,7 +130,7 @@ const Register = () => {
             buttonType="submit"
             bgColor="bg-primary"
             textColor="text-light"
-            displayText={isSubmitting ? 'Cargando...' : 'Regístrame'}
+            displayText={isSubmitting ? 'Cargando...' : 'Registrarse'}
             isDisabled={!isValid || isSubmitting}
             Icon={Airplay}
             size="md"

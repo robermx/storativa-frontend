@@ -45,16 +45,12 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center h-dvh px-6 lg:px-8">
+    <div className="min-h-[calc(100vh-140px)] flex flex-col justify-center px-6 lg:px-8">
       <NavLink to="/" className="mx-auto">
         <MainIso />
       </NavLink>
-      <h2 className="mt-4 text-center text-2xl font-bold tracking-tight text-dark dark:text-light">
-        Inicia sesión con tu cuenta
-      </h2>
-
-      <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <div className="my-8 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           <Controller
             name="email"
             control={control}
@@ -108,7 +104,7 @@ const Login = () => {
         <p className="mt-3 text-center text-sm/6 text-gray-500 dark:text-gray-400">
           ¿No eres miembro aún?{' '}
           <NavLink to="/register" className="font-bold text-primary">
-            Registrate
+            Regístrate
           </NavLink>
         </p>
       </div>

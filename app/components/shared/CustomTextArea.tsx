@@ -10,7 +10,7 @@ const CustomTextArea: FC<CustomTextAreaProps> = ({
   ...rest
 }) => {
   return (
-    <div className="gruup w-full">
+    <div className="group w-full">
       <div className="relative">
         <textarea
           {...rest}
@@ -29,7 +29,7 @@ const CustomTextArea: FC<CustomTextAreaProps> = ({
         </div>
       )}
       {error && (
-        <div className="relative top-0.5">
+        <div className="relative top-1">
           <span className="absolute text-xs text-red-600/80 font-medium">
             {error}
           </span>

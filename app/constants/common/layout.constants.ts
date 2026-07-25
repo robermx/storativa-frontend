@@ -1,2 +1,2 @@
-export const excludePaths = ['/login', '/register', '/dashboard', '/create'];
+export const excludePaths = ['/login', '/register'];
 export const smoothScrollPaths = ['/'];

@@ -25,11 +25,11 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
     }
     return new Date();
   });
-  const [areSettingsOpen, setareSettingsOpen] = useState(false);
+  const [areSettingsOpen, setAreSettingsOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const inputConatinerRef = useRef<HTMLDivElement>(null);
+  const inputContainerRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const defaultClassNames = getDefaultClassNames();
@@ -39,10 +39,10 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node) &&
-        inputConatinerRef.current &&
-        !inputConatinerRef.current.contains(event.target as Node)
+        inputContainerRef.current &&
+        !inputContainerRef.current.contains(event.target as Node)
       ) {
-        setareSettingsOpen(false);
+        setAreSettingsOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -64,7 +64,7 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
       setInputValue(formatted);
       onChange?.(formatted);
     }
-    setareSettingsOpen(false);
+    setAreSettingsOpen(false);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,18 +114,18 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') {
-      setareSettingsOpen(false);
-      inputConatinerRef.current?.blur();
+      setAreSettingsOpen(false);
+      inputContainerRef.current?.blur();
     }
   };
 
   const toggleDropdown = () => {
-    setareSettingsOpen((prev) => !prev);
+    setAreSettingsOpen((prev) => !prev);
   };
 
   return (
     <div className="relative w-full">
-      <div ref={inputConatinerRef} className="relative">
+      <div ref={inputContainerRef} className="relative">
         <input
           ref={inputRef}
           id={inputId}
@@ -148,7 +148,6 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
           onClick={toggleDropdown}
           aria-label="Abrir calendario"
           aria-haspopup="listbox"
-          aria-expanded={areSettingsOpen}
           aria-controls={dropdownId}
           className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 transition-colors"
         >

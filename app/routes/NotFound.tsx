@@ -1,8 +1,11 @@
 import { NavLink } from 'react-router';
 import MainIso from '../assets/logo/MainIso';
 import { FC } from 'react';
+import { useAuthStore } from '@/store/authStore';
 
 const NotFound: FC = () => {
+  const user = useAuthStore((state) => state.user);
+
   return (
     <div className="h-dvh flex flex-col items-center justify-center px-4">
       <div className="text-center max-w-md">
@@ -23,10 +26,10 @@ const NotFound: FC = () => {
         </p>
 
         <NavLink
-          to="/"
+          to={user ? '/dashboard' : '/'}
           className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-medium"
         >
-          Volver al inicio
+          { `Volver al ${user ? 'dashboard' : 'home'}`}
         </NavLink>
       </div>
     </div>
