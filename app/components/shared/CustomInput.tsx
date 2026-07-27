@@ -29,7 +29,7 @@ const CustomInput: FC<CustomInputProps> = ({
         autoComplete: 'current-password',
       },
       [InputEnumType.Email]: {
-        type: 'text',
+        type: 'email',
         autoComplete: 'email',
         Icon: Mail,
       },
