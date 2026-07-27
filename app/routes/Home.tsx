@@ -4,7 +4,7 @@ import FinalSection from '@/components/home/FinalSection';
 
 const Home = () => {
   return (
-    <div className="pt-15 md:pt-10">
+    <div className="pt-13">
       <MainSection />
       <StageSection />
       <FinalSection />
