@@ -167,7 +167,7 @@ const StageSection = () => {
               <h2 className="stage-title text-3xl md:text-4xl lg:text-5xl font-bold text-primary tracking-tight mb-1">
                 {stage.title}
               </h2>
-              <p className="stage-subtitle text-xl md:text-2xl text-dark dark:text-light font-medium mb-5 tracking-wide">
+              <p className="stage-subtitle text-xl md:text-2xl text-dark dark:text-light font-medium mb-3 tracking-wide">
                 {stage.subtitle}
               </p>
               <p className="stage-desc text-base md:text-lg text-dark dark:text-light leading-relaxed">
