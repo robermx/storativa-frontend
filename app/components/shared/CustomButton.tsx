@@ -29,17 +29,17 @@ const CustomButton: FC<CustomButtonProps> = ({
       disabled={isDisabled}
     >
       <div className="flex justify-center items-center p-2.25">
+        {displayText && (
+          <span className={`text-${size} font-semibold pl-3 pr-2`}>
+            {displayText}
+          </span>
+        )}
         {Icon && (
           <Icon
             size={
               size === 'sm' ? 20 : size === 'md' ? 22 : size === 'lg' ? 24 : 28
             }
           />
-        )}
-        {displayText && (
-          <span className={`text-${size} font-semibold pl-3 pr-2`}>
-            {displayText}
-          </span>
         )}
       </div>
     </button>

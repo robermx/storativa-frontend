@@ -1,5 +1,4 @@
 import { FC, useRef } from 'react';
-import { NavLink } from 'react-router';
 import gsap from 'gsap';
 
 import { useGSAP } from '@gsap/react';
@@ -7,12 +6,10 @@ import { useGSAP } from '@gsap/react';
 import { useMenuStore } from '@/store/menuStore';
 import { useThemeStore } from '@/store/themeStore';
 import { useAuthStore } from '@/store/authStore';
-import MainLogo from '@/assets/logo/MainLogo';
-import IsoSimple from '@/assets/logo/IsoSimple';
 import UserInfo from '../dashboard/UserInfo';
 import ToggleButton from '../navbar/ToggleButton';
 import EmergentMenu from '../navbar/EmergentMenu';
-import useNavigationLink from '@/hooks/useNavigationLink';
+import CustomLink from '../shared/CustomLink';
 
 interface NavbarProps {
   areExcludedPaths: boolean;
@@ -24,8 +21,6 @@ const Navbar: FC<NavbarProps> = ({ areExcludedPaths }) => {
   const user = useAuthStore((state) => state.user);
   const themeExpanded = useThemeStore((state) => state.themeExpanded);
   const menuExpanded = useMenuStore((state) => state.menuExpanded);
-
-  const { handleNavLinkClick } = useNavigationLink();
 
   useGSAP(
     () => {
@@ -68,23 +63,10 @@ const Navbar: FC<NavbarProps> = ({ areExcludedPaths }) => {
       <div
         className={`navbar-wrapper transition-colors ${user ? 'dark:bg-darkness bg-lightness' : 'bg-primary'} flex justify-between items-center py-3 px-4 sm:px-8`}
       >
-        {user ? (
-          <UserInfo />
-        ) : (
-          <NavLink to="/" onClick={(event) => handleNavLinkClick(event, '/')}>
-            {({ isActive }) => (
-              <div className="flex items-center gap-3">
-                <IsoSimple />
-                <MainLogo
-                  className={`transition-colors ${isActive ? 'text-white' : 'text-secondary hover:text-white'}`}
-                />
-              </div>
-            )}
-          </NavLink>
-        )}
+        {user ? <UserInfo /> : <CustomLink isMainMenu />}
         <ToggleButton />
       </div>
-      <EmergentMenu handleClick={handleNavLinkClick} />
+      <EmergentMenu />
     </nav>
   );
 };

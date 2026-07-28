@@ -2,7 +2,7 @@ export interface SvgProps {
   width?: string;
   height?: string;
   primaryFill?: string;
-  secondaryfill?: string;
+  secondaryFill?: string;
   accentFill?: string;
   className?: string;
 }
