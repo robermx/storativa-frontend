@@ -229,7 +229,7 @@ const StageSection = () => {
           ref={(el) => {
             stageRefs.current[index] = el;
           }}
-          className="absolute inset-0 flex items-center z-20 mt-[60%] lg:mt-0"
+          className="absolute inset-0 flex items-center z-20 mt-[60%] lg:mt-[10%]"
         >
           <div
             className={`w-full flex ${

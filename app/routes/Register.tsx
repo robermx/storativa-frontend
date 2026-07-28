@@ -138,7 +138,7 @@ const Register = () => {
         </form>
 
         <p className="mt-3 text-center text-sm/6 text-gray-500 dark:text-gray-400">
-          ¿Ya eres miembro?{' '}
+          ¿Tienes una cuenta activa?{' '}
           <NavLink to="/login" className="font-bold text-primary">
             inicia Sesión
           </NavLink>

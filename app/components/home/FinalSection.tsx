@@ -3,15 +3,14 @@ import { ChevronRight } from 'lucide-react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
+import CustomLink from '../shared/CustomLink';
 import {
   homeFinalConstellationLinks,
   homeFinalConstellationNodes,
 } from '@/constants/home/home.constants';
-import CustomButton from '../shared/CustomButton';
-import { useNavigate } from 'react-router';
+import { variantType } from '@/interfaces/nav-link.interface';
 
 const FinalSection = () => {
-  const navigate = useNavigate();
   const sectionRef = useRef<HTMLElement | null>(null);
 
   useGSAP(
@@ -102,31 +101,23 @@ const FinalSection = () => {
 
       <div className="relative z-10 text-center max-w-3xl">
         <h2 className="home-final-copy text-4xl md:text-5xl lg:text-6xl font-bold text-dark dark:text-light tracking-tighter mb-6">
-          Tu historia{' '}
-          <span className="text-primary">establecerá lazos</span>
+          Tu historia podría{' '}
+          <span className="text-primary text-5xl md:text-7xl block">
+            crear lazos
+          </span>
         </h2>
         <p className="home-final-copy text-lg md:text-xl text-dark dark:text-light font-light leading-relaxed mb-10">
           Lo que nace de una emoción, un recuerdo o una mirada propia puede
           convertirse en una historia capaz de cruzar épocas, despertar otras
           ideas y conectar con quienes encuentran algo de sí mismos en ella.
         </p>
-        {/* <NavLink
-          to="/register"
-          className="home-final-copy inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-semibold text-light transition-transform duration-300 hover:-translate-y-0.5"
-        >
-          Comenzar mi Storativa
-          <ArrowRight className="h-4 w-4" />
-        </NavLink> */}
-        <div className="w-70 mx-auto">
-          <CustomButton
-            bgColor="bg-primary/80 hover:bg-primary"
-            textColor="text-lightness"
-            Icon={ChevronRight}
-            onClick={() => navigate('/register')}
-            displayText="Comenzar mi Storativa"
-            size="md"
-          />
-        </div>
+
+        <CustomLink
+          displayName="Comenzar con mi Storativa"
+          path="/register"
+          variant={variantType.contained}
+          Icon={ChevronRight}
+        />
       </div>
     </section>
   );
