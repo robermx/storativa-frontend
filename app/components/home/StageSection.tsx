@@ -4,7 +4,12 @@ import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { useSmoothScroll } from '@/context/SmoothScrollContext';
-import { homeStages, homeSvgPaths } from '@/constants/home/home.constants';
+import {
+  homeConstellationLinks,
+  homeConstellationNodes,
+  homeStages,
+  homeSvgPaths,
+} from '@/constants/home/home.constants';
 import { useThemeStore } from '@/store/themeStore';
 
 const StageSection = () => {
@@ -17,6 +22,20 @@ const StageSection = () => {
   useGSAP(
     () => {
       if (!smoother || !sectionRef.current) return;
+
+      const prefersReducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+      ).matches;
+
+      if (prefersReducedMotion) {
+        gsap.set('.stage-title, .stage-subtitle, .stage-desc, .stage-progress', {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+        });
+        gsap.set('.stage-node', { opacity: 0.45, scale: 1 });
+        return;
+      }
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -32,6 +51,16 @@ const StageSection = () => {
       homeStages.forEach((stage, index) => {
         const section = stageRefs.current[index];
         if (!section) return;
+
+        tl.to(
+          '.stage-node',
+          { opacity: 0.2, scale: 1, duration: 0.2 },
+          index,
+        ).to(
+          `.stage-node-${index}`,
+          { opacity: 0.9, scale: 1.7, duration: 0.35 },
+          index,
+        );
 
         // Morph SVG path
         if (svgPathRef.current && index < homeSvgPaths.length - 1) {
@@ -67,6 +96,12 @@ const StageSection = () => {
             { opacity: 0, y: 40 },
             { opacity: 0.6, y: 0, duration: 0.4 },
             index + 0.25,
+          )
+          .fromTo(
+            `[data-stage="${stage.id}"] .stage-progress`,
+            { opacity: 0, y: 20 },
+            { opacity: 0.45, y: 0, duration: 0.3 },
+            index + 0.3,
           );
 
         // Exit animation for text (except last stage)
@@ -85,6 +120,11 @@ const StageSection = () => {
               `[data-stage="${stage.id}"] .stage-desc`,
               { opacity: 0, y: -30, duration: 0.3 },
               index + 0.8,
+            )
+            .to(
+              `[data-stage="${stage.id}"] .stage-progress`,
+              { opacity: 0, y: -20, duration: 0.25 },
+              index + 0.8,
             );
         }
       });
@@ -100,10 +140,49 @@ const StageSection = () => {
   );
 
   return (
-    <section ref={sectionRef} className="relative h-dvh max-w-7xl mx-auto p-6">
-      <div className="absolute inset-0 flex items-start lg:items-center mt-[30%] lg:mt-0 justify-center pointer-events-none">
-        <div className="w-78 h-78 lg:w-100 lg:h-100">
+    <section ref={sectionRef} className="p-6 h-auto bg-radial from-transparent via-transparent to-primary/20 dark:to-primary/10 border-y border-primary/20">
+      <div className='relative h-[calc(100vh)] max-w-7xl mx-auto'>
+
+      <div className="absolute inset-0 flex items-start lg:items-center mt-[18%] lg:mt-0 justify-center pointer-events-none">
+        <div className="relative w-78 h-78 lg:w-100 lg:h-100">
+          <div className="absolute inset-[-12%] rounded-full bg-primary/10 blur-3xl" />
           <svg
+            aria-hidden="true"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            className="absolute inset-0 h-full w-full opacity-30"
+          >
+            {homeConstellationLinks.map((link) => {
+              const from = homeConstellationNodes.find(
+                (node) => node.id === link.from,
+              );
+              const to = homeConstellationNodes.find(
+                (node) => node.id === link.to,
+              );
+              if (!from || !to) return null;
+
+              return (
+                <line
+                  key={`${link.from}-${link.to}`}
+                  className="stroke-primary/30"
+                  x1={from.left}
+                  y1={from.top}
+                  x2={to.left}
+                  y2={to.top}
+                  strokeWidth="0.18"
+                />
+              );
+            })}
+          </svg>
+          {homeConstellationNodes.map((node) => (
+            <span
+              key={node.id}
+              className={`stage-node stage-node-${node.stage} absolute h-1.5 w-1.5 rounded-full bg-primary/60 shadow-[0_0_14px_var(--color-primary)]`}
+              style={{ left: `${node.left}%`, top: `${node.top}%` }}
+            />
+          ))}
+          <svg
+            aria-hidden="true"
             viewBox="0 0 100 100"
             className="w-full h-full"
             xmlns="http://www.w3.org/2000/svg"
@@ -150,13 +229,13 @@ const StageSection = () => {
           ref={(el) => {
             stageRefs.current[index] = el;
           }}
-          className="absolute inset-0 flex items-center z-20 mt-[65%] lg:mt-0"
+          className="absolute inset-0 flex items-center z-20 mt-[60%] lg:mt-0"
         >
           <div
             className={`w-full flex ${
               index % 2 === 1
-                ? 'justify-end pl-8 md:pl-16 lg:pl-32'
-                : 'justify-start pr-8 md:pr-16 lg:pr-32'
+                ? 'justify-end pl-0 md:pl-16 lg:pl-32'
+                : 'justify-start pr-0 md:pr-16 lg:pr-32'
             }`}
           >
             <div
@@ -170,6 +249,10 @@ const StageSection = () => {
               <p className="stage-subtitle text-xl md:text-2xl text-dark dark:text-light font-medium mb-3 tracking-wide">
                 {stage.subtitle}
               </p>
+              <p className="stage-progress mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-primary">
+                {String(index + 1).padStart(2, '0')} /{' '}
+                {String(homeStages.length).padStart(2, '0')}
+              </p>
               <p className="stage-desc text-base md:text-lg text-dark dark:text-light leading-relaxed">
                 {stage.description}
               </p>
@@ -177,6 +260,7 @@ const StageSection = () => {
           </div>
         </div>
       ))}
+      </div>
     </section>
   );
 };

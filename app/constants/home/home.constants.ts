@@ -66,6 +66,39 @@ export const homeSvgPaths = [
   'M48,30 C37,19 24,19 14,26 C19,45 29,60 48,74 Z M52,30 C63,19 76,19 86,26 C81,45 71,60 52,74 Z',
 ];
 
+export const homeConstellationNodes = [
+  { id: 'node-1', left: 12, top: 24, stage: 0 },
+  { id: 'node-2', left: 28, top: 68, stage: 1 },
+  { id: 'node-3', left: 48, top: 16, stage: 2 },
+  { id: 'node-4', left: 72, top: 34, stage: 3 },
+  { id: 'node-5', left: 86, top: 70, stage: 4 },
+  { id: 'node-6', left: 58, top: 86, stage: 5 },
+];
+
+export const homeConstellationLinks = [
+  { from: 'node-1', to: 'node-2' },
+  { from: 'node-2', to: 'node-3' },
+  { from: 'node-3', to: 'node-4' },
+  { from: 'node-4', to: 'node-5' },
+  { from: 'node-5', to: 'node-6' },
+];
+
+export const homeFinalConstellationNodes = [
+  { id: 'final-node-1', left: 18, top: 42 },
+  { id: 'final-node-2', left: 31, top: 28 },
+  { id: 'final-node-3', left: 69, top: 28 },
+  { id: 'final-node-4', left: 82, top: 42 },
+  { id: 'final-node-5', left: 50, top: 78 },
+];
+
+export const homeFinalConstellationLinks = [
+  { from: 'final-node-1', to: 'final-node-2' },
+  { from: 'final-node-2', to: 'final-node-3' },
+  { from: 'final-node-3', to: 'final-node-4' },
+  { from: 'final-node-4', to: 'final-node-5' },
+  { from: 'final-node-5', to: 'final-node-1' },
+];
+
 function seededRandom(seed: number) {
   let s = seed;
   return () => {
