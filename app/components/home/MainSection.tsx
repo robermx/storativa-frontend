@@ -5,7 +5,7 @@ import { useGSAP } from '@gsap/react';
 import {
   homeConstellationLinks,
   homeConstellationNodes,
-} from '@/constants/home/home.constants';
+} from '@/constants/common/home.constants';
 
 const MainSection = () => {
   const sectionRef = useRef<HTMLElement | null>(null);

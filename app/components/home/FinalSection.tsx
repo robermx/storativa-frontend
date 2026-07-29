@@ -7,7 +7,7 @@ import CustomLink from '../shared/CustomLink';
 import {
   homeFinalConstellationLinks,
   homeFinalConstellationNodes,
-} from '@/constants/home/home.constants';
+} from '@/constants/common/home.constants';
 import { variantType } from '@/interfaces/nav-link.interface';
 
 const FinalSection = () => {

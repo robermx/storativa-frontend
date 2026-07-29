@@ -6,16 +6,14 @@ import IsoSimple from '@/assets/logo/IsoSimple';
 import MainLogo from '@/assets/logo/MainLogo';
 import { CustomLinkProps, variantType } from '@/interfaces/nav-link.interface';
 
-
-
-
 const CustomLink: FC<CustomLinkProps> = ({
   isMainMenu = false,
   path = '/',
   displayName = '',
   variant = variantType.simple,
   Icon = null,
-  size = "sm"
+  size = 'sm',
+  withPipe = false
 }) => {
   const { handleNavLinkClick } = useNavigationLink();
   return isMainMenu ? (
@@ -37,7 +35,9 @@ const CustomLink: FC<CustomLinkProps> = ({
         className={({ isActive }) =>
           variant === variantType.simple
             ? `transition-colors font-bold ${isActive ? 'text-darkness' : 'text-gray-500 hover:text-darkness'}`
-            : 'inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-semibold text-light transition-transform duration-300 hover:-translate-y-0.5'
+            : variant === variantType.outlined
+              ? 'inline-flex items-center gap-2 rounded-md border-2 border-dark/10 px-6 py-2 font-semibold text-dark transition-colors duration-300 hover:border-primary/40 hover:text-primary dark:border-light/15 dark:text-light dark:hover:border-primary/40'
+              : 'inline-flex items-center gap-2 rounded-md transition-colors bg-primary/80 hover:bg-primary px-6 py-2 font-semibold text-light'
         }
       >
         {displayName}
@@ -49,7 +49,8 @@ const CustomLink: FC<CustomLinkProps> = ({
           />
         )}
       </NavLink>
-      <span className="text-primary last:hidden">|</span>
+
+      {withPipe && <span className="text-primary last:hidden">|</span>}
     </Fragment>
   );
 };
