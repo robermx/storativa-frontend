@@ -9,7 +9,7 @@ import {
   homeConstellationNodes,
   homeStages,
   homeSvgPaths,
-} from '@/constants/home/home.constants';
+} from '@/constants/common/home.constants';
 import { useThemeStore } from '@/store/themeStore';
 
 const StageSection = () => {

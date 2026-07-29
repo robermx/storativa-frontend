@@ -63,7 +63,7 @@ const Navbar: FC<NavbarProps> = ({ areExcludedPaths }) => {
       <div
         className={`navbar-wrapper transition-colors ${user ? 'dark:bg-darkness bg-lightness' : 'bg-primary'} flex justify-between items-center py-3 px-4 sm:px-8`}
       >
-        {user ? <UserInfo /> : <CustomLink isMainMenu />}
+        {Boolean(user) ? <UserInfo /> : <CustomLink isMainMenu />}
         <ToggleButton />
       </div>
       <EmergentMenu />
