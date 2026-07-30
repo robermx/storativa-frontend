@@ -1,6 +1,7 @@
-import { FC } from 'react';
+import { FC, MouseEvent } from 'react';
 
 import { CustomButtonProps } from '@/interfaces/button.interface';
+import { useMenuStore } from '@/store/menuStore';
 
 const CustomButton: FC<CustomButtonProps> = ({
   bgColor,
@@ -8,10 +9,18 @@ const CustomButton: FC<CustomButtonProps> = ({
   buttonType = 'button',
   displayText = null,
   isDisabled = false,
-  onClick = () => {},
+  onClick = null,
   Icon,
   size = 'sm',
 }) => {
+  const closeMenuExpand = useMenuStore((state) => state.closeMenuExpand);
+  const menuExpanded = useMenuStore((state) => state.menuExpanded);
+
+  const handleClick = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+    if (menuExpanded) closeMenuExpand();
+    if (onClick) onClick(event)
+  };
+
   return (
     <button
       type={buttonType}
@@ -25,7 +34,7 @@ const CustomButton: FC<CustomButtonProps> = ({
         disabled:hover:opacity-100
         ${isDisabled ? '' : 'active:scale-98'}
       `}
-      onClick={onClick}
+      onClick={handleClick}
       disabled={isDisabled}
     >
       <div className="flex justify-center items-center p-2.25">
