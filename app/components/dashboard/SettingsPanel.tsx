@@ -7,6 +7,7 @@ import { X, User, Mail, CreditCard, LogOut } from 'lucide-react';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useAuthStore } from '@/store/authStore';
 import { logoutRequest } from '@/services/auth.service';
+import { titleFormat } from '@/utils/titleFormat';
 import CustomButton from '../shared/CustomButton';
 
 const SettingsPanel = () => {
@@ -73,7 +74,7 @@ const SettingsPanel = () => {
             <div>
               <p className="text-xs text-dark/60 dark:text-light/60">Nombre</p>
               <p className="text-sm font-medium text-dark dark:text-light">
-                {user?.fullName || 'Usuario'}
+                {titleFormat(user?.fullName || 'usuario')}
               </p>
             </div>
           </div>

@@ -1,5 +1,9 @@
 export const getSectionSubtitle = (path: string): string => {
   switch (path) {
+    case '/':
+      return 'Home';
+    case '/about':
+      return 'Acerca'
     case '/dashboard':
       return 'Dashboard';
     case '/create':
