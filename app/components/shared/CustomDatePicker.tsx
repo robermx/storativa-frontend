@@ -26,7 +26,7 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
     return new Date();
   });
   const [areSettingsOpen, setAreSettingsOpen] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState(value ?? '');
 
   const inputRef = useRef<HTMLInputElement>(null);
   const inputContainerRef = useRef<HTMLDivElement>(null);
@@ -48,6 +48,10 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    setInputValue(value ?? '');
+  }, [value]);
 
   const selectedDate =
     value && isValid(parse(value, INPUT_FORMAT, new Date()))

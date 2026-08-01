@@ -1,143 +1,262 @@
-import { FC, Fragment } from 'react';
-import {
-  type FieldErrors,
-  type Control,
-  useFieldArray,
-  Controller,
-  useWatch,
-} from 'react-hook-form';
-import { CalendarMinus, CalendarPlus } from 'lucide-react';
+import { FC, Fragment, useState } from 'react';
+import { Controller, useForm, useWatch } from 'react-hook-form';
+import { CalendarPlus, Check, Pencil, Trash2, X } from 'lucide-react';
 
+import { AdaptedPeriod } from '@/interfaces/storativa.interface';
 import { useSettingsStore } from '@/store/settingsStore';
+import { validateDateField } from '@/utils/dateValidation';
+import CustomButton from '../shared/CustomButton';
 import CustomDatePicker from '../shared/CustomDatePicker';
 import CustomInput from '../shared/CustomInput';
-import CustomButton from '../shared/CustomButton';
-import { validateDateField } from '@/utils/dateValidation';
-import { IReqStorativa } from '@/interfaces/storativa.interface';
 import { InputEnumType } from '@/interfaces/input.interface';
 
 interface CreateAdaptedPeriodsProps {
-  control: Control<IReqStorativa>;
-  errors: FieldErrors<IReqStorativa>;
+  periods: AdaptedPeriod[];
+  onAdd: (period: AdaptedPeriod) => void;
+  onUpdate: (index: number, period: AdaptedPeriod) => void;
+  onRemove: (index: number) => void;
+  onContinue: () => void;
+  canContinue: boolean;
+  isDisabled?: boolean;
 }
 
+const emptyPeriod: AdaptedPeriod = {
+  name: '',
+  from: '',
+  to: '',
+  place: '',
+};
+
 const CreateAdaptedPeriods: FC<CreateAdaptedPeriodsProps> = ({
-  control,
-  errors,
+  periods,
+  onAdd,
+  onUpdate,
+  onRemove,
+  onContinue,
+  canContinue,
+  isDisabled = false,
 }) => {
-  const adaptedPeriods = useWatch({ control, name: 'adaptedPeriods' });
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [pendingRemoval, setPendingRemoval] = useState<number | null>(null);
   const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
   const {
-    fields: periodFields,
-    append: appendPeriod,
-    remove: removePeriod,
-  } = useFieldArray({
     control,
-    name: 'adaptedPeriods',
+    handleSubmit,
+    reset,
+    formState: { errors, isValid, isDirty },
+  } = useForm<AdaptedPeriod>({
+    mode: 'onChange',
+    defaultValues: emptyPeriod,
   });
+  const draft = useWatch({ control });
+  const isLocked = areSettingsOpen || isDisabled;
+
+  const savePeriod = (period: AdaptedPeriod) => {
+    if (editingIndex === null) {
+      onAdd(period);
+    } else {
+      onUpdate(editingIndex, period);
+      setEditingIndex(null);
+    }
+    reset(emptyPeriod);
+  };
+
+  const startEditing = (index: number) => {
+    setPendingRemoval(null);
+    setEditingIndex(index);
+    reset(periods[index]);
+  };
+
+  const cancelEditing = () => {
+    setEditingIndex(null);
+    reset(emptyPeriod);
+  };
+
+  const confirmRemoval = (index: number) => {
+    onRemove(index);
+    setPendingRemoval(null);
+    if (editingIndex === index) cancelEditing();
+    if (editingIndex !== null && editingIndex > index) {
+      setEditingIndex(editingIndex - 1);
+    }
+  };
 
   return (
     <Fragment>
-      <h3 className="mt-8 px-7 pt-3 rounded-tr-lg bg-primary/15 dark:bg-primary/10 max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
+      <h3 className="px-6 pt-3 rounded-tr-lg bg-primary/15 dark:bg-primary/10 max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
         Períodos Adaptados
       </h3>
       <div className="bg-primary/15 dark:bg-primary/10 px-6 py-7 rounded-b-md rounded-tr-md">
-        {periodFields.map((field, index) => (
-          <div
-            key={field.id}
-            className="grid gap-y-7 md:grid-cols-2 md:gap-x-6 xl:grid-cols-4 xl:gap-y-0"
-          >
+        <p className="mb-6 text-sm text-dark/65 dark:text-light/65">
+          Añade cada período por separado. Podrás revisarlo, editarlo o
+          eliminarlo antes de continuar.
+        </p>
+
+        {periods.length > 0 && (
+          <div className="mb-7 divide-y divide-primary/15 dark:divide-light/10">
+            {periods.map((period, index) => (
+              <div
+                key={`${period.name}-${period.from}-${index}`}
+                className="flex flex-col gap-3 py-4 first:pt-0 sm:flex-row sm:items-center sm:justify-between"
+              >
+                <div>
+                  <p className="font-semibold text-dark dark:text-light">
+                    {period.name}
+                  </p>
+                  <p className="text-sm text-dark/65 dark:text-light/65">
+                    {period.from} — {period.to} · {period.place}
+                  </p>
+                </div>
+                {pendingRemoval === index ? (
+                  <div className="flex gap-2 sm:w-52">
+                    <button
+                      type="button"
+                      className="flex-1 rounded-md bg-red-500/10 px-3 py-2 text-sm font-semibold text-red-500 hover:bg-red-500/20 disabled:cursor-not-allowed"
+                      onClick={() => confirmRemoval(index)}
+                      disabled={isLocked}
+                    >
+                      Eliminar
+                    </button>
+                    <button
+                      type="button"
+                      className="flex-1 rounded-md bg-dark/10 px-3 py-2 text-sm font-semibold text-dark hover:bg-dark/20 dark:bg-light/10 dark:text-light dark:hover:bg-light/20 disabled:cursor-not-allowed"
+                      onClick={() => setPendingRemoval(null)}
+                      disabled={isLocked}
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex gap-2 sm:w-28">
+                    <button
+                      type="button"
+                      aria-label={`Editar ${period.name}`}
+                      className="flex-1 rounded-md bg-primary/10 p-2 text-primary hover:bg-primary/20 disabled:cursor-not-allowed"
+                      onClick={() => startEditing(index)}
+                      disabled={isLocked}
+                    >
+                      <Pencil size={18} className="mx-auto" />
+                    </button>
+                    <button
+                      type="button"
+                      aria-label={`Eliminar ${period.name}`}
+                      className="flex-1 rounded-md bg-red-500/10 p-2 text-red-500 hover:bg-red-500/20 disabled:cursor-not-allowed"
+                      onClick={() => setPendingRemoval(index)}
+                      disabled={isLocked}
+                    >
+                      <Trash2 size={18} className="mx-auto" />
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div className="border-t border-primary/15 pt-6 dark:border-light/10">
+          <p className="mb-4 text-sm font-semibold text-dark dark:text-light">
+            {editingIndex === null ? 'Añadir período' : 'Editar período'}
+          </p>
+          <div className="grid gap-y-7 md:grid-cols-2 md:gap-x-6 xl:grid-cols-4 xl:gap-y-0">
             <Controller
-              name={`adaptedPeriods.${index}.from`}
+              name="from"
               control={control}
               rules={{
                 required: 'Fecha inicio obligatoria',
-                validate: (from) => {
-                  const to = adaptedPeriods[index]?.to;
-                  return validateDateField(from, to, true);
-                },
+                validate: (from) => validateDateField(from, draft.to, true),
               }}
               render={({ field }) => (
                 <CustomDatePicker
                   {...field}
-                  inputName={`period-from-${index}`}
+                  inputName="period-from"
                   placeholder="Desde (dd/mm/aaaa)"
-                  error={errors.adaptedPeriods?.[index]?.from?.message}
+                  error={errors.from?.message}
                 />
               )}
             />
             <Controller
-              name={`adaptedPeriods.${index}.to`}
+              name="to"
               control={control}
               rules={{
                 required: 'La fecha de fin es obligatoria',
-                validate: (to) => {
-                  const from = adaptedPeriods[index]?.from;
-                  return validateDateField(to, from, false);
-                },
+                validate: (to) => validateDateField(to, draft.from, false),
               }}
               render={({ field }) => (
                 <CustomDatePicker
                   {...field}
-                  inputName={`period-to-${index}`}
+                  inputName="period-to"
                   placeholder="Hasta (dd/mm/aaaa)"
-                  error={errors.adaptedPeriods?.[index]?.to?.message}
+                  error={errors.to?.message}
                 />
               )}
             />
             <Controller
-              name={`adaptedPeriods.${index}.place`}
+              name="place"
               control={control}
               rules={{ required: 'El lugar es obligatorio' }}
               render={({ field }) => (
                 <CustomInput
                   {...field}
                   inputType={InputEnumType.place}
-                  inputName={`period-place-${index}`}
+                  inputName="period-place"
                   placeholder="Lugar"
-                  error={errors.adaptedPeriods?.[index]?.place?.message}
+                  error={errors.place?.message}
                 />
               )}
             />
-            <div className="flex gap-x-6 w-full">
-              <Controller
-                name={`adaptedPeriods.${index}.name`}
-                control={control}
-                rules={{ required: 'El período es obligatorio' }}
-                render={({ field }) => (
-                  <CustomInput
-                    {...field}
-                    inputType={InputEnumType.period}
-                    inputName={`period-name-${index}`}
-                    placeholder="Período"
-                    error={errors.adaptedPeriods?.[index]?.name?.message}
-                  />
-                )}
+            <Controller
+              name="name"
+              control={control}
+              rules={{ required: 'El período es obligatorio' }}
+              render={({ field }) => (
+                <CustomInput
+                  {...field}
+                  inputType={InputEnumType.period}
+                  inputName="period-name"
+                  placeholder="Período"
+                  error={errors.name?.message}
+                />
+              )}
+            />
+          </div>
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-between">
+            <div className="sm:w-56">
+              <CustomButton
+                bgColor="bg-primary/10 hover:bg-primary/20"
+                textColor="text-primary"
+                Icon={editingIndex === null ? CalendarPlus : Check}
+                displayText={
+                  editingIndex === null ? 'Añadir período' : 'Guardar cambios'
+                }
+                onClick={() => void handleSubmit(savePeriod)()}
+                isDisabled={!isValid || isLocked}
               />
-              <div className="flex w-fit">
-                {index === periodFields.length - 1 ? (
+            </div>
+            <div className="flex gap-3 sm:w-auto">
+              {editingIndex !== null && (
+                <div className="flex-1 sm:w-32">
                   <CustomButton
-                    bgColor="bg-primary/10 hover:bg-primary/20"
-                    textColor="text-primary"
-                    Icon={CalendarPlus}
-                    onClick={() =>
-                      appendPeriod({ name: '', from: '', to: '', place: '' })
-                    }
-                    isDisabled={areSettingsOpen}
+                    bgColor="bg-dark/10 hover:bg-dark/20 dark:bg-light/10 dark:hover:bg-light/20"
+                    textColor="text-dark dark:text-light"
+                    Icon={X}
+                    displayText="Cancelar"
+                    onClick={cancelEditing}
+                    isDisabled={isLocked}
                   />
-                ) : (
-                  <CustomButton
-                    bgColor="bg-red-500/10 hover:bg-red-500/20"
-                    textColor="text-red-500"
-                    Icon={CalendarMinus}
-                    onClick={() => removePeriod(index)}
-                    isDisabled={areSettingsOpen}
-                  />
-                )}
+                </div>
+              )}
+              <div className="flex-1 sm:w-44">
+                <CustomButton
+                  bgColor="bg-primary"
+                  textColor="text-light"
+                  displayText="Continuar"
+                  isDisabled={!canContinue || isDirty || isLocked}
+                  onClick={onContinue}
+                />
               </div>
             </div>
           </div>
-        ))}
+        </div>
       </div>
     </Fragment>
   );
