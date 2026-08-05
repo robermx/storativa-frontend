@@ -6,6 +6,7 @@ import { X, User, Mail, CreditCard, LogOut } from 'lucide-react';
 
 import { useSettingsStore } from '@/store/settingsStore';
 import { useAuthStore } from '@/store/authStore';
+import { useNavHeight } from '@/store/navHeightStore';
 import { logoutRequest } from '@/services/auth.service';
 import { titleFormat } from '@/utils/titleFormat';
 import CustomButton from '../shared/CustomButton';
@@ -17,6 +18,7 @@ const SettingsPanel = () => {
   const closeSettings = useSettingsStore((state) => state.closeSettings);
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
+  const navHeight = useNavHeight((state) => state.navHeight);
 
   const handleLogout = async () => {
     try {
@@ -52,21 +54,25 @@ const SettingsPanel = () => {
         }`}
       >
         <div
-          className="w-full h-[calc(100vh-74px)] mt-18.5 sm:w-90 flex flex-col gap-y-5 settings-wrapper p-6 absolute bg-lightness dark:bg-darkness border border-t-0 border-dark/10 dark:border-light/10"
+          className={`w-full h-[calc(100vh-${navHeight}px)] overflow-hidden sm:w-90 flex flex-col gap-y-5 settings-wrapper px-6 py-10 absolute bg-lightness dark:bg-darkness border border-t-0 border-dark/10 dark:border-light/10`}
           style={{
             transform: 'translateX(-100%)',
+            top: navHeight,
           }}
         >
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-bold text-dark dark:text-light">
               Configuración
             </h2>
-            <button
+            <CustomButton
+              bgColor="bg-transparent"
+              textColor="text-darkness dark:text-lightness"
+              Icon={X}
               onClick={closeSettings}
-              className="p-2 rounded-full hover:bg-dark/5 dark:hover:bg-light/5 transition-colors"
-            >
-              <X className="w-5 h-5 text-dark/60 dark:text-light/60" />
-            </button>
+              widthAuto
+              noPadding
+              size='md'
+            />
           </div>
 
           <div className="flex items-center gap-3 p-3 rounded-xl bg-white/50 dark:bg-dark/50">

@@ -6,10 +6,12 @@ import { useGSAP } from '@gsap/react';
 import { useMenuStore } from '@/store/menuStore';
 import { useThemeStore } from '@/store/themeStore';
 import { useAuthStore } from '@/store/authStore';
-import UserInfo from '../dashboard/UserInfo';
+import UserInfo from '../navbar/UserInfo';
 import ToggleButton from '../navbar/ToggleButton';
 import EmergentMenu from '../navbar/EmergentMenu';
 import CustomLink from '../shared/CustomLink';
+import useDynamicNavHeight from '@/hooks/useDynamicNavHeight';
+import { useNavHeight } from '@/store/navHeightStore';
 
 interface NavbarProps {
   areExcludedPaths: boolean;
@@ -17,15 +19,18 @@ interface NavbarProps {
 
 const Navbar: FC<NavbarProps> = ({ areExcludedPaths }) => {
   const menuRef = useRef<HTMLDivElement>(null);
+  const addMenuRef = useRef<HTMLDivElement>(null);
 
+  useDynamicNavHeight(menuRef, addMenuRef);
   const user = useAuthStore((state) => state.user);
   const themeExpanded = useThemeStore((state) => state.themeExpanded);
   const menuExpanded = useMenuStore((state) => state.menuExpanded);
+  const navHeight = useNavHeight((state) => state.navHeight);
 
   useGSAP(
     () => {
       gsap.to('.navbar-wrapper', {
-        y: areExcludedPaths ? -74 : 0,
+        y: areExcludedPaths ? -navHeight : 0,
         duration: 0.3,
         ease: 'power2.in',
       });
@@ -66,7 +71,7 @@ const Navbar: FC<NavbarProps> = ({ areExcludedPaths }) => {
         {Boolean(user) ? <UserInfo /> : <CustomLink isMainMenu />}
         <ToggleButton />
       </div>
-      <EmergentMenu />
+      <EmergentMenu addMenuRef={addMenuRef} />
     </nav>
   );
 };

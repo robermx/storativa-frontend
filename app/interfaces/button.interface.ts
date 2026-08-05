@@ -16,4 +16,7 @@ export type CustomButtonProps = {
     Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
   >;
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  widthAuto?: boolean;
+  noPadding?: boolean;
+  truncateText?: boolean;
 };

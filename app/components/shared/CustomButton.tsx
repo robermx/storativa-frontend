@@ -12,19 +12,24 @@ const CustomButton: FC<CustomButtonProps> = ({
   onClick = null,
   Icon,
   size = 'sm',
+  widthAuto = false,
+  noPadding = false,
+  truncateText = false,
 }) => {
   const closeMenuExpand = useMenuStore((state) => state.closeMenuExpand);
   const menuExpanded = useMenuStore((state) => state.menuExpanded);
 
-  const handleClick = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+  const handleClick = (
+    event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+  ) => {
     if (menuExpanded) closeMenuExpand();
-    if (onClick) onClick(event)
+    if (onClick) onClick(event);
   };
 
   return (
     <button
       type={buttonType}
-      className={`w-full rounded-md transition-all cursor-pointer
+      className={`${widthAuto ? 'w-auto' : 'w-full'} min-w-0 rounded-md transition-all cursor-pointer
         ${bgColor} 
         ${textColor}
         disabled:bg-disabledL dark:disabled:bg-disabledD
@@ -37,14 +42,19 @@ const CustomButton: FC<CustomButtonProps> = ({
       onClick={handleClick}
       disabled={isDisabled}
     >
-      <div className="flex justify-center items-center p-2.25">
+      <div
+        className={`flex min-w-0 ${truncateText ? 'justify-start' : 'justify-center'} items-center gap-2 ${noPadding ? 'p-0' : 'p-2.25'}`}
+      >
         {displayText && (
-          <span className={`text-${size} font-semibold pl-3 pr-2`}>
+          <span
+            className={`min-w-0 text-${size} font-semibold ${truncateText ? 'truncate' : ''}`}
+          >
             {displayText}
           </span>
         )}
         {Icon && (
           <Icon
+            className="shrink-0"
             size={
               size === 'sm' ? 20 : size === 'md' ? 22 : size === 'lg' ? 24 : 28
             }

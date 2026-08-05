@@ -4,14 +4,16 @@ import {
   aboutStages,
 } from '@/constants/common/about.constants';
 import CustomLink from '@/components/shared/CustomLink';
+import { useNavHeight } from '@/store/navHeightStore';
 
 const About = () => {
+  const navHeight = useNavHeight((state) => state.navHeight);
   return (
-    <div className="relative overflow-hidden px-6 pb-16 pt-35 sm:px-8 lg:px-10">
+    <div className="relative overflow-hidden px-6 py-10 lg:py-0 md:px-8">
       {/* <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,rgba(0,160,232,0.16),transparent_42%),radial-gradient(circle_at_bottom_right,rgba(156,213,189,0.16),transparent_38%)]" /> */}
 
-      <section className="mx-auto flex min-h-[calc(100vh-140px)] max-w-6xl flex-col justify-center gap-14 lg:gap-20">
-        <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+      <section className="mx-auto flex  max-w-6xl flex-col justify-center gap-14 lg:gap-20">
+        <div className={`grid h-[calc(100vh-${navHeight}px)] gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center`}>
           <div className="max-w-3xl">
             <p className="mb-4 inline-flex rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary dark:border-primary/30 dark:bg-primary/15">
               La razón de Storativa

@@ -13,12 +13,14 @@ import { PendingRegistration } from '@/interfaces/auth.interface';
 import CustomDialog from '@/components/shared/CustomDialog';
 import { getErrorMessage } from '@/utils/getErrorMessage';
 import CustomFormCode from '@/components/shared/CustomFormCode';
+import { useNavHeight } from '@/store/navHeightStore';
 
 const Register = () => {
   const firstCodeInputRef = useRef<HTMLInputElement | null>(null);
   const [pendingRegistration, setPendingRegistration] =
     useState<PendingRegistration | null>(null);
   const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false);
+  const navHeight = useNavHeight((state) => state.navHeight);
   const {
     control,
     handleSubmit,
@@ -71,7 +73,10 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-dvh flex flex-col justify-center px-6 sm:px-8">
+    <div
+      className={`h-[calc(100vh-${navHeight}px)] flex flex-col justify-center px-6 lg:px-8`}
+      style={{ paddingTop: navHeight }}
+    >
       <NavLink to="/" className="mx-auto">
         <MainIso />
       </NavLink>

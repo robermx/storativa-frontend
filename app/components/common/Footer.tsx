@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 const Footer: FC = () => {
   return (
-    <footer className="bg-lightness dark:bg-darkness py-2 px-8">
+    <footer className="bg-lightness dark:bg-darkness py-2 px-8 mt-auto">
       <p className="text-dark dark:text-light text-center">
         Storativa © {new Date().getFullYear()} Derechos Reservados
       </p>

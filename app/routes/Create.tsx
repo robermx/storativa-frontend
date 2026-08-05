@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLoaderData } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 import { useForm, useWatch } from 'react-hook-form';
 import { Check, LayersPlus, Sparkles } from 'lucide-react';
 
@@ -22,6 +22,7 @@ import {
 import CreateGenerals from '@/components/create/CreateGenerals';
 import CreateAdaptedPeriods from '@/components/create/CreateAdaptedPeriods';
 import CreateCharacter from '@/components/create/CreateCharacter';
+import { getErrorMessage } from '@/utils/getErrorMessage';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const clientLoader = createClientLoader({
@@ -48,6 +49,7 @@ const generalFields = [
 const steps = ['Datos generales', 'Períodos adaptados', 'Personajes'] as const;
 
 const Create = () => {
+  const navigate = useNavigate();
   const {
     characterCatalog,
     contextCatalog,
@@ -58,6 +60,7 @@ const Create = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [hasCompletedGenerals, setHasCompletedGenerals] = useState(false);
   const [hasCompletedPeriods, setHasCompletedPeriods] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const {
     control,
@@ -77,7 +80,7 @@ const Create = () => {
       timeToComplete: '',
       initialBasedDate: '',
       genderLabels: [],
-      content: 'Are you ready for this?',
+      content: '',
     },
   });
   const periods = useWatch({ control, name: 'adaptedPeriods' }) ?? [];
@@ -106,6 +109,7 @@ const Create = () => {
   };
 
   const onSubmit = async (data: IReqStorativa) => {
+    setSubmitError(null);
     if (periods.length === 0) {
       setActiveStep(1);
       return;
@@ -130,8 +134,17 @@ const Create = () => {
         to: toIsoDate(period.to),
       })),
     };
-    await createUserStorativa(adaptedData);
-    // TODO: send to content page
+    try {
+      const storativa = await createUserStorativa(adaptedData);
+      navigate(`/edition/${storativa._id}`, { replace: true });
+    } catch (error: unknown) {
+      setSubmitError(
+        getErrorMessage(
+          error,
+          'No pudimos crear tu Storativa. Intenta de nuevo.',
+        ),
+      );
+    }
   };
 
   const canOpenStep = (stepIndex: number) => {
@@ -203,6 +216,14 @@ const Create = () => {
         onSubmit={handleSubmit(onSubmit, () => setActiveStep(0))}
         noValidate
       >
+        {submitError && (
+          <div
+            role="alert"
+            className="mx-6 mb-6 rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-700 dark:text-red-300"
+          >
+            {submitError}
+          </div>
+        )}
         <div className={activeStep === 0 ? undefined : 'hidden'}>
           <>
             <CreateGenerals
