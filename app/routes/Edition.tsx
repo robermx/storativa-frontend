@@ -32,6 +32,7 @@ import { titleFormat } from '@/utils/titleFormat';
 import ChapterSidebar from '@/components/edition/ChapterSidebar';
 import RichTextEditor from '@/components/edition/RichTextEditor';
 import EditionSkeleton from '@/components/skeleton/EditionSkeleton';
+import { useNavHeight } from '@/store/navHeightStore';
 
 const EMPTY_EDITOR_CONTENT: JSONContent = {
   type: 'doc',
@@ -84,6 +85,8 @@ const Edition = () => {
   const { storativa } = useLoaderData<typeof clientLoader>();
   const navigate = useNavigate();
   const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
+  const navHeight = useNavHeight((state) => state.navHeight);
+
   const loadedChapters = storativa.chapters ?? [];
 
   const [chapters, setChapters] = useState<Chapter[]>(() =>
@@ -374,7 +377,7 @@ const Edition = () => {
 
   if (isInitializing || !activeChapter) {
     return initializationError ? (
-      <div className="mx-auto flex min-h-dvh max-w-xl items-center px-6 pt-20">
+      <div className="mx-auto flex min-h-dvh max-w-xl items-center px-6">
         <div className="w-full rounded-xl border border-red-500/20 bg-red-500/10 p-6 text-center">
           <AlertCircle className="mx-auto text-red-500" size={36} />
           <h1 className="mt-3 text-xl font-semibold">
@@ -410,7 +413,8 @@ const Edition = () => {
     <div
       aria-hidden={areSettingsOpen}
       inert={areSettingsOpen}
-      className="mx-auto max-w-7xl px-6 pb-12 pt-28"
+      className={`mx-auto max-w-full p-6 h-[calc(100vh-${navHeight}px)]`}
+      style={{ top: navHeight }}
     >
       <header className="mb-6 flex flex-col gap-4 rounded-xl border border-dark/10 bg-primary/10 p-5 dark:border-light/10 dark:bg-primary/5 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex min-w-0 items-center gap-3">
@@ -466,14 +470,14 @@ const Edition = () => {
           onMove={moveChapter}
         />
         <section aria-label={`Edición de ${activeChapter.title}`}>
-          <div className="mb-2 flex items-center justify-between px-1">
+          {/* <div className="mb-2 flex items-center justify-between px-1">
             <h2 className="truncate text-sm font-medium text-dark/60 dark:text-light/60">
               {activeChapter.title}
             </h2>
             <span className="text-xs text-dark/45 dark:text-light/45">
               Capítulo {activeChapter.order + 1} de {chapters.length}
             </span>
-          </div>
+          </div> */}
           <RichTextEditor
             chapterId={activeChapter._id}
             content={activeChapter.content || EMPTY_EDITOR_CONTENT}
@@ -481,6 +485,7 @@ const Edition = () => {
           />
         </section>
       </div>
+      <div className="pb-8" />
     </div>
   );
 };
@@ -494,7 +499,7 @@ export const ErrorBoundary = () => {
     : 'No pudimos cargar el espacio de edición.';
 
   return (
-    <div className="flex min-h-dvh items-center justify-center px-6 pt-16">
+    <div className="flex min-h-dvh items-center justify-center p-6">
       <div className="w-full max-w-lg rounded-xl border border-dark/10 bg-primary/10 p-8 text-center dark:border-light/10 dark:bg-primary/5">
         <AlertCircle className="mx-auto text-primary" size={42} />
         <h1 className="mt-4 text-2xl font-semibold text-dark dark:text-light">

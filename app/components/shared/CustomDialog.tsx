@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren, RefObject } from 'react';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
-import { Mail, X } from 'lucide-react';
+import { X } from 'lucide-react';
 
 interface CustomDialogProps {
   openDialog: boolean;
@@ -23,20 +23,17 @@ const CustomDialog: FC<PropsWithChildren<CustomDialogProps>> = ({
       open={openDialog}
       onClose={onCloseDialog}
       initialFocus={initialFocus}
-      className="relative z-50"
+      className="relative z-60"
     >
       <div
         className="fixed inset-0 bg-dark/45 backdrop-blur-sm"
         aria-hidden="true"
       />
 
-      <div className="fixed inset-0 flex items-center justify-center p-4">
-        <DialogPanel className="w-full max-w-md rounded-2xl border border-dark/10 bg-lightness p-6 shadow-2xl dark:border-light/10 dark:bg-darkness sm:p-7">
-          <div className="flex items-start justify-between gap-4">
+      <div className="fixed inset-0 flex items-center justify-center min-h-100 p-3">
+        <DialogPanel className="w-full max-w-md rounded-2xl border border-dark/10 bg-lightness p-5 shadow-md dark:border-light/10 dark:bg-darkness sm:p-6">
+          <div className="flex items-start justify-between gap-4 py-2">
             <div className="flex gap-3">
-              <div className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
-                <Mail size={21} />
-              </div>
               <div>
                 <DialogTitle className="text-xl font-bold text-dark dark:text-light">
                   {title}
@@ -55,8 +52,7 @@ const CustomDialog: FC<PropsWithChildren<CustomDialogProps>> = ({
               <X size={20} />
             </button>
           </div>
-
-          {children}
+          <div className="overflow-auto h-auto max-h-60">{children}</div>
         </DialogPanel>
       </div>
     </Dialog>

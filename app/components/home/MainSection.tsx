@@ -63,7 +63,8 @@ const MainSection = () => {
   return (
     <section
       ref={sectionRef}
-      className={`relative isolate h-[calc(100vh-${navHeight}px)] min-h-100 overflow-hidden text-center flex flex-col justify-center items-center px-6`}
+      className={`relative isolate min-h-100 overflow-hidden text-center flex flex-col justify-center items-center px-6`}
+      style={{ height: `calc(100vh - ${navHeight}px)`}}
     >
       <div
         aria-hidden="true"

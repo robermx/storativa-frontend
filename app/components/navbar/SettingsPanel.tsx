@@ -54,10 +54,11 @@ const SettingsPanel = () => {
         }`}
       >
         <div
-          className={`w-full h-[calc(100vh-${navHeight}px)] overflow-hidden sm:w-90 flex flex-col gap-y-5 settings-wrapper px-6 py-10 absolute bg-lightness dark:bg-darkness border border-t-0 border-dark/10 dark:border-light/10`}
+          className="w-full overflow-hidden sm:w-90 flex flex-col gap-y-5 settings-wrapper px-6 py-10 absolute bg-lightness dark:bg-darkness border border-t-0 border-dark/10 dark:border-light/10"
           style={{
             transform: 'translateX(-100%)',
             top: navHeight,
+            height: `calc(100vh - ${navHeight}px)`
           }}
         >
           <div className="flex items-center justify-between mb-6">
@@ -71,7 +72,7 @@ const SettingsPanel = () => {
               onClick={closeSettings}
               widthAuto
               noPadding
-              size='md'
+              size="md"
             />
           </div>
 

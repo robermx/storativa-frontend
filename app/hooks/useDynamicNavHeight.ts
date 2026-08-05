@@ -28,7 +28,6 @@ const useDynamicNavHeight = (
 
     resizeObserver.observe(navEl);
     resizeObserver.observe(addMenuEl);
-    console.log("pasa observer")
     return () => resizeObserver.disconnect();
   }, [navRef, addMenuRef, setAddMenuHeight, setNavHeight]);
 };

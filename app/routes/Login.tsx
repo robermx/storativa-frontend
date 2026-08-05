@@ -1,15 +1,17 @@
+import { Fragment } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router';
-import { useForm, Controller } from 'react-hook-form';
 import { AxiosError } from 'axios';
+import { useForm, Controller } from 'react-hook-form';
 import { LogIn } from 'lucide-react';
 
 import { loginRequest } from '@/services/auth.service';
 import { useAuthStore } from '@/store/authStore';
+import { useNavHeight } from '@/store/navHeightStore';
 import MainIso from '@/assets/logo/MainIso';
 import CustomInput from '@/components/shared/CustomInput';
 import CustomButton from '@/components/shared/CustomButton';
 import { IFormData, InputEnumType } from '@/interfaces/input.interface';
-import { useNavHeight } from '@/store/navHeightStore';
+import CustomLink from '@/components/shared/CustomLink';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -49,13 +51,14 @@ const Login = () => {
 
   return (
     <div
-      className={`h-[calc(100vh-${navHeight}px)] flex flex-col justify-center px-6 lg:px-8`}
-      style={{ paddingTop: navHeight }}
+      className="flex flex-col justify-center min-h-100 max-w-md mx-auto px-6"
+      style={{ height: `calc(100vh - ${navHeight}px)`, top: navHeight / 2 }}
     >
-      <NavLink to="/" className="mx-auto">
-        <MainIso />
-      </NavLink>
-      <div className="my-8 sm:mx-auto sm:w-full sm:max-w-sm">
+      <div className="mx-auto my-8">
+        <CustomLink Icon={MainIso} />
+      </div>
+
+      <Fragment>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           <Controller
             name="email"
@@ -113,7 +116,7 @@ const Login = () => {
             Regístrate
           </NavLink>
         </p>
-      </div>
+      </Fragment>
     </div>
   );
 };

@@ -162,7 +162,7 @@ const CustomFormCode: FC<CustomFormCodeProps> = ({
   return (
     <form onSubmit={handleSubmit(onVerify)} className="mt-7 space-y-5">
       <div
-        className="flex justify-between gap-2"
+        className="flex justify-between gap-1"
         aria-label="Código de verificación"
       >
         {codeDigits.map((digit, index) => (

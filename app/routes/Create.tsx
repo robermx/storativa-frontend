@@ -157,7 +157,7 @@ const Create = () => {
     <div
       aria-hidden={areSettingsOpen}
       inert={areSettingsOpen}
-      className="max-w-7xl mx-auto pt-30"
+      className="max-w-7xl pt-8"
     >
       <div className="mx-6 mb-8 flex gap-4 rounded-md bg-primary/10 p-5 text-dark dark:text-light">
         <Sparkles className="mt-0.5 shrink-0 text-primary" size={23} />

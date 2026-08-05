@@ -1,10 +1,11 @@
-import { LucideProps } from "lucide-react";
-import { ForwardRefExoticComponent, RefAttributes } from "react";
+import { SvgProps } from '@/assets/interfaces/svg.interface';
+import { LucideProps } from 'lucide-react';
+import { FC, ForwardRefExoticComponent, RefAttributes } from 'react';
 
 export enum variantType {
   simple = 'simple',
   contained = 'contained',
-  outlined = 'outlined'
+  outlined = 'outlined',
 }
 
 export interface CustomLinkProps {
@@ -12,9 +13,12 @@ export interface CustomLinkProps {
   path?: string;
   displayName?: string;
   variant?: variantType.simple | variantType.contained | variantType.outlined;
-  Icon?: ForwardRefExoticComponent<
-    Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
-  > | null;
+  Icon?:
+    | ForwardRefExoticComponent<
+        Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
+      >
+    | FC<SvgProps>
+    | null;
   size?: 'sm' | 'md' | 'lg' | 'xl';
-  withPipe?: boolean
+  withPipe?: boolean;
 }

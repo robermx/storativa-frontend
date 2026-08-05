@@ -22,6 +22,7 @@ gsap.registerPlugin(useGSAP, ScrollTrigger, MorphSVGPlugin);
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   const mainRef = useRef<HTMLDivElement>(null);
   const { pathname } = useLocation();
+  const routeName = pathname.split('/')[1]
   const matches = useMatches();
   const user = useAuthStore((state) => state.user);
   const navHeight = useNavHeight((state) => state.navHeight);
@@ -32,7 +33,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   const isNotFound =
     matches.length > 0 &&
     matches[matches.length - 1].id.toString().endsWith('NotFound');
-  const areExcludedPaths = excludePaths.includes(pathname) || isNotFound;
+  const areExcludedPaths = excludePaths.includes(routeName) || isNotFound;
 
   useGSAP(
     () => {
@@ -44,7 +45,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
     },
     {
       scope: mainRef,
-      dependencies: [menuExpanded, areExcludedPaths],
+      dependencies: [menuExpanded, areExcludedPaths, navHeight],
     },
   );
 

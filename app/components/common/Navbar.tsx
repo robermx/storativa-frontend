@@ -59,12 +59,12 @@ const Navbar: FC<NavbarProps> = ({ areExcludedPaths }) => {
     },
     {
       scope: menuRef,
-      dependencies: [areExcludedPaths, themeExpanded, menuExpanded],
+      dependencies: [areExcludedPaths, themeExpanded, menuExpanded, navHeight],
     },
   );
 
   return (
-    <nav ref={menuRef} className="fixed w-full z-50">
+    <nav ref={menuRef} className="fixed w-full z-50" inert={areExcludedPaths}>
       <div
         className={`navbar-wrapper transition-colors ${user ? 'dark:bg-darkness bg-lightness' : 'bg-primary'} flex justify-between items-center py-3 px-4 sm:px-8`}
       >
