@@ -1,3 +1,5 @@
+import type { JSONContent } from '@tiptap/react';
+
 export interface IReqStorativa {
   title: string;
   centralIdea: string;
@@ -24,11 +26,29 @@ export interface IResStorativa {
   adaptedPeriods: AdaptedPeriod[];
   genderLabels: number[];
   content: string;
+  chapters: Chapter[];
   status: number;
   _id: string;
   createdAt: string;
   updatedAt: string;
   __v: number;
+}
+
+export interface Chapter {
+  _id: string;
+  title: string;
+  order: number;
+  content: JSONContent;
+}
+
+export interface CreateChapterPayload {
+  title?: string;
+  content?: JSONContent;
+}
+
+export interface UpdateChapterPayload {
+  title?: string;
+  content?: JSONContent;
 }
 
 export interface Character {

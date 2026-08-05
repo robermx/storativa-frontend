@@ -9,6 +9,29 @@ export interface RegisterCredentials {
   fullName: string;
 }
 
+export interface RegistrationStartedResponse {
+  email: string;
+  expiresAt: string;
+  resendAvailableAt: string;
+}
+
+export interface PendingRegistration {
+  email: string;
+  fullName: string;
+  password: string;
+  expiresAt: Date;
+  resendAvailableAt: Date;
+}
+
+export interface VerificationCodeData {
+  code: string[];
+}
+
+export interface VerifyRegistrationCredentials {
+  email: string;
+  code: string;
+}
+
 export interface LoginRegisterResponse {
   user: User;
   token: string;

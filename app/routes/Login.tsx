@@ -9,12 +9,15 @@ import MainIso from '@/assets/logo/MainIso';
 import CustomInput from '@/components/shared/CustomInput';
 import CustomButton from '@/components/shared/CustomButton';
 import { IFormData, InputEnumType } from '@/interfaces/input.interface';
+import { useNavHeight } from '@/store/navHeightStore';
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/dashboard';
   const setAuth = useAuthStore((state) => state.setAuth);
+  const navHeight = useNavHeight((state) => state.navHeight);
+
   const {
     control,
     handleSubmit,
@@ -45,7 +48,10 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-dvh flex flex-col justify-center px-6 lg:px-8">
+    <div
+      className={`h-[calc(100vh-${navHeight}px)] flex flex-col justify-center px-6 lg:px-8`}
+      style={{ paddingTop: navHeight }}
+    >
       <NavLink to="/" className="mx-auto">
         <MainIso />
       </NavLink>

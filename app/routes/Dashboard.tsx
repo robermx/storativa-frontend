@@ -7,6 +7,7 @@ import { useSettingsStore } from '@/store/settingsStore';
 import DashboardSkeleton from '@/components/skeleton/DashboardSkeleton';
 import DashboardStats from '@/components/dashboard/DashboardStats';
 import DashboardTable from '@/components/dashboard/DashboardTable';
+import DashboardEmpty from '@/components/dashboard/DashboardEmpty';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const clientLoader = createClientLoader({
@@ -25,8 +26,14 @@ const Dashboard = () => {
       inert={areSettingsOpen}
       className="flex flex-col gap-y-7 max-w-6xl mx-auto"
     >
-      {storativas.length !== 0 && <DashboardStats storativas={storativas} />}
-      <DashboardTable storativas={storativas} />
+      {storativas.length > 0 ? (
+        <div className="p-6 flex flex-col gap-6">
+          <DashboardStats storativas={storativas} />
+          <DashboardTable storativas={storativas} />
+        </div>
+      ) : (
+        <DashboardEmpty />
+      )}
     </div>
   );
 };

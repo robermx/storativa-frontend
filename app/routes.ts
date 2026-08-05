@@ -8,6 +8,7 @@ export default [
   route('/', 'layouts/AuthLayout.tsx', [
     route('dashboard', 'routes/Dashboard.tsx'),
     route('create', 'routes/Create.tsx'),
+    route('edition/:storativaId', 'routes/Edition.tsx'),
   ]),
   route('*', 'routes/NotFound.tsx'),
 ] satisfies RouteConfig;

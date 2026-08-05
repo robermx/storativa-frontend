@@ -2,8 +2,9 @@ import { useAuthStore } from '@/store/authStore';
 import { redirect } from 'react-router';
 import { type AxiosError } from 'axios';
 import { ensureAuthSession } from '@/services/auth.service';
+import type { ClientLoaderFunctionArgs } from 'react-router';
 
-type ServiceFn<T> = () => Promise<T>;
+type ServiceFn<T> = (args: ClientLoaderFunctionArgs) => Promise<T>;
 
 type ServiceEntry<K extends string, T> = {
   key: K;
@@ -23,7 +24,9 @@ interface ClientLoaderOptions<T extends ServicesArray> {
 export function createClientLoader<T extends ServicesArray>({
   services,
 }: ClientLoaderOptions<T>) {
-  return async function clientLoader(): Promise<InferResult<T>> {
+  return async function clientLoader(
+    args: ClientLoaderFunctionArgs,
+  ): Promise<InferResult<T>> {
     await ensureAuthSession();
 
     const token = useAuthStore.getState().token;
@@ -33,7 +36,9 @@ export function createClientLoader<T extends ServicesArray>({
 
     try {
       const entries = await Promise.all(
-        services.map(async (entry) => [entry.key, await entry.fn()] as const),
+        services.map(
+          async (entry) => [entry.key, await entry.fn(args)] as const,
+        ),
       );
 
       return Object.fromEntries(entries) as InferResult<T>;

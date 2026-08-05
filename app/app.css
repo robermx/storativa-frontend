@@ -22,7 +22,6 @@
   }
 }
 
-
 /* ScrollSmoother styles */
 #smooth-wrapper {
   overflow: hidden;
@@ -33,4 +32,54 @@
 #smooth-content {
   overflow: visible;
   width: 100%;
+}
+
+/* Storativa rich-text editor */
+.storativa-editor.ProseMirror {
+  min-height: 32rem;
+}
+
+.storativa-editor.ProseMirror > * + * {
+  margin-top: 0.85rem;
+}
+
+.storativa-editor.ProseMirror h2 {
+  margin-top: 1.75rem;
+  font-size: 1.65rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.storativa-editor.ProseMirror h3 {
+  margin-top: 1.4rem;
+  font-size: 1.25rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.storativa-editor.ProseMirror p {
+  line-height: 1.8;
+}
+
+.storativa-editor.ProseMirror ul,
+.storativa-editor.ProseMirror ol {
+  padding-left: 1.6rem;
+}
+
+.storativa-editor.ProseMirror ul {
+  list-style: disc;
+}
+
+.storativa-editor.ProseMirror ol {
+  list-style: decimal;
+}
+
+.storativa-editor.ProseMirror blockquote {
+  border-left: 3px solid var(--color-primary);
+  color: color-mix(in srgb, currentColor 70%, transparent);
+  padding-left: 1rem;
+}
+
+.storativa-editor.ProseMirror:focus {
+  outline: none;
 }

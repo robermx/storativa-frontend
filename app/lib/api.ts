@@ -13,6 +13,8 @@ let refreshPromise: Promise<string> | null = null;
 const authPaths = [
   '/auth/login',
   '/auth/register',
+  '/auth/register/verify',
+  '/auth/register/resend',
   '/auth/refresh',
   '/auth/logout',
 ];

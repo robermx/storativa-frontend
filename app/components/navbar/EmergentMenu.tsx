@@ -1,14 +1,18 @@
-import { FC } from 'react';
+import { FC, RefObject } from 'react';
 
 import { useAuthStore } from '@/store/authStore';
 import { publicRoutes, privateRoutes } from '@/constants/shared/navbarRoutes';
 import CustomLink from '../shared/CustomLink';
 
-const EmergentMenu: FC = () => {
+interface EmergentMenuProps {
+  addMenuRef: RefObject<HTMLDivElement | null>;
+}
+
+const EmergentMenu: FC<EmergentMenuProps> = ({ addMenuRef }) => {
   const user = useAuthStore((state) => state.user);
 
   return (
-    <div className="absolute overflow-hidden w-full">
+    <div ref={addMenuRef} className="absolute overflow-hidden w-full">
       <div className="items-wrapper min-h-8 dark:bg-accent bg-secondary relative bottom-10 flex justify-end items-center gap-x-3 px-6">
         {(Boolean(user) ? privateRoutes : publicRoutes).map((route) => (
           <CustomLink

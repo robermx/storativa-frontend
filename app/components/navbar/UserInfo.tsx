@@ -6,6 +6,7 @@ import { useSettingsStore } from "@/store/settingsStore";
 import { useMenuStore } from "@/store/menuStore";
 import { getInitials } from "@/utils/getInitials";
 import { getSectionSubtitle } from "@/utils/getSectionSubtitle";
+import { titleFormat } from "@/utils/titleFormat";
 
 
 const UserInfo: FC = () => {
@@ -47,7 +48,7 @@ const UserInfo: FC = () => {
       </button>
       <div className="hidden sm:block">
         <h1 className="text-xl font-bold text-dark dark:text-light">
-          Hola, {user?.fullName || 'Usuario'}
+          Hola, {titleFormat(user?.fullName || 'usuario') }
         </h1>
         <p className="text-dark/60 dark:text-light/60 text-sm">
           {getSectionSubtitle(location.pathname)}

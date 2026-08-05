@@ -1,52 +1,169 @@
-import { IReqStorativa } from '@/interfaces/storativa.interface';
-import { FC, Fragment } from 'react';
-import {
-  type Control,
-  Controller,
-  type FieldErrors,
-  useFieldArray,
-} from 'react-hook-form';
-import CustomSelect from '../shared/CustomSelect';
+import { FC, Fragment, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { Check, Pencil, Trash2, UserRoundPlus, X } from 'lucide-react';
+
+import { Character } from '@/interfaces/storativa.interface';
 import { Icatalog } from '@/interfaces/catalog.interface';
-import CustomInput from '../shared/CustomInput';
-import { InputEnumType } from '@/interfaces/input.interface';
-import CustomTextArea from '../shared/CustomTextArea';
-import CustomButton from '../shared/CustomButton';
-import { UserRoundMinus, UserRoundPlus } from 'lucide-react';
 import { useSettingsStore } from '@/store/settingsStore';
+import CustomButton from '../shared/CustomButton';
+import CustomInput from '../shared/CustomInput';
+import CustomSelect from '../shared/CustomSelect';
+import CustomTextArea from '../shared/CustomTextArea';
+import { InputEnumType } from '@/interfaces/input.interface';
 
 interface CreateCharacterProps {
-  control: Control<IReqStorativa>;
-  errors: FieldErrors<IReqStorativa>;
+  characters: Character[];
   characterCatalog: Icatalog[];
+  onAdd: (character: Character) => void;
+  onUpdate: (index: number, character: Character) => void;
+  onRemove: (index: number) => void;
+  isDisabled?: boolean;
 }
 
+const emptyCharacter: Character = {
+  type: 0,
+  name: '',
+  social: '',
+  physical: '',
+  psychological: '',
+  additional: '',
+};
+
 const CreateCharacter: FC<CreateCharacterProps> = ({
-  control,
-  errors,
+  characters,
   characterCatalog,
+  onAdd,
+  onUpdate,
+  onRemove,
+  isDisabled = false,
 }) => {
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [pendingRemoval, setPendingRemoval] = useState<number | null>(null);
   const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
   const {
-    fields: characterFields,
-    append: appendCharacter,
-    remove: removeCharacter,
-  } = useFieldArray({
     control,
-    name: 'characters',
+    handleSubmit,
+    reset,
+    formState: { errors, isValid },
+  } = useForm<Character>({
+    mode: 'onChange',
+    defaultValues: emptyCharacter,
   });
+  const isLocked = areSettingsOpen || isDisabled;
+
+  const saveCharacter = (character: Character) => {
+    if (editingIndex === null) {
+      onAdd(character);
+    } else {
+      onUpdate(editingIndex, character);
+      setEditingIndex(null);
+    }
+    reset(emptyCharacter);
+  };
+
+  const startEditing = (index: number) => {
+    setPendingRemoval(null);
+    setEditingIndex(index);
+    reset(characters[index]);
+  };
+
+  const cancelEditing = () => {
+    setEditingIndex(null);
+    reset(emptyCharacter);
+  };
+
+  const confirmRemoval = (index: number) => {
+    onRemove(index);
+    setPendingRemoval(null);
+    if (editingIndex === index) cancelEditing();
+    if (editingIndex !== null && editingIndex > index) {
+      setEditingIndex(editingIndex - 1);
+    }
+  };
+
+  const characterType = (type: number) =>
+    characterCatalog.find((item) => item.value === type)?.name ?? 'Sin tipo';
 
   return (
     <Fragment>
-      <h3 className="mt-8 px-6 pt-3 rounded-tr-lg bg-primary/15 dark:bg-primary/10 max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
+      <h3 className="px-6 pt-3 rounded-tr-lg bg-primary/15 dark:bg-primary/10 max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
         Personajes
       </h3>
       <div className="bg-primary/15 dark:bg-primary/10 px-6 py-7 rounded-b-md rounded-tr-md">
-        {characterFields.map((field, index) => (
-          <div key={field.id} className="pb-6 last:pb-0 flex flex-col gap-y-7">
+        <p className="mb-6 text-sm text-dark/65 dark:text-light/65">
+          Añade un personaje a la vez para mantener la historia clara y
+          manejable.
+        </p>
+
+        {characters.length > 0 && (
+          <div className="mb-7 divide-y divide-primary/15 dark:divide-light/10">
+            {characters.map((character, index) => (
+              <div
+                key={`${character.name}-${character.type}-${index}`}
+                className="flex flex-col gap-3 py-4 first:pt-0 sm:flex-row sm:items-center sm:justify-between"
+              >
+                <div>
+                  <p className="font-semibold text-dark dark:text-light">
+                    {character.name}
+                  </p>
+                  <p className="text-sm text-dark/65 dark:text-light/65">
+                    {characterType(character.type)} · rasgos completos
+                  </p>
+                </div>
+                {pendingRemoval === index ? (
+                  <div className="flex gap-2 sm:w-52">
+                    <button
+                      type="button"
+                      className="flex-1 rounded-md bg-red-500/10 px-3 py-2 text-sm font-semibold text-red-500 hover:bg-red-500/20 disabled:cursor-not-allowed"
+                      onClick={() => confirmRemoval(index)}
+                      disabled={isLocked}
+                    >
+                      Eliminar
+                    </button>
+                    <button
+                      type="button"
+                      className="flex-1 rounded-md bg-dark/10 px-3 py-2 text-sm font-semibold text-dark hover:bg-dark/20 dark:bg-light/10 dark:text-light dark:hover:bg-light/20 disabled:cursor-not-allowed"
+                      onClick={() => setPendingRemoval(null)}
+                      disabled={isLocked}
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex gap-2 sm:w-28">
+                    <button
+                      type="button"
+                      aria-label={`Editar ${character.name}`}
+                      className="flex-1 rounded-md bg-primary/10 p-2 text-primary hover:bg-primary/20 disabled:cursor-not-allowed"
+                      onClick={() => startEditing(index)}
+                      disabled={isLocked}
+                    >
+                      <Pencil size={18} className="mx-auto" />
+                    </button>
+                    <button
+                      type="button"
+                      aria-label={`Eliminar ${character.name}`}
+                      className="flex-1 rounded-md bg-red-500/10 p-2 text-red-500 hover:bg-red-500/20 disabled:cursor-not-allowed"
+                      onClick={() => setPendingRemoval(index)}
+                      disabled={isLocked}
+                    >
+                      <Trash2 size={18} className="mx-auto" />
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div className="border-t border-primary/15 pt-6 dark:border-light/10">
+          <p className="mb-4 text-sm font-semibold text-dark dark:text-light">
+            {editingIndex === null ? 'Añadir personaje' : 'Editar personaje'}
+          </p>
+          <div className="flex flex-col gap-y-7">
             <div className="flex flex-col gap-y-7 sm:flex-row sm:gap-x-6 sm:gap-y-0">
               <Controller
-                name={`characters.${index}.type`}
+                name="type"
                 control={control}
                 rules={{
                   required: 'El tipo de personaje es obligatorio',
@@ -56,122 +173,112 @@ const CreateCharacter: FC<CreateCharacterProps> = ({
                 render={({ field }) => (
                   <CustomSelect
                     {...field}
-                    inputName={`character-type-${index}`}
+                    inputName="character-type"
                     placeholder="Tipo de Personaje"
                     options={characterCatalog}
-                    error={errors.characters?.[index]?.type?.message}
+                    error={errors.type?.message}
                   />
                 )}
               />
-
               <Controller
-                name={`characters.${index}.name`}
+                name="name"
                 control={control}
-                rules={{
-                  required: 'El nombre del personaje es obligatorio',
-                }}
+                rules={{ required: 'El nombre del personaje es obligatorio' }}
                 render={({ field }) => (
                   <CustomInput
                     {...field}
                     inputType={InputEnumType.characterName}
-                    inputName={`character-name-${index}`}
+                    inputName="character-name"
                     placeholder="Nombre del Personaje"
-                    error={errors.characters?.[index]?.name?.message}
+                    error={errors.name?.message}
                   />
                 )}
               />
             </div>
-
-            <div className="grid sm:grid-cols-2 sm:gap-x-6 gap-y-7">
+            <div className="grid gap-y-7 sm:grid-cols-2 sm:gap-x-6">
               <Controller
-                name={`characters.${index}.social`}
+                name="social"
                 control={control}
                 rules={{ required: 'Rasgos sociales obligatorios' }}
                 render={({ field }) => (
                   <CustomTextArea
                     {...field}
-                    inputName={`character-social-${index}`}
+                    inputName="character-social"
                     placeholder="Rasgos Sociales"
                     rows={3}
-                    error={errors.characters?.[index]?.social?.message}
+                    error={errors.social?.message}
                   />
                 )}
               />
-
               <Controller
-                name={`characters.${index}.physical`}
+                name="physical"
                 control={control}
                 rules={{ required: 'Rasgos físicos obligatorios' }}
                 render={({ field }) => (
                   <CustomTextArea
                     {...field}
-                    inputName={`character-physical-${index}`}
+                    inputName="character-physical"
                     placeholder="Rasgos Físicos"
                     rows={3}
-                    error={errors.characters?.[index]?.physical?.message}
+                    error={errors.physical?.message}
                   />
                 )}
               />
-
               <Controller
-                name={`characters.${index}.psychological`}
+                name="psychological"
                 control={control}
                 rules={{ required: 'Rasgos psicológicos obligatorios' }}
                 render={({ field }) => (
                   <CustomTextArea
                     {...field}
-                    inputName={`character-psychological-${index}`}
+                    inputName="character-psychological"
                     placeholder="Rasgos Psicológicos"
                     rows={3}
-                    error={errors.characters?.[index]?.psychological?.message}
+                    error={errors.psychological?.message}
                   />
                 )}
               />
-
-              <div className="flex gap-x-6">
-                <Controller
-                  name={`characters.${index}.additional`}
-                  control={control}
-                  render={({ field }) => (
-                    <CustomTextArea
-                      {...field}
-                      inputName={`character-additional-${index}`}
-                      placeholder="Rasgos Adicionales (Opcional)"
-                      rows={3}
-                    />
-                  )}
-                />
-                <div className="w-fit flex">
-                  {index === characterFields.length - 1 ? (
-                    <CustomButton
-                      bgColor="bg-primary/10 hover:bg-primary/20"
-                      textColor="text-primary"
-                      Icon={UserRoundPlus}
-                      onClick={() =>
-                        appendCharacter({
-                          type: 0,
-                          name: '',
-                          social: '',
-                          physical: '',
-                          psychological: '',
-                        })
-                      }
-                      isDisabled={areSettingsOpen}
-                    />
-                  ) : (
-                    <CustomButton
-                      bgColor="bg-red-500/10 hover:bg-red-500/20"
-                      textColor="text-red-500"
-                      Icon={UserRoundMinus}
-                      onClick={() => removeCharacter(index)}
-                      isDisabled={areSettingsOpen}
-                    />
-                  )}
-                </div>
-              </div>
+              <Controller
+                name="additional"
+                control={control}
+                render={({ field }) => (
+                  <CustomTextArea
+                    {...field}
+                    inputName="character-additional"
+                    placeholder="Rasgos Adicionales (Opcional)"
+                    rows={3}
+                  />
+                )}
+              />
             </div>
           </div>
-        ))}
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-between">
+            <div className="sm:w-56">
+              <CustomButton
+                bgColor="bg-primary/10 hover:bg-primary/20"
+                textColor="text-primary"
+                Icon={editingIndex === null ? UserRoundPlus : Check}
+                displayText={
+                  editingIndex === null ? 'Añadir personaje' : 'Guardar cambios'
+                }
+                onClick={() => void handleSubmit(saveCharacter)()}
+                isDisabled={!isValid || isLocked}
+              />
+            </div>
+            {editingIndex !== null && (
+              <div className="sm:w-32">
+                <CustomButton
+                  bgColor="bg-dark/10 hover:bg-dark/20 dark:bg-light/10 dark:hover:bg-light/20"
+                  textColor="text-dark dark:text-light"
+                  Icon={X}
+                  displayText="Cancelar"
+                  onClick={cancelEditing}
+                  isDisabled={isLocked}
+                />
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </Fragment>
   );

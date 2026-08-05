@@ -8,7 +8,7 @@ import { useSettingsStore } from '@/store/settingsStore';
 import { getInitials } from '@/utils/getInitials';
 import { getSectionSubtitle } from '@/utils/getSectionSubtitle';
 import DashboardMenu from './DashboardMenu';
-import SettingsPanel from './SettingsPanel';
+import SettingsPanel from '../navbar/SettingsPanel';
 import { useThemeStore } from '@/store/themeStore';
 
 const DashboardHeader = () => {

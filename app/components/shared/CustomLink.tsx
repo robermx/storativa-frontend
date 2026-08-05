@@ -13,9 +13,10 @@ const CustomLink: FC<CustomLinkProps> = ({
   variant = variantType.simple,
   Icon = null,
   size = 'sm',
-  withPipe = false
+  withPipe = false,
 }) => {
   const { handleNavLinkClick } = useNavigationLink();
+
   return isMainMenu ? (
     <NavLink to={path} onClick={(event) => handleNavLinkClick(event, '/')}>
       {({ isActive }) => (

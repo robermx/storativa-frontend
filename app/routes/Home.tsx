@@ -4,11 +4,11 @@ import FinalSection from '@/components/home/FinalSection';
 
 const Home = () => {
   return (
-    <div>
+    <>
       <MainSection />
       <StageSection />
       <FinalSection />
-    </div>
+    </>
   );
 };
 

@@ -4,6 +4,8 @@ import {
   LoginCredentials,
   LoginRegisterResponse,
   RegisterCredentials,
+  RegistrationStartedResponse,
+  VerifyRegistrationCredentials,
 } from '@/interfaces/auth.interface';
 
 let authBootstrapPromise: Promise<boolean> | null = null;
@@ -17,8 +19,22 @@ export const loginRequest = async (
 
 export const registerUser = async (
   reqData: RegisterCredentials,
-): Promise<LoginRegisterResponse> => {
+): Promise<RegistrationStartedResponse> => {
   const { data } = await api.post('/auth/register', reqData);
+  return data;
+};
+
+export const verifyRegistration = async (
+  reqData: VerifyRegistrationCredentials,
+): Promise<LoginRegisterResponse> => {
+  const { data } = await api.post('/auth/register/verify', reqData);
+  return data;
+};
+
+export const resendRegistrationCode = async (
+  email: string,
+): Promise<RegistrationStartedResponse> => {
+  const { data } = await api.post('/auth/register/resend', { email });
   return data;
 };
 

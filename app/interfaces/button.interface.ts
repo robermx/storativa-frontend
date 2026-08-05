@@ -11,9 +11,12 @@ export type CustomButtonProps = {
   buttonType?: 'reset' | 'submit' | 'button' | undefined;
   isDisabled?: boolean;
   displayText?: string;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
+  onClick?: MouseEventHandler<HTMLButtonElement> | null;
   Icon?: ForwardRefExoticComponent<
     Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
   >;
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  widthAuto?: boolean;
+  noPadding?: boolean;
+  truncateText?: boolean;
 };
