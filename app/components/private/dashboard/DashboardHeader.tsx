@@ -4,12 +4,13 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 
 import { useAuthStore } from '@/store/authStore';
-import { useSettingsStore } from '@/store/settingsStore';
-import { getInitials } from '@/utils/getInitials';
-import { getSectionSubtitle } from '@/utils/getSectionSubtitle';
-import DashboardMenu from './DashboardMenu';
-import SettingsPanel from '../navbar/SettingsPanel';
 import { useThemeStore } from '@/store/themeStore';
+import { useSettingsStore } from '@/store/settingsStore';
+import { getSectionSubtitle } from '@/utils/getSubtitleByPath';
+import { getInitials } from '@/utils/getInitials';
+
+import SettingsPanel from '@/components//navbar/SettingsPanel';
+import DashboardMenu from './DashboardMenu';
 
 const DashboardHeader = () => {
   const location = useLocation();

@@ -4,25 +4,23 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { MorphSVGPlugin, ScrollTrigger } from 'gsap/all';
 
-import Navbar from '@/components/common/Navbar';
-// import Footer from '@/components/common/Footer';
-import ThemeButton from '@/components/common/ThemeButton';
-import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider';
 import {
   excludePaths,
   smoothScrollPaths,
 } from '@/constants/common/layout.constants';
-import SettingsPanel from '@/components/navbar/SettingsPanel';
 import { useAuthStore } from '@/store/authStore';
 import { useNavHeight } from '@/store/navHeightStore';
 import { useMenuStore } from '@/store/menuStore';
+import Navbar from '@/components/common/Navbar';
+import SettingsPanel from '@/components/navbar/SettingsPanel';
+import ThemeButton from '@/components/common/ThemeButton';
+import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, MorphSVGPlugin);
 
 const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   const mainRef = useRef<HTMLDivElement>(null);
   const { pathname } = useLocation();
-  const routeName = pathname.split('/')[1]
   const matches = useMatches();
   const user = useAuthStore((state) => state.user);
   const navHeight = useNavHeight((state) => state.navHeight);
@@ -33,7 +31,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   const isNotFound =
     matches.length > 0 &&
     matches[matches.length - 1].id.toString().endsWith('NotFound');
-  const areExcludedPaths = excludePaths.includes(routeName) || isNotFound;
+  const areExcludedPaths = excludePaths.includes(pathname) || isNotFound;
 
   useGSAP(
     () => {
@@ -50,7 +48,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   );
 
   return (
-    <>
+    <div className="overflow-hidden">
       <ThemeButton />
       <Navbar areExcludedPaths={areExcludedPaths} />
       <SmoothScrollProvider enabled={enableSmoothScroll}>
@@ -58,13 +56,12 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
         <main
           className="selection:bg-primary/30 relative"
           ref={mainRef}
-          style={{ paddingTop: navHeight }}
+          style={{ top: navHeight }}
         >
           <div className="main-wrapper">{children}</div>
         </main>
-        {/* {Boolean(user) || (!areExcludedPaths && <Footer />)} */}
       </SmoothScrollProvider>
-    </>
+    </div>
   );
 };
 

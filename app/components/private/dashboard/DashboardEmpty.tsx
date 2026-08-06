@@ -2,9 +2,10 @@ import { useNavigate } from 'react-router'
 import { Plus } from 'lucide-react'
 
 import { useSettingsStore } from '@/store/settingsStore'
-import CustomButton from '../shared/CustomButton'
-import EmptyState from '@/assets/icons/EmptyState'
 import { useNavHeight } from '@/store/navHeightStore'
+
+import CustomButton from '@/components/shared/CustomButton'
+import EmptyState from '@/assets/icons/EmptyState'
 
 const DashboardEmpty = () => {
   const navigate = useNavigate();

@@ -3,17 +3,18 @@ import { Controller, useForm } from 'react-hook-form';
 import { Check, Pencil, Trash2, UserRoundPlus, X } from 'lucide-react';
 
 import { Character } from '@/interfaces/storativa.interface';
-import { Icatalog } from '@/interfaces/catalog.interface';
-import { useSettingsStore } from '@/store/settingsStore';
-import CustomButton from '../shared/CustomButton';
-import CustomInput from '../shared/CustomInput';
-import CustomSelect from '../shared/CustomSelect';
-import CustomTextArea from '../shared/CustomTextArea';
+import { ICatalog } from '@/interfaces/catalog.interface';
 import { InputEnumType } from '@/interfaces/input.interface';
+import { useSettingsStore } from '@/store/settingsStore';
+
+import CustomButton from '@/components/shared/CustomButton';
+import CustomInput from '@/components/shared/CustomInput';
+import CustomSelect from '@/components/shared/CustomSelect';
+import CustomTextArea from '@/components/shared/CustomTextArea';
 
 interface CreateCharacterProps {
   characters: Character[];
-  characterCatalog: Icatalog[];
+  characterCatalog: ICatalog[];
   onAdd: (character: Character) => void;
   onUpdate: (index: number, character: Character) => void;
   onRemove: (index: number) => void;

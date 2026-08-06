@@ -3,12 +3,13 @@ import { Controller, useForm, useWatch } from 'react-hook-form';
 import { CalendarPlus, Check, Pencil, Trash2, X } from 'lucide-react';
 
 import { AdaptedPeriod } from '@/interfaces/storativa.interface';
+import { InputEnumType } from '@/interfaces/input.interface';
 import { useSettingsStore } from '@/store/settingsStore';
 import { validateDateField } from '@/utils/dateValidation';
-import CustomButton from '../shared/CustomButton';
-import CustomDatePicker from '../shared/CustomDatePicker';
-import CustomInput from '../shared/CustomInput';
-import { InputEnumType } from '@/interfaces/input.interface';
+
+import CustomButton from '@/components/shared/CustomButton';
+import CustomDatePicker from '@/components/shared/CustomDatePicker';
+import CustomInput from '@/components/shared/CustomInput';
 
 interface CreateAdaptedPeriodsProps {
   periods: AdaptedPeriod[];

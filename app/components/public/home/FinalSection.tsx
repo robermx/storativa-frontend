@@ -3,13 +3,14 @@ import { ChevronRight } from 'lucide-react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
-import CustomLink from '../shared/CustomLink';
+
 import {
   homeFinalConstellationLinks,
   homeFinalConstellationNodes,
 } from '@/constants/common/home.constants';
 import { variantType } from '@/interfaces/nav-link.interface';
 import { useNavHeight } from '@/store/navHeightStore';
+import CustomLink from '@/components/shared/CustomLink';
 
 const FinalSection = () => {
   const sectionRef = useRef<HTMLElement | null>(null);

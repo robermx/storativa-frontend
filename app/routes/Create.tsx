@@ -19,9 +19,9 @@ import {
   Character,
   IReqStorativa,
 } from '@/interfaces/storativa.interface';
-import CreateGenerals from '@/components/create/CreateGenerals';
-import CreateAdaptedPeriods from '@/components/create/CreateAdaptedPeriods';
-import CreateCharacter from '@/components/create/CreateCharacter';
+import CreateGenerals from '@/components/private/create/CreateGenerals';
+import CreateAdaptedPeriods from '@/components/private/create/CreateAdaptedPeriods';
+import CreateCharacter from '@/components/private/create/CreateCharacter';
 import { getErrorMessage } from '@/utils/getErrorMessage';
 
 // eslint-disable-next-line react-refresh/only-export-components

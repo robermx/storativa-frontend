@@ -1,15 +1,18 @@
 import { FC } from "react";
 import gsap from "gsap";
 
+import { getInitials } from "@/utils/getInitials";
+import { getSubtitleByPath } from "@/utils/getSubtitleByPath";
+import { titleFormat } from "@/utils/titleFormat";
 import { useAuthStore } from "@/store/authStore";
 import { useSettingsStore } from "@/store/settingsStore";
 import { useMenuStore } from "@/store/menuStore";
-import { getInitials } from "@/utils/getInitials";
-import { getSectionSubtitle } from "@/utils/getSectionSubtitle";
-import { titleFormat } from "@/utils/titleFormat";
+
 
 
 const UserInfo: FC = () => {
+
+
   const user = useAuthStore((state) => state.user);
   const toggleSettings = useSettingsStore((state) => state.toggleSettings);
   const closeMenuExpand = useMenuStore((state) => state.closeMenuExpand);
@@ -46,12 +49,12 @@ const UserInfo: FC = () => {
       >
         {getInitials(user?.fullName || "User")}
       </button>
-      <div className="hidden sm:block">
-        <h1 className="text-xl font-bold text-dark dark:text-light">
+      <div>
+        <h1 className="text-md sm:text-xl font-bold text-dark dark:text-light">
           Hola, {titleFormat(user?.fullName || 'usuario') }
         </h1>
         <p className="text-dark/60 dark:text-light/60 text-sm">
-          {getSectionSubtitle(location.pathname)}
+          {getSubtitleByPath(location.pathname)}
         </p>
       </div>
     </div>

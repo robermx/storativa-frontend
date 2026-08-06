@@ -1,4 +1,4 @@
-export const getSectionSubtitle = (path: string): string => {
+export const getSubtitleByPath = (path: string): string => {
   switch (path) {
     case '/':
       return 'Home';

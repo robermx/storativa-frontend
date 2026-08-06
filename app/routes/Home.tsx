@@ -1,6 +1,7 @@
-import MainSection from '@/components/home/MainSection';
-import StageSection from '@/components/home/StageSection';
-import FinalSection from '@/components/home/FinalSection';
+import FinalSection from "@/components/public/home/FinalSection";
+import MainSection from "@/components/public/home/MainSection";
+import StageSection from "@/components/public/home/StageSection";
+
 
 const Home = () => {
   return (

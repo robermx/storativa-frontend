@@ -1,14 +1,15 @@
 import { FC } from 'react';
 import { useNavigate } from 'react-router';
+import { Trash2 } from 'lucide-react';
 
+import { IResStorativa } from '@/interfaces/storativa.interface';
 import { useSettingsStore } from '@/store/settingsStore';
 import { daysPassed, percentageDays } from '@/utils/percentageDays';
 import { statusStyles } from '@/utils/statusStyles';
 import { formatDate } from '@/utils/formatDate';
 import { titleFormat } from '@/utils/titleFormat';
-import { IResStorativa } from '@/interfaces/storativa.interface';
-import CustomButton from '../shared/CustomButton';
-import { Trash2 } from 'lucide-react';
+
+import CustomButton from '@/components/shared/CustomButton';
 
 interface DashboardTableProps {
   storativas: IResStorativa[];

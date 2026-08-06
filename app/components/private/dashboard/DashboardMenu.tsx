@@ -2,8 +2,9 @@ import { FC } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
 import { useSettingsStore } from '@/store/settingsStore';
-import CustomButton from '../shared/CustomButton';
 import { dashboardMenuItems } from '@/constants/common/dashboard.constants';
+
+import CustomButton from '@/components/shared/CustomButton';
 
 const DashboardMenu: FC = () => {
   const navigate = useNavigate();

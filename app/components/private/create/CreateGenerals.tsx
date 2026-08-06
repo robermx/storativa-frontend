@@ -1,22 +1,23 @@
 import { FC, Fragment } from 'react';
 import { type Control, Controller, type FieldErrors } from 'react-hook-form';
 
-import CustomInput from '../shared/CustomInput';
-import CustomMultiSelect from '../shared/CustomMultiSelect';
-import CustomSelect from '../shared/CustomSelect';
+import { ICatalog } from '@/interfaces/catalog.interface';
 import { InputEnumType } from '@/interfaces/input.interface';
 import { IReqStorativa } from '@/interfaces/storativa.interface';
-import CustomTextArea from '../shared/CustomTextArea';
-import { Icatalog } from '@/interfaces/catalog.interface';
 import { isValidDate } from '@/utils/dateValidation';
-import CustomDatePicker from '../shared/CustomDatePicker';
+
+import CustomInput from '@/components/shared/CustomInput';
+import CustomMultiSelect from '@/components/shared/CustomMultiSelect';
+import CustomSelect from '@/components/shared/CustomSelect';
+import CustomTextArea from '@/components/shared/CustomTextArea';
+import CustomDatePicker from '@/components/shared/CustomDatePicker';
 
 interface CreateGeneralsProps {
   control: Control<IReqStorativa>;
   errors: FieldErrors<IReqStorativa>;
-  contextCatalog: Icatalog[];
-  genderLabelCatalog: Icatalog[];
-  storySizeCatalog: Icatalog[];
+  contextCatalog: ICatalog[];
+  genderLabelCatalog: ICatalog[];
+  storySizeCatalog: ICatalog[];
 }
 
 const CreateGenerals: FC<CreateGeneralsProps> = ({
