@@ -31,11 +31,7 @@ const Navbar: FC<NavbarProps> = ({ areExcludedPaths }) => {
     () => {
       gsap.to('.navbar-wrapper', {
         y: areExcludedPaths ? -navHeight : 0,
-        duration: 0.3,
-        ease: 'power2.in',
-      });
-      gsap.to('.menu-button', {
-        x: themeExpanded ? -38 : 0,
+        paddingRight: themeExpanded ? 72 : 40,
         duration: 0.3,
         ease: 'power2.in',
       });
@@ -66,7 +62,7 @@ const Navbar: FC<NavbarProps> = ({ areExcludedPaths }) => {
   return (
     <nav ref={menuRef} className="fixed w-full z-50" inert={areExcludedPaths}>
       <div
-        className={`navbar-wrapper transition-colors ${user ? 'dark:bg-darkness bg-lightness' : 'bg-primary'} flex justify-between items-center py-3 px-4 sm:px-8`}
+        className={`navbar-wrapper flex gap-x-3 justify-between items-center transition-colors ${user ? 'dark:bg-darkness bg-lightness' : 'bg-primary'} py-3 pl-6 pr-10`}
       >
         {Boolean(user) ? <UserInfo /> : <CustomLink isMainMenu />}
         <ToggleButton />

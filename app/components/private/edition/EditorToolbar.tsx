@@ -72,7 +72,7 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
     <div
       role="toolbar"
       aria-label="Formato del texto"
-      className="sticky top-0 z-20 flex flex-wrap items-center gap-1 border-b border-dark/10 bg-lightness/95 p-2 backdrop-blur dark:border-light/10 dark:bg-darkness/95"
+      className="z-20 flex flex-wrap items-center gap-1 border-b border-dark/10 bg-lightness/95 p-2 backdrop-blur dark:border-light/10 dark:bg-darkness/95"
     >
       <select
         aria-label="Tipo de bloque"

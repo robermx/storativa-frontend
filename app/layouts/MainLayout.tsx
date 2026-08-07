@@ -7,7 +7,7 @@ import { MorphSVGPlugin, ScrollTrigger } from 'gsap/all';
 import {
   excludePaths,
   smoothScrollPaths,
-} from '@/constants/common/layout.constants';
+} from '@/constants/shared/layout.constants';
 import { useAuthStore } from '@/store/authStore';
 import { useNavHeight } from '@/store/navHeightStore';
 import { useMenuStore } from '@/store/menuStore';
@@ -37,6 +37,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
     () => {
       gsap.to('.main-wrapper', {
         y: areExcludedPaths ? -navHeight : menuExpanded ? addMenuHeight : 0,
+        paddingBottom: menuExpanded ? addMenuHeight : 0,
         duration: 0.3,
         ease: 'power2.in',
       });
@@ -56,7 +57,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
         <main
           className="selection:bg-primary/30 relative"
           ref={mainRef}
-          style={{ top: navHeight }}
+          style={{ paddingTop: navHeight }}
         >
           <div className="main-wrapper">{children}</div>
         </main>

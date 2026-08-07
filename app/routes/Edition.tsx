@@ -413,8 +413,9 @@ const Edition = () => {
     <div
       aria-hidden={areSettingsOpen}
       inert={areSettingsOpen}
-      className={`mx-auto max-w-full p-6 h-[calc(100vh-${navHeight}px)]`}
-      style={{ top: navHeight }}
+      // className={`mx-auto max-w-full p-6 h-[calc(100vh-${navHeight}px)]`}
+      className="py-6"
+      // style={{ height: `calc(100vh - ${navHeight}px)`}}
     >
       {/* <header className="mb-6 flex flex-col gap-4 rounded-xl border border-dark/10 bg-primary/10 p-5 dark:border-light/10 dark:bg-primary/5 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex min-w-0 items-center gap-3">
@@ -485,7 +486,6 @@ const Edition = () => {
           />
         </section>
       </div>
-      <div className="pb-8" />
     </div>
   );
 };

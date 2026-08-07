@@ -13,7 +13,7 @@ const ToggleButton: FC = () => {
   return (
     <button
       onClick={toggleMenuExpand}
-      className={`menu-button transition-colors ${user ? 'dark:text-light text-dark' : 'text-light'} relative right-7 sm:right-3 w-6 h-6 cursor-pointer disabled:text-gray-300 dark:disabled:text-gray-600 disabled:cursor-not-allowed`}
+      className={`relative w-6 h-6 cursor-pointer ${Boolean(user) ? 'dark:text-light text-dark' : 'text-light'} disabled:text-gray-300 dark:disabled:text-gray-600 disabled:cursor-not-allowed`}
       disabled={areSettingsOpen}
     >
       <Menu className={`menu-icon absolute inset-0`} />

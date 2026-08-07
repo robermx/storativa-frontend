@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLoaderData, useNavigate } from 'react-router';
 import { useForm, useWatch } from 'react-hook-form';
-import { Check, LayersPlus, Sparkles } from 'lucide-react';
+import { Check, LayersPlus } from 'lucide-react';
 
 import { createClientLoader } from '@/lib/createClientLoader';
 import {
@@ -157,9 +157,9 @@ const Create = () => {
     <div
       aria-hidden={areSettingsOpen}
       inert={areSettingsOpen}
-      className="max-w-7xl pt-8"
+      className="max-w-7xl"
     >
-      <div className="mx-6 mb-8 flex gap-4 rounded-md bg-primary/10 p-5 text-dark dark:text-light">
+      {/* <div className="mx-6 mb-8 flex gap-4 rounded-md bg-primary/10 p-5 text-dark dark:text-light">
         <Sparkles className="mt-0.5 shrink-0 text-primary" size={23} />
         <div>
           <h1 className="text-lg font-semibold">
@@ -171,10 +171,10 @@ const Create = () => {
             elemento antes de crearla.
           </p>
         </div>
-      </div>
+      </div> */}
 
       <div
-        className="mx-6 mb-8 grid gap-3 sm:grid-cols-3"
+        className="mb-6 grid grid-cols-3"
         aria-label="Progreso del formulario"
       >
         {steps.map((step, index) => {

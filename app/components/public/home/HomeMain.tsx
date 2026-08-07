@@ -8,7 +8,7 @@ import {
 } from '@/constants/common/home.constants';
 import { useNavHeight } from '@/store/navHeightStore';
 
-const MainSection = () => {
+const HomeMain = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const navHeight = useNavHeight((state) => state.navHeight);
 
@@ -63,8 +63,8 @@ const MainSection = () => {
   return (
     <section
       ref={sectionRef}
-      className={`relative isolate min-h-100 overflow-hidden text-center flex flex-col justify-center items-center px-6`}
-      style={{ height: `calc(100vh - ${navHeight}px)`}}
+      className="relative isolate min-h-100 overflow-hidden text-center flex flex-col justify-center items-center px-6"
+      style={{ height: `calc(100dvh - ${navHeight}px)` }}
     >
       <div
         aria-hidden="true"
@@ -123,4 +123,4 @@ const MainSection = () => {
   );
 };
 
-export default MainSection;
+export default HomeMain;

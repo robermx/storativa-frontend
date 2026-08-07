@@ -60,7 +60,7 @@ const ChapterSidebar = ({
 
   return (
     <>
-      <aside className="rounded-xl border border-dark/10 bg-primary/10 p-4 dark:border-light/10 dark:bg-primary/5">
+      <aside className="hidden lg:block rounded-xl border border-dark/10 bg-primary/10 p-4 dark:border-light/10 dark:bg-primary/5">
         <div className="mb-4 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <BookOpen className="text-primary" size={20} />

@@ -12,7 +12,7 @@ import {
 } from '@/constants/common/home.constants';
 import { useThemeStore } from '@/store/themeStore';
 
-const StageSection = () => {
+const HomeStage = () => {
   const { smoother } = useSmoothScroll();
   const svgPathRef = useRef<SVGPathElement | null>(null);
   const stageRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -272,4 +272,4 @@ const StageSection = () => {
   );
 };
 
-export default StageSection;
+export default HomeStage;

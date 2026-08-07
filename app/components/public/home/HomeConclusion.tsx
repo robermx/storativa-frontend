@@ -3,7 +3,6 @@ import { ChevronRight } from 'lucide-react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
-
 import {
   homeFinalConstellationLinks,
   homeFinalConstellationNodes,
@@ -12,7 +11,7 @@ import { variantType } from '@/interfaces/nav-link.interface';
 import { useNavHeight } from '@/store/navHeightStore';
 import CustomLink from '@/components/shared/CustomLink';
 
-const FinalSection = () => {
+const HomeConclusion = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const navHeight = useNavHeight((state) => state.navHeight);
 
@@ -59,8 +58,8 @@ const FinalSection = () => {
   return (
     <section
       ref={sectionRef}
-      className={`relative isolate min-h-100 overflow-hidden flex flex-col items-center justify-center px-6`}
-      style={{ height: `calc(100vh - ${navHeight}px)`}}
+      className="relative isolate min-h-100 overflow-hidden flex flex-col items-center justify-center px-6"
+      style={{ height: `calc(100dvh - ${navHeight}px)` }}
     >
       <div
         aria-hidden="true"
@@ -127,4 +126,4 @@ const FinalSection = () => {
   );
 };
 
-export default FinalSection;
+export default HomeConclusion;
