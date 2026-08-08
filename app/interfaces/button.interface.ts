@@ -19,4 +19,7 @@ export type CustomButtonProps = {
   widthAuto?: boolean;
   noPadding?: boolean;
   truncateText?: boolean;
+  active?: boolean;
+  activeColor?: string;
+  heavy?: boolean
 };

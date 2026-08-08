@@ -6,6 +6,7 @@ import { useMenuStore } from '@/store/menuStore';
 const CustomButton: FC<CustomButtonProps> = ({
   bgColor,
   textColor,
+  activeColor = 'bg-primary',
   buttonType = 'button',
   displayText = null,
   isDisabled = false,
@@ -15,6 +16,8 @@ const CustomButton: FC<CustomButtonProps> = ({
   widthAuto = false,
   noPadding = false,
   truncateText = false,
+  active = false,
+  heavy = false
 }) => {
   const closeMenuExpand = useMenuStore((state) => state.closeMenuExpand);
   const menuExpanded = useMenuStore((state) => state.menuExpanded);
@@ -30,7 +33,7 @@ const CustomButton: FC<CustomButtonProps> = ({
     <button
       type={buttonType}
       className={`${widthAuto ? 'w-auto' : 'w-full'} min-w-0 rounded-md transition-all cursor-pointer
-        ${bgColor} 
+        ${active ? activeColor : bgColor}
         ${textColor}
         disabled:bg-disabledL dark:disabled:bg-disabledD
         disabled:text-gray-300 dark:disabled:text-gray-600
@@ -43,7 +46,7 @@ const CustomButton: FC<CustomButtonProps> = ({
       disabled={isDisabled}
     >
       <div
-        className={`flex min-w-0 ${truncateText ? 'justify-start' : 'justify-center'} items-center gap-2 ${noPadding ? 'p-0' : 'p-2.25'}`}
+        className={`flex min-w-0 ${truncateText ? 'justify-start' : 'justify-center'} items-center gap-2 ${noPadding ? 'p-0' : heavy ? 'py-5': 'py-2.25'}`}
       >
         {displayText && (
           <span

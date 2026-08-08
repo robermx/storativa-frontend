@@ -1,11 +1,26 @@
+import { useState } from 'react';
+
 import CustomLink from '@/components/shared/CustomLink';
-import { aboutLinks } from '@/constants/common/about.constants';
+import CustomButton from '@/components/shared/CustomButton';
+import {
+  aboutDynamicContent,
+  aboutLinks,
+} from '@/constants/common/about.constants';
 import { useNavHeight } from '@/store/navHeightStore';
 
 const AboutMain = () => {
   const navHeight = useNavHeight((state) => state.navHeight);
+  const [activeContentId, setActiveContentId] = useState(
+    aboutDynamicContent[0].id,
+  );
+  const activeContent =
+    aboutDynamicContent.find(({ id }) => id === activeContentId) ??
+    aboutDynamicContent[0];
+
   return (
-    <div className={`grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:h-[calc(100vh-${navHeight}px)]`}>
+    <div
+      className={`grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:h-[calc(100vh-${navHeight}px)]`}
+    >
       <div className="max-w-3xl">
         <p className="mb-4 inline-flex rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary dark:border-primary/30 dark:bg-primary/15">
           La razón de Storativa
@@ -34,30 +49,31 @@ const AboutMain = () => {
         </div>
       </div>
 
+      {/** dynamic content section */}
       <div className="grid gap-4 rounded-4xl border border-dark/10 bg-lightness/80 p-5 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.25)] backdrop-blur dark:border-light/10 dark:bg-darkness/80">
         <div className="rounded-3xl bg-linear-to-br from-primary/20 via-transparent to-secondary/20 p-6">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">
             Nuestra mirada
           </p>
           <p className="mt-4 text-2xl font-bold tracking-tight text-dark dark:text-light">
-            La historia comienza cuando algo del mundo encuentra algo dentro de
-            ti.
+            {activeContent.heading}
           </p>
           <p className="mt-3 leading-relaxed text-dark/75 dark:text-light/75">
-            Storativa une emoción, contexto e imaginación para ayudarte a
-            construir una obra con identidad, sin reemplazar la voz de quien la
-            escribe.
+            {activeContent.description}
           </p>
         </div>
 
         <div className="grid gap-3 sm:grid-cols-3">
-          {['Emoción', 'Contexto', 'Voz propia'].map((label) => (
-            <div
-              key={label}
-              className="rounded-2xl border border-dark/10 bg-light px-4 py-5 text-center text-sm font-semibold text-dark dark:border-light/10 dark:bg-dark dark:text-light"
-            >
-              {label}
-            </div>
+          {aboutDynamicContent.map(({ id, title }) => (
+            <CustomButton
+              key={id}
+              bgColor="border border-dark/10 bg-light dark:border-light/10 dark:bg-dark"
+              textColor={`${id === activeContent.id ? 'text-lightness' : 'text-dark dark:text-light'}`}
+              displayText={title}
+              active={id === activeContent.id}
+              onClick={() => setActiveContentId(id)}
+              heavy
+            />
           ))}
         </div>
       </div>
