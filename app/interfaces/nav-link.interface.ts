@@ -19,6 +19,6 @@ export interface CustomLinkProps {
       >
     | FC<SvgProps>
     | null;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'base' | 'lg' | 'xl';
   withPipe?: boolean;
 }

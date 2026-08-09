@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { SvgProps } from '../interfaces/svg.interface';
 
 const MainLogo: FC<SvgProps> = ({
-  width = '150',
+  width = '100%',
   height = '100%',
   className = '',
 }) => {

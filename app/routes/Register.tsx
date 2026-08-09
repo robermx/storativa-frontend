@@ -13,7 +13,6 @@ import { PendingRegistration } from '@/interfaces/auth.interface';
 import CustomDialog from '@/components/shared/CustomDialog';
 import { getErrorMessage } from '@/utils/getErrorMessage';
 import CustomFormCode from '@/components/shared/CustomFormCode';
-import { useNavHeight } from '@/store/navHeightStore';
 import CustomLink from '@/components/shared/CustomLink';
 
 const Register = () => {
@@ -21,7 +20,7 @@ const Register = () => {
   const [pendingRegistration, setPendingRegistration] =
     useState<PendingRegistration | null>(null);
   const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false);
-  const navHeight = useNavHeight((state) => state.navHeight);
+
   const {
     control,
     handleSubmit,
@@ -76,8 +75,7 @@ const Register = () => {
   return (
     <>
       <div
-        className="flex flex-col justify-center min-h-120 max-w-md mx-auto px-6"
-        style={{ height: `calc(100vh - ${navHeight}px)`, top: navHeight / 2 }}
+        className="flex flex-col justify-center min-h-screen max-w-md mx-auto px-6"
       >
         <div className="mx-auto mb-8">
           <CustomLink Icon={MainIso} />

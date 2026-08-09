@@ -10,12 +10,12 @@ const ThemeButton: FC = () => {
   const toggleThemeExpand = useThemeStore((state) => state.toggleThemeExpand);
   const toggleDarkMode = useThemeStore((state) => state.toggleDarkMode);
 
-  const themeContainer = useRef<HTMLDivElement>(null);
+  const themeRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      gsap.to('.animated-container', {
-        x: themeExpanded ? -38 : 0,
+      gsap.to('.theme-wrapper', {
+        x: themeExpanded ? -40 : 0,
         duration: 0.3,
         ease: 'power2.in',
       });
@@ -26,7 +26,7 @@ const ThemeButton: FC = () => {
       });
     },
     {
-      scope: themeContainer,
+      scope: themeRef,
       dependencies: [themeExpanded],
     },
   );
@@ -38,18 +38,18 @@ const ThemeButton: FC = () => {
 
   return (
     <section
-      ref={themeContainer}
-      className="fixed overflow-hidden right-0 w-17 h-8 top-5 z-60 pointer-events-none"
+      ref={themeRef}
+      className="fixed z-60 -right-10 top-5"
     >
-      <div className="animated-container absolute -right-9.5 pointer-events-auto">
-        <div className="flex justify-end items-center gap-2 border-t border-b border-l rounded-bl-md rounded-tl-md border-dark/20 dark:border-light/20 py-1 bg-white dark:bg-slate-900">
+      <div className="theme-wrapper relative bg-lightness dark:bg-darkness rounded-bl-md rounded-tl-md">
+        <div className="flex justify-end items-center gap-2 border-dark/20 dark:border-light/20 py-1">
           <button
             onClick={toggleThemeExpand}
             className="px-1 border-r border-dark/20 dark:border-light/20 cursor-pointer"
             aria-label={themeExpanded ? 'Contraer menú' : 'Expandir menú'}
           >
             <ChevronLeft
-              size={18}
+              size={24}
               className="arrow-icon text-dark dark:text-light"
             />
           </button>
@@ -60,9 +60,9 @@ const ThemeButton: FC = () => {
             aria-label="Cambiar tema"
           >
             {isDarkMode ? (
-              <Sun className="text-accent fill-accent" size={22} />
+              <Sun className="text-accent fill-accent" size={24} />
             ) : (
-              <Moon className="text-transparent fill-dark" size={22} />
+              <Moon className="text-transparent fill-dark" size={24} />
             )}
           </button>
         </div>

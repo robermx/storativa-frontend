@@ -5,7 +5,7 @@ import AboutConclusion from '@/components/public/about/AboutConclusion';
 
 const About = () => {
   return (
-    <section className="mx-auto max-w-7xl flex flex-col justify-center gap-14 lg:gap-20 p-6 lg:p-8">
+    <section className="mx-auto max-w-7xl flex flex-col justify-center gap-14 lg:gap-20 px-6 py-8 lg:px-8 lg:pt-0 lg-pb-8">
       <AboutMain />
       <AboutPillars />
       <AboutRouting />

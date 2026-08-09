@@ -6,7 +6,6 @@ import { LogIn } from 'lucide-react';
 
 import { loginRequest } from '@/services/auth.service';
 import { useAuthStore } from '@/store/authStore';
-import { useNavHeight } from '@/store/navHeightStore';
 import MainIso from '@/assets/logo/MainIso';
 import CustomInput from '@/components/shared/CustomInput';
 import CustomButton from '@/components/shared/CustomButton';
@@ -18,7 +17,6 @@ const Login = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || '/dashboard';
   const setAuth = useAuthStore((state) => state.setAuth);
-  const navHeight = useNavHeight((state) => state.navHeight);
 
   const {
     control,
@@ -51,8 +49,7 @@ const Login = () => {
 
   return (
     <div
-      className="flex flex-col justify-center min-h-100 max-w-md mx-auto px-6"
-      style={{ height: `calc(100vh - ${navHeight}px)`, top: navHeight / 2 }}
+      className="flex flex-col justify-center min-h-screen max-w-md mx-auto px-6"
     >
       <div className="mx-auto my-8">
         <CustomLink Icon={MainIso} />

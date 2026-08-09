@@ -8,12 +8,10 @@ import {
   homeFinalConstellationNodes,
 } from '@/constants/common/home.constants';
 import { variantType } from '@/interfaces/nav-link.interface';
-import { useNavHeight } from '@/store/navHeightStore';
 import CustomLink from '@/components/shared/CustomLink';
 
 const HomeConclusion = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
-  const navHeight = useNavHeight((state) => state.navHeight);
 
   useGSAP(
     () => {
@@ -58,8 +56,7 @@ const HomeConclusion = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative isolate min-h-100 overflow-hidden flex flex-col items-center justify-center px-6"
-      style={{ height: `calc(100dvh - ${navHeight}px)` }}
+      className="relative isolate min-h-[calc(100vh-var(--nav-height))] overflow-hidden flex flex-col items-center justify-center px-6"
     >
       <div
         aria-hidden="true"

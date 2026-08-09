@@ -6,6 +6,9 @@ import IsoSimple from '@/assets/logo/IsoSimple';
 import MainLogo from '@/assets/logo/MainLogo';
 import { CustomLinkProps, variantType } from '@/interfaces/nav-link.interface';
 
+const buttonBaseClassName =
+  'inline-flex items-center gap-2 rounded-md px-5 py-2 font-semibold transition-colors';
+
 const CustomLink: FC<CustomLinkProps> = ({
   isMainMenu = false,
   path = '/',
@@ -17,13 +20,25 @@ const CustomLink: FC<CustomLinkProps> = ({
 }) => {
   const { handleNavLinkClick } = useNavigationLink();
 
+  const getLinkClassName = (isActive: boolean) => {
+    if (variant === variantType.simple) {
+      return `font-bold transition-colors ${isActive ? 'text-darkness' : 'text-gray-500 hover:text-darkness'}`;
+    }
+
+    return `${buttonBaseClassName} ${
+      variant === variantType.outlined
+        ? 'border-2 border-dark/10 text-dark duration-300 hover:border-primary/40 hover:text-primary dark:border-light/15 dark:text-light dark:hover:border-primary/40'
+        : 'bg-primary/80 text-light hover:bg-primary'
+    }`;
+  };
+
   return isMainMenu ? (
     <NavLink to={path} onClick={(event) => handleNavLinkClick(event, '/')}>
       {({ isActive }) => (
-        <div className="flex items-center gap-3">
-          <IsoSimple />
+        <div className="flex items-center gap-2">
+          <IsoSimple className="w-12.5" />
           <MainLogo
-            className={`transition-colors ${isActive ? 'text-white' : 'text-secondary hover:text-white'}`}
+            className={`w-37.5 ${isActive ? 'text-white' : 'text-secondary hover:text-white'}`}
           />
         </div>
       )}
@@ -33,19 +48,19 @@ const CustomLink: FC<CustomLinkProps> = ({
       <NavLink
         onClick={(event) => handleNavLinkClick(event, path)}
         to={path}
-        className={({ isActive }) =>
-          variant === variantType.simple
-            ? `transition-colors font-bold ${isActive ? 'text-darkness' : 'text-gray-500 hover:text-darkness'}`
-            : variant === variantType.outlined
-              ? 'inline-flex items-center gap-2 rounded-md border-2 border-dark/10 px-6 py-2 font-semibold text-dark transition-colors duration-300 hover:border-primary/40 hover:text-primary dark:border-light/15 dark:text-light dark:hover:border-primary/40'
-              : 'inline-flex items-center gap-2 rounded-md transition-colors bg-primary/80 hover:bg-primary px-6 py-2 font-semibold text-light'
-        }
+        className={({ isActive }) => getLinkClassName(isActive)}
       >
         {displayName}
         {Icon && (
           <Icon
             size={
-              size === 'sm' ? 20 : size === 'md' ? 22 : size === 'lg' ? 24 : 28
+              size === 'sm'
+                ? 20
+                : size === 'base'
+                  ? 22
+                  : size === 'lg'
+                    ? 24
+                    : 28
             }
           />
         )}

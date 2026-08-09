@@ -6,11 +6,9 @@ import {
   homeConstellationLinks,
   homeConstellationNodes,
 } from '@/constants/common/home.constants';
-import { useNavHeight } from '@/store/navHeightStore';
 
 const HomeMain = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
-  const navHeight = useNavHeight((state) => state.navHeight);
 
   useGSAP(
     () => {
@@ -63,8 +61,7 @@ const HomeMain = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative isolate min-h-100 overflow-hidden text-center flex flex-col justify-center items-center px-6"
-      style={{ height: `calc(100dvh - ${navHeight}px)` }}
+      className="relative isolate min-h-[calc(100vh-var(--nav-height))] overflow-hidden text-center flex flex-col justify-center items-center px-6"
     >
       <div
         aria-hidden="true"

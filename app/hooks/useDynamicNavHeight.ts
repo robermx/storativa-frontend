@@ -20,7 +20,9 @@ const useDynamicNavHeight = (
 
         if (entry.target === navEl) {
           setNavHeight(height);
+          document.documentElement.style.setProperty('--nav-height', `${height}px`);
         } else if (entry.target === addMenuEl) {
+          document.documentElement.style.setProperty('--add-menu-height', `${height}px`);
           setAddMenuHeight(height);
         }
       }
@@ -29,7 +31,7 @@ const useDynamicNavHeight = (
     resizeObserver.observe(navEl);
     resizeObserver.observe(addMenuEl);
     return () => resizeObserver.disconnect();
-  }, [navRef, addMenuRef, setAddMenuHeight, setNavHeight]);
+  }, []);
 };
 
 export default useDynamicNavHeight;

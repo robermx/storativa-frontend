@@ -56,7 +56,7 @@ export const aboutLinks = [
   {
     id: 1,
     path: '/register',
-    displayName: 'Crear mi Storativa',
+    displayName: 'Registrarse',
     variant: variantType.contained,
     icon: ChevronRight,
   },

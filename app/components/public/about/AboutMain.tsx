@@ -6,10 +6,8 @@ import {
   aboutDynamicContent,
   aboutLinks,
 } from '@/constants/common/about.constants';
-import { useNavHeight } from '@/store/navHeightStore';
 
 const AboutMain = () => {
-  const navHeight = useNavHeight((state) => state.navHeight);
   const [activeContentId, setActiveContentId] = useState(
     aboutDynamicContent[0].id,
   );
@@ -18,9 +16,7 @@ const AboutMain = () => {
     aboutDynamicContent[0];
 
   return (
-    <div
-      className={`grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:h-[calc(100vh-${navHeight}px)]`}
-    >
+    <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:h-[calc(100vh-var(--nav-height))]">
       <div className="max-w-3xl">
         <p className="mb-4 inline-flex rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary dark:border-primary/30 dark:bg-primary/15">
           La razón de Storativa
@@ -36,7 +32,7 @@ const AboutMain = () => {
           personal en una narrativa propia.
         </p>
 
-        <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+        <div className="mt-10 flex gap-6 sm:gap-8">
           {aboutLinks.map((link) => (
             <CustomLink
               key={link.id}
