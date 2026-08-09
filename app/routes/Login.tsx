@@ -48,11 +48,14 @@ const Login = () => {
   };
 
   return (
-    <div
-      className="flex flex-col justify-center min-h-screen max-w-md mx-auto px-6"
-    >
+    <div className="flex flex-col justify-center min-h-screen max-w-md mx-auto px-6">
       <div className="mx-auto my-8">
-        <CustomLink Icon={MainIso} />
+        <CustomLink
+          to="/"
+          icon={<MainIso />}
+          iconSize="none"
+          aria-label="Ir al inicio"
+        />
       </div>
 
       <Fragment>
@@ -97,14 +100,14 @@ const Login = () => {
           />
 
           <CustomButton
-            buttonType="submit"
-            bgColor="bg-primary"
-            textColor="text-light"
-            displayText={isSubmitting ? 'Cargando...' : 'Iniciar Sesión'}
-            isDisabled={!isValid || isSubmitting}
-            Icon={LogIn}
+            type="submit"
+            variant="primary"
+            disabled={!isValid || isSubmitting}
+            icon={<LogIn />}
             size="md"
-          />
+          >
+            {isSubmitting ? 'Cargando...' : 'Iniciar Sesión'}
+          </CustomButton>
         </form>
 
         <p className="mt-3 text-center text-sm/6 text-gray-500 dark:text-gray-400">

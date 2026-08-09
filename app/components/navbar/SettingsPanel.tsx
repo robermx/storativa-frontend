@@ -58,7 +58,7 @@ const SettingsPanel = () => {
           style={{
             transform: 'translateX(-100%)',
             top: navHeight,
-            height: `calc(100vh - ${navHeight}px)`
+            height: `calc(100vh - ${navHeight}px)`,
           }}
         >
           <div className="flex items-center justify-between mb-6">
@@ -66,13 +66,12 @@ const SettingsPanel = () => {
               Configuración
             </h2>
             <CustomButton
-              bgColor="bg-transparent"
-              textColor="text-darkness dark:text-lightness"
-              Icon={X}
+              variant="ghost"
+              icon={<X />}
               onClick={closeSettings}
-              widthAuto
-              noPadding
+              width="auto"
               size="md"
+              aria-label="Cerrar configuración"
             />
           </div>
 
@@ -107,12 +106,12 @@ const SettingsPanel = () => {
           </div>
           <div className="mt-auto">
             <CustomButton
-              bgColor="bg-primary"
-              textColor="text-light"
-              Icon={LogOut}
-              displayText="Cerrar sesión"
+              variant="primary"
+              icon={<LogOut />}
               onClick={handleLogout}
-            />
+            >
+              Cerrar sesión
+            </CustomButton>
           </div>
         </div>
       </section>

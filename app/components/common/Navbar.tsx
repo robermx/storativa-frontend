@@ -9,7 +9,7 @@ import { useAuthStore } from '@/store/authStore';
 import UserInfo from '../navbar/UserInfo';
 import ToggleButton from '../navbar/ToggleButton';
 import EmergentMenu from '../navbar/EmergentMenu';
-import CustomLink from '../shared/CustomLink';
+import BrandLink from '../shared/BrandLink';
 import useDynamicNavHeight from '@/hooks/useDynamicNavHeight';
 import { useNavHeight } from '@/store/navHeightStore';
 
@@ -75,7 +75,7 @@ const Navbar: FC<NavbarProps> = ({ isVisible, onExitComplete }) => {
       <div
         className={`navbar-wrapper flex gap-x-3 justify-between items-center transition-colors ${user ? 'dark:bg-darkness bg-lightness' : 'bg-primary'} py-3 pl-6 pr-11`}
       >
-        {Boolean(user) ? <UserInfo /> : <CustomLink isMainMenu />}
+        {Boolean(user) ? <UserInfo /> : <BrandLink />}
         <ToggleButton />
       </div>
       <EmergentMenu addMenuRef={addMenuRef} />

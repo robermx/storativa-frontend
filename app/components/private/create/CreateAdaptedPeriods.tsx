@@ -223,37 +223,35 @@ const CreateAdaptedPeriods: FC<CreateAdaptedPeriodsProps> = ({
           <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-between">
             <div className="sm:w-56">
               <CustomButton
-                bgColor="bg-primary/10 hover:bg-primary/20"
-                textColor="text-primary"
-                Icon={editingIndex === null ? CalendarPlus : Check}
-                displayText={
-                  editingIndex === null ? 'Añadir período' : 'Guardar cambios'
-                }
+                variant="soft"
+                icon={editingIndex === null ? <CalendarPlus /> : <Check />}
                 onClick={() => void handleSubmit(savePeriod)()}
-                isDisabled={!isValid || isLocked}
-              />
+                disabled={!isValid || isLocked}
+              >
+                {editingIndex === null ? 'Añadir período' : 'Guardar cambios'}
+              </CustomButton>
             </div>
             <div className="flex gap-3 sm:w-auto">
               {editingIndex !== null && (
                 <div className="flex-1 sm:w-32">
                   <CustomButton
-                    bgColor="bg-dark/10 hover:bg-dark/20 dark:bg-light/10 dark:hover:bg-light/20"
-                    textColor="text-dark dark:text-light"
-                    Icon={X}
-                    displayText="Cancelar"
+                    variant="ghost"
+                    icon={<X />}
                     onClick={cancelEditing}
-                    isDisabled={isLocked}
-                  />
+                    disabled={isLocked}
+                  >
+                    Cancelar
+                  </CustomButton>
                 </div>
               )}
               <div className="flex-1 sm:w-44">
                 <CustomButton
-                  bgColor="bg-primary"
-                  textColor="text-light"
-                  displayText="Continuar"
-                  isDisabled={!canContinue || isDirty || isLocked}
+                  variant="primary"
+                  disabled={!canContinue || isDirty || isLocked}
                   onClick={onContinue}
-                />
+                >
+                  Continuar
+                </CustomButton>
               </div>
             </div>
           </div>

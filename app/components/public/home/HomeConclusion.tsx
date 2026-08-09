@@ -1,13 +1,12 @@
 import { useRef } from 'react';
 import { ChevronRight } from 'lucide-react';
-import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 
 import {
   homeFinalConstellationLinks,
   homeFinalConstellationNodes,
 } from '@/constants/common/home.constants';
-import { variantType } from '@/interfaces/nav-link.interface';
 import CustomLink from '@/components/shared/CustomLink';
 
 const HomeConclusion = () => {
@@ -112,12 +111,9 @@ const HomeConclusion = () => {
           ideas y conectar con quienes encuentran algo de sí mismos en ella.
         </p>
 
-        <CustomLink
-          displayName="Comenzar con mi Storativa"
-          path="/register"
-          variant={variantType.contained}
-          Icon={ChevronRight}
-        />
+        <CustomLink to="/register" variant="primary" icon={<ChevronRight />}>
+          Comenzar con mi Storativa
+        </CustomLink>
       </div>
     </section>
   );

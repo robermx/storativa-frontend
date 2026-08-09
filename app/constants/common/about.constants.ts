@@ -1,4 +1,4 @@
-import { variantType } from '@/interfaces/nav-link.interface';
+import { type ActionVariant } from '@/components/shared/action/action.types';
 import { BadgeCheck, ChevronRight, Layers3, Sparkles } from 'lucide-react';
 
 export const aboutPillars = [
@@ -55,16 +55,16 @@ export const aboutDynamicContent = [
 export const aboutLinks = [
   {
     id: 1,
-    path: '/register',
-    displayName: 'Registrarse',
-    variant: variantType.contained,
+    to: '/register',
+    label: 'Comenzar con mi Storativa',
+    variant: 'primary' as ActionVariant,
     icon: ChevronRight,
   },
   {
     id: 2,
-    path: '/login',
-    displayName: 'Iniciar sesión',
-    variant: variantType.outlined,
-    icon: null,
+    to: '/login',
+    label: 'Iniciar sesión',
+    variant: 'outline' as ActionVariant,
+    icon: undefined,
   },
 ];

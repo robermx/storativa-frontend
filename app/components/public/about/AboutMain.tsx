@@ -32,20 +32,21 @@ const AboutMain = () => {
           personal en una narrativa propia.
         </p>
 
-        <div className="mt-10 flex gap-6 sm:gap-8">
-          {aboutLinks.map((link) => (
+        <div className="mt-8 space-y-8 sm:space-x-8">
+          {aboutLinks.map(({ id, to, label, variant, icon: Icon }) => (
             <CustomLink
-              key={link.id}
-              path={link.path}
-              displayName={link.displayName}
-              variant={link.variant}
-              Icon={link.icon}
-            />
+              key={id}
+              to={to}
+              variant={variant}
+              icon={Icon ? <Icon /> : undefined}
+
+            >
+              {label}
+            </CustomLink>
           ))}
         </div>
       </div>
 
-      {/** dynamic content section */}
       <div className="grid gap-4 rounded-4xl border border-dark/10 bg-lightness/80 p-5 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.25)] backdrop-blur dark:border-light/10 dark:bg-darkness/80">
         <div className="rounded-3xl bg-linear-to-br from-primary/20 via-transparent to-secondary/20 p-6">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">
@@ -63,13 +64,13 @@ const AboutMain = () => {
           {aboutDynamicContent.map(({ id, title }) => (
             <CustomButton
               key={id}
-              bgColor="border border-dark/10 bg-light dark:border-light/10 dark:bg-dark"
-              textColor={`${id === activeContent.id ? 'text-lightness' : 'text-dark dark:text-light'}`}
-              displayText={title}
-              active={id === activeContent.id}
+              variant="outline"
+              selected={id === activeContent.id}
               onClick={() => setActiveContentId(id)}
-              heavy
-            />
+              size="lg"
+            >
+              {title}
+            </CustomButton>
           ))}
         </div>
       </div>

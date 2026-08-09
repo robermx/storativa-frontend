@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLoaderData, useNavigate } from 'react-router';
 import { useForm, useWatch } from 'react-hook-form';
-import { Check, LayersPlus } from 'lucide-react';
+import { Check, LayersPlus, Sparkles } from 'lucide-react';
 
 import { createClientLoader } from '@/lib/createClientLoader';
 import {
@@ -157,24 +157,10 @@ const Create = () => {
     <div
       aria-hidden={areSettingsOpen}
       inert={areSettingsOpen}
-      className="max-w-7xl"
+      className="max-w-7xl mx-auto h-screen"
     >
-      {/* <div className="mx-6 mb-8 flex gap-4 rounded-md bg-primary/10 p-5 text-dark dark:text-light">
-        <Sparkles className="mt-0.5 shrink-0 text-primary" size={23} />
-        <div>
-          <h1 className="text-lg font-semibold">
-            Construye la base de tu Storativa
-          </h1>
-          <p className="mt-1 text-sm text-dark/70 dark:text-light/70">
-            Estos detalles guían la historia, el ritmo y sus personajes. Solo
-            toma unos minutos; avanzarás por etapas y podrás revisar cada
-            elemento antes de crearla.
-          </p>
-        </div>
-      </div> */}
-
       <div
-        className="mb-6 grid grid-cols-3"
+        className="grid mb-6 grid-cols-3"
         aria-label="Progreso del formulario"
       >
         {steps.map((step, index) => {
@@ -212,6 +198,20 @@ const Create = () => {
         })}
       </div>
 
+      <div className="flex gap-4 mb-6 rounded-md bg-primary/10 p-5 text-dark dark:text-light">
+        <Sparkles className="mt-0.5 shrink-0 text-primary" size={23} />
+        <div>
+          <h1 className="text-lg font-semibold">
+            Construye la base de tu Storativa
+          </h1>
+          <p className="mt-1 text-sm text-dark/70 dark:text-light/70">
+            Estos detalles guían la historia, el ritmo y sus personajes. Solo
+            toma unos minutos; avanzarás por etapas y podrás revisar cada
+            elemento antes de crearla.
+          </p>
+        </div>
+      </div>
+
       <form
         onSubmit={handleSubmit(onSubmit, () => setActiveStep(0))}
         noValidate
@@ -235,12 +235,12 @@ const Create = () => {
             />
             <div className="px-6 py-7 sm:w-44">
               <CustomButton
-                bgColor="bg-primary"
-                textColor="text-light"
-                displayText="Continuar"
-                isDisabled={isLocked}
+                variant="primary"
+                disabled={isLocked}
                 onClick={() => void continueFromGenerals()}
-              />
+              >
+                Continuar
+              </CustomButton>
             </div>
           </>
         </div>
@@ -291,14 +291,14 @@ const Create = () => {
             />
             <div className="px-6 py-7 sm:w-56">
               <CustomButton
-                buttonType="submit"
-                bgColor="bg-primary"
-                textColor="text-light"
-                displayText={isSubmitting ? 'Creando...' : 'Crear Storativa'}
-                isDisabled={!isValid || characters.length === 0 || isLocked}
-                Icon={LayersPlus}
+                type="submit"
+                variant="primary"
+                disabled={!isValid || characters.length === 0 || isLocked}
+                icon={<LayersPlus />}
                 size="md"
-              />
+              >
+                {isSubmitting ? 'Creando...' : 'Crear Storativa'}
+              </CustomButton>
             </div>
           </>
         </div>

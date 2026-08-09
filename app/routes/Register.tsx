@@ -74,11 +74,14 @@ const Register = () => {
 
   return (
     <>
-      <div
-        className="flex flex-col justify-center min-h-screen max-w-md mx-auto px-6"
-      >
+      <div className="flex flex-col justify-center min-h-screen max-w-md mx-auto px-6">
         <div className="mx-auto mb-8">
-          <CustomLink Icon={MainIso} />
+          <CustomLink
+            to="/"
+            icon={<MainIso />}
+            iconSize="none"
+            aria-label="Ir al inicio"
+          />
         </div>
 
         <Fragment>
@@ -141,14 +144,14 @@ const Register = () => {
             />
 
             <CustomButton
-              buttonType="submit"
-              bgColor="bg-primary"
-              textColor="text-light"
-              displayText={isSubmitting ? 'Cargando...' : 'Registrarse'}
-              isDisabled={!isValid || isSubmitting}
-              Icon={Airplay}
+              type="submit"
+              variant="primary"
+              disabled={!isValid || isSubmitting}
+              icon={<Airplay />}
               size="md"
-            />
+            >
+              {isSubmitting ? 'Cargando...' : 'Registrarse'}
+            </CustomButton>
           </form>
 
           <p className="mt-3 text-center text-sm/6 text-gray-500 dark:text-gray-400">
