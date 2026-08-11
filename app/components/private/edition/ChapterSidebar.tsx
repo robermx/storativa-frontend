@@ -12,30 +12,20 @@ import {
 } from 'lucide-react';
 
 import type { Chapter } from '@/interfaces/storativa.interface';
+import { useEdition } from '@/context/EditionContext';
 
-interface ChapterSidebarProps {
-  chapters: Chapter[];
-  activeChapterId: string;
-  isLocked: boolean;
-  error: string | null;
-  onSelect: (chapterId: string) => Promise<void>;
-  onAdd: () => Promise<void>;
-  onRename: (chapterId: string, title: string) => Promise<boolean>;
-  onDelete: (chapterId: string) => Promise<void>;
-  onMove: (chapterId: string, direction: -1 | 1) => Promise<void>;
-}
-
-const ChapterSidebar = ({
-  chapters,
-  activeChapterId,
-  isLocked,
-  error,
-  onSelect,
-  onAdd,
-  onRename,
-  onDelete,
-  onMove,
-}: ChapterSidebarProps) => {
+const ChapterSidebar = () => {
+  const {
+    activeChapterId,
+    addChapter,
+    chapterError,
+    chapters,
+    deleteChapter,
+    isChapterLocked,
+    moveChapter,
+    renameChapter,
+    selectChapter,
+  } = useEdition();
   const [renamingId, setRenamingId] = useState<string | null>(null);
   const [titleDraft, setTitleDraft] = useState('');
   const [deleteCandidate, setDeleteCandidate] = useState<Chapter | null>(null);
@@ -54,13 +44,13 @@ const ChapterSidebar = ({
 
   const submitRename = async () => {
     if (!renamingId || !titleDraft.trim()) return;
-    const wasRenamed = await onRename(renamingId, titleDraft.trim());
+    const wasRenamed = await renameChapter(renamingId, titleDraft.trim());
     if (wasRenamed) setRenamingId(null);
   };
 
   return (
     <>
-      <aside className="hidden lg:block rounded-xl border border-dark/10 bg-primary/10 p-4 dark:border-light/10 dark:bg-primary/5">
+      <aside className="rounded-xl border border-dark/10 bg-primary/10 p-4 dark:border-light/10 dark:bg-primary/5">
         <div className="mb-4 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <BookOpen className="text-primary" size={20} />
@@ -70,8 +60,8 @@ const ChapterSidebar = ({
           </div>
           <button
             type="button"
-            onClick={() => void onAdd()}
-            disabled={isLocked}
+            onClick={() => void addChapter()}
+            disabled={isChapterLocked}
             aria-label="Crear capítulo"
             title="Crear capítulo"
             className="rounded-md bg-primary p-2 text-light transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
@@ -90,10 +80,10 @@ const ChapterSidebar = ({
           <select
             id="active-chapter"
             value={activeChapterId}
-            disabled={isLocked}
+            disabled={isChapterLocked}
             onChange={(event) => {
               setRenamingId(null);
-              void onSelect(event.target.value);
+              void selectChapter(event.target.value);
             }}
             className="w-full rounded-md border border-dark/10 bg-lightness px-3 py-2 text-dark outline-none focus:border-primary dark:border-light/10 dark:bg-darkness dark:text-light"
           >
@@ -119,7 +109,7 @@ const ChapterSidebar = ({
               <button
                 type="button"
                 onClick={() => void submitRename()}
-                disabled={!titleDraft.trim() || isLocked}
+                disabled={!titleDraft.trim() || isChapterLocked}
                 aria-label="Guardar nombre"
                 className="rounded p-1.5 text-primary disabled:opacity-40"
               >
@@ -138,8 +128,8 @@ const ChapterSidebar = ({
             <div className="mt-2 flex justify-end gap-1 text-dark/55 dark:text-light/55">
               <button
                 type="button"
-                onClick={() => void onMove(activeChapterId, -1)}
-                disabled={isLocked || activeChapterIndex === 0}
+                onClick={() => void moveChapter(activeChapterId, -1)}
+                disabled={isChapterLocked || activeChapterIndex === 0}
                 aria-label={`Subir ${activeChapter?.title ?? 'capítulo'}`}
                 className="rounded p-1.5 hover:bg-primary/10 hover:text-primary disabled:opacity-25"
               >
@@ -147,9 +137,9 @@ const ChapterSidebar = ({
               </button>
               <button
                 type="button"
-                onClick={() => void onMove(activeChapterId, 1)}
+                onClick={() => void moveChapter(activeChapterId, 1)}
                 disabled={
-                  isLocked || activeChapterIndex === chapters.length - 1
+                  isChapterLocked || activeChapterIndex === chapters.length - 1
                 }
                 aria-label={`Bajar ${activeChapter?.title ?? 'capítulo'}`}
                 className="rounded p-1.5 hover:bg-primary/10 hover:text-primary disabled:opacity-25"
@@ -159,7 +149,7 @@ const ChapterSidebar = ({
               <button
                 type="button"
                 onClick={() => activeChapter && startRename(activeChapter)}
-                disabled={isLocked || !activeChapter}
+                disabled={isChapterLocked || !activeChapter}
                 aria-label={`Renombrar ${activeChapter?.title ?? 'capítulo'}`}
                 className="rounded p-1.5 hover:bg-primary/10 hover:text-primary disabled:opacity-25"
               >
@@ -168,7 +158,9 @@ const ChapterSidebar = ({
               <button
                 type="button"
                 onClick={() => setDeleteCandidate(activeChapter ?? null)}
-                disabled={isLocked || chapters.length === 1 || !activeChapter}
+                disabled={
+                  isChapterLocked || chapters.length === 1 || !activeChapter
+                }
                 aria-label={`Eliminar ${activeChapter?.title ?? 'capítulo'}`}
                 className="rounded p-1.5 hover:bg-red-500/10 hover:text-red-600 disabled:opacity-25"
               >
@@ -208,7 +200,7 @@ const ChapterSidebar = ({
                     <button
                       type="button"
                       onClick={() => void submitRename()}
-                      disabled={!titleDraft.trim() || isLocked}
+                      disabled={!titleDraft.trim() || isChapterLocked}
                       aria-label="Guardar nombre"
                       className="rounded p-1 text-primary disabled:opacity-40"
                     >
@@ -229,9 +221,9 @@ const ChapterSidebar = ({
                       type="button"
                       onClick={() => {
                         setRenamingId(null);
-                        void onSelect(chapter._id);
+                        void selectChapter(chapter._id);
                       }}
-                      disabled={isLocked}
+                      disabled={isChapterLocked}
                       aria-current={isActive ? 'page' : undefined}
                       className="w-full truncate px-1 py-1 text-left text-sm font-medium text-dark disabled:cursor-not-allowed dark:text-light"
                     >
@@ -240,8 +232,8 @@ const ChapterSidebar = ({
                     <div className="mt-1 flex justify-end gap-0.5 text-dark/50 dark:text-light/50">
                       <button
                         type="button"
-                        onClick={() => void onMove(chapter._id, -1)}
-                        disabled={isLocked || index === 0}
+                        onClick={() => void moveChapter(chapter._id, -1)}
+                        disabled={isChapterLocked || index === 0}
                         aria-label={`Subir ${chapter.title}`}
                         className="rounded p-1 hover:bg-primary/10 hover:text-primary disabled:opacity-25"
                       >
@@ -249,8 +241,10 @@ const ChapterSidebar = ({
                       </button>
                       <button
                         type="button"
-                        onClick={() => void onMove(chapter._id, 1)}
-                        disabled={isLocked || index === chapters.length - 1}
+                        onClick={() => void moveChapter(chapter._id, 1)}
+                        disabled={
+                          isChapterLocked || index === chapters.length - 1
+                        }
                         aria-label={`Bajar ${chapter.title}`}
                         className="rounded p-1 hover:bg-primary/10 hover:text-primary disabled:opacity-25"
                       >
@@ -259,7 +253,7 @@ const ChapterSidebar = ({
                       <button
                         type="button"
                         onClick={() => startRename(chapter)}
-                        disabled={isLocked}
+                        disabled={isChapterLocked}
                         aria-label={`Renombrar ${chapter.title}`}
                         className="rounded p-1 hover:bg-primary/10 hover:text-primary disabled:opacity-25"
                       >
@@ -268,7 +262,7 @@ const ChapterSidebar = ({
                       <button
                         type="button"
                         onClick={() => setDeleteCandidate(chapter)}
-                        disabled={isLocked || chapters.length === 1}
+                        disabled={isChapterLocked || chapters.length === 1}
                         aria-label={`Eliminar ${chapter.title}`}
                         className="rounded p-1 hover:bg-red-500/10 hover:text-red-600 disabled:opacity-25"
                       >
@@ -282,12 +276,12 @@ const ChapterSidebar = ({
           })}
         </ol>
 
-        {error && (
+        {chapterError && (
           <p
             role="alert"
             className="mt-4 text-sm text-red-600 dark:text-red-300"
           >
-            {error}
+            {chapterError}
           </p>
         )}
       </aside>
@@ -322,12 +316,12 @@ const ChapterSidebar = ({
               </button>
               <button
                 type="button"
-                disabled={isLocked}
+                disabled={isChapterLocked}
                 onClick={() => {
                   if (!deleteCandidate) return;
                   const chapterId = deleteCandidate._id;
                   setDeleteCandidate(null);
-                  void onDelete(chapterId);
+                  void deleteChapter(chapterId);
                 }}
                 className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
               >
