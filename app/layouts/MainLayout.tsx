@@ -11,6 +11,7 @@ import {
 import { useAuthStore } from '@/store/authStore';
 import { useNavHeight } from '@/store/navHeightStore';
 import { useMenuStore } from '@/store/menuStore';
+import { useNavigationVisibility } from '@/context/NavigationVisibilityContext';
 import Navbar from '@/components/common/Navbar';
 import SettingsPanel from '@/components/navbar/SettingsPanel';
 import ThemeButton from '@/components/common/ThemeButton';
@@ -26,12 +27,13 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   const addMenuHeight = useNavHeight((state) => state.addMenuHeight);
   const menuExpanded = useMenuStore((state) => state.menuExpanded);
   const closeMenuExpand = useMenuStore((state) => state.closeMenuExpand);
+  const { isNavigationSuppressed } = useNavigationVisibility();
   const enableSmoothScroll = smoothScrollPaths.includes(pathname);
   const isNotFound =
     matches.length > 0 &&
     matches[matches.length - 1].id.toString().endsWith('NotFound');
   const areExcludedPaths = excludePaths.includes(pathname) || isNotFound;
-  const shouldShowNavigation = !areExcludedPaths;
+  const shouldShowNavigation = !areExcludedPaths && !isNavigationSuppressed;
   const [isNavbarMounted, setIsNavbarMounted] = useState(shouldShowNavigation);
   const [isNavbarVisible, setIsNavbarVisible] = useState(shouldShowNavigation);
 

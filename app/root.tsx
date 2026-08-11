@@ -5,6 +5,7 @@ import { useThemeStore } from './store/themeStore';
 import { useSettingsStore } from './store/settingsStore';
 import { ensureAuthSession } from './services/auth.service';
 import MainLayout from './layouts/MainLayout';
+import { NavigationVisibilityProvider } from './context/NavigationVisibilityContext';
 import './app.css';
 
 export default function App() {
@@ -33,9 +34,11 @@ export default function App() {
       <body
         className={`bg-light dark:bg-dark text-dark dark:text-light antialiased ${hasMounted && areSettingsOpen ? 'overflow-hidden' : 'overflow-auto'}`}
       >
-        <MainLayout>
-          <Outlet />
-        </MainLayout>
+        <NavigationVisibilityProvider>
+          <MainLayout>
+            <Outlet />
+          </MainLayout>
+        </NavigationVisibilityProvider>
 
         <ScrollRestoration />
         <Scripts />
