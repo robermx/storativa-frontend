@@ -162,7 +162,7 @@ const CustomFormCode: FC<CustomFormCodeProps> = ({
   return (
     <form onSubmit={handleSubmit(onVerify)} className="mt-7 space-y-5">
       <div
-        className="flex justify-between gap-2"
+        className="flex justify-between gap-1"
         aria-label="Código de verificación"
       >
         {codeDigits.map((digit, index) => (
@@ -223,19 +223,16 @@ const CustomFormCode: FC<CustomFormCodeProps> = ({
         </button>
       </p>
       <div className="flex gap-3 pt-1">
+        <CustomButton onClick={onClose} variant="ghost">
+          Cancelar
+        </CustomButton>
         <CustomButton
-          displayText="Cancelar"
-          onClick={onClose}
-          bgColor="bg-transparent"
-          textColor="text-dark dark:text-light"
-        />
-        <CustomButton
-          buttonType="submit"
-          bgColor="bg-primary"
-          textColor="text-light"
-          displayText={isSubmitting ? 'Verificando...' : 'Verificar'}
-          isDisabled={!isCodeComplete || isSubmitting}
-        />
+          type="submit"
+          variant="primary"
+          disabled={!isCodeComplete || isSubmitting}
+        >
+          {isSubmitting ? 'Verificando...' : 'Verificar'}
+        </CustomButton>
       </div>
     </form>
   );

@@ -13,6 +13,10 @@
   --color-disabledL: #a0adc1;
   --color-disabledD: #273348;
 }
+:root {
+  --nav-height: 64px;
+  --add-menu-height: 24px;
+}
 
 /* DayPicker custom styles */
 .rdp-datepicker-dropdown .rdp-root {

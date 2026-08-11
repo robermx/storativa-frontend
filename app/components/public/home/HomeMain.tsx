@@ -6,11 +6,9 @@ import {
   homeConstellationLinks,
   homeConstellationNodes,
 } from '@/constants/common/home.constants';
-import { useNavHeight } from '@/store/navHeightStore';
 
-const MainSection = () => {
+const HomeMain = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
-  const navHeight = useNavHeight((state) => state.navHeight);
 
   useGSAP(
     () => {
@@ -63,7 +61,7 @@ const MainSection = () => {
   return (
     <section
       ref={sectionRef}
-      className={`relative isolate h-[calc(100vh-${navHeight}px)] min-h-100 overflow-hidden text-center flex flex-col justify-center items-center px-6`}
+      className="relative isolate min-h-[calc(100vh-var(--nav-height))] overflow-hidden text-center flex flex-col justify-center items-center px-6"
     >
       <div
         aria-hidden="true"
@@ -108,18 +106,19 @@ const MainSection = () => {
       </div>
 
       <h1 className="home-hero-copy relative z-10 max-w-4xl text-3xl md:text-4xl lg:text-5xl font-bold text-dark dark:text-light tracking-tighter mb-6">
-        Todos tenemos algo dentro que busca convertirse en historia...{' '}
+        Todos tenemos algo interno que busca convertirse en una gran historia...{' '}
         <span className="text-primary">
-          una idea, un recuerdo o una forma distinta de mirar el mundo.
+          una idea o algún recuerdo, asociados a una peculiar forma de mirar el
+          mundo.
         </span>
       </h1>
       <p className="home-hero-copy relative z-10 max-w-2xl text-lg md:text-xl text-dark dark:text-light font-light leading-relaxed">
-        Storativa te acompaña a transformar aquello que te inspira en una
-        historia propia: explorando épocas, lugares y posibilidades para
-        encontrar una voz auténtica y compartirla con los demás.
+        Storativa te acompaña a transformar aquello que te inspira en una obra
+        propia: explorando épocas, lugares y posibilidades para descubrir una
+        auténtica narrativa y compartirla de manera global.
       </p>
     </section>
   );
 };
 
-export default MainSection;
+export default HomeMain;

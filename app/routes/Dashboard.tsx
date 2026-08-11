@@ -5,9 +5,9 @@ import { getUserStorativas } from '@/services/storativa.service';
 
 import { useSettingsStore } from '@/store/settingsStore';
 import DashboardSkeleton from '@/components/skeleton/DashboardSkeleton';
-import DashboardStats from '@/components/dashboard/DashboardStats';
-import DashboardTable from '@/components/dashboard/DashboardTable';
-import DashboardEmpty from '@/components/dashboard/DashboardEmpty';
+import DashboardStats from '@/components/private/dashboard/DashboardStats';
+import DashboardTable from '@/components/private/dashboard/DashboardTable';
+import DashboardEmpty from '@/components/private/dashboard/DashboardEmpty';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const clientLoader = createClientLoader({

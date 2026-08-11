@@ -1,20 +1,12 @@
-import { LucideProps } from "lucide-react";
-import { ForwardRefExoticComponent, RefAttributes } from "react";
+import { type NavLinkProps } from 'react-router';
 
-export enum variantType {
-  simple = 'simple',
-  contained = 'contained',
-  outlined = 'outlined'
-}
+import { type ActionPresentationProps } from '@/components/shared/action/action.types';
 
-export interface CustomLinkProps {
-  isMainMenu?: boolean;
-  path?: string;
-  displayName?: string;
-  variant?: variantType.simple | variantType.contained | variantType.outlined;
-  Icon?: ForwardRefExoticComponent<
-    Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
-  > | null;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-  withPipe?: boolean
-}
+export type CustomLinkProps = Omit<
+  NavLinkProps,
+  'children' | 'className' | 'to'
+> &
+  ActionPresentationProps & {
+    to: string;
+    activeClassName?: string;
+  };

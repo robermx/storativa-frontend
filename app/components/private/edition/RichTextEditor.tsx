@@ -40,7 +40,7 @@ const RichTextEditor = ({
     editorProps: {
       attributes: {
         class:
-          'storativa-editor min-h-[32rem] px-6 py-8 text-dark outline-none dark:text-light sm:px-10 sm:py-10',
+          'storativa-editor h-[calc(100vh-260px)] md:h-[calc(100vh-240px)] lg:h-[calc(100vh-200px)]  overflow-y-auto px-5 pt-5 pb-100 text-dark outline-none dark:text-light',
         'aria-label': 'Contenido del capítulo',
       },
     },

@@ -1,13 +1,13 @@
-import MainSection from '@/components/home/MainSection';
-import StageSection from '@/components/home/StageSection';
-import FinalSection from '@/components/home/FinalSection';
+import HomeMain from '@/components/public/home/HomeMain';
+import HomeStage from '@/components/public/home/HomeStage';
+import HomeConclusion from '@/components/public/home/HomeConclusion';
 
 const Home = () => {
   return (
     <>
-      <MainSection />
-      <StageSection />
-      <FinalSection />
+      <HomeMain />
+      <HomeStage />
+      <HomeConclusion />
     </>
   );
 };

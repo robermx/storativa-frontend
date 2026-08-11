@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface MenuState {
   menuExpanded: boolean;
@@ -7,17 +6,9 @@ interface MenuState {
   toggleMenuExpand: () => void;
 }
 
-export const useMenuStore = create<MenuState>()(
-  persist(
-    (set) => ({
-      menuExpanded: false,
-      closeMenuExpand: () => set({ menuExpanded: false }),
-      toggleMenuExpand: () =>
-        set((state) => ({ menuExpanded: !state.menuExpanded })),
-    }),
-    {
-      name: 'menu-storage',
-      storage: createJSONStorage(() => localStorage),
-    },
-  ),
-);
+export const useMenuStore = create<MenuState>((set) => ({
+  menuExpanded: false,
+  closeMenuExpand: () => set({ menuExpanded: false }),
+  toggleMenuExpand: () =>
+    set((state) => ({ menuExpanded: !state.menuExpanded })),
+}));

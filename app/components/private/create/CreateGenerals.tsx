@@ -1,36 +1,27 @@
-import { FC, Fragment } from 'react';
-import { type Control, Controller, type FieldErrors } from 'react-hook-form';
+import { type FC, Fragment } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
 
-import CustomInput from '../shared/CustomInput';
-import CustomMultiSelect from '../shared/CustomMultiSelect';
-import CustomSelect from '../shared/CustomSelect';
 import { InputEnumType } from '@/interfaces/input.interface';
-import { IReqStorativa } from '@/interfaces/storativa.interface';
-import CustomTextArea from '../shared/CustomTextArea';
-import { Icatalog } from '@/interfaces/catalog.interface';
+import type { IReqStorativa } from '@/interfaces/storativa.interface';
 import { isValidDate } from '@/utils/dateValidation';
-import CustomDatePicker from '../shared/CustomDatePicker';
+import { useCreateFlow } from '@/context/CreateFlowContext';
 
-interface CreateGeneralsProps {
-  control: Control<IReqStorativa>;
-  errors: FieldErrors<IReqStorativa>;
-  contextCatalog: Icatalog[];
-  genderLabelCatalog: Icatalog[];
-  storySizeCatalog: Icatalog[];
-}
+import CustomInput from '@/components/shared/CustomInput';
+import CustomMultiSelect from '@/components/shared/CustomMultiSelect';
+import CustomSelect from '@/components/shared/CustomSelect';
+import CustomTextArea from '@/components/shared/CustomTextArea';
+import CustomDatePicker from '@/components/shared/CustomDatePicker';
 
-const CreateGenerals: FC<CreateGeneralsProps> = ({
-  control,
-  errors,
-  contextCatalog,
-  genderLabelCatalog,
-  storySizeCatalog,
-}) => {
+const CreateGenerals: FC = () => {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext<IReqStorativa>();
+  const { contextCatalog, genderLabelCatalog, storySizeCatalog } =
+    useCreateFlow();
+
   return (
     <Fragment>
-      <h3 className="px-6 pt-3 rounded-tr-lg bg-primary/15 dark:bg-primary/10 max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
-        Datos Generales
-      </h3>
       <div className="bg-primary/15 dark:bg-primary/10 px-6 py-7 rounded-b-md rounded-tr-md">
         <div className="flex flex-col gap-y-7">
           <Controller

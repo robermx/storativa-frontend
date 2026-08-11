@@ -1,22 +1,11 @@
-import { type LucideProps } from 'lucide-react';
-import {
-  ForwardRefExoticComponent,
-  RefAttributes,
-  type MouseEventHandler,
-} from 'react';
+import { type ButtonHTMLAttributes } from 'react';
 
-export type CustomButtonProps = {
-  bgColor: string;
-  textColor: string;
-  buttonType?: 'reset' | 'submit' | 'button' | undefined;
-  isDisabled?: boolean;
-  displayText?: string;
-  onClick?: MouseEventHandler<HTMLButtonElement> | null;
-  Icon?: ForwardRefExoticComponent<
-    Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
-  >;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-  widthAuto?: boolean;
-  noPadding?: boolean;
-  truncateText?: boolean;
-};
+import { type ActionPresentationProps } from '@/components/shared/action/action.types';
+
+export type CustomButtonProps = Omit<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  'children' | 'className'
+> &
+  ActionPresentationProps & {
+    selected?: boolean;
+  };

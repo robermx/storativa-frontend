@@ -1,6 +1,7 @@
+import { Fragment } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router';
-import { useForm, Controller } from 'react-hook-form';
 import { AxiosError } from 'axios';
+import { useForm, Controller } from 'react-hook-form';
 import { LogIn } from 'lucide-react';
 
 import { loginRequest } from '@/services/auth.service';
@@ -9,14 +10,13 @@ import MainIso from '@/assets/logo/MainIso';
 import CustomInput from '@/components/shared/CustomInput';
 import CustomButton from '@/components/shared/CustomButton';
 import { IFormData, InputEnumType } from '@/interfaces/input.interface';
-import { useNavHeight } from '@/store/navHeightStore';
+import CustomLink from '@/components/shared/CustomLink';
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/dashboard';
   const setAuth = useAuthStore((state) => state.setAuth);
-  const navHeight = useNavHeight((state) => state.navHeight);
 
   const {
     control,
@@ -48,14 +48,17 @@ const Login = () => {
   };
 
   return (
-    <div
-      className={`h-[calc(100vh-${navHeight}px)] flex flex-col justify-center px-6 lg:px-8`}
-      style={{ paddingTop: navHeight }}
-    >
-      <NavLink to="/" className="mx-auto">
-        <MainIso />
-      </NavLink>
-      <div className="my-8 sm:mx-auto sm:w-full sm:max-w-sm">
+    <div className="flex flex-col justify-center min-h-screen max-w-md mx-auto px-6">
+      <div className="mx-auto my-8">
+        <CustomLink
+          to="/"
+          icon={<MainIso />}
+          iconSize="none"
+          aria-label="Ir al inicio"
+        />
+      </div>
+
+      <Fragment>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           <Controller
             name="email"
@@ -97,14 +100,14 @@ const Login = () => {
           />
 
           <CustomButton
-            buttonType="submit"
-            bgColor="bg-primary"
-            textColor="text-light"
-            displayText={isSubmitting ? 'Cargando...' : 'Iniciar Sesión'}
-            isDisabled={!isValid || isSubmitting}
-            Icon={LogIn}
+            type="submit"
+            variant="primary"
+            disabled={!isValid || isSubmitting}
+            icon={<LogIn />}
             size="md"
-          />
+          >
+            {isSubmitting ? 'Cargando...' : 'Iniciar Sesión'}
+          </CustomButton>
         </form>
 
         <p className="mt-3 text-center text-sm/6 text-gray-500 dark:text-gray-400">
@@ -113,7 +116,7 @@ const Login = () => {
             Regístrate
           </NavLink>
         </p>
-      </div>
+      </Fragment>
     </div>
   );
 };

@@ -9,15 +9,16 @@ import { useAuthStore } from '@/store/authStore';
 import UserInfo from '../navbar/UserInfo';
 import ToggleButton from '../navbar/ToggleButton';
 import EmergentMenu from '../navbar/EmergentMenu';
-import CustomLink from '../shared/CustomLink';
+import BrandLink from '../shared/BrandLink';
 import useDynamicNavHeight from '@/hooks/useDynamicNavHeight';
 import { useNavHeight } from '@/store/navHeightStore';
 
 interface NavbarProps {
-  areExcludedPaths: boolean;
+  isVisible: boolean;
+  onExitComplete: () => void;
 }
 
-const Navbar: FC<NavbarProps> = ({ areExcludedPaths }) => {
+const Navbar: FC<NavbarProps> = ({ isVisible, onExitComplete }) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const addMenuRef = useRef<HTMLDivElement>(null);
 
@@ -29,18 +30,24 @@ const Navbar: FC<NavbarProps> = ({ areExcludedPaths }) => {
 
   useGSAP(
     () => {
+      if (!menuRef.current) return;
+
+      gsap.to(menuRef.current, {
+        y: isVisible ? 0 : -navHeight,
+        duration: 0.3,
+        ease: 'power2.in',
+        overwrite: 'auto',
+        onComplete: () => {
+          if (!isVisible) onExitComplete();
+        },
+      });
       gsap.to('.navbar-wrapper', {
-        y: areExcludedPaths ? -navHeight : 0,
+        paddingRight: themeExpanded ? 84 : 44,
         duration: 0.3,
         ease: 'power2.in',
       });
-      gsap.to('.menu-button', {
-        x: themeExpanded ? -38 : 0,
-        duration: 0.3,
-        ease: 'power2.in',
-      });
-      gsap.to('.items-wrapper', {
-        y: menuExpanded ? 40 : 0,
+      gsap.to('.emergent-menu-wrapper', {
+        y: isVisible && menuExpanded ? 40 : 0,
         duration: 0.3,
         ease: 'power2.in',
       });
@@ -59,16 +66,16 @@ const Navbar: FC<NavbarProps> = ({ areExcludedPaths }) => {
     },
     {
       scope: menuRef,
-      dependencies: [areExcludedPaths, themeExpanded, menuExpanded],
+      dependencies: [isVisible, menuExpanded, navHeight, themeExpanded],
     },
   );
 
   return (
     <nav ref={menuRef} className="fixed w-full z-50">
       <div
-        className={`navbar-wrapper transition-colors ${user ? 'dark:bg-darkness bg-lightness' : 'bg-primary'} flex justify-between items-center py-3 px-4 sm:px-8`}
+        className={`navbar-wrapper flex gap-x-3 justify-between items-center transition-colors ${user ? 'dark:bg-darkness bg-lightness' : 'bg-primary'} py-3 pl-6 pr-11`}
       >
-        {Boolean(user) ? <UserInfo /> : <CustomLink isMainMenu />}
+        {Boolean(user) ? <UserInfo /> : <BrandLink />}
         <ToggleButton />
       </div>
       <EmergentMenu addMenuRef={addMenuRef} />

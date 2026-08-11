@@ -2,8 +2,8 @@ import { FC } from 'react';
 import { SvgProps } from '../interfaces/svg.interface';
 
 const IsoSimple: FC<SvgProps> = ({
-  width = '50',
-  height = '50',
+  width = '100%',
+  height = '100%',
   className = '',
   accentFill = 'var(--color-accent)',
   secondaryFill = 'var(--color-secondary)',
@@ -12,7 +12,7 @@ const IsoSimple: FC<SvgProps> = ({
     <svg
       width={width}
       height={height}
-      viewBox="0 0 884 827"
+      viewBox="0 0 884 884"
       version="1.1"
       className={className}
       fillRule="evenodd"

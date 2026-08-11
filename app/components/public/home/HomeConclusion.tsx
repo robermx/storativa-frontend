@@ -1,19 +1,16 @@
 import { useRef } from 'react';
 import { ChevronRight } from 'lucide-react';
-import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 
-import CustomLink from '../shared/CustomLink';
 import {
   homeFinalConstellationLinks,
   homeFinalConstellationNodes,
 } from '@/constants/common/home.constants';
-import { variantType } from '@/interfaces/nav-link.interface';
-import { useNavHeight } from '@/store/navHeightStore';
+import CustomLink from '@/components/shared/CustomLink';
 
-const FinalSection = () => {
+const HomeConclusion = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
-  const navHeight = useNavHeight((state) => state.navHeight);
 
   useGSAP(
     () => {
@@ -58,7 +55,7 @@ const FinalSection = () => {
   return (
     <section
       ref={sectionRef}
-      className={`relative isolate h-[calc(100vh-${navHeight}px)] min-h-100 overflow-hidden flex flex-col items-center justify-center px-6`}
+      className="relative isolate min-h-[calc(100vh-var(--nav-height))] overflow-hidden flex flex-col items-center justify-center px-6"
     >
       <div
         aria-hidden="true"
@@ -114,15 +111,12 @@ const FinalSection = () => {
           ideas y conectar con quienes encuentran algo de sí mismos en ella.
         </p>
 
-        <CustomLink
-          displayName="Comenzar con mi Storativa"
-          path="/register"
-          variant={variantType.contained}
-          Icon={ChevronRight}
-        />
+        <CustomLink to="/register" variant="primary" icon={<ChevronRight />}>
+          Comenzar con mi Storativa
+        </CustomLink>
       </div>
     </section>
   );
 };
 
-export default FinalSection;
+export default HomeConclusion;

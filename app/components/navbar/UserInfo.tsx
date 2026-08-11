@@ -1,18 +1,23 @@
-import { FC } from "react";
-import gsap from "gsap";
+import { FC } from 'react';
+import { useLocation, useRouteLoaderData } from 'react-router';
+import gsap from 'gsap';
 
-import { useAuthStore } from "@/store/authStore";
-import { useSettingsStore } from "@/store/settingsStore";
-import { useMenuStore } from "@/store/menuStore";
-import { getInitials } from "@/utils/getInitials";
-import { getSectionSubtitle } from "@/utils/getSectionSubtitle";
-import { titleFormat } from "@/utils/titleFormat";
-
+import { getInitials } from '@/utils/getInitials';
+import { getSubtitleByPath } from '@/utils/getSubtitleByPath';
+import { titleFormat } from '@/utils/titleFormat';
+import { useAuthStore } from '@/store/authStore';
+import { useSettingsStore } from '@/store/settingsStore';
+import { useMenuStore } from '@/store/menuStore';
+import { clientLoader as eLoader } from '@/routes/Edition';
 
 const UserInfo: FC = () => {
+  const editionData = useRouteLoaderData<typeof eLoader>('routes/Edition');
+  const { pathname } = useLocation();
+
   const user = useAuthStore((state) => state.user);
   const toggleSettings = useSettingsStore((state) => state.toggleSettings);
   const closeMenuExpand = useMenuStore((state) => state.closeMenuExpand);
+  const title = editionData?.storativa.title;
 
   const handleSettingsClick = () => {
     const currentScrollY =
@@ -20,7 +25,7 @@ const UserInfo: FC = () => {
 
     if (currentScrollY === 0) {
       toggleSettings();
-      closeMenuExpand()
+      closeMenuExpand();
       return;
     }
 
@@ -38,20 +43,22 @@ const UserInfo: FC = () => {
   };
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex min-w-0 flex-1 gap-3">
       <button
         type="button"
         onClick={handleSettingsClick}
-        className="w-12.5 h-12.5 rounded-full bg-primary flex items-center justify-center text-white text-lg font-bold cursor-pointer hover:opacity-90 transition-opacity"
+        className="h-12.5 w-12.5 shrink-0 rounded-full bg-primary flex items-center justify-center text-lg font-bold text-white cursor-pointer transition-opacity hover:opacity-90"
       >
-        {getInitials(user?.fullName || "User")}
+        {getInitials(user?.fullName || 'User')}
       </button>
-      <div className="hidden sm:block">
-        <h1 className="text-xl font-bold text-dark dark:text-light">
-          Hola, {titleFormat(user?.fullName || 'usuario') }
+      <div className="min-w-0">
+        <h1 className="truncate text-md font-bold text-dark dark:text-light sm:text-xl">
+          {title
+            ? titleFormat(title)
+            : titleFormat(user?.fullName || 'usuario')}
         </h1>
-        <p className="text-dark/60 dark:text-light/60 text-sm">
-          {getSectionSubtitle(location.pathname)}
+        <p className="truncate text-dark/60 dark:text-light/60 text-sm">
+          {getSubtitleByPath(pathname)}
         </p>
       </div>
     </div>

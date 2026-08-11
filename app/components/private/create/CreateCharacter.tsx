@@ -1,24 +1,23 @@
-import { FC, Fragment, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { type FC, Fragment, useState } from 'react';
+import {
+  Controller,
+  useFieldArray,
+  useForm,
+  useFormContext,
+} from 'react-hook-form';
 import { Check, Pencil, Trash2, UserRoundPlus, X } from 'lucide-react';
 
-import { Character } from '@/interfaces/storativa.interface';
-import { Icatalog } from '@/interfaces/catalog.interface';
-import { useSettingsStore } from '@/store/settingsStore';
-import CustomButton from '../shared/CustomButton';
-import CustomInput from '../shared/CustomInput';
-import CustomSelect from '../shared/CustomSelect';
-import CustomTextArea from '../shared/CustomTextArea';
+import type {
+  Character,
+  IReqStorativa,
+} from '@/interfaces/storativa.interface';
 import { InputEnumType } from '@/interfaces/input.interface';
+import { useCreateFlow } from '@/context/CreateFlowContext';
 
-interface CreateCharacterProps {
-  characters: Character[];
-  characterCatalog: Icatalog[];
-  onAdd: (character: Character) => void;
-  onUpdate: (index: number, character: Character) => void;
-  onRemove: (index: number) => void;
-  isDisabled?: boolean;
-}
+import CustomButton from '@/components/shared/CustomButton';
+import CustomInput from '@/components/shared/CustomInput';
+import CustomSelect from '@/components/shared/CustomSelect';
+import CustomTextArea from '@/components/shared/CustomTextArea';
 
 const emptyCharacter: Character = {
   type: 0,
@@ -29,19 +28,22 @@ const emptyCharacter: Character = {
   additional: '',
 };
 
-const CreateCharacter: FC<CreateCharacterProps> = ({
-  characters,
-  characterCatalog,
-  onAdd,
-  onUpdate,
-  onRemove,
-  isDisabled = false,
-}) => {
+const CreateCharacter: FC = () => {
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [pendingRemoval, setPendingRemoval] = useState<number | null>(null);
-  const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
+  const { control: createControl } = useFormContext<IReqStorativa>();
   const {
-    control,
+    fields: characters,
+    append,
+    remove,
+    update,
+  } = useFieldArray({
+    control: createControl,
+    name: 'characters',
+  });
+  const { characterCatalog, isLocked } = useCreateFlow();
+  const {
+    control: characterControl,
     handleSubmit,
     reset,
     formState: { errors, isValid },
@@ -49,22 +51,24 @@ const CreateCharacter: FC<CreateCharacterProps> = ({
     mode: 'onChange',
     defaultValues: emptyCharacter,
   });
-  const isLocked = areSettingsOpen || isDisabled;
 
   const saveCharacter = (character: Character) => {
     if (editingIndex === null) {
-      onAdd(character);
+      append(character);
     } else {
-      onUpdate(editingIndex, character);
+      update(editingIndex, character);
       setEditingIndex(null);
     }
     reset(emptyCharacter);
   };
 
   const startEditing = (index: number) => {
+    const character = characters[index];
+    if (!character) return;
+
     setPendingRemoval(null);
     setEditingIndex(index);
-    reset(characters[index]);
+    reset(character);
   };
 
   const cancelEditing = () => {
@@ -73,7 +77,7 @@ const CreateCharacter: FC<CreateCharacterProps> = ({
   };
 
   const confirmRemoval = (index: number) => {
-    onRemove(index);
+    remove(index);
     setPendingRemoval(null);
     if (editingIndex === index) cancelEditing();
     if (editingIndex !== null && editingIndex > index) {
@@ -86,9 +90,6 @@ const CreateCharacter: FC<CreateCharacterProps> = ({
 
   return (
     <Fragment>
-      <h3 className="px-6 pt-3 rounded-tr-lg bg-primary/15 dark:bg-primary/10 max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
-        Personajes
-      </h3>
       <div className="bg-primary/15 dark:bg-primary/10 px-6 py-7 rounded-b-md rounded-tr-md">
         <p className="mb-6 text-sm text-dark/65 dark:text-light/65">
           Añade un personaje a la vez para mantener la historia clara y
@@ -99,7 +100,7 @@ const CreateCharacter: FC<CreateCharacterProps> = ({
           <div className="mb-7 divide-y divide-primary/15 dark:divide-light/10">
             {characters.map((character, index) => (
               <div
-                key={`${character.name}-${character.type}-${index}`}
+                key={character.id}
                 className="flex flex-col gap-3 py-4 first:pt-0 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div>
@@ -164,7 +165,7 @@ const CreateCharacter: FC<CreateCharacterProps> = ({
             <div className="flex flex-col gap-y-7 sm:flex-row sm:gap-x-6 sm:gap-y-0">
               <Controller
                 name="type"
-                control={control}
+                control={characterControl}
                 rules={{
                   required: 'El tipo de personaje es obligatorio',
                   validate: (value) =>
@@ -182,7 +183,7 @@ const CreateCharacter: FC<CreateCharacterProps> = ({
               />
               <Controller
                 name="name"
-                control={control}
+                control={characterControl}
                 rules={{ required: 'El nombre del personaje es obligatorio' }}
                 render={({ field }) => (
                   <CustomInput
@@ -198,7 +199,7 @@ const CreateCharacter: FC<CreateCharacterProps> = ({
             <div className="grid gap-y-7 sm:grid-cols-2 sm:gap-x-6">
               <Controller
                 name="social"
-                control={control}
+                control={characterControl}
                 rules={{ required: 'Rasgos sociales obligatorios' }}
                 render={({ field }) => (
                   <CustomTextArea
@@ -212,7 +213,7 @@ const CreateCharacter: FC<CreateCharacterProps> = ({
               />
               <Controller
                 name="physical"
-                control={control}
+                control={characterControl}
                 rules={{ required: 'Rasgos físicos obligatorios' }}
                 render={({ field }) => (
                   <CustomTextArea
@@ -226,7 +227,7 @@ const CreateCharacter: FC<CreateCharacterProps> = ({
               />
               <Controller
                 name="psychological"
-                control={control}
+                control={characterControl}
                 rules={{ required: 'Rasgos psicológicos obligatorios' }}
                 render={({ field }) => (
                   <CustomTextArea
@@ -240,7 +241,7 @@ const CreateCharacter: FC<CreateCharacterProps> = ({
               />
               <Controller
                 name="additional"
-                control={control}
+                control={characterControl}
                 render={({ field }) => (
                   <CustomTextArea
                     {...field}
@@ -255,26 +256,24 @@ const CreateCharacter: FC<CreateCharacterProps> = ({
           <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-between">
             <div className="sm:w-56">
               <CustomButton
-                bgColor="bg-primary/10 hover:bg-primary/20"
-                textColor="text-primary"
-                Icon={editingIndex === null ? UserRoundPlus : Check}
-                displayText={
-                  editingIndex === null ? 'Añadir personaje' : 'Guardar cambios'
-                }
+                variant="soft"
+                icon={editingIndex === null ? <UserRoundPlus /> : <Check />}
                 onClick={() => void handleSubmit(saveCharacter)()}
-                isDisabled={!isValid || isLocked}
-              />
+                disabled={!isValid || isLocked}
+              >
+                {editingIndex === null ? 'Añadir personaje' : 'Guardar cambios'}
+              </CustomButton>
             </div>
             {editingIndex !== null && (
               <div className="sm:w-32">
                 <CustomButton
-                  bgColor="bg-dark/10 hover:bg-dark/20 dark:bg-light/10 dark:hover:bg-light/20"
-                  textColor="text-dark dark:text-light"
-                  Icon={X}
-                  displayText="Cancelar"
+                  variant="ghost"
+                  icon={<X />}
                   onClick={cancelEditing}
-                  isDisabled={isLocked}
-                />
+                  disabled={isLocked}
+                >
+                  Cancelar
+                </CustomButton>
               </div>
             )}
           </div>

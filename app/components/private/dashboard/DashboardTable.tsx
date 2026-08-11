@@ -1,14 +1,15 @@
 import { FC } from 'react';
 import { useNavigate } from 'react-router';
+import { Trash2 } from 'lucide-react';
 
+import { IResStorativa } from '@/interfaces/storativa.interface';
 import { useSettingsStore } from '@/store/settingsStore';
 import { daysPassed, percentageDays } from '@/utils/percentageDays';
 import { statusStyles } from '@/utils/statusStyles';
 import { formatDate } from '@/utils/formatDate';
 import { titleFormat } from '@/utils/titleFormat';
-import { IResStorativa } from '@/interfaces/storativa.interface';
-import CustomButton from '../shared/CustomButton';
-import { Trash2 } from 'lucide-react';
+
+import CustomButton from '@/components/shared/CustomButton';
 
 interface DashboardTableProps {
   storativas: IResStorativa[];
@@ -57,14 +58,13 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
               >
                 <td className="px-5 py-4 w-full max-w-90">
                   <CustomButton
-                    bgColor="bg-transparent"
-                    textColor="text-primary"
-                    displayText={titleFormat(item.title)}
-                    isDisabled={areSettingsOpen}
+                    variant="text"
+                    disabled={areSettingsOpen}
                     onClick={() => navigate(`/edition/${item._id}`)}
-                    noPadding
-                    truncateText
-                  />
+                    truncate
+                  >
+                    {titleFormat(item.title)}
+                  </CustomButton>
                 </td>
                 <td className="px-5 py-4">
                   <span
@@ -104,9 +104,9 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
                 <td className="px-5 py-4">
                   {/** TODO: delete storativa by ID */}
                   <CustomButton
-                    bgColor="bg-red-600/20 hover:bg-red-600/70"
-                    textColor="text-red-600/60 hover:text-lightness"
-                    Icon={Trash2}
+                    variant="danger"
+                    icon={<Trash2 />}
+                    aria-label="Eliminar Storativa"
                   />
                 </td>
               </tr>
