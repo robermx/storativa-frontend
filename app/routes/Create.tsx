@@ -1,11 +1,14 @@
-import { useState } from 'react';
 import { useLoaderData } from 'react-router';
-import { useForm, useWatch } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import { IReqStorativa } from '@/interfaces/storativa.interface';
 import { useSettingsStore } from '@/store/settingsStore';
 import CreateStepper from '@/components/private/create/CreateStepper';
 import CreateFormData from '@/components/private/create/CreateFormData';
+import {
+  CreateFlowProvider,
+  type CreateCatalogs,
+} from '@/context/CreateFlowContext';
 
 import { createClientLoader } from '@/lib/createClientLoader';
 import {
@@ -35,19 +38,9 @@ const Create = () => {
     storySizeCatalog,
     genderLabelCatalog,
   } = useLoaderData<typeof clientLoader>();
-
-  const [activeStep, setActiveStep] = useState(0);
-  const [hasCompletedGenerals, setHasCompletedGenerals] = useState(false);
-  const [hasCompletedPeriods, setHasCompletedPeriods] = useState(false);
   const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
 
-  const {
-    control,
-    handleSubmit,
-    setValue,
-    trigger,
-    formState: { errors, isValid, isSubmitting },
-  } = useForm<IReqStorativa>({
+  const methods = useForm<IReqStorativa>({
     mode: 'onChange',
     defaultValues: {
       title: '',
@@ -62,48 +55,26 @@ const Create = () => {
       content: '',
     },
   });
-  const periods = useWatch({ control, name: 'adaptedPeriods' }) ?? [];
-  const characters = useWatch({ control, name: 'characters' }) ?? [];
-  const isLocked = areSettingsOpen || isSubmitting;
+  const catalogs: CreateCatalogs = {
+    characterCatalog,
+    contextCatalog,
+    storySizeCatalog,
+    genderLabelCatalog,
+  };
 
   return (
-    <div
-      aria-hidden={areSettingsOpen}
-      inert={areSettingsOpen}
-      className="max-w-7xl mx-auto min-h-[calc(100vh-var(--nav-height))]"
-    >
-      <CreateStepper
-        activeStep={activeStep}
-        characters={characters}
-        periods={periods}
-        isLocked={isLocked}
-        setActiveStep={setActiveStep}
-        hasCompletedGenerals={hasCompletedGenerals}
-        hasCompletedPeriods={hasCompletedPeriods}
-      />
-
-      <CreateFormData
-        activeStep={activeStep}
-        setActiveStep={setActiveStep}
-        control={control}
-        errors={errors}
-        isValid={isValid}
-        isSubmitting={isSubmitting}
-        isLocked={isLocked}
-        periods={periods}
-        characters={characters}
-        setValue={setValue}
-        trigger={trigger}
-        handleSubmit={handleSubmit}
-        hasCompletedGenerals={hasCompletedGenerals}
-        setHasCompletedGenerals={setHasCompletedGenerals}
-        setHasCompletedPeriods={setHasCompletedPeriods}
-        characterCatalog={characterCatalog}
-        contextCatalog={contextCatalog}
-        storySizeCatalog={storySizeCatalog}
-        genderLabelCatalog={genderLabelCatalog}
-      />
-    </div>
+    <FormProvider {...methods}>
+      <CreateFlowProvider catalogs={catalogs}>
+        <div
+          aria-hidden={areSettingsOpen}
+          inert={areSettingsOpen}
+          className="max-w-7xl mx-auto min-h-[calc(100vh-var(--nav-height))]"
+        >
+          <CreateStepper />
+          <CreateFormData />
+        </div>
+      </CreateFlowProvider>
+    </FormProvider>
   );
 };
 

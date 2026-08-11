@@ -1,25 +1,24 @@
-import { FC, Fragment, useState } from 'react';
-import { Controller, useForm, useWatch } from 'react-hook-form';
+import { type FC, Fragment, useState } from 'react';
+import {
+  Controller,
+  useFieldArray,
+  useForm,
+  useFormContext,
+  useWatch,
+} from 'react-hook-form';
 import { CalendarPlus, Check, Pencil, Trash2, X } from 'lucide-react';
 
-import { AdaptedPeriod } from '@/interfaces/storativa.interface';
+import type {
+  AdaptedPeriod,
+  IReqStorativa,
+} from '@/interfaces/storativa.interface';
 import { InputEnumType } from '@/interfaces/input.interface';
-import { useSettingsStore } from '@/store/settingsStore';
 import { validateDateField } from '@/utils/dateValidation';
+import { useCreateFlow } from '@/context/CreateFlowContext';
 
 import CustomButton from '@/components/shared/CustomButton';
 import CustomDatePicker from '@/components/shared/CustomDatePicker';
 import CustomInput from '@/components/shared/CustomInput';
-
-interface CreateAdaptedPeriodsProps {
-  periods: AdaptedPeriod[];
-  onAdd: (period: AdaptedPeriod) => void;
-  onUpdate: (index: number, period: AdaptedPeriod) => void;
-  onRemove: (index: number) => void;
-  onContinue: () => void;
-  canContinue: boolean;
-  isDisabled?: boolean;
-}
 
 const emptyPeriod: AdaptedPeriod = {
   name: '',
@@ -28,20 +27,22 @@ const emptyPeriod: AdaptedPeriod = {
   place: '',
 };
 
-const CreateAdaptedPeriods: FC<CreateAdaptedPeriodsProps> = ({
-  periods,
-  onAdd,
-  onUpdate,
-  onRemove,
-  onContinue,
-  canContinue,
-  isDisabled = false,
-}) => {
+const CreateAdaptedPeriods: FC = () => {
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [pendingRemoval, setPendingRemoval] = useState<number | null>(null);
-  const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
+  const { control: createControl } = useFormContext<IReqStorativa>();
   const {
-    control,
+    fields: periods,
+    append,
+    remove,
+    update,
+  } = useFieldArray({
+    control: createControl,
+    name: 'adaptedPeriods',
+  });
+  const { canOpenStep, continueFromPeriods, isLocked } = useCreateFlow();
+  const {
+    control: periodControl,
     handleSubmit,
     reset,
     formState: { errors, isValid, isDirty },
@@ -49,23 +50,25 @@ const CreateAdaptedPeriods: FC<CreateAdaptedPeriodsProps> = ({
     mode: 'onChange',
     defaultValues: emptyPeriod,
   });
-  const draft = useWatch({ control });
-  const isLocked = areSettingsOpen || isDisabled;
+  const draft = useWatch({ control: periodControl });
 
   const savePeriod = (period: AdaptedPeriod) => {
     if (editingIndex === null) {
-      onAdd(period);
+      append(period);
     } else {
-      onUpdate(editingIndex, period);
+      update(editingIndex, period);
       setEditingIndex(null);
     }
     reset(emptyPeriod);
   };
 
   const startEditing = (index: number) => {
+    const period = periods[index];
+    if (!period) return;
+
     setPendingRemoval(null);
     setEditingIndex(index);
-    reset(periods[index]);
+    reset(period);
   };
 
   const cancelEditing = () => {
@@ -74,7 +77,7 @@ const CreateAdaptedPeriods: FC<CreateAdaptedPeriodsProps> = ({
   };
 
   const confirmRemoval = (index: number) => {
-    onRemove(index);
+    remove(index);
     setPendingRemoval(null);
     if (editingIndex === index) cancelEditing();
     if (editingIndex !== null && editingIndex > index) {
@@ -84,9 +87,6 @@ const CreateAdaptedPeriods: FC<CreateAdaptedPeriodsProps> = ({
 
   return (
     <Fragment>
-      <h3 className="px-6 pt-3 rounded-tr-lg bg-primary/15 dark:bg-primary/10 max-w-fit text-md font-medium text-dark/70 dark:text-light/70">
-        Períodos Adaptados
-      </h3>
       <div className="bg-primary/15 dark:bg-primary/10 px-6 py-7 rounded-b-md rounded-tr-md">
         <p className="mb-6 text-sm text-dark/65 dark:text-light/65">
           Añade cada período por separado. Podrás revisarlo, editarlo o
@@ -97,7 +97,7 @@ const CreateAdaptedPeriods: FC<CreateAdaptedPeriodsProps> = ({
           <div className="mb-7 divide-y divide-primary/15 dark:divide-light/10">
             {periods.map((period, index) => (
               <div
-                key={`${period.name}-${period.from}-${index}`}
+                key={period.id}
                 className="flex flex-col gap-3 py-4 first:pt-0 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div>
@@ -161,7 +161,7 @@ const CreateAdaptedPeriods: FC<CreateAdaptedPeriodsProps> = ({
           <div className="grid gap-y-7 md:grid-cols-2 md:gap-x-6 xl:grid-cols-4 xl:gap-y-0">
             <Controller
               name="from"
-              control={control}
+              control={periodControl}
               rules={{
                 required: 'Fecha inicio obligatoria',
                 validate: (from) => validateDateField(from, draft.to, true),
@@ -177,7 +177,7 @@ const CreateAdaptedPeriods: FC<CreateAdaptedPeriodsProps> = ({
             />
             <Controller
               name="to"
-              control={control}
+              control={periodControl}
               rules={{
                 required: 'La fecha de fin es obligatoria',
                 validate: (to) => validateDateField(to, draft.from, false),
@@ -193,7 +193,7 @@ const CreateAdaptedPeriods: FC<CreateAdaptedPeriodsProps> = ({
             />
             <Controller
               name="place"
-              control={control}
+              control={periodControl}
               rules={{ required: 'El lugar es obligatorio' }}
               render={({ field }) => (
                 <CustomInput
@@ -207,14 +207,14 @@ const CreateAdaptedPeriods: FC<CreateAdaptedPeriodsProps> = ({
             />
             <Controller
               name="name"
-              control={control}
+              control={periodControl}
               rules={{ required: 'El período es obligatorio' }}
               render={({ field }) => (
                 <CustomInput
                   {...field}
                   inputType={InputEnumType.period}
                   inputName="period-name"
-                  placeholder="Período"
+                  placeholder="Época / Período"
                   error={errors.name?.message}
                 />
               )}
@@ -247,8 +247,13 @@ const CreateAdaptedPeriods: FC<CreateAdaptedPeriodsProps> = ({
               <div className="flex-1 sm:w-44">
                 <CustomButton
                   variant="primary"
-                  disabled={!canContinue || isDirty || isLocked}
-                  onClick={onContinue}
+                  disabled={
+                    !canOpenStep(1) ||
+                    periods.length === 0 ||
+                    isDirty ||
+                    isLocked
+                  }
+                  onClick={continueFromPeriods}
                 >
                   Continuar
                 </CustomButton>
