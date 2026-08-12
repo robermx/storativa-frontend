@@ -27,7 +27,7 @@ export const savePresentationByState: Record<SaveState, SavePresentation> = {
   },
   dirty: {
     label: 'Pendiente',
-    className: 'text-amber-700 dark:text-amber-300',
+    className: 'text-amber-600 dark:text-amber-400',
     Icon: AlertCircle,
   },
   saving: {

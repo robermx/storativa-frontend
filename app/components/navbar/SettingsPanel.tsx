@@ -1,24 +1,28 @@
 import { useRef } from 'react';
 import { useNavigate } from 'react-router';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
+import {
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  DialogTitle,
+} from '@headlessui/react';
 import { X, User, Mail, CreditCard, LogOut } from 'lucide-react';
 
-import { useSettingsStore } from '@/store/settingsStore';
+import { useOverlayPanelStore } from '@/store/overlayPanelStore';
 import { useAuthStore } from '@/store/authStore';
-import { useNavHeight } from '@/store/navHeightStore';
 import { logoutRequest } from '@/services/auth.service';
 import { titleFormat } from '@/utils/titleFormat';
 import CustomButton from '../shared/CustomButton';
 
 const SettingsPanel = () => {
-  const panelRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
-  const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
-  const closeSettings = useSettingsStore((state) => state.closeSettings);
+  const isSettingsPanelOpen = useOverlayPanelStore(
+    (state) => state.activePanel === 'settings',
+  );
+  const closePanel = useOverlayPanelStore((state) => state.closePanel);
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
-  const navHeight = useNavHeight((state) => state.navHeight);
 
   const handleLogout = async () => {
     try {
@@ -26,53 +30,39 @@ const SettingsPanel = () => {
     } finally {
       logout();
       navigate('/', { replace: true });
-      closeSettings();
+      closePanel();
     }
   };
 
-  useGSAP(
-    () => {
-      gsap.to('.settings-wrapper', {
-        x: areSettingsOpen ? 0 : '-100%',
-        duration: 0.3,
-        ease: 'power3.inOut',
-      });
-      gsap.to('.setting-container', {
-        opacity: areSettingsOpen ? 1 : 0,
-        duration: 0.3,
-        ease: 'power3.inOut',
-      });
-    },
-    { scope: panelRef, dependencies: [areSettingsOpen] },
-  );
-
   return (
-    <div className="relative" ref={panelRef}>
-      <section
-        className={`setting-container absolute inset-0 h-dvh z-40 bg-lightness/50 dark:bg-darkness/70 ${
-          areSettingsOpen ? 'pointer-events-auto' : 'pointer-events-none'
-        }`}
-      >
-        <div
-          className="w-full overflow-x-hidden overflow-y-auto sm:w-90 flex flex-col gap-y-5 settings-wrapper px-6 py-10 absolute bg-lightness dark:bg-darkness border border-t-0 border-dark/10 dark:border-light/10"
-          style={{
-            transform: 'translateX(-100%)',
-            top: navHeight,
-            height: `calc(100vh - ${navHeight}px)`,
-          }}
+    <Dialog
+      open={isSettingsPanelOpen}
+      onClose={closePanel}
+      initialFocus={closeButtonRef}
+      className="relative z-40"
+    >
+      <DialogBackdrop
+        transition
+        className="fixed inset-x-0 bottom-0 top-(--nav-height) bg-lightness/20 backdrop-blur-sm duration-300 ease-out data-closed:opacity-0 dark:bg-darkness/20"
+      />
+      <div className="fixed inset-x-0 bottom-0 top-(--nav-height) pointer-events-none">
+        <DialogPanel
+          transition
+          className="pointer-events-auto flex h-full w-full max-w-sm flex-col gap-y-5 overflow-x-hidden overflow-y-auto border-r border-dark/10 bg-lightness px-6 py-10 shadow-2xl duration-300 ease-out data-closed:-translate-x-full dark:border-light/10 dark:bg-darkness sm:w-90"
         >
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-bold text-dark dark:text-light">
+            <DialogTitle className="text-lg font-bold text-dark dark:text-light">
               Configuración
-            </h2>
-            <CustomButton
-              variant="ghost"
-              icon={<X />}
-              onClick={closeSettings}
-              width="auto"
-              size="md"
+            </DialogTitle>
+            <button
+              ref={closeButtonRef}
+              type="button"
+              onClick={closePanel}
               aria-label="Cerrar configuración"
-            />
+              className="rounded-md p-2 text-dark/60 transition-colors hover:bg-dark/10 hover:text-dark dark:text-light/60 dark:hover:bg-light/10 dark:hover:text-light"
+            >
+              <X size={18} />
+            </button>
           </div>
 
           <div className="flex items-center gap-3 p-3 rounded-xl bg-white/50 dark:bg-dark/50">
@@ -113,9 +103,9 @@ const SettingsPanel = () => {
               Cerrar sesión
             </CustomButton>
           </div>
-        </div>
-      </section>
-    </div>
+        </DialogPanel>
+      </div>
+    </Dialog>
   );
 };
 

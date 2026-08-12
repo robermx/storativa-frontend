@@ -37,7 +37,6 @@ const Edition = () => {
   );
 };
 
-
 export const ErrorBoundary = EditionErrorBoundary;
 
 export default Edition;

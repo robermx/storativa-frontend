@@ -12,7 +12,7 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import type { ICatalog } from '@/interfaces/catalog.interface';
 import type { IReqStorativa } from '@/interfaces/storativa.interface';
 import { generalFields } from '@/constants/common/create.constants';
-import { useSettingsStore } from '@/store/settingsStore';
+import { useOverlayPanelStore } from '@/store/overlayPanelStore';
 
 export type CreateStep = 0 | 1 | 2;
 
@@ -46,13 +46,15 @@ export const CreateFlowProvider: FC<CreateFlowProviderProps> = ({
   children,
 }) => {
   const { control, trigger, formState } = useFormContext<IReqStorativa>();
-  const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
+  const isSettingsPanelOpen = useOverlayPanelStore(
+    (state) => state.activePanel === 'settings',
+  );
   const [activeStep, setActiveStep] = useState<CreateStep>(0);
   const [hasCompletedGenerals, setHasCompletedGenerals] = useState(false);
   const [hasCompletedPeriods, setHasCompletedPeriods] = useState(false);
   const periods = useWatch({ control, name: 'adaptedPeriods' }) ?? [];
   const characters = useWatch({ control, name: 'characters' }) ?? [];
-  const isLocked = areSettingsOpen || formState.isSubmitting;
+  const isLocked = isSettingsPanelOpen || formState.isSubmitting;
 
   const canOpenStep = useCallback(
     (step: CreateStep) => {

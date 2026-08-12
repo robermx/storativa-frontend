@@ -2,7 +2,7 @@ import { useEffect, useSyncExternalStore } from 'react';
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router';
 
 import { useThemeStore } from './store/themeStore';
-import { useSettingsStore } from './store/settingsStore';
+import { useOverlayPanelStore } from './store/overlayPanelStore';
 import { ensureAuthSession } from './services/auth.service';
 import MainLayout from './layouts/MainLayout';
 import { NavigationVisibilityProvider } from './context/NavigationVisibilityContext';
@@ -15,7 +15,7 @@ export default function App() {
     () => false,
   );
   const isDarkMode = useThemeStore((state) => state.isDarkMode);
-  const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
+  const activePanel = useOverlayPanelStore((state) => state.activePanel);
 
   useEffect(() => {
     void ensureAuthSession();
@@ -32,7 +32,7 @@ export default function App() {
         <Links />
       </head>
       <body
-        className={`bg-light dark:bg-dark text-dark dark:text-light antialiased ${hasMounted && areSettingsOpen ? 'overflow-hidden' : 'overflow-auto'}`}
+        className={`bg-light dark:bg-dark text-dark dark:text-light antialiased ${hasMounted && activePanel ? 'overflow-hidden' : 'overflow-auto'}`}
       >
         <NavigationVisibilityProvider>
           <MainLayout>

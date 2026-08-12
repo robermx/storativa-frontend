@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { Trash2 } from 'lucide-react';
 
 import { IResStorativa } from '@/interfaces/storativa.interface';
-import { useSettingsStore } from '@/store/settingsStore';
+import { useOverlayPanelStore } from '@/store/overlayPanelStore';
 import { daysPassed, percentageDays } from '@/utils/percentageDays';
 import { statusStyles } from '@/utils/statusStyles';
 import { formatDate } from '@/utils/formatDate';
@@ -17,7 +17,9 @@ interface DashboardTableProps {
 
 const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
   const navigate = useNavigate();
-  const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
+  const isSettingsPanelOpen = useOverlayPanelStore(
+    (state) => state.activePanel === 'settings',
+  );
 
   return (
     <div className="flex flex-col min-h-[calc(100vh-260px)]">
@@ -59,7 +61,7 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
                 <td className="px-5 py-4 w-full max-w-90">
                   <CustomButton
                     variant="text"
-                    disabled={areSettingsOpen}
+                    disabled={isSettingsPanelOpen}
                     onClick={() => navigate(`/edition/${item._id}`)}
                     truncate
                   >

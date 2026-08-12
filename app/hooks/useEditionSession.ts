@@ -10,7 +10,7 @@ import {
 } from '@/services/storativa.service';
 import type { Chapter, IResStorativa } from '@/interfaces/storativa.interface';
 import type { SaveState } from '@/constants/common/edition.constants';
-import { useSettingsStore } from '@/store/settingsStore';
+import { useOverlayPanelStore } from '@/store/overlayPanelStore';
 import { getErrorMessage } from '@/utils/getErrorMessage';
 import { legacyContentToJson } from '@/utils/editionContent';
 
@@ -18,7 +18,9 @@ const sortChapters = (chapters: Chapter[]) =>
   [...chapters].sort((first, second) => first.order - second.order);
 
 export const useEditionSession = (storativa: IResStorativa) => {
-  const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
+  const isSettingsPanelOpen = useOverlayPanelStore(
+    (state) => state.activePanel === 'settings',
+  );
   const loadedChapters = storativa.chapters ?? [];
   const [chapters, setChapters] = useState<Chapter[]>(() =>
     sortChapters(loadedChapters),
@@ -188,8 +190,11 @@ export const useEditionSession = (storativa: IResStorativa) => {
 
   const selectChapter = useCallback(
     async (chapterId: string) => {
-      if (chapterId === activeChapterId) return;
-      if (await flushPending()) setActiveChapterId(chapterId);
+      if (chapterId === activeChapterId) return true;
+      if (!(await flushPending())) return false;
+
+      setActiveChapterId(chapterId);
+      return true;
     },
     [activeChapterId, flushPending],
   );
@@ -313,7 +318,7 @@ export const useEditionSession = (storativa: IResStorativa) => {
   }, [initializeFirstChapter]);
 
   const isChapterLocked =
-    areSettingsOpen ||
+    isSettingsPanelOpen ||
     isChapterMutation ||
     saveState === 'saving' ||
     saveState === 'error';

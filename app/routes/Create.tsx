@@ -2,7 +2,7 @@ import { useLoaderData } from 'react-router';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { IReqStorativa } from '@/interfaces/storativa.interface';
-import { useSettingsStore } from '@/store/settingsStore';
+import { useOverlayPanelStore } from '@/store/overlayPanelStore';
 import CreateStepper from '@/components/private/create/CreateStepper';
 import CreateFormData from '@/components/private/create/CreateFormData';
 import {
@@ -37,7 +37,9 @@ const Create = () => {
     storySizeCatalog,
     genderLabelCatalog,
   } = useLoaderData<typeof clientLoader>();
-  const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
+  const isSettingsPanelOpen = useOverlayPanelStore(
+    (state) => state.activePanel === 'settings',
+  );
 
   const methods = useForm<IReqStorativa>({
     mode: 'onChange',
@@ -65,8 +67,8 @@ const Create = () => {
     <FormProvider {...methods}>
       <CreateFlowProvider catalogs={catalogs}>
         <div
-          aria-hidden={areSettingsOpen}
-          inert={areSettingsOpen}
+          aria-hidden={isSettingsPanelOpen}
+          inert={isSettingsPanelOpen}
           className="max-w-7xl mx-auto min-h-[calc(100vh-var(--nav-height))]"
         >
           <CreateStepper />

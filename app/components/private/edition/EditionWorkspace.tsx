@@ -1,8 +1,8 @@
 import { type FC } from 'react';
 
-import { useSettingsStore } from '@/store/settingsStore';
+import { useOverlayPanelStore } from '@/store/overlayPanelStore';
 import { useEdition } from '@/context/EditionContext';
-import ChapterSidebar from './ChapterSidebar';
+import EditionChapterPanel from './EditionChapterPanel';
 import EditionEditorPanel from './EditionEditorPanel';
 import EditionInitializationState from './EditionInitializationState';
 
@@ -13,7 +13,9 @@ const EditionWorkspace: FC = () => {
     isInitializing,
     retryInitialization,
   } = useEdition();
-  const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
+  const isChapterPanelOpen = useOverlayPanelStore(
+    (state) => state.activePanel === 'edition-chapters',
+  );
 
   if (isInitializing || !activeChapter) {
     return (
@@ -25,16 +27,16 @@ const EditionWorkspace: FC = () => {
   }
 
   return (
-    <div
-      aria-hidden={areSettingsOpen}
-      inert={areSettingsOpen}
-      className="mx-auto min-h-[calc(100vh-var(--nav-height))] max-w-7xl py-6"
-    >
-      <div className="grid gap-5 lg:grid-cols-[17rem_minmax(0,1fr)]">
-        <ChapterSidebar />
+    <>
+      <EditionChapterPanel />
+      <div
+        aria-hidden={isChapterPanelOpen}
+        inert={isChapterPanelOpen}
+        className="mx-auto min-h-[calc(100vh-var(--nav-height))] max-w-7xl px-4 py-6 sm:px-6"
+      >
         <EditionEditorPanel />
       </div>
-    </div>
+    </>
   );
 };
 
