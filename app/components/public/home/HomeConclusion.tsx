@@ -2,12 +2,15 @@ import { useRef } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import {
   homeFinalConstellationLinks,
   homeFinalConstellationNodes,
 } from '@/constants/common/home.constants';
 import CustomLink from '@/components/shared/CustomLink';
+
+// gsap.registerPlugin(ScrollTrigger);
 
 const HomeConclusion = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -18,35 +21,76 @@ const HomeConclusion = () => {
         '(prefers-reduced-motion: reduce)',
       ).matches;
 
-      gsap.from('.home-final-copy', {
-        opacity: 0,
-        y: prefersReducedMotion ? 0 : 24,
-        duration: prefersReducedMotion ? 0.2 : 0.9,
-        stagger: 0.12,
-        ease: 'power3.out',
-      });
-
       if (prefersReducedMotion) {
         gsap.set('.home-final-node', { opacity: 0.45, scale: 1 });
+        gsap.set('.home-final-line, .home-final-copy', {
+          opacity: 1,
+          scaleX: 1,
+          y: 0,
+        });
         return;
       }
 
-      gsap.from('.home-final-node, .home-final-line', {
+      gsap.set('.home-final-node', { opacity: 0, scale: 0 });
+      gsap.set('.home-final-line', {
         opacity: 0,
-        scale: 0,
-        duration: 0.8,
-        stagger: 0.12,
-        ease: 'back.out(1.7)',
+        scaleX: 0,
+        transformOrigin: 'left center',
       });
+      gsap.set('.home-final-copy', { opacity: 0, y: 20 });
 
-      gsap.to('.home-final-node', {
-        left: '50%',
-        top: '50%',
-        duration: 4.5,
-        repeat: -1,
-        yoyo: true,
-        stagger: 0.25,
-        ease: 'sine.inOut',
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top 20%',
+        once: true,
+        onEnter: () => {
+          const timeline = gsap.timeline();
+
+          timeline
+            .to(
+              '.home-final-node',
+              {
+                opacity: 1,
+                scale: 1,
+                duration: 0.4,
+                ease: 'back.out(1.7)',
+              },
+              0,
+            )
+            .to(
+              '.home-final-line',
+              {
+                opacity: 1,
+                scaleX: 1,
+                duration: 0.4,
+                ease: 'power2.out',
+              },
+              0,
+            )
+            .to(
+              '.home-final-copy',
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.4,
+                ease: 'power3.out',
+              },
+              0.4,
+            )
+            .to(
+              '.home-final-node',
+              {
+                x: 4,
+                y: -4,
+                duration: 2.6,
+                repeat: -1,
+                yoyo: true,
+                stagger: 0.25,
+                ease: 'sine.inOut',
+              },
+              0.8,
+            );
+        },
       });
     },
     { scope: sectionRef },
