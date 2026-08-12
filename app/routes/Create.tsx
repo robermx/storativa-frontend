@@ -19,7 +19,6 @@ import {
 } from '@/services/catalog.service';
 import FormSkeleton from '@/components/skeleton/FormSkeleton';
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const clientLoader = createClientLoader({
   services: [
     { key: 'characterCatalog', fn: getCharacterCatalog },

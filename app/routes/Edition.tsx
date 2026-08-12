@@ -7,7 +7,6 @@ import EditionWorkspace from '@/components/private/edition/EditionWorkspace';
 import EditionSkeleton from '@/components/skeleton/EditionSkeleton';
 import EditionErrorBoundary from '@/components/private/edition/EditionErrorBoundary';
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const clientLoader = createClientLoader({
   services: [
     {

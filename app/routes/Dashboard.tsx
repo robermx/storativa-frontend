@@ -9,7 +9,6 @@ import DashboardStats from '@/components/private/dashboard/DashboardStats';
 import DashboardTable from '@/components/private/dashboard/DashboardTable';
 import DashboardEmpty from '@/components/private/dashboard/DashboardEmpty';
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const clientLoader = createClientLoader({
   services: [{ key: 'storativas', fn: getUserStorativas }],
 });
