@@ -1,8 +1,7 @@
-import { useAuthStore } from '@/store/authStore';
 import { redirect } from 'react-router';
 import { type AxiosError } from 'axios';
-import { ensureAuthSession } from '@/services/auth.service';
 import type { ClientLoaderFunctionArgs } from 'react-router';
+import { requireAuthenticated } from '@/lib/authRouteGuards';
 
 type ServiceFn<T> = (args: ClientLoaderFunctionArgs) => Promise<T>;
 
@@ -27,12 +26,7 @@ export function createClientLoader<T extends ServicesArray>({
   return async function clientLoader(
     args: ClientLoaderFunctionArgs,
   ): Promise<InferResult<T>> {
-    await ensureAuthSession();
-
-    const token = useAuthStore.getState().token;
-    if (!token) {
-      throw redirect('/login');
-    }
+    await requireAuthenticated();
 
     try {
       const entries = await Promise.all(

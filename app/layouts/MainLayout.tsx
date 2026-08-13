@@ -24,16 +24,18 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   const mainRef = useRef<HTMLDivElement>(null);
   const { pathname } = useLocation();
   const matches = useMatches();
+  
   const user = useAuthStore((state) => state.user);
   const addMenuHeight = useNavHeight((state) => state.addMenuHeight);
   const menuExpanded = useMenuStore((state) => state.menuExpanded);
   const closeMenuExpand = useMenuStore((state) => state.closeMenuExpand);
   const closePanel = useOverlayPanelStore((state) => state.closePanel);
   const { isNavigationSuppressed } = useNavigationVisibility();
+  
   const enableSmoothScroll = smoothScrollPaths.includes(pathname);
   const isNotFound =
-    matches.length > 0 &&
-    matches[matches.length - 1].id.toString().endsWith('NotFound');
+  matches.length > 0 &&
+  matches[matches.length - 1].id.toString().endsWith('NotFound');
   const areExcludedPaths = excludePaths.includes(pathname) || isNotFound;
   const shouldShowNavigation = !areExcludedPaths && !isNavigationSuppressed;
   const [isNavbarMounted, setIsNavbarMounted] = useState(shouldShowNavigation);
