@@ -9,6 +9,7 @@ import {
   MapPinHouse,
   UserPlus,
   ClockArrowUp,
+  Search,
 } from 'lucide-react';
 import { CustomInputProps, InputEnumType } from '@/interfaces/input.interface';
 
@@ -42,6 +43,11 @@ const CustomInput: FC<CustomInputProps> = ({
         type: 'text',
         Icon: WholeWord,
         autoComplete: 'title',
+      },
+      [InputEnumType.search]: {
+        type: 'text',
+        Icon: Search,
+        autoComplete: 'search'
       },
       [InputEnumType.period]: {
         type: 'text',

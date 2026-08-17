@@ -27,8 +27,6 @@ interface EditorToolbarProps {
   editor: Editor | null;
 }
 
-
-
 const EditorToolbar = ({ editor }: EditorToolbarProps) => {
   if (!editor) return null;
 

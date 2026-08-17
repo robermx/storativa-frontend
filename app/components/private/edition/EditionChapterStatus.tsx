@@ -9,15 +9,14 @@ const EditionChapterStatus = () => {
   const savePresentation = savePresentationByState[saveState];
 
   return (
-    <div className="flex items-start gap-x-2 justify-between pb-2">
-      <div className="min-w-0">
-        <h2 className="truncate flex-1 text-sm font-medium text-dark/60 dark:text-light/60">
-          {activeChapter.title}
-        </h2>
-        <span className="text-xs text-dark/45 dark:text-light/45">
-          Capítulo {activeChapter.order + 1} de {chapters.length}
+    <div className="flex items-start gap-x-2 justify-between py-2 px-3">
+
+      <h2 className="truncate flex-1 text-sm font-medium text-dark/60 dark:text-light/60">
+        <span className="font-extrabold">
+          {activeChapter.order + 1} de {chapters.length}{' '}
         </span>
-      </div>
+        {activeChapter.title}
+      </h2>
       <div
         aria-live="polite"
         className={`flex items-center gap-2 text-sm font-medium ${savePresentation.className}`}

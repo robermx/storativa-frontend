@@ -1,53 +1,64 @@
 import { FC } from 'react';
-import { useNavigate } from 'react-router';
 import { Trash2 } from 'lucide-react';
 
 import { IResStorativa } from '@/interfaces/storativa.interface';
-import { useOverlayPanelStore } from '@/store/overlayPanelStore';
 import { daysPassed, percentageDays } from '@/utils/percentageDays';
 import { statusStyles } from '@/utils/statusStyles';
 import { formatDate } from '@/utils/formatDate';
 import { titleFormat } from '@/utils/titleFormat';
 
 import CustomButton from '@/components/shared/CustomButton';
+import CustomLink from '@/components/shared/CustomLink';
+import CustomInput from '@/components/shared/CustomInput';
+import { InputEnumType } from '@/interfaces/input.interface';
 
 interface DashboardTableProps {
   storativas: IResStorativa[];
 }
 
 const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
-  const navigate = useNavigate();
-  const isSettingsPanelOpen = useOverlayPanelStore(
-    (state) => state.activePanel === 'settings',
-  );
-
   return (
-    <div className="flex flex-col min-h-[calc(100vh-260px)]">
-      <div className="bg-primary/50 text-center py-1 border-b border-dark/10 dark:border-light/10 rounded-t-lg">
-        <h2 className="text-lg font-semibold text-dark dark:text-light">
+    <div className="flex flex-col">
+      <div className="flex items-center gap-3 mb-3">
+        <h2 className="flex-1 bg-primary/50 rounded-t-lg text-lg py-1.5 text-center font-semibold text-dark dark:text-light ">
           Storativas
         </h2>
+        <div className="w-50 sm:w-80">
+          <CustomInput
+            inputType={InputEnumType.search}
+            inputName="search"
+            placeholder="Buscar por título"
+          />
+        </div>
       </div>
-      <div className="overflow-x-auto">
-        <table className="w-full">
+      <div className="overflow-x-auto min-h-90">
+        <table className="w-full min-w-255 table-fixed">
+          <colgroup>
+            <col />
+            <col className="w-25" />
+            <col className="w-45" />
+            <col className="w-55" />
+            <col className="w-55" />
+            <col className="w-25" />
+          </colgroup>
           <thead className="bg-primary/10">
             <tr>
-              <th className="text-left px-5 py-3 font-medium text-primary min-w-60">
+              <th className="text-left px-4 py-3 font-medium text-primary">
                 Título
               </th>
-              <th className="text-left px-5 py-3 font-medium text-primary min-w-20">
+              <th className="text-left px-4 py-3 font-medium text-primary">
                 Estado
               </th>
-              <th className="text-left px-5 py-3 font-medium text-primary min-w-45">
+              <th className="text-left px-4 py-3 font-medium text-primary">
                 Días de avance
               </th>
-              <th className="text-left px-5 py-3 font-medium text-primary min-w-55">
+              <th className="text-left px-4 py-3 font-medium text-primary">
                 Fecha de creación
               </th>
-              <th className="text-left px-5 py-3 font-medium text-primary min-w-55">
+              <th className="text-left px-4 py-3 font-medium text-primary">
                 Última actualización
               </th>
-              <th className="text-left px-5 py-3 font-medium text-primary min-w-10">
+              <th className="text-left px-4 py-3 font-medium text-primary">
                 Eliminar
               </th>
             </tr>
@@ -58,24 +69,25 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
                 key={item._id}
                 className="hover:bg-lightness dark:hover:bg-darkness transition-colors"
               >
-                <td className="px-5 py-4 w-full max-w-90">
-                  <CustomButton
+                <td className="px-4 py-3">
+                  <CustomLink
                     variant="text"
-                    disabled={isSettingsPanelOpen}
-                    onClick={() => navigate(`/edition/${item._id}`)}
+                    width="full"
                     truncate
+                    to={`/edition/${item._id}`}
+                    className="text-primary/80 hover:text-primary"
                   >
                     {titleFormat(item.title)}
-                  </CustomButton>
+                  </CustomLink>
                 </td>
-                <td className="px-5 py-4">
+                <td className="px-4 py-3">
                   <span
                     className={`inline-flex px-2.5 py-1 text-xs font-medium rounded-full border ${statusStyles(item.status).style}`}
                   >
                     {statusStyles(item.status).status}
                   </span>
                 </td>
-                <td className="px-5 py-4">
+                <td className="px-4 py-3">
                   <div className="flex items-center gap-2">
                     <div className="w-20 h-2 bg-light dark:bg-darkness rounded-full overflow-hidden">
                       <div
@@ -93,22 +105,23 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
                     </span>
                   </div>
                 </td>
-                <td className="px-5 py-4">
+                <td className="px-4 py-3">
                   <p className="text-sm text-dark/70 dark:text-light/70">
                     {formatDate(item.createdAt)}
                   </p>
                 </td>
-                <td className="px-5 py-4">
+                <td className="px-4 py-3">
                   <p className="text-sm text-dark/70 dark:text-light/70">
                     {formatDate(item.updatedAt)}
                   </p>
                 </td>
-                <td className="px-5 py-4">
+                <td className="px-4 py-3">
                   {/** TODO: delete storativa by ID */}
                   <CustomButton
                     variant="danger"
                     icon={<Trash2 />}
                     aria-label="Eliminar Storativa"
+                    className="cursor-pointer"
                   />
                 </td>
               </tr>
@@ -116,7 +129,7 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
           </tbody>
         </table>
       </div>
-      <div className="bg-primary/20 py-2 rounded-b-lg mt-auto">
+      <div className="bg-primary/20 py-2 rounded-b-lg">
         <p className="text-center">TODO: Paginado</p>
       </div>
     </div>

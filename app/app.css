@@ -14,7 +14,7 @@
   --color-disabledD: #273348;
 }
 :root {
-  --nav-height: 64px;
+  --nav-height: 74px;
   --add-menu-height: 24px;
 }
 
@@ -40,7 +40,7 @@
 
 /* Storativa rich-text editor */
 .storativa-editor.ProseMirror {
-  min-height: 32rem;
+  min-height: 8rem;
 }
 
 .storativa-editor.ProseMirror > * + * {

@@ -73,6 +73,7 @@ export enum InputEnumType {
   place = 'place',
   characterName = 'characterName',
   time = 'time',
+  search = 'search'
 }
 
 export interface IFormData {

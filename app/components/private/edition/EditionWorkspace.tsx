@@ -32,7 +32,7 @@ const EditionWorkspace: FC = () => {
       <div
         aria-hidden={isChapterPanelOpen}
         inert={isChapterPanelOpen}
-        className="mx-auto min-h-[calc(100vh-var(--nav-height))] max-w-7xl px-4 py-6 sm:px-6"
+        className="mx-auto min-h-[calc(100vh-var(--nav-height))] max-w-7xl"
       >
         <EditionEditorPanel />
       </div>
