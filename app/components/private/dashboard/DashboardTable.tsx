@@ -159,14 +159,15 @@ const DashboardTable: FC<DashboardTableProps> = ({
           </tbody>
         </table>
       </div>
-      <div className="flex flex-col items-center justify-between gap-3 rounded-b-lg px-4 py-2 sm:flex-row">
+      <div className="flex items-center justify-between gap-3 rounded-b-lg py-2">
         <p
           aria-live="polite"
           className="text-center text-sm text-dark/70 dark:text-light/70"
         >
+          <span className="hidden sm:inline">Mostrado </span>
           {meta.total === 0
             ? '0 resultados'
-            : `Mostrando ${firstItem}–${lastItem} de ${meta.total}`}
+            : `${firstItem}–${lastItem} de ${meta.total}`}
         </p>
         <div className="flex items-center gap-2">
           <CustomButton
@@ -178,10 +179,10 @@ const DashboardTable: FC<DashboardTableProps> = ({
             disabled={!meta.hasPreviousPage}
             onClick={() => onPageChange(meta.page - 1)}
           >
-            Anterior
+            <span className="hidden sm:inline">Anterior</span>
           </CustomButton>
-          <span className="text-sm text-dark/70 dark:text-light/70">
-            Página {meta.page} de {meta.pageCount}
+          <span className="text-dark/70 text-sm dark:text-light/70">
+            {meta.page} de {meta.pageCount}
           </span>
           <CustomButton
             variant="ghost"
@@ -191,7 +192,7 @@ const DashboardTable: FC<DashboardTableProps> = ({
             disabled={!meta.hasNextPage}
             onClick={() => onPageChange(meta.page + 1)}
           >
-            Siguiente
+            <span className="hidden sm:inline">Siguiente</span>
           </CustomButton>
         </div>
       </div>
