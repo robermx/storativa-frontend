@@ -1,7 +1,10 @@
 import { FC } from 'react';
-import { Trash2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Trash2 } from 'lucide-react';
 
-import { IResStorativa } from '@/interfaces/storativa.interface';
+import {
+  DashboardStorativa,
+  PaginationMeta,
+} from '@/interfaces/storativa.interface';
 import { daysPassed, percentageDays } from '@/utils/percentageDays';
 import { statusStyles } from '@/utils/statusStyles';
 import { formatDate } from '@/utils/formatDate';
@@ -13,10 +16,23 @@ import CustomInput from '@/components/shared/CustomInput';
 import { InputEnumType } from '@/interfaces/input.interface';
 
 interface DashboardTableProps {
-  storativas: IResStorativa[];
+  storativas: DashboardStorativa[];
+  meta: PaginationMeta;
+  search: string;
+  onSearchChange: (value: string) => void;
+  onPageChange: (page: number) => void;
 }
 
-const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
+const DashboardTable: FC<DashboardTableProps> = ({
+  storativas,
+  meta,
+  search,
+  onSearchChange,
+  onPageChange,
+}) => {
+  const firstItem = meta.total === 0 ? 0 : meta.offset + 1;
+  const lastItem = meta.offset + storativas.length;
+
   return (
     <div className="flex flex-col">
       <div className="flex items-center gap-3 mb-3">
@@ -28,6 +44,9 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
             inputType={InputEnumType.search}
             inputName="search"
             placeholder="Buscar por título"
+            value={search}
+            onChange={(event) => onSearchChange(event.target.value)}
+            aria-label="Buscar Storativas por título"
           />
         </div>
       </div>
@@ -64,73 +83,117 @@ const DashboardTable: FC<DashboardTableProps> = ({ storativas }) => {
             </tr>
           </thead>
           <tbody className="divide-y divide-dark/5 dark:divide-light/5">
-            {storativas.map((item) => (
-              <tr
-                key={item._id}
-                className="hover:bg-lightness dark:hover:bg-darkness transition-colors"
-              >
-                <td className="px-4 py-3">
-                  <CustomLink
-                    variant="text"
-                    width="full"
-                    truncate
-                    to={`/edition/${item._id}`}
-                    className="text-primary/80 hover:text-primary"
-                  >
-                    {titleFormat(item.title)}
-                  </CustomLink>
-                </td>
-                <td className="px-4 py-3">
-                  <span
-                    className={`inline-flex px-2.5 py-1 text-xs font-medium rounded-full border ${statusStyles(item.status).style}`}
-                  >
-                    {statusStyles(item.status).status}
-                  </span>
-                </td>
-                <td className="px-4 py-3">
-                  <div className="flex items-center gap-2">
-                    <div className="w-20 h-2 bg-light dark:bg-darkness rounded-full overflow-hidden">
-                      <div
-                        className={`h-full rounded-full ${item.status === 1 ? 'bg-primary' : item.status === 2 ? 'bg-accent' : 'bg-secondary'}`}
-                        style={{
-                          width: percentageDays(
-                            item.createdAt,
-                            item.timeToComplete,
-                          ),
-                        }}
-                      />
-                    </div>
-                    <span className="text-sm text-dark/70 dark:text-light/70">
-                      {`${daysPassed(item.createdAt)} / ${item.timeToComplete}`}
-                    </span>
-                  </div>
-                </td>
-                <td className="px-4 py-3">
-                  <p className="text-sm text-dark/70 dark:text-light/70">
-                    {formatDate(item.createdAt)}
-                  </p>
-                </td>
-                <td className="px-4 py-3">
-                  <p className="text-sm text-dark/70 dark:text-light/70">
-                    {formatDate(item.updatedAt)}
-                  </p>
-                </td>
-                <td className="px-4 py-3">
-                  {/** TODO: delete storativa by ID */}
-                  <CustomButton
-                    variant="danger"
-                    icon={<Trash2 />}
-                    aria-label="Eliminar Storativa"
-                    className="cursor-pointer"
-                  />
+            {storativas.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={6}
+                  className="px-4 py-12 text-center text-dark/60 dark:text-light/60"
+                >
+                  No se encontraron Storativas para esta búsqueda.
                 </td>
               </tr>
-            ))}
+            ) : (
+              storativas.map((item) => (
+                <tr
+                  key={item._id}
+                  className="hover:bg-lightness dark:hover:bg-darkness transition-colors"
+                >
+                  <td className="px-4 py-3">
+                    <CustomLink
+                      variant="text"
+                      width="full"
+                      truncate
+                      to={`/edition/${item._id}`}
+                      className="text-primary/80 hover:text-primary"
+                    >
+                      {titleFormat(item.title)}
+                    </CustomLink>
+                  </td>
+                  <td className="px-4 py-3">
+                    <span
+                      className={`inline-flex px-2.5 py-1 text-xs font-medium rounded-full border ${statusStyles(item.status).style}`}
+                    >
+                      {statusStyles(item.status).status}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-20 h-2 bg-light dark:bg-darkness rounded-full overflow-hidden">
+                        <div
+                          className={`h-full rounded-full ${item.status === 1 ? 'bg-primary' : item.status === 2 ? 'bg-accent' : 'bg-secondary'}`}
+                          style={{
+                            width: percentageDays(
+                              item.createdAt,
+                              item.timeToComplete,
+                            ),
+                          }}
+                        />
+                      </div>
+                      <span className="text-sm text-dark/70 dark:text-light/70">
+                        {`${daysPassed(item.createdAt)} / ${item.timeToComplete}`}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="px-4 py-3">
+                    <p className="text-sm text-dark/70 dark:text-light/70">
+                      {formatDate(item.createdAt)}
+                    </p>
+                  </td>
+                  <td className="px-4 py-3">
+                    <p className="text-sm text-dark/70 dark:text-light/70">
+                      {formatDate(item.updatedAt)}
+                    </p>
+                  </td>
+                  <td className="px-4 py-3">
+                    {/** TODO: delete storativa by ID */}
+                    <CustomButton
+                      variant="danger"
+                      icon={<Trash2 />}
+                      aria-label="Eliminar Storativa"
+                      className="cursor-pointer"
+                    />
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
-      <div className="bg-primary/20 py-2 rounded-b-lg">
-        <p className="text-center">TODO: Paginado</p>
+      <div className="flex flex-col items-center justify-between gap-3 rounded-b-lg px-4 py-2 sm:flex-row">
+        <p
+          aria-live="polite"
+          className="text-center text-sm text-dark/70 dark:text-light/70"
+        >
+          {meta.total === 0
+            ? '0 resultados'
+            : `Mostrando ${firstItem}–${lastItem} de ${meta.total}`}
+        </p>
+        <div className="flex items-center gap-2">
+          <CustomButton
+            variant="ghost"
+            size="sm"
+            width="auto"
+            icon={<ChevronLeft />}
+            iconPosition="start"
+            disabled={!meta.hasPreviousPage}
+            onClick={() => onPageChange(meta.page - 1)}
+          >
+            Anterior
+          </CustomButton>
+          <span className="text-sm text-dark/70 dark:text-light/70">
+            Página {meta.page} de {meta.pageCount}
+          </span>
+          <CustomButton
+            variant="ghost"
+            size="sm"
+            width="auto"
+            icon={<ChevronRight />}
+            disabled={!meta.hasNextPage}
+            onClick={() => onPageChange(meta.page + 1)}
+          >
+            Siguiente
+          </CustomButton>
+        </div>
       </div>
     </div>
   );

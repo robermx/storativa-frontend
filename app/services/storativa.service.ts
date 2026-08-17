@@ -2,13 +2,21 @@ import api from '@/lib/api';
 import {
   Chapter,
   CreateChapterPayload,
+  DashboardStorativasQuery,
   IReqStorativa,
   IResStorativa,
+  PaginatedDashboardStorativas,
   UpdateChapterPayload,
 } from '@/interfaces/storativa.interface';
 
-export const getUserStorativas = async (): Promise<IResStorativa[]> => {
-  const { data } = await api.get('/storativa');
+export const getUserStorativas = async ({
+  limit,
+  offset,
+  search,
+}: DashboardStorativasQuery): Promise<PaginatedDashboardStorativas> => {
+  const { data } = await api.get('/storativa', {
+    params: { limit, offset, ...(search ? { search } : {}) },
+  });
   return data;
 };
 
