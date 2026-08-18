@@ -1,13 +1,15 @@
-import { FC, PropsWithChildren, RefObject } from 'react';
+import { type FC, type PropsWithChildren, type RefObject } from 'react';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import { X } from 'lucide-react';
 
 interface CustomDialogProps {
   openDialog: boolean;
   onCloseDialog: () => void;
-  initialFocus: RefObject<HTMLInputElement | null>;
+  initialFocus: RefObject<HTMLElement | null>;
   title: string;
   subtitle: string;
+  closeLabel?: string;
+  isCloseDisabled?: boolean;
 }
 
 const CustomDialog: FC<PropsWithChildren<CustomDialogProps>> = ({
@@ -16,12 +18,14 @@ const CustomDialog: FC<PropsWithChildren<CustomDialogProps>> = ({
   initialFocus,
   title,
   subtitle,
+  closeLabel = 'Cerrar diálogo',
+  isCloseDisabled = false,
   children,
 }) => {
   return (
     <Dialog
       open={openDialog}
-      onClose={onCloseDialog}
+      onClose={isCloseDisabled ? () => undefined : onCloseDialog}
       initialFocus={initialFocus}
       className="relative z-60"
     >
@@ -46,8 +50,9 @@ const CustomDialog: FC<PropsWithChildren<CustomDialogProps>> = ({
             <button
               type="button"
               onClick={onCloseDialog}
-              className="rounded-md p-1 text-gray-400 transition hover:bg-dark/5 hover:text-dark dark:hover:bg-light/10 dark:hover:text-light"
-              aria-label="Cerrar verificación"
+              disabled={isCloseDisabled}
+              className="rounded-md p-1 text-gray-400 transition hover:bg-dark/5 hover:text-dark disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-light/10 dark:hover:text-light"
+              aria-label={closeLabel}
             >
               <X size={20} />
             </button>

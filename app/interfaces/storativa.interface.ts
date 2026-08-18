@@ -71,6 +71,12 @@ export interface DashboardStorativasQuery {
   search?: string;
 }
 
+export interface DeleteStorativaResponse {
+  message: string;
+  status: 'success';
+  code: number;
+}
+
 export interface Chapter {
   _id: string;
   title: string;

@@ -2,6 +2,7 @@ import api from '@/lib/api';
 import {
   Chapter,
   CreateChapterPayload,
+  DeleteStorativaResponse,
   DashboardStorativasQuery,
   IReqStorativa,
   IResStorativa,
@@ -14,9 +15,18 @@ export const getUserStorativas = async ({
   offset,
   search,
 }: DashboardStorativasQuery): Promise<PaginatedDashboardStorativas> => {
-  const { data } = await api.get('/storativa', {
+  const { data } = await api.get<PaginatedDashboardStorativas>('/storativa', {
     params: { limit, offset, ...(search ? { search } : {}) },
   });
+  return data;
+};
+
+export const deleteUserStorativa = async (
+  storativaId: string,
+): Promise<DeleteStorativaResponse> => {
+  const { data } = await api.delete<DeleteStorativaResponse>(
+    `/storativa/${storativaId}`,
+  );
   return data;
 };
 

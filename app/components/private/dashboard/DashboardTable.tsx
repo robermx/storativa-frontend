@@ -21,6 +21,8 @@ interface DashboardTableProps {
   search: string;
   onSearchChange: (value: string) => void;
   onPageChange: (page: number) => void;
+  onDeleteRequest: (storativa: DashboardStorativa) => void;
+  isDeleting: boolean;
 }
 
 const DashboardTable: FC<DashboardTableProps> = ({
@@ -29,6 +31,8 @@ const DashboardTable: FC<DashboardTableProps> = ({
   search,
   onSearchChange,
   onPageChange,
+  onDeleteRequest,
+  isDeleting,
 }) => {
   const firstItem = meta.total === 0 ? 0 : meta.offset + 1;
   const lastItem = meta.offset + storativas.length;
@@ -145,12 +149,13 @@ const DashboardTable: FC<DashboardTableProps> = ({
                     </p>
                   </td>
                   <td className="px-4 py-3">
-                    {/** TODO: delete storativa by ID */}
                     <CustomButton
                       variant="danger"
                       icon={<Trash2 />}
-                      aria-label="Eliminar Storativa"
+                      aria-label={`Eliminar ${titleFormat(item.title)}`}
                       className="cursor-pointer"
+                      disabled={isDeleting}
+                      onClick={() => onDeleteRequest(item)}
                     />
                   </td>
                 </tr>

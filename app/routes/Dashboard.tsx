@@ -1,14 +1,21 @@
-import { useEffect, useState } from 'react';
-import { useLoaderData, useSearchParams } from 'react-router';
+import { useEffect, useRef, useState } from 'react';
+import { useLoaderData, useRevalidator, useSearchParams } from 'react-router';
 
 import { createClientLoader } from '@/lib/createClientLoader';
-import { getUserStorativas } from '@/services/storativa.service';
+import {
+  deleteUserStorativa,
+  getUserStorativas,
+} from '@/services/storativa.service';
 
 import { useOverlayPanelStore } from '@/store/overlayPanelStore';
 import DashboardSkeleton from '@/components/skeleton/DashboardSkeleton';
 import DashboardStats from '@/components/private/dashboard/DashboardStats';
 import DashboardTable from '@/components/private/dashboard/DashboardTable';
 import DashboardEmpty from '@/components/private/dashboard/DashboardEmpty';
+import CustomDialog from '@/components/shared/CustomDialog';
+import CustomButton from '@/components/shared/CustomButton';
+import { DashboardStorativa } from '@/interfaces/storativa.interface';
+import { getErrorMessage } from '@/utils/getErrorMessage';
 
 const DASHBOARD_PAGE_SIZE = 5;
 
@@ -47,9 +54,15 @@ export const HydrateFallback = () => <DashboardSkeleton />;
 
 const Dashboard = () => {
   const { dashboard } = useLoaderData<typeof clientLoader>();
+  const { revalidate } = useRevalidator();
   const [searchParams, setSearchParams] = useSearchParams();
   const querySearch = searchParams.get('q') || '';
   const [search, setSearch] = useState(querySearch);
+  const [deleteCandidate, setDeleteCandidate] =
+    useState<DashboardStorativa | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const cancelDeleteRef = useRef<HTMLButtonElement | null>(null);
   const isSettingsPanelOpen = useOverlayPanelStore(
     (state) => state.activePanel === 'settings',
   );
@@ -89,6 +102,43 @@ const Dashboard = () => {
     setSearchParams(nextSearchParams);
   };
 
+  const handleDeleteRequest = (storativa: DashboardStorativa) => {
+    setDeleteError(null);
+    setDeleteCandidate(storativa);
+  };
+
+  const handleDeleteDialogClose = () => {
+    if (isDeleting) return;
+
+    setDeleteError(null);
+    setDeleteCandidate(null);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!deleteCandidate) return;
+
+    setIsDeleting(true);
+    setDeleteError(null);
+    try {
+      await deleteUserStorativa(deleteCandidate._id);
+      const shouldGoToPreviousPage =
+        dashboard.data.length === 1 && dashboard.meta.page > 1;
+
+      setDeleteCandidate(null);
+      if (shouldGoToPreviousPage) {
+        handlePageChange(dashboard.meta.page - 1);
+      } else {
+        revalidate();
+      }
+    } catch (error: unknown) {
+      setDeleteError(
+        getErrorMessage(error, 'No pudimos eliminar la Storativa.'),
+      );
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   return (
     <div
       aria-hidden={isSettingsPanelOpen}
@@ -104,11 +154,53 @@ const Dashboard = () => {
             search={search}
             onSearchChange={setSearch}
             onPageChange={handlePageChange}
+            onDeleteRequest={handleDeleteRequest}
+            isDeleting={isDeleting}
           />
         </div>
       ) : (
         <DashboardEmpty />
       )}
+
+      <CustomDialog
+        openDialog={Boolean(deleteCandidate)}
+        onCloseDialog={handleDeleteDialogClose}
+        initialFocus={cancelDeleteRef}
+        title="Eliminar Storativa"
+        subtitle={`Se eliminará “${deleteCandidate?.title ?? ''}” junto con todos sus capítulos y contenido.`}
+        closeLabel="Cerrar eliminación de Storativa"
+        isCloseDisabled={isDeleting}
+      >
+        <div className="space-y-5 pt-4">
+          <p className="text-sm text-dark/70 dark:text-light/70">
+            Esta acción no se puede deshacer.
+          </p>
+          {deleteError && (
+            <p role="alert" className="text-sm text-red-600 dark:text-red-300">
+              {deleteError}
+            </p>
+          )}
+          <div className="flex justify-end gap-3">
+            <button
+              ref={cancelDeleteRef}
+              type="button"
+              onClick={handleDeleteDialogClose}
+              disabled={isDeleting}
+              className="rounded-md border border-dark/15 px-4 py-2 text-sm font-medium text-dark disabled:cursor-not-allowed disabled:opacity-50 dark:border-light/15 dark:text-light"
+            >
+              Cancelar
+            </button>
+            <CustomButton
+              variant="danger"
+              width="auto"
+              disabled={isDeleting}
+              onClick={() => void handleDeleteConfirm()}
+            >
+              {isDeleting ? 'Eliminando...' : 'Eliminar'}
+            </CustomButton>
+          </div>
+        </div>
+      </CustomDialog>
     </div>
   );
 };
