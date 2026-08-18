@@ -48,7 +48,7 @@ const SettingsPanel = () => {
       <div className="fixed inset-x-0 bottom-0 top-(--nav-height) pointer-events-none">
         <DialogPanel
           transition
-          className="pointer-events-auto flex h-full w-full max-w-sm flex-col gap-y-5 overflow-x-hidden overflow-y-auto border-r border-dark/10 bg-lightness px-6 py-10 shadow-2xl duration-300 ease-out data-closed:-translate-x-full dark:border-light/10 dark:bg-darkness sm:w-90"
+          className="pointer-events-auto flex h-full w-full flex-col gap-y-5 overflow-x-hidden overflow-y-auto border-r border-dark/10 bg-lightness px-6 py-10 shadow-2xl duration-300 ease-out data-closed:-translate-x-full dark:border-light/10 dark:bg-darkness sm:w-90"
         >
           <div className="flex items-center justify-between mb-6">
             <DialogTitle className="text-lg font-bold text-dark dark:text-light">

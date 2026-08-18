@@ -182,7 +182,7 @@ const DashboardTable: FC<DashboardTableProps> = ({
             icon={<ChevronLeft />}
             iconPosition="start"
             disabled={!meta.hasPreviousPage}
-            className="cursor-pointer"
+            className="cursor-pointer [&>span]:gap-0 sm:[&>span]:gap-2"
             onClick={() => onPageChange(meta.page - 1)}
           >
             <span className="hidden sm:inline">Anterior</span>
@@ -196,7 +196,7 @@ const DashboardTable: FC<DashboardTableProps> = ({
             width="auto"
             icon={<ChevronRight />}
             disabled={!meta.hasNextPage}
-            className="cursor-pointer"
+            className="cursor-pointer [&>span]:gap-0 sm:[&>span]:gap-2"
             onClick={() => onPageChange(meta.page + 1)}
           >
             <span className="hidden sm:inline">Siguiente</span>

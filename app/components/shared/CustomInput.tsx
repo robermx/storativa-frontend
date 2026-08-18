@@ -47,7 +47,7 @@ const CustomInput: FC<CustomInputProps> = ({
       [InputEnumType.search]: {
         type: 'text',
         Icon: Search,
-        autoComplete: 'search'
+        autoComplete: 'search',
       },
       [InputEnumType.period]: {
         type: 'text',
@@ -68,6 +68,11 @@ const CustomInput: FC<CustomInputProps> = ({
         type: 'text',
         Icon: ClockArrowUp,
         autoComplete: 'time',
+      },
+      [InputEnumType.chapter]: {
+        type: 'text',
+        Icon: null,
+        autoComplete: 'chapter',
       },
     };
     return (
@@ -104,14 +109,16 @@ const CustomInput: FC<CustomInputProps> = ({
                   showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
                 }
               >
-                <Icon size={20} strokeWidth={2} />
+                {Icon && <Icon size={20} strokeWidth={2} />}
               </button>
             ) : (
-              <Icon
-                className="text-gray-400 dark:text-gray-500 pointer-events-none"
-                size={20}
-                strokeWidth={2}
-              />
+              Icon && (
+                <Icon
+                  className="text-gray-400 dark:text-gray-500 pointer-events-none"
+                  size={20}
+                  strokeWidth={2}
+                />
+              )
             )}
           </div>
         </div>

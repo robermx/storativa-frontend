@@ -18,7 +18,10 @@ import {
 
 import { useEdition } from '@/context/EditionContext';
 import type { Chapter } from '@/interfaces/storativa.interface';
+import { InputEnumType } from '@/interfaces/input.interface';
 import { useOverlayPanelStore } from '@/store/overlayPanelStore';
+import CustomButton from '@/components/shared/CustomButton';
+import CustomInput from '@/components/shared/CustomInput';
 
 const EditionChapterPanel = () => {
   const {
@@ -75,7 +78,7 @@ const EditionChapterPanel = () => {
           <DialogPanel
             id="edition-chapter-panel"
             transition
-            className="pointer-events-auto flex h-full w-full max-w-sm flex-col overflow-x-hidden overflow-y-auto border-r border-dark/10 bg-lightness px-5 py-6 shadow-2xl duration-300 ease-out data-closed:-translate-x-full dark:border-light/10 dark:bg-darkness sm:w-90"
+            className="pointer-events-auto flex h-full w-full flex-col overflow-x-hidden overflow-y-auto border-r border-dark/10 bg-lightness px-5 py-6 shadow-2xl duration-300 ease-out data-closed:-translate-x-full dark:border-light/10 dark:bg-darkness sm:w-90"
           >
             <div className="mb-6 flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
@@ -85,25 +88,13 @@ const EditionChapterPanel = () => {
                 </DialogTitle>
               </div>
               <div className="flex items-center gap-1">
-                <button
-                  type="button"
+                <CustomButton
+                  icon={<Plus />}
                   onClick={() => void addChapter()}
                   disabled={isChapterLocked}
                   aria-label="Crear capítulo"
                   title="Crear capítulo"
-                  className="rounded-md bg-primary p-2 text-light transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  <Plus size={18} />
-                </button>
-                <button
-                  ref={closePanelRef}
-                  type="button"
-                  onClick={closePanel}
-                  aria-label="Cerrar capítulos"
-                  className="rounded-md p-2 text-dark/60 transition-colors hover:bg-dark/10 hover:text-dark dark:text-light/60 dark:hover:bg-light/10 dark:hover:text-light"
-                >
-                  <X size={18} />
-                </button>
+                />
               </div>
             </div>
 
@@ -115,95 +106,106 @@ const EditionChapterPanel = () => {
                 return (
                   <li
                     key={chapter._id}
-                    className={`rounded-lg border p-2 transition-colors ${
+                    className={`rounded-lg border p-3 transition-colors ${
                       isActive
                         ? 'border-primary bg-primary/15'
                         : 'border-transparent hover:border-primary/20 hover:bg-primary/5'
                     }`}
                   >
                     {isRenaming ? (
-                      <div className="flex gap-1">
-                        <input
-                          autoFocus
+                      <div className="flex flex-col gap-3">
+                        <CustomInput
+                          inputType={InputEnumType.chapter}
+                          inputName={`chapter-${chapter._id}`}
+                          placeholder="Capítulo"
                           value={titleDraft}
-                          maxLength={100}
-                          onChange={(event) =>
-                            setTitleDraft(event.target.value)
-                          }
+                          onChange={(e) => setTitleDraft(e.target.value)}
                           onKeyDown={(event) => {
                             if (event.key === 'Enter') void submitRename();
                             if (event.key === 'Escape') setRenamingId(null);
                           }}
-                          className="min-w-0 flex-1 rounded-md border border-primary bg-lightness px-2 py-1 text-sm text-dark outline-none dark:bg-darkness dark:text-light"
+                          maxLength={100}
                         />
-                        <button
-                          type="button"
-                          onClick={() => void submitRename()}
-                          disabled={!titleDraft.trim() || isChapterLocked}
-                          aria-label="Guardar nombre"
-                          className="rounded p-1 text-primary disabled:opacity-40"
-                        >
-                          <Check size={17} />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setRenamingId(null)}
-                          aria-label="Cancelar edición"
-                          className="rounded p-1 text-dark/50 dark:text-light/50"
-                        >
-                          <X size={17} />
-                        </button>
+                        <div className="flex justify-end gap-3">
+                          <CustomButton
+                            variant="text"
+                            icon={<Check />}
+                            onClick={() => void submitRename()}
+                            disabled={!titleDraft.trim() || isChapterLocked}
+                            aria-label="Guardar nombre"
+                            width="auto"
+                            className="h-fit"
+                            size="md"
+                          />
+                          <CustomButton
+                            variant="text"
+                            icon={<X />}
+                            onClick={() => setRenamingId(null)}
+                            aria-label="Cancelar edición"
+                            width="auto"
+                            className="h-fit text-dark dark:text-light"
+                            size="md"
+                          />
+                        </div>
                       </div>
                     ) : (
                       <>
-                        <button
-                          type="button"
+                        <CustomButton
+                          variant="ghost"
                           onClick={() => void handleSelectChapter(chapter._id)}
                           disabled={isChapterLocked}
                           aria-current={isActive ? 'page' : undefined}
-                          className="w-full truncate px-1 py-1 text-left text-sm font-medium text-dark disabled:cursor-not-allowed dark:text-light"
+                          className="[&>span]:justify-start [&>span]:text-primary cursor-pointer mb-4"
                         >
                           {chapter.title}
-                        </button>
-                        <div className="mt-1 flex justify-end gap-0.5 text-dark/50 dark:text-light/50">
-                          <button
-                            type="button"
+                        </CustomButton>
+                        <div className="flex justify-end gap-4">
+                          <CustomButton
+                            variant="text"
+                            icon={<ArrowUp />}
+                            width="auto"
                             onClick={() => void moveChapter(chapter._id, -1)}
                             disabled={isChapterLocked || index === 0}
                             aria-label={`Subir ${chapter.title}`}
-                            className="rounded p-1 hover:bg-primary/10 hover:text-primary disabled:opacity-25"
-                          >
-                            <ArrowUp size={15} />
-                          </button>
-                          <button
-                            type="button"
+                            size="lg"
+                            className="h-fit cursor-pointer text-primary/70"
+                          />
+
+                          <CustomButton
+                            variant="text"
+                            icon={<ArrowDown />}
+                            width="auto"
                             onClick={() => void moveChapter(chapter._id, 1)}
                             disabled={
                               isChapterLocked || index === chapters.length - 1
                             }
                             aria-label={`Bajar ${chapter.title}`}
-                            className="rounded p-1 hover:bg-primary/10 hover:text-primary disabled:opacity-25"
-                          >
-                            <ArrowDown size={15} />
-                          </button>
-                          <button
-                            type="button"
+                            size="lg"
+                            className="h-fit cursor-pointer text-primary/70"
+                          />
+
+                          <CustomButton
+                            variant="text"
+                            icon={<Pencil />}
+                            width="auto"
                             onClick={() => startRename(chapter)}
                             disabled={isChapterLocked}
                             aria-label={`Renombrar ${chapter.title}`}
-                            className="rounded p-1 hover:bg-primary/10 hover:text-primary disabled:opacity-25"
-                          >
-                            <Pencil size={15} />
-                          </button>
-                          <button
+                            size="sm"
+                            className="h-fit cursor-pointer text-secondary"
+                          />
+
+                          <CustomButton
+                            variant="text"
+                            icon={<Trash2 />}
+                            width="auto"
                             type="button"
                             onClick={() => setDeleteCandidate(chapter)}
                             disabled={isChapterLocked || chapters.length === 1}
                             aria-label={`Eliminar ${chapter.title}`}
-                            className="rounded p-1 hover:bg-red-500/10 hover:text-red-600 disabled:opacity-25"
-                          >
-                            <Trash2 size={15} />
-                          </button>
+                            size="sm"
+                            className="h-fit cursor-pointer text-red-700/70"
+                          />
                         </div>
                       </>
                     )}

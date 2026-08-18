@@ -10,10 +10,10 @@ const actionBaseClassName =
   'inline-flex min-w-0 items-center rounded-md font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary';
 
 const actionPaddingClasses: Record<ActionSize, string> = {
-  sm: 'px-4 py-2',
-  md: 'px-5 py-2.5',
-  lg: 'px-5 py-5',
-  xl: 'px-6 py-5',
+  sm: 'p-2',
+  md: 'p-2.5',
+  lg: 'p-5',
+  xl: 'p-6',
 };
 
 const actionWidthClasses: Record<ActionWidth, string> = {
