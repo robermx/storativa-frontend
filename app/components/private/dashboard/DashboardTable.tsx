@@ -64,7 +64,7 @@ const DashboardTable: FC<DashboardTableProps> = ({
             <col className="w-55" />
             <col className="w-25" />
           </colgroup>
-          <thead className="bg-primary/10">
+          <thead className="bg-lightness/80 dark:bg-darkness/80">
             <tr>
               <th className="text-left px-4 py-3 font-medium text-primary">
                 Título
@@ -182,6 +182,7 @@ const DashboardTable: FC<DashboardTableProps> = ({
             icon={<ChevronLeft />}
             iconPosition="start"
             disabled={!meta.hasPreviousPage}
+            className="cursor-pointer"
             onClick={() => onPageChange(meta.page - 1)}
           >
             <span className="hidden sm:inline">Anterior</span>
@@ -195,6 +196,7 @@ const DashboardTable: FC<DashboardTableProps> = ({
             width="auto"
             icon={<ChevronRight />}
             disabled={!meta.hasNextPage}
+            className="cursor-pointer"
             onClick={() => onPageChange(meta.page + 1)}
           >
             <span className="hidden sm:inline">Siguiente</span>
