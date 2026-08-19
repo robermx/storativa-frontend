@@ -16,44 +16,101 @@ const HomeMain = () => {
         '(prefers-reduced-motion: reduce)',
       ).matches;
 
-      gsap.from('.home-hero-copy', {
-        opacity: 0,
-        y: prefersReducedMotion ? 0 : 24,
-        duration: prefersReducedMotion ? 0.2 : 0.9,
-        stagger: 0.12,
-        ease: 'power3.out',
-      });
-
       if (prefersReducedMotion) {
         gsap.set('.home-constellation-node', { opacity: 0.7, scale: 1 });
+        gsap.set('.home-constellation-line, .home-hero-copy', {
+          opacity: 1,
+          y: 0,
+        });
+        gsap.set('.home-constellation-line', { strokeDashoffset: 0 });
         return;
       }
 
-      gsap.from('.home-constellation-node', {
-        opacity: 0,
-        scale: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: 'back.out(1.7)',
+      const timeline = gsap.timeline();
+      const constellationLines = gsap.utils.toArray<SVGLineElement>(
+        '.home-constellation-line',
+      );
+
+      constellationLines.forEach((line) => {
+        const lineLength = line.getTotalLength();
+
+        gsap.set(line, {
+          opacity: 0,
+          strokeDasharray: lineLength,
+          strokeDashoffset: lineLength,
+        });
       });
 
-      gsap.from('.home-constellation-line', {
-        opacity: 0,
-        scaleX: 0,
-        transformOrigin: 'left center',
-        duration: 0.9,
-        stagger: 0.12,
-        ease: 'power2.out',
-      });
-
-      gsap.to('.home-constellation-node', {
-        y: -5,
-        duration: 2.6,
-        repeat: -1,
-        yoyo: true,
-        stagger: 0.25,
-        ease: 'sine.inOut',
-      });
+      timeline
+        .from(
+          '.home-constellation-node',
+          {
+            opacity: 0,
+            scale: 0,
+            x: (index) => (index % 2 === 0 ? -1 : 1) * (14 + index * 2),
+            y: (index) => (index % 3 === 0 ? -20 : 24),
+            duration: 0.5,
+            stagger: 0.025,
+            ease: 'back.out(2.2)',
+          },
+          0,
+        )
+        .to(
+          constellationLines,
+          {
+            opacity: 1,
+            strokeDashoffset: 0,
+            duration: 0.9,
+            stagger: 0.06,
+            ease: 'power3.out',
+          },
+          0.3,
+        )
+        .to(
+          constellationLines,
+          {
+            strokeWidth: 0.32,
+            duration: 0.9,
+            repeat: 1,
+            yoyo: true,
+            ease: 'sine.inOut',
+          },
+          1,
+        )
+        .to(
+          '.home-constellation-node',
+          {
+            scale: 1.16,
+            duration: 0.5,
+            repeat: 1,
+            yoyo: true,
+            stagger: 0.04,
+            ease: 'sine.inOut',
+          },
+          0.5,
+        )
+        .from(
+          '.home-hero-copy',
+          {
+            opacity: 0,
+            y: 20,
+            duration: 0.8,
+            ease: 'power3.out',
+          },
+          0.8,
+        )
+        .to(
+          '.home-constellation-node',
+          {
+            y: -10,
+            duration: 0.9,
+            repeat: -1,
+            yoyo: true,
+            stagger: 0.25,
+            ease: 'sine.inOut',
+          },
+          2.5,
+        );
     },
     { scope: sectionRef },
   );
@@ -106,16 +163,16 @@ const HomeMain = () => {
       </div>
 
       <h1 className="home-hero-copy relative z-10 max-w-4xl text-3xl md:text-4xl lg:text-5xl font-bold text-dark dark:text-light tracking-tighter mb-6">
-        Todos tenemos algo interno que busca convertirse en una gran historia...{' '}
+        Todos tenemos algo dentro que busca convertirse en una gran historia...{' '}
         <span className="text-primary">
-          una idea o algún recuerdo, asociados a una peculiar forma de mirar el
+          una idea o algún recuerdo asociado a una peculiar forma de ver el
           mundo.
         </span>
       </h1>
       <p className="home-hero-copy relative z-10 max-w-2xl text-lg md:text-xl text-dark dark:text-light font-light leading-relaxed">
-        Storativa te acompaña a transformar aquello que te inspira en una obra
-        propia: explorando épocas, lugares y posibilidades para descubrir una
-        auténtica narrativa y compartirla de manera global.
+        Storativa te acompaña a transformar aquello que te inspira, en una obra
+        propia: explorando épocas, lugares y posibilidades descubriendo amplios
+        recursos narrativos y compartirla con tus seguidores.
       </p>
     </section>
   );

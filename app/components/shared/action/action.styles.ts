@@ -10,10 +10,10 @@ const actionBaseClassName =
   'inline-flex min-w-0 items-center rounded-md font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary';
 
 const actionPaddingClasses: Record<ActionSize, string> = {
-  sm: 'px-4 py-2',
-  md: 'px-5 py-2.5',
-  lg: 'px-5 py-5',
-  xl: 'px-6 py-5',
+  sm: 'p-2',
+  md: 'p-2.5',
+  lg: 'p-5',
+  xl: 'p-6',
 };
 
 const actionWidthClasses: Record<ActionWidth, string> = {
@@ -27,7 +27,7 @@ const actionVariantClasses: Record<ActionVariant, string> = {
     'border border-dark/10 bg-light text-dark hover:border-primary/40 hover:text-primary dark:border-light/10 dark:bg-dark dark:text-light dark:hover:border-primary/40',
   soft: 'bg-primary/10 text-primary hover:bg-primary/20',
   ghost:
-    'bg-transparent text-dark hover:bg-dark/10 dark:text-light dark:hover:bg-light/10',
+    'bg-transparent text-dark hover:bg-primary/10 dark:text-light',
   danger:
     'bg-red-600/20 text-red-600/60 hover:bg-red-600/70 hover:text-lightness',
   text: 'bg-transparent text-primary hover:text-primary/80',

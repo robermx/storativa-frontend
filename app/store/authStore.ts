@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 import { User } from '@/interfaces/auth.interface';
 
-const AUTH_BOOTSTRAP_KEY = 'storativa-authenticated';
+const AUTH_BOOTSTRAP_KEY = 'authenticated';
 
 export type AuthStatus = 'unknown' | 'authenticated' | 'anonymous';
 

@@ -9,6 +9,8 @@ import {
   MapPinHouse,
   UserPlus,
   ClockArrowUp,
+  Search,
+  Bookmark,
 } from 'lucide-react';
 import { CustomInputProps, InputEnumType } from '@/interfaces/input.interface';
 
@@ -43,6 +45,11 @@ const CustomInput: FC<CustomInputProps> = ({
         Icon: WholeWord,
         autoComplete: 'title',
       },
+      [InputEnumType.search]: {
+        type: 'text',
+        Icon: Search,
+        autoComplete: 'search',
+      },
       [InputEnumType.period]: {
         type: 'text',
         Icon: ChartNoAxesGantt,
@@ -62,6 +69,11 @@ const CustomInput: FC<CustomInputProps> = ({
         type: 'text',
         Icon: ClockArrowUp,
         autoComplete: 'time',
+      },
+      [InputEnumType.chapter]: {
+        type: 'text',
+        Icon: Bookmark,
+        autoComplete: 'chapter',
       },
     };
     return (
@@ -98,14 +110,16 @@ const CustomInput: FC<CustomInputProps> = ({
                   showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
                 }
               >
-                <Icon size={20} strokeWidth={2} />
+                {Icon && <Icon size={20} strokeWidth={2} />}
               </button>
             ) : (
-              <Icon
-                className="text-gray-400 dark:text-gray-500 pointer-events-none"
-                size={20}
-                strokeWidth={2}
-              />
+              Icon && (
+                <Icon
+                  className="text-gray-400 dark:text-gray-500 pointer-events-none"
+                  size={20}
+                  strokeWidth={2}
+                />
+              )
             )}
           </div>
         </div>

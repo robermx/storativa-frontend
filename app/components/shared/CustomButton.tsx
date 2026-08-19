@@ -20,15 +20,22 @@ const CustomButton: FC<CustomButtonProps> = ({
   selected,
   type = 'button',
   disabled,
+  ref = null,
   ...buttonProps
 }) => {
+  const disabledClassName =
+    variant === 'text'
+      ? 'disabled:cursor-not-allowed disabled:bg-transparent disabled:text-gray-300 disabled:shadow-none disabled:hover:opacity-100 dark:disabled:bg-transparent dark:disabled:text-gray-600'
+      : buttonDisabledClassName;
+
   return (
     <button
+      ref={ref}
       {...buttonProps}
       type={type}
       disabled={disabled}
       aria-pressed={selected}
-      className={`${getActionClassName({ variant, size, width, className, selected })} ${buttonDisabledClassName} ${disabled ? '' : 'active:scale-98'}`}
+      className={`${getActionClassName({ variant, size, width, className, selected })} ${disabledClassName} ${disabled ? '' : 'active:scale-98'}`}
     >
       <ActionContent
         className={`${width === 'full' ? 'w-full' : ''} ${truncate ? 'justify-start' : 'justify-center'}`}

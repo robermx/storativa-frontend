@@ -1,14 +1,16 @@
 import { useNavigate } from 'react-router';
 import { Plus } from 'lucide-react';
 
-import { useSettingsStore } from '@/store/settingsStore';
+import { useOverlayPanelStore } from '@/store/overlayPanelStore';
 
 import CustomButton from '@/components/shared/CustomButton';
 import EmptyState from '@/assets/icons/EmptyState';
 
 const DashboardEmpty = () => {
   const navigate = useNavigate();
-  const areSettingsOpen = useSettingsStore((state) => state.areSettingsOpen);
+  const isSettingsPanelOpen = useOverlayPanelStore(
+    (state) => state.activePanel === 'settings',
+  );
 
   return (
     <div
@@ -27,7 +29,7 @@ const DashboardEmpty = () => {
           variant="primary"
           icon={<Plus />}
           onClick={() => navigate('/create')}
-          disabled={areSettingsOpen}
+          disabled={isSettingsPanelOpen}
           className="cursor-pointer"
         >
           Crear Storativa

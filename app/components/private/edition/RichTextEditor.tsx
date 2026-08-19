@@ -40,7 +40,7 @@ const RichTextEditor = ({
     editorProps: {
       attributes: {
         class:
-          'storativa-editor h-[calc(100vh-260px)] md:h-[calc(100vh-240px)] lg:h-[calc(100vh-200px)]  overflow-y-auto px-5 pt-5 pb-100 text-dark outline-none dark:text-light',
+          'storativa-editor overflow-y-auto px-3 pt-3 pb-10 h-[calc(100vh-330px)] min-[344px]:h-[calc(100vh-295px)] min-[471px]:h-[calc(100vh-250px)] min-[928px]:h-[calc(100vh-210px)]  text-dark outline-none dark:text-light',
         'aria-label': 'Contenido del capítulo',
       },
     },
@@ -56,9 +56,10 @@ const RichTextEditor = ({
   }, [chapterId, content, editor]);
 
   return (
-    <div className="overflow-hidden rounded-xl border border-dark/10 bg-lightness shadow-sm dark:border-light/10 dark:bg-darkness">
+    <div className="overflow-hidden">
       <EditorToolbar editor={editor} />
       <EditorContent editor={editor} />
+      <div className="h-10 relative blur-sm -top-5 bg-light dark:bg-dark" />
     </div>
   );
 };

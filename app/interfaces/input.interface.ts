@@ -1,3 +1,5 @@
+
+
 export interface CustomInputProps {
   inputType: string;
   inputName: string;
@@ -6,6 +8,9 @@ export interface CustomInputProps {
   error?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  'aria-label'?: string;
+  maxLength?: number;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
 }
 
 export interface CustomTextAreaProps {
@@ -73,6 +78,8 @@ export enum InputEnumType {
   place = 'place',
   characterName = 'characterName',
   time = 'time',
+  search = 'search',
+  chapter = 'chapter',
 }
 
 export interface IFormData {

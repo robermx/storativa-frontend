@@ -34,6 +34,49 @@ export interface IResStorativa {
   __v: number;
 }
 
+export interface DashboardStorativa {
+  _id: string;
+  title: string;
+  status: number;
+  timeToComplete: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PaginationMeta {
+  total: number;
+  limit: number;
+  offset: number;
+  page: number;
+  pageCount: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+}
+
+export interface StorativaStats {
+  total: number;
+  active: number;
+  inactive: number;
+}
+
+export interface PaginatedDashboardStorativas {
+  data: DashboardStorativa[];
+  meta: PaginationMeta;
+  stats: StorativaStats;
+}
+
+export interface DashboardStorativasQuery {
+  limit: number;
+  offset: number;
+  search?: string;
+}
+
+export interface DeleteStorativaResponse {
+  message: string;
+  status: 'success';
+  code: number;
+}
+
 export interface Chapter {
   _id: string;
   title: string;
