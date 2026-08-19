@@ -20,6 +20,7 @@ const CustomButton: FC<CustomButtonProps> = ({
   selected,
   type = 'button',
   disabled,
+  ref = null,
   ...buttonProps
 }) => {
   const disabledClassName =
@@ -29,6 +30,7 @@ const CustomButton: FC<CustomButtonProps> = ({
 
   return (
     <button
+      ref={ref}
       {...buttonProps}
       type={type}
       disabled={disabled}

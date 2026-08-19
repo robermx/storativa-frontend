@@ -27,7 +27,7 @@ const actionVariantClasses: Record<ActionVariant, string> = {
     'border border-dark/10 bg-light text-dark hover:border-primary/40 hover:text-primary dark:border-light/10 dark:bg-dark dark:text-light dark:hover:border-primary/40',
   soft: 'bg-primary/10 text-primary hover:bg-primary/20',
   ghost:
-    'bg-transparent text-dark hover:bg-dark/10 dark:text-light dark:hover:bg-light/10',
+    'bg-transparent text-dark hover:bg-primary/10 dark:text-light',
   danger:
     'bg-red-600/20 text-red-600/60 hover:bg-red-600/70 hover:text-lightness',
   text: 'bg-transparent text-primary hover:text-primary/80',

@@ -8,7 +8,7 @@ import {
 import {
   ArrowDown,
   ArrowUp,
-  BookOpen,
+  // BookOpen,
   Check,
   Pencil,
   Plus,
@@ -22,6 +22,7 @@ import { InputEnumType } from '@/interfaces/input.interface';
 import { useOverlayPanelStore } from '@/store/overlayPanelStore';
 import CustomButton from '@/components/shared/CustomButton';
 import CustomInput from '@/components/shared/CustomInput';
+import CustomDialog from '@/components/shared/CustomDialog';
 
 const EditionChapterPanel = () => {
   const {
@@ -81,8 +82,8 @@ const EditionChapterPanel = () => {
             className="pointer-events-auto flex h-full w-full flex-col overflow-x-hidden overflow-y-auto border-r border-dark/10 bg-lightness px-5 py-6 shadow-2xl duration-300 ease-out data-closed:-translate-x-full dark:border-light/10 dark:bg-darkness sm:w-90"
           >
             <div className="mb-6 flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2">
-                <BookOpen className="text-primary" size={20} />
+              <div className="flex items-center">
+                {/* <BookOpen className="text-primary" size={20} /> */}
                 <DialogTitle className="text-lg font-bold text-dark dark:text-light">
                   Capítulos
                 </DialogTitle>
@@ -94,6 +95,7 @@ const EditionChapterPanel = () => {
                   disabled={isChapterLocked}
                   aria-label="Crear capítulo"
                   title="Crear capítulo"
+                  className="cursor-pointer"
                 />
               </div>
             </div>
@@ -156,6 +158,7 @@ const EditionChapterPanel = () => {
                           disabled={isChapterLocked}
                           aria-current={isActive ? 'page' : undefined}
                           className="[&>span]:justify-start [&>span]:text-primary cursor-pointer mb-4"
+                          truncate
                         >
                           {chapter.title}
                         </CustomButton>
@@ -226,48 +229,38 @@ const EditionChapterPanel = () => {
         </div>
       </Dialog>
 
-      <Dialog
-        open={Boolean(deleteCandidate)}
-        onClose={() => setDeleteCandidate(null)}
+      <CustomDialog
+        openDialog={Boolean(deleteCandidate)}
+        onCloseDialog={() => setDeleteCandidate(null)}
         initialFocus={cancelDeleteRef}
-        className="relative z-60"
+        title="Eliminar Capítulo"
+        subtitle={`Se eliminará "${deleteCandidate?.title}" y su contenido. Esta acción no se puede deshacer`}
+        closeLabel="cerrar diálogo eliminar capítulo"
       >
-        <DialogBackdrop className="fixed inset-0 bg-dark/45 backdrop-blur-sm" />
-        <div className="fixed inset-0 flex items-center justify-center p-4">
-          <DialogPanel className="w-full max-w-md rounded-xl border border-dark/10 bg-lightness p-6 shadow-2xl dark:border-light/10 dark:bg-darkness">
-            <DialogTitle className="text-xl font-semibold text-dark dark:text-light">
-              Eliminar capítulo
-            </DialogTitle>
-            <p className="mt-2 text-sm text-dark/65 dark:text-light/65">
-              Se eliminará “{deleteCandidate?.title}” y su contenido. Esta
-              acción no se puede deshacer.
-            </p>
-            <div className="mt-6 flex justify-end gap-3">
-              <button
-                ref={cancelDeleteRef}
-                type="button"
-                onClick={() => setDeleteCandidate(null)}
-                className="rounded-md border border-dark/15 px-4 py-2 text-sm font-medium text-dark dark:border-light/15 dark:text-light"
-              >
-                Cancelar
-              </button>
-              <button
-                type="button"
-                disabled={isChapterLocked}
-                onClick={() => {
-                  if (!deleteCandidate) return;
-                  const chapterId = deleteCandidate._id;
-                  setDeleteCandidate(null);
-                  void deleteChapter(chapterId);
-                }}
-                className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
-              >
-                Eliminar
-              </button>
-            </div>
-          </DialogPanel>
+        <div className="mt-6 flex justify-end gap-6">
+          <CustomButton
+            ref={cancelDeleteRef}
+            onClick={() => setDeleteCandidate(null)}
+            variant="outline"
+            className="cursor-pointer"
+          >
+            Cancelar
+          </CustomButton>
+          <CustomButton
+            variant="danger"
+            disabled={isChapterLocked}
+            onClick={() => {
+              if (!deleteCandidate) return;
+              const chapterId = deleteCandidate._id;
+              setDeleteCandidate(null);
+              void deleteChapter(chapterId);
+            }}
+            className="cursor-pointer"
+          >
+            Eliminar
+          </CustomButton>
         </div>
-      </Dialog>
+      </CustomDialog>
     </>
   );
 };

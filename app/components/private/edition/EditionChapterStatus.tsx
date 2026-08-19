@@ -9,10 +9,10 @@ const EditionChapterStatus = () => {
   const savePresentation = savePresentationByState[saveState];
 
   return (
-    <div className="flex items-start gap-x-2 justify-between py-2 px-3">
+    <div className="flex items-start gap-x-2 justify-between py-3 pr-3">
 
       <h2 className="truncate flex-1 text-sm font-medium text-dark/60 dark:text-light/60">
-        <span className="font-extrabold">
+        <span className="font-extrabold text-darkness bg-primary/40 py-3 px-3 rounded-br-4xl mr-2 dark:text-lightness">
           {activeChapter.order + 1} de {chapters.length}{' '}
         </span>
         {activeChapter.title}

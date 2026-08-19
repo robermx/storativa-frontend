@@ -1,6 +1,7 @@
 import { type FC, type PropsWithChildren, type RefObject } from 'react';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import { X } from 'lucide-react';
+import CustomButton from './CustomButton';
 
 interface CustomDialogProps {
   openDialog: boolean;
@@ -37,25 +38,23 @@ const CustomDialog: FC<PropsWithChildren<CustomDialogProps>> = ({
       <div className="fixed inset-0 flex items-center justify-center min-h-100 p-3">
         <DialogPanel className="w-full max-w-md rounded-2xl border border-dark/10 bg-lightness p-5 shadow-md dark:border-light/10 dark:bg-darkness sm:p-6">
           <div className="flex items-start justify-between gap-4 py-2">
-            <div className="flex gap-3">
-              <div>
-                <DialogTitle className="text-xl font-bold text-dark dark:text-light">
-                  {title}
-                </DialogTitle>
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                  {subtitle}
-                </p>
-              </div>
+            <div className="flex flex-col gap-y-3">
+              <DialogTitle className="text-xl font-bold text-dark dark:text-light">
+                {title}
+              </DialogTitle>
+              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                {subtitle}
+              </p>
             </div>
-            <button
-              type="button"
+            <CustomButton
               onClick={onCloseDialog}
               disabled={isCloseDisabled}
-              className="rounded-md p-1 text-gray-400 transition hover:bg-dark/5 hover:text-dark disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-light/10 dark:hover:text-light"
               aria-label={closeLabel}
-            >
-              <X size={20} />
-            </button>
+              icon={<X />}
+              width="auto"
+              variant="text"
+              className="text-dark dark:text-light cursor-pointer"
+            />
           </div>
           <div className="overflow-auto h-auto max-h-60">{children}</div>
         </DialogPanel>

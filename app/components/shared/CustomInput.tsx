@@ -10,6 +10,7 @@ import {
   UserPlus,
   ClockArrowUp,
   Search,
+  Bookmark,
 } from 'lucide-react';
 import { CustomInputProps, InputEnumType } from '@/interfaces/input.interface';
 
@@ -71,7 +72,7 @@ const CustomInput: FC<CustomInputProps> = ({
       },
       [InputEnumType.chapter]: {
         type: 'text',
-        Icon: null,
+        Icon: Bookmark,
         autoComplete: 'chapter',
       },
     };

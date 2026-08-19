@@ -34,7 +34,7 @@ const UserInfo: FC = () => {
             }
             aria-controls="edition-chapter-panel"
             aria-expanded={isChapterPanelOpen}
-            className="flex size-12.5 items-center justify-center rounded-full bg-primary text-light transition-opacity hover:opacity-90"
+            className="flex size-12.5 items-center justify-center rounded-full cursor-pointer bg-primary text-light transition-opacity hover:opacity-90"
           >
             <BookOpen size={22} />
           </button>

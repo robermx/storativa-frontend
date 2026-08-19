@@ -1,4 +1,4 @@
-import { type ButtonHTMLAttributes } from 'react';
+import { RefObject, type ButtonHTMLAttributes } from 'react';
 
 import { type ActionPresentationProps } from '@/components/shared/action/action.types';
 
@@ -8,4 +8,5 @@ export type CustomButtonProps = Omit<
 > &
   ActionPresentationProps & {
     selected?: boolean;
+    ref?: RefObject<HTMLButtonElement | null>
   };
