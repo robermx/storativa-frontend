@@ -146,7 +146,7 @@ const Dashboard = () => {
       className="flex flex-col gap-y-7 max-w-6xl mx-auto"
     >
       {dashboard.stats.total > 0 ? (
-        <div className="p-6 flex flex-col gap-6">
+        <div className="flex flex-col gap-y-3 sm:gap-y-4 md:gap-y-6">
           <DashboardStats stats={dashboard.stats} />
           <DashboardTable
             storativas={dashboard.data}

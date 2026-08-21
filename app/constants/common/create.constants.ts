@@ -1,6 +1,6 @@
 export const createSteps = [
-  'Datos generales',
-  'Períodos adaptados',
+  'generales',
+  'Períodos',
   'Personajes',
 ] as const;
 

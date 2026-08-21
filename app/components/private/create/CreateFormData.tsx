@@ -21,8 +21,7 @@ const CreateFormData: FC = () => {
     handleSubmit,
     formState: { isSubmitting, isValid },
   } = useFormContext<IReqStorativa>();
-  const { activeStep, continueFromGenerals, goToStep, isLocked } =
-    useCreateFlow();
+  const { activeStep, goToStep, isLocked } = useCreateFlow();
   const characters = useWatch({ control, name: 'characters' }) ?? [];
 
   const onSubmit = async (data: IReqStorativa) => {
@@ -45,11 +44,19 @@ const CreateFormData: FC = () => {
       ...data,
       timeToComplete: Number(data.timeToComplete),
       initialBasedDate: toIsoDate(data.initialBasedDate),
-      adaptedPeriods: data.adaptedPeriods.map((period) => ({
-        ...period,
-        from: toIsoDate(period.from),
-        to: toIsoDate(period.to),
-      })),
+      adaptedPeriods: data.adaptedPeriods.map((period) => {
+        // useFieldArray adds an internal `id` for rendering. It is not part
+        // of the API contract for a new adapted period.
+        const { id: _fieldId, ...periodData } = period as typeof period & {
+          id?: string;
+        };
+
+        return {
+          ...periodData,
+          from: toIsoDate(period.from),
+          to: toIsoDate(period.to),
+        };
+      }),
     };
     try {
       const storativa = await createUserStorativa(adaptedData);
@@ -65,31 +72,23 @@ const CreateFormData: FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit, () => goToStep(0))} noValidate>
+    <form
+      onSubmit={handleSubmit(onSubmit, () => goToStep(0))}
+      noValidate
+    >
       <CreateAlert submitError={submitError} />
-      <div className={activeStep === 0 ? undefined : 'hidden'}>
-        <>
-          <CreateGenerals />
-          <div className="py-8 px-6 sm:w-50 sm:ml-auto">
-            <CustomButton
-              variant="primary"
-              disabled={isLocked}
-              onClick={() => void continueFromGenerals()}
-            >
-              Continuar
-            </CustomButton>
-          </div>
-        </>
+      <div className={activeStep === 0 ? 'py-6 px-4 min-h-140' : 'hidden'}>
+        <CreateGenerals />
       </div>
 
-      <div className={activeStep === 1 ? undefined : 'hidden'}>
+      <div className={activeStep === 1 ? 'py-6 px-4 min-h-140' : 'hidden'}>
         <CreateAdaptedPeriods />
       </div>
 
-      <div className={activeStep === 2 ? undefined : 'hidden'}>
+      <div className={activeStep === 2 ? 'py-6 px-4 min-h-140' : 'hidden'}>
         <>
           <CreateCharacter />
-          <div className="px-6 py-7">
+          <div className="py-7">
             <CustomButton
               type="submit"
               variant="primary"

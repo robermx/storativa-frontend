@@ -133,7 +133,7 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
         <input
           ref={inputRef}
           id={inputId}
-          type="text"
+          type="tel"
           name={inputName}
           value={inputValue}
           placeholder={placeholder}

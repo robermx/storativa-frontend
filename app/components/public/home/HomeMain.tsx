@@ -118,7 +118,7 @@ const HomeMain = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative isolate min-h-[calc(100vh-var(--nav-height))] overflow-hidden text-center flex flex-col justify-center items-center px-6"
+      className="relative isolate min-h-[calc(100vh-var(--nav-height)*1px)] overflow-hidden text-center flex flex-col justify-center items-center px-6"
     >
       <div
         aria-hidden="true"

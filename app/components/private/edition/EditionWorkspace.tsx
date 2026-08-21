@@ -3,7 +3,7 @@ import { type FC } from 'react';
 import { useOverlayPanelStore } from '@/store/overlayPanelStore';
 import { useEdition } from '@/context/EditionContext';
 import EditionChapterPanel from './EditionChapterPanel';
-import EditionEditorPanel from './EditionEditorPanel';
+import EditionEditorSection from './EditionEditorSection';
 import EditionInitializationState from './EditionInitializationState';
 
 const EditionWorkspace: FC = () => {
@@ -34,7 +34,7 @@ const EditionWorkspace: FC = () => {
         inert={isChapterPanelOpen}
         className="mx-auto min-h-[calc(100vh-var(--nav-height))] max-w-7xl"
       >
-        <EditionEditorPanel />
+        <EditionEditorSection />
       </div>
     </>
   );

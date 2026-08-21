@@ -23,7 +23,7 @@ const CreateStepper: FC = () => {
             onClick={() => goToStep(stepIndex)}
             disabled={!isAvailable || isLocked}
             aria-current={isActive ? 'step' : undefined}
-            className={`rounded-md px-4 py-3 text-left text-sm font-semibold transition-colors disabled:cursor-not-allowed ${
+            className={`rounded-md px-4 py-3 text-left text-sm font-semibold transition-colors cursor-pointer disabled:cursor-not-allowed ${
               isActive
                 ? 'bg-primary text-light'
                 : isAvailable

@@ -4,7 +4,7 @@ import CustomLink from '@/components/shared/CustomLink';
 
 const HomeConclusion = () => {
   return (
-    <section className="relative isolate min-h-[calc(100vh-var(--nav-height))] overflow-hidden flex flex-col items-center justify-center px-6">
+    <section className="relative isolate min-h-[calc(100vh-var(--nav-height)*1px)] overflow-hidden flex flex-col items-center justify-center px-6">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
@@ -25,7 +25,12 @@ const HomeConclusion = () => {
           ideas y conectar con quienes encuentran algo de sí mismos en ella.
         </p>
 
-        <CustomLink to="/register" variant="primary" icon={<ChevronRight />}>
+        <CustomLink
+          to="/register"
+          variant="primary"
+          icon={<ChevronRight />}
+          className="pl-8 pr-7"
+        >
           Comenzar con mi Storativa
         </CustomLink>
       </div>

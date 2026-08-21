@@ -90,7 +90,6 @@ const CreateCharacter: FC = () => {
 
   return (
     <Fragment>
-      <div className="bg-primary/15 dark:bg-primary/10 px-6 py-7 rounded-b-md rounded-tr-md">
         <p className="mb-6 text-sm text-dark/65 dark:text-light/65">
           Añade un personaje a la vez para mantener la historia clara y
           manejable.
@@ -278,7 +277,6 @@ const CreateCharacter: FC = () => {
             )}
           </div>
         </div>
-      </div>
     </Fragment>
   );
 };

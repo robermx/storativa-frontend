@@ -10,12 +10,13 @@
   --color-light: #dceaf0;
   --color-darkness: #111e31;
   --color-lightness: #eff2f4;
-  --color-disabledL: #a0adc1;
-  --color-disabledD: #273348;
+  --color-disabledL: #a2b5d6;
+  --color-disabledD: #25334d;
 }
 :root {
-  --nav-height: 74px;
-  --add-menu-height: 24px;
+  --nav-height: 74;
+  --add-menu-height: 24;
+  --stepper-height: 64
 }
 
 /* DayPicker custom styles */

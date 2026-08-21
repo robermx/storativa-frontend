@@ -5,7 +5,7 @@ import { useEdition } from '@/context/EditionContext';
 import RichTextEditor from './RichTextEditor';
 import EditionChapterStatus from './EditionChapterStatus';
 
-const EditionEditorPanel: FC = () => {
+const EditionEditorSection: FC = () => {
   const { activeChapter, updateContent } = useEdition();
 
   if (!activeChapter) return null;
@@ -22,4 +22,4 @@ const EditionEditorPanel: FC = () => {
   );
 };
 
-export default EditionEditorPanel;
+export default EditionEditorSection;

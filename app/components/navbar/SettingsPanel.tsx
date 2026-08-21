@@ -43,68 +43,67 @@ const SettingsPanel = () => {
     >
       <DialogBackdrop
         transition
-        className="fixed inset-x-0 bottom-0 top-(--nav-height) bg-lightness/20 backdrop-blur-sm duration-300 ease-out data-closed:opacity-0 dark:bg-darkness/20"
+        className="fixed inset-0 top-[calc(var(--nav-height)*1px)] pointer-events-none bg-lightness/20 backdrop-blur-sm duration-300 ease-out data-closed:opacity-0 dark:bg-darkness/20"
       />
-      <div className="fixed inset-x-0 bottom-0 top-(--nav-height) pointer-events-none">
-        <DialogPanel
-          transition
-          className="pointer-events-auto flex h-full w-full flex-col gap-y-5 overflow-x-hidden overflow-y-auto border-r border-dark/10 bg-lightness px-6 py-10 shadow-2xl duration-300 ease-out data-closed:-translate-x-full dark:border-light/10 dark:bg-darkness sm:w-90"
-        >
-          <div className="flex items-center justify-between mb-6">
-            <DialogTitle className="text-lg font-bold text-dark dark:text-light">
-              Configuración
-            </DialogTitle>
-            <button
-              ref={closeButtonRef}
-              type="button"
-              onClick={closePanel}
-              aria-label="Cerrar configuración"
-              className="rounded-md p-2 text-dark/60 transition-colors hover:bg-dark/10 hover:text-dark dark:text-light/60 dark:hover:bg-light/10 dark:hover:text-light"
-            >
-              <X size={18} />
-            </button>
-          </div>
+      <DialogPanel
+        transition
+        className="fixed inset-0 top-[calc(var(--nav-height)*1px)] pointer-events-auto flex w-full flex-col gap-y-5 overflow-x-hidden overflow-y-auto border-r border-dark/10 bg-lightness px-6 py-10 shadow-2xl duration-300 ease-out data-closed:-translate-x-full dark:border-light/10 dark:bg-darkness sm:w-90"
+      >
+        <div className="flex items-center justify-between mb-6">
+          <DialogTitle className="text-lg font-bold text-dark dark:text-light">
+            Configuración
+          </DialogTitle>
+          <CustomButton
+            ref={closeButtonRef}
+            onClick={closePanel}
+            aria-label="Cerrar configuración"
+            icon={<X />}
+            width='auto'
+            variant='text'
+            className='text-dark dark:text-light cursor-pointer'
+          />
 
-          <div className="flex items-center gap-3 p-3 rounded-xl bg-white/50 dark:bg-dark/50">
-            <User className="w-5 h-5 text-primary" />
-            <div>
-              <p className="text-xs text-dark/60 dark:text-light/60">Nombre</p>
-              <p className="text-sm font-medium text-dark dark:text-light">
-                {titleFormat(user?.fullName || 'usuario')}
-              </p>
-            </div>
+        </div>
+
+        <div className="flex items-center gap-3 p-3 rounded-xl bg-white/50 dark:bg-dark/50">
+          <User className="w-5 h-5 text-primary" />
+          <div>
+            <p className="text-xs text-dark/60 dark:text-light/60">Nombre</p>
+            <p className="text-sm font-medium text-dark dark:text-light">
+              {titleFormat(user?.fullName || 'usuario')}
+            </p>
           </div>
-          <div className="flex items-center gap-3 p-3 rounded-xl bg-white/50 dark:bg-dark/50">
-            <Mail className="w-5 h-5 text-primary" />
-            <div>
-              <p className="text-xs text-dark/60 dark:text-light/60">Email</p>
-              <p className="text-sm font-medium text-dark dark:text-light">
-                {user?.email || 'usuario@email.com'}
-              </p>
-            </div>
+        </div>
+        <div className="flex items-center gap-3 p-3 rounded-xl bg-white/50 dark:bg-dark/50">
+          <Mail className="w-5 h-5 text-primary" />
+          <div>
+            <p className="text-xs text-dark/60 dark:text-light/60">Email</p>
+            <p className="text-sm font-medium text-dark dark:text-light">
+              {user?.email || 'usuario@email.com'}
+            </p>
           </div>
-          <div className="flex items-center gap-3 p-3 rounded-xl bg-white/50 dark:bg-dark/50">
-            <CreditCard className="w-5 h-5 text-primary" />
-            <div>
-              <p className="text-xs text-dark/60 dark:text-light/60">
-                Suscripción
-              </p>
-              <p className="text-sm font-medium text-dark dark:text-light">
-                Free
-              </p>
-            </div>
+        </div>
+        <div className="flex items-center gap-3 p-3 rounded-xl bg-white/50 dark:bg-dark/50">
+          <CreditCard className="w-5 h-5 text-primary" />
+          <div>
+            <p className="text-xs text-dark/60 dark:text-light/60">
+              Suscripción
+            </p>
+            <p className="text-sm font-medium text-dark dark:text-light">
+              Free
+            </p>
           </div>
-          <div className="mt-auto">
-            <CustomButton
-              variant="primary"
-              icon={<LogOut />}
-              onClick={handleLogout}
-            >
-              Cerrar sesión
-            </CustomButton>
-          </div>
-        </DialogPanel>
-      </div>
+        </div>
+        <div className="mt-auto">
+          <CustomButton
+            variant="primary"
+            icon={<LogOut />}
+            onClick={handleLogout}
+          >
+            Cerrar sesión
+          </CustomButton>
+        </div>
+      </DialogPanel>
     </Dialog>
   );
 };

@@ -7,24 +7,39 @@ interface DashboardStatsProps {
 }
 
 const DashboardStats: FC<DashboardStatsProps> = ({ stats }) => {
+  const statsInfo = [
+    {
+      id: 1,
+      label: 'Totales',
+      count: stats.total,
+    },
+    {
+      id: 2,
+      label: 'Activas',
+      count: stats.active,
+    },
+    {
+      id: 3,
+      label: 'Inactivas',
+      count: stats.inactive,
+    },
+  ];
+
   return (
-    <section className="grid grid-cols-3 gap-2 md:gap-5">
-      <div className="bg-lightness dark:bg-darkness rounded-xl p-5 shadow-sm border border-dark/10 dark:border-light/10">
-        <p className="text-dark/60 dark:text-light/60 text-sm mb-1">Total</p>
-        <p className="text-3xl font-bold text-dark dark:text-light">
-          {stats.total}
-        </p>
-      </div>
-      <div className="bg-lightness dark:bg-darkness  rounded-xl p-5 shadow-sm border border-dark/10 dark:border-light/10">
-        <p className="text-dark/60 dark:text-light/60 text-sm mb-1">Activas</p>
-        <p className="text-3xl font-bold text-secondary">{stats.active}</p>
-      </div>
-      <div className="bg-lightness dark:bg-darkness  rounded-xl p-5 shadow-sm border border-dark/10 dark:border-light/10">
-        <p className="text-dark/60 dark:text-light/60 text-sm mb-1">
-          Inactivas
-        </p>
-        <p className="text-3xl font-bold text-accent">{stats.inactive}</p>
-      </div>
+    <section className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+      {statsInfo.map(({ id, label, count }) => (
+        <div
+          key={id}
+          className="bg-primary/20 rounded-b-xl p-3 md:p-6 shadow-sm"
+        >
+          <p className="text-dark/60 dark:text-light/60 text-sm mb-1">
+            {label}
+          </p>
+          <p className="text-3xl font-bold text-primary/80 dark:text-light/70">
+            {count}
+          </p>
+        </div>
+      ))}
     </section>
   );
 };

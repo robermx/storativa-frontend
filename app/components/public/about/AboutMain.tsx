@@ -16,7 +16,7 @@ const AboutMain = () => {
     aboutDynamicContent[0];
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:h-[calc(100vh-var(--nav-height))]">
+    <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:min-h-[calc(100vh-var(--nav-height)*1px)]">
       <div className="max-w-3xl">
         <p className="mb-4 inline-flex rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary dark:border-primary/30 dark:bg-primary/15">
           La razón de Storativa
@@ -39,7 +39,7 @@ const AboutMain = () => {
               to={to}
               variant={variant}
               icon={Icon ? <Icon /> : undefined}
-
+              className='px-7'
             >
               {label}
             </CustomLink>
@@ -68,6 +68,7 @@ const AboutMain = () => {
               selected={id === activeContent.id}
               onClick={() => setActiveContentId(id)}
               size="lg"
+              className="cursor-pointer"
             >
               {title}
             </CustomButton>

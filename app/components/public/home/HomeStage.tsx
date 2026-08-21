@@ -145,17 +145,18 @@ const HomeStage = () => {
   return (
     <section
       ref={sectionRef}
-      className="bg-radial from-transparent via-transparent to-primary/20 dark:to-primary/10 border-y border-primary/20"
+      className="bg-radial min-h-screen from-transparent via-transparent to-primary/40 dark:to-primary/25 border-y border-primary/20"
     >
-      <div className={`relative h-[calc(100vh)] max-w-7xl mx-auto`}>
+      <div className="relative min-h-screen max-w-7xl mx-auto">
         <div className="absolute inset-0 flex items-start lg:items-center mt-[22%] lg:mt-0 justify-center pointer-events-none">
           <div className="relative w-78 h-78 lg:w-100 lg:h-100">
             <div className="absolute inset-[-12%] rounded-full bg-primary/10 blur-3xl" />
+            {/** constellation lines */}
             <svg
               aria-hidden="true"
               viewBox="0 0 100 100"
               preserveAspectRatio="none"
-              className="absolute inset-0 h-full w-full opacity-30"
+              className="absolute inset-0 h-full w-full opacity-40"
             >
               {homeConstellationLinks.map((link) => {
                 const from = homeConstellationNodes.find(
@@ -179,6 +180,7 @@ const HomeStage = () => {
                 );
               })}
             </svg>
+            {/** constellation nodes */}
             {homeConstellationNodes.map((node) => (
               <span
                 key={node.id}
