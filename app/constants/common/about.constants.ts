@@ -3,21 +3,21 @@ import { BadgeCheck, ChevronRight, Layers3, Sparkles } from 'lucide-react';
 
 export const aboutPillars = [
   {
-    title: 'Algo que te mueve',
+    title: 'Algo que te despierta',
     description:
-      'Una inquietud, recuerdo o emoción puede ser el inicio de una historia que todavía no tiene forma.',
+      'Inquietud, recuerdos y/o sentimientos pueden ser el propósito inicial de emprender un viaje dentro de la mente.',
     icon: Layers3,
   },
   {
-    title: 'Un mundo que explorar',
+    title: 'El mundo para explorar',
     description:
-      'Los periodos, lugares y sucesos históricos aportan contexto para que la imaginación encuentre un terreno coherente.',
+      'Toda historia parte de elementos representativos y simbólicos basados en entorno que entendemos y percibimos',
     icon: BadgeCheck,
   },
   {
-    title: 'Una voz que permanece',
+    title: 'Un mensaje que trasciende',
     description:
-      'Storativa acompaña el proceso, pero la mirada, las decisiones y el sentido de la obra pertenecen al autor.',
+      'Storativa establece las base y ayuda a crear un estilo propio destacando las ideas propias de cada autor',
     icon: Sparkles,
   },
 ];
@@ -32,23 +32,23 @@ export const aboutDynamicContent = [
   {
     id: 'emotion',
     title: 'Emoción',
-    heading: 'Todo comienza con algo que te mueve.',
+    heading: 'Comenzar con algo que te mueve.',
     description:
-      'Una inquietud, recuerdo o emoción puede ser el inicio de una historia que todavía no tiene forma.',
+      'Una inquietud, recuerdo o emoción puede ser el inicio de algo que adquiere forma y se simplifica en una nueva tendencia.',
   },
   {
     id: 'context',
     title: 'Contexto',
-    heading: 'Un mundo puede darle forma a tu idea.',
+    heading: 'La realidad puede darle forma a tu idea.',
     description:
       'Los periodos, lugares y sucesos históricos aportan contexto para que la imaginación encuentre un terreno coherente.',
   },
   {
     id: 'voice',
     title: 'Voz propia',
-    heading: 'Tu mirada es el centro de la historia.',
+    heading: 'Tu visión es el centro de la historia.',
     description:
-      'Storativa acompaña el proceso, pero la mirada, las decisiones y el sentido de la obra pertenecen al autor.',
+      'Storativa acompaña el proceso, pero la esencia, las decisiones y el sentido de la obra pertenecen al autor.',
   },
 ];
 

@@ -26,10 +26,9 @@ const AboutMain = () => {
           <span className="text-primary">merece una historia.</span>
         </h1>
         <p className="mt-6 max-w-2xl text-lg leading-relaxed text-dark/80 dark:text-light/80 sm:text-xl">
-          Storativa nace para acompañar el ímpetu que aparece cuando algo nos
+          Storativa nace para desarrollar el ímpetu que aparece cuando algo nos
           conmueve, nos inquieta o despierta nuestra curiosidad. Aquí puedes
-          explorar épocas, lugares y posibilidades para transformar una idea
-          personal en una narrativa propia.
+          transformar una idea personal en una historia para compartir.
         </p>
 
         <div className="mt-8 space-y-8 sm:space-x-8">
@@ -39,7 +38,7 @@ const AboutMain = () => {
               to={to}
               variant={variant}
               icon={Icon ? <Icon /> : undefined}
-              className='px-7'
+              className="px-7"
             >
               {label}
             </CustomLink>
@@ -50,7 +49,7 @@ const AboutMain = () => {
       <div className="grid gap-4 rounded-4xl border border-dark/10 bg-lightness/80 p-5 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.25)] backdrop-blur dark:border-light/10 dark:bg-darkness/80">
         <div className="rounded-3xl bg-linear-to-br from-primary/20 via-transparent to-secondary/20 p-6">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">
-            Nuestra mirada
+            Nuestra atención
           </p>
           <p className="mt-4 text-2xl font-bold tracking-tight text-dark dark:text-light">
             {activeContent.heading}

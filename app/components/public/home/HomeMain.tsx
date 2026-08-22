@@ -171,8 +171,7 @@ const HomeMain = () => {
       </h1>
       <p className="home-hero-copy relative z-10 max-w-2xl text-lg md:text-xl text-dark dark:text-light font-light leading-relaxed">
         Storativa te acompaña a transformar aquello que te inspira, en una obra
-        propia: explorando épocas, lugares y posibilidades descubriendo amplios
-        recursos narrativos y compartirla con tus seguidores.
+        propia: explorando épocas, lugares y posibilidades.
       </p>
     </section>
   );
