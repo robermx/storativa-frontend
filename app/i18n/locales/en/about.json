@@ -1,0 +1,59 @@
+{
+  "hero": {
+    "eyebrow": "Why Storativa exists",
+    "title": "The way you interpret your surroundings... <highlight>deserves a story.</highlight>",
+    "description": "Storativa was created to develop the impulse that appears when something moves us, unsettles us, or sparks our curiosity. Here, you can transform a personal idea into a story to share."
+  },
+  "links": {
+    "start": "Begin my Storativa",
+    "login": "Log in"
+  },
+  "attention": {
+    "eyebrow": "Our focus"
+  },
+  "dynamicContent": {
+    "emotion": {
+      "title": "Emotion",
+      "heading": "Begin with something that moves you.",
+      "description": "A concern, memory, or emotion can be the beginning of something that takes shape and develops into a new direction."
+    },
+    "context": {
+      "title": "Context",
+      "heading": "Reality can give shape to your idea.",
+      "description": "Historical periods, places, and events provide context so imagination can find coherent ground."
+    },
+    "voice": {
+      "title": "Your voice",
+      "heading": "Your vision is the center of the story.",
+      "description": "Storativa supports the process, but the essence, decisions, and meaning of the work belong to the author."
+    }
+  },
+  "pillars": {
+    "impulse": {
+      "title": "Something that awakens you",
+      "description": "Concerns, memories, and feelings can be the initial purpose for embarking on a journey within the mind."
+    },
+    "world": {
+      "title": "A world to explore",
+      "description": "Every story starts from representative and symbolic elements based on the environment we understand and perceive."
+    },
+    "message": {
+      "title": "A message that endures",
+      "description": "Storativa lays the foundations and helps create a distinctive style that highlights each author's own ideas."
+    }
+  },
+  "routing": {
+    "eyebrow": "The journey",
+    "title": "From what you feel to what you can tell.",
+    "description": "Creating a story does not always begin with a plot. Sometimes it begins with a question, an image, or an era that keeps calling to you.",
+    "stages": {
+      "listen": "Listen to the concern. Recognize what awakens your desire to write.",
+      "context": "Find the context. Explore the historical moment, place, and circumstances that nourish the idea.",
+      "shape": "Give it shape and share it. Build an original narrative that can connect with someone else."
+    }
+  },
+  "conclusion": {
+    "title": "A story that makes an impact.",
+    "description": "Storativa is here to help you discover what you want to tell, find the words, and turn your vision into a work that preserves your voice and creates connections with others."
+  }
+}

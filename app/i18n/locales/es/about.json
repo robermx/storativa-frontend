@@ -1,0 +1,59 @@
+{
+  "hero": {
+    "eyebrow": "La razón de Storativa",
+    "title": "La forma de interpretar tu entorno... <highlight>merece una historia.</highlight>",
+    "description": "Storativa nace para desarrollar el ímpetu que aparece cuando algo nos conmueve, nos inquieta o despierta nuestra curiosidad. Aquí puedes transformar una idea personal en una historia para compartir."
+  },
+  "links": {
+    "start": "Comenzar con mi Storativa",
+    "login": "Iniciar sesión"
+  },
+  "attention": {
+    "eyebrow": "Nuestra atención"
+  },
+  "dynamicContent": {
+    "emotion": {
+      "title": "Emoción",
+      "heading": "Comenzar con algo que te mueve.",
+      "description": "Una inquietud, recuerdo o emoción puede ser el inicio de algo que adquiere forma y se simplifica en una nueva tendencia."
+    },
+    "context": {
+      "title": "Contexto",
+      "heading": "La realidad puede darle forma a tu idea.",
+      "description": "Los periodos, lugares y sucesos históricos aportan contexto para que la imaginación encuentre un terreno coherente."
+    },
+    "voice": {
+      "title": "Voz propia",
+      "heading": "Tu visión es el centro de la historia.",
+      "description": "Storativa acompaña el proceso, pero la esencia, las decisiones y el sentido de la obra pertenecen al autor."
+    }
+  },
+  "pillars": {
+    "impulse": {
+      "title": "Algo que te despierta",
+      "description": "Inquietud, recuerdos y/o sentimientos pueden ser el propósito inicial de emprender un viaje dentro de la mente."
+    },
+    "world": {
+      "title": "El mundo para explorar",
+      "description": "Toda historia parte de elementos representativos y simbólicos basados en entorno que entendemos y percibimos."
+    },
+    "message": {
+      "title": "Un mensaje que trasciende",
+      "description": "Storativa establece las bases y ayuda a crear un estilo propio destacando las ideas de cada autor."
+    }
+  },
+  "routing": {
+    "eyebrow": "El recorrido",
+    "title": "De lo que sientes a lo que puedes contar.",
+    "description": "Crear una historia no siempre comienza con una trama. A veces comienza con una pregunta, una imagen o una época que no deja de llamarte.",
+    "stages": {
+      "listen": "Escuchar la inquietud. Reconocer aquello que despierta tu deseo de escribir.",
+      "context": "Encontrar el contexto. Explorar el momento histórico, el lugar y las circunstancias que alimentan la idea.",
+      "shape": "Dar forma y compartir. Construir una narrativa propia que pueda conectar con alguien más."
+    }
+  },
+  "conclusion": {
+    "title": "Una historia que impresiona.",
+    "description": "Storativa está aquí para ayudarte a descubrir qué quieres contar, encontrar las palabras y convertir tu visión en una obra que conserve tu voz y establezca lazos con otras personas."
+  }
+}
