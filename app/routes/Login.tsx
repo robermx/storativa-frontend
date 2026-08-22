@@ -3,6 +3,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router';
 import { AxiosError } from 'axios';
 import { useForm, Controller } from 'react-hook-form';
 import { LogIn } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { loginRequest } from '@/services/auth.service';
 import { useAuthStore } from '@/store/authStore';
@@ -13,6 +14,7 @@ import { IFormData, InputEnumType } from '@/interfaces/input.interface';
 import CustomLink from '@/components/shared/CustomLink';
 
 const Login = () => {
+  const { t } = useTranslation('auth');
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/dashboard';
@@ -41,7 +43,7 @@ const Login = () => {
       setAuth(user, token);
       navigate(from, { replace: true });
     } catch (e) {
-      const serverMessage = 'Credenciales no válidas';
+      const serverMessage = t('login.invalidCredentials');
       setError('password', { type: 'manual', message: serverMessage });
       throw (new AxiosError(), e);
     }
@@ -54,7 +56,7 @@ const Login = () => {
           to="/"
           icon={<MainIso />}
           iconSize="none"
-          aria-label="Ir al inicio"
+          aria-label={t('common.homeAriaLabel')}
         />
       </div>
 
@@ -64,10 +66,10 @@ const Login = () => {
             name="email"
             control={control}
             rules={{
-              required: 'El correo es obligatorio',
+                required: t('validation.emailRequired'),
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'Correo inválido',
+                  message: t('validation.emailInvalid'),
               },
             }}
             render={({ field }) => (
@@ -75,7 +77,7 @@ const Login = () => {
                 {...field}
                 inputType={InputEnumType.Email}
                 inputName="email"
-                placeholder="Correo Electrónico"
+                placeholder={t('fields.email')}
                 error={errors.email?.message}
               />
             )}
@@ -85,15 +87,18 @@ const Login = () => {
             name="password"
             control={control}
             rules={{
-              required: 'La contraseña es obligatoria',
-              minLength: { value: 6, message: 'Mínimo 6 caracteres' },
+                required: t('validation.passwordRequired'),
+                minLength: {
+                  value: 6,
+                  message: t('validation.minimumCharacters', { count: 6 }),
+                },
             }}
             render={({ field }) => (
               <CustomInput
                 {...field}
                 inputType={InputEnumType.Password}
                 inputName="password"
-                placeholder="Contraseña"
+                placeholder={t('fields.password')}
                 error={errors.password?.message}
               />
             )}
@@ -106,14 +111,14 @@ const Login = () => {
             icon={<LogIn />}
             size="md"
           >
-            {isSubmitting ? 'Cargando...' : 'Iniciar Sesión'}
+            {isSubmitting ? t('common.loading') : t('login.submit')}
           </CustomButton>
         </form>
 
         <p className="mt-3 text-center text-sm/6 text-gray-500 dark:text-gray-400">
-          ¿No eres miembro aún?{' '}
+          {t('login.notMember')}{' '}
           <NavLink to="/register" className="font-bold text-primary">
-            Regístrate
+            {t('login.registerLink')}
           </NavLink>
         </p>
       </Fragment>

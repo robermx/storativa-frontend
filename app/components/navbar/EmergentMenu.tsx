@@ -1,11 +1,12 @@
 import { FC, Fragment, RefObject } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { useAuthStore } from '@/store/authStore';
 import { publicRoutes, privateRoutes } from '@/constants/shared/navbarRoutes';
 import CustomLink from '../shared/CustomLink';
 import CustomButton from '@/components/shared/CustomButton';
 import { Globe } from 'lucide-react';
-import { getLanguageDefinition, useLanguageStore } from '@/store/languageStore';
+import { useLanguageStore } from '@/store/languageStore';
 
 interface EmergentMenuProps {
   addMenuRef: RefObject<HTMLDivElement | null>;
@@ -15,7 +16,10 @@ const EmergentMenu: FC<EmergentMenuProps> = ({ addMenuRef }) => {
   const user = useAuthStore((state) => state.user);
   const language = useLanguageStore((state) => state.language);
   const cycleLanguage = useLanguageStore((state) => state.cycleLanguage);
-  const activeLanguage = getLanguageDefinition(language);
+  const { t } = useTranslation('navigation');
+  const languageSwitchAriaLabel = t('languageSwitch.ariaLabel', {
+    language: t(`languages.${language}`),
+  });
 
   return (
     <div
@@ -33,7 +37,7 @@ const EmergentMenu: FC<EmergentMenuProps> = ({ addMenuRef }) => {
                   className="text-dark/60 hover:text-darkness"
                   activeClassName="text-darkness"
                 >
-                  {route.displayName}
+                  {t(`links.${route.labelKey}`)}
                 </CustomLink>
                 {index < routes.length - 1 && (
                   <span className="text-primary">|</span>
@@ -47,8 +51,8 @@ const EmergentMenu: FC<EmergentMenuProps> = ({ addMenuRef }) => {
           width="auto"
           variant="text"
           onClick={cycleLanguage}
-          aria-label={`Cambiar idioma. Idioma actual: ${activeLanguage.nativeLabel}`}
-          title={`Cambiar idioma. Idioma actual: ${activeLanguage.nativeLabel}`}
+          aria-label={languageSwitchAriaLabel}
+          title={languageSwitchAriaLabel}
           className="cursor-pointer text-dark/60 disabled:text-gray-700/30"
           // disabled={Boolean(user)}
         >
