@@ -6,6 +6,7 @@ import {
   useFormContext,
 } from 'react-hook-form';
 import { Check, Pencil, Trash2, UserRoundPlus, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import type {
   Character,
@@ -29,6 +30,7 @@ const emptyCharacter: Character = {
 };
 
 const CreateCharacter: FC = () => {
+  const { t } = useTranslation('create');
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [pendingRemoval, setPendingRemoval] = useState<number | null>(null);
   const { control: createControl } = useFormContext<IReqStorativa>();
@@ -86,13 +88,13 @@ const CreateCharacter: FC = () => {
   };
 
   const characterType = (type: number) =>
-    characterCatalog.find((item) => item.value === type)?.name ?? 'Sin tipo';
+    characterCatalog.find((item) => item.value === type)?.name ??
+    t('characters.unknownType');
 
   return (
     <Fragment>
         <p className="mb-6 text-sm text-dark/65 dark:text-light/65">
-          Añade un personaje a la vez para mantener la historia clara y
-          manejable.
+          {t('characters.description')}
         </p>
 
         {characters.length > 0 && (
@@ -107,7 +109,9 @@ const CreateCharacter: FC = () => {
                     {character.name}
                   </p>
                   <p className="text-sm text-dark/65 dark:text-light/65">
-                    {characterType(character.type)} · rasgos completos
+                    {t('characters.summary', {
+                      type: characterType(character.type),
+                    })}
                   </p>
                 </div>
                 {pendingRemoval === index ? (
@@ -118,7 +122,7 @@ const CreateCharacter: FC = () => {
                       onClick={() => confirmRemoval(index)}
                       disabled={isLocked}
                     >
-                      Eliminar
+                      {t('characters.delete')}
                     </button>
                     <button
                       type="button"
@@ -126,14 +130,16 @@ const CreateCharacter: FC = () => {
                       onClick={() => setPendingRemoval(null)}
                       disabled={isLocked}
                     >
-                      Cancelar
+                      {t('characters.cancel')}
                     </button>
                   </div>
                 ) : (
                   <div className="flex gap-2 sm:w-28">
                     <button
                       type="button"
-                      aria-label={`Editar ${character.name}`}
+                      aria-label={t('characters.editAriaLabel', {
+                        name: character.name,
+                      })}
                       className="flex-1 rounded-md bg-primary/10 p-2 text-primary hover:bg-primary/20 disabled:cursor-not-allowed"
                       onClick={() => startEditing(index)}
                       disabled={isLocked}
@@ -142,7 +148,9 @@ const CreateCharacter: FC = () => {
                     </button>
                     <button
                       type="button"
-                      aria-label={`Eliminar ${character.name}`}
+                      aria-label={t('characters.deleteAriaLabel', {
+                        name: character.name,
+                      })}
                       className="flex-1 rounded-md bg-red-500/10 p-2 text-red-500 hover:bg-red-500/20 disabled:cursor-not-allowed"
                       onClick={() => setPendingRemoval(index)}
                       disabled={isLocked}
@@ -158,7 +166,7 @@ const CreateCharacter: FC = () => {
 
         <div className="border-t border-primary/15 pt-6 dark:border-light/10">
           <p className="mb-4 text-sm font-semibold text-dark dark:text-light">
-            {editingIndex === null ? 'Añadir personaje' : 'Editar personaje'}
+            {editingIndex === null ? t('characters.add') : t('characters.edit')}
           </p>
           <div className="flex flex-col gap-y-7">
             <div className="flex flex-col gap-y-7 sm:flex-row sm:gap-x-6 sm:gap-y-0">
@@ -166,15 +174,15 @@ const CreateCharacter: FC = () => {
                 name="type"
                 control={characterControl}
                 rules={{
-                  required: 'El tipo de personaje es obligatorio',
+                  required: t('characters.validation.typeRequired'),
                   validate: (value) =>
-                    value !== 0 || 'El tipo de personaje es obligatorio',
+                    value !== 0 || t('characters.validation.typeRequired'),
                 }}
                 render={({ field }) => (
                   <CustomSelect
                     {...field}
                     inputName="character-type"
-                    placeholder="Tipo de Personaje"
+                    placeholder={t('characters.fields.type')}
                     options={characterCatalog}
                     error={errors.type?.message}
                   />
@@ -183,13 +191,13 @@ const CreateCharacter: FC = () => {
               <Controller
                 name="name"
                 control={characterControl}
-                rules={{ required: 'El nombre del personaje es obligatorio' }}
+                rules={{ required: t('characters.validation.nameRequired') }}
                 render={({ field }) => (
                   <CustomInput
                     {...field}
                     inputType={InputEnumType.characterName}
                     inputName="character-name"
-                    placeholder="Nombre del Personaje"
+                  placeholder={t('characters.fields.name')}
                     error={errors.name?.message}
                   />
                 )}
@@ -199,12 +207,12 @@ const CreateCharacter: FC = () => {
               <Controller
                 name="social"
                 control={characterControl}
-                rules={{ required: 'Rasgos sociales obligatorios' }}
+                rules={{ required: t('characters.validation.socialRequired') }}
                 render={({ field }) => (
                   <CustomTextArea
                     {...field}
                     inputName="character-social"
-                    placeholder="Rasgos Sociales"
+                  placeholder={t('characters.fields.social')}
                     rows={3}
                     error={errors.social?.message}
                   />
@@ -213,12 +221,12 @@ const CreateCharacter: FC = () => {
               <Controller
                 name="physical"
                 control={characterControl}
-                rules={{ required: 'Rasgos físicos obligatorios' }}
+                rules={{ required: t('characters.validation.physicalRequired') }}
                 render={({ field }) => (
                   <CustomTextArea
                     {...field}
                     inputName="character-physical"
-                    placeholder="Rasgos Físicos"
+                  placeholder={t('characters.fields.physical')}
                     rows={3}
                     error={errors.physical?.message}
                   />
@@ -227,12 +235,12 @@ const CreateCharacter: FC = () => {
               <Controller
                 name="psychological"
                 control={characterControl}
-                rules={{ required: 'Rasgos psicológicos obligatorios' }}
+                rules={{ required: t('characters.validation.psychologicalRequired') }}
                 render={({ field }) => (
                   <CustomTextArea
                     {...field}
                     inputName="character-psychological"
-                    placeholder="Rasgos Psicológicos"
+                  placeholder={t('characters.fields.psychological')}
                     rows={3}
                     error={errors.psychological?.message}
                   />
@@ -245,7 +253,7 @@ const CreateCharacter: FC = () => {
                   <CustomTextArea
                     {...field}
                     inputName="character-additional"
-                    placeholder="Rasgos Adicionales (Opcional)"
+                    placeholder={t('characters.fields.additional')}
                     rows={3}
                   />
                 )}
@@ -260,7 +268,9 @@ const CreateCharacter: FC = () => {
                 onClick={() => void handleSubmit(saveCharacter)()}
                 disabled={!isValid || isLocked}
               >
-                {editingIndex === null ? 'Añadir personaje' : 'Guardar cambios'}
+                {editingIndex === null
+                  ? t('characters.add')
+                  : t('characters.saveChanges')}
               </CustomButton>
             </div>
             {editingIndex !== null && (
@@ -271,7 +281,7 @@ const CreateCharacter: FC = () => {
                   onClick={cancelEditing}
                   disabled={isLocked}
                 >
-                  Cancelar
+                  {t('characters.cancel')}
                 </CustomButton>
               </div>
             )}

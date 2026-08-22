@@ -1,5 +1,6 @@
 import { type FC, Fragment } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import { InputEnumType } from '@/interfaces/input.interface';
 import type { IReqStorativa } from '@/interfaces/storativa.interface';
@@ -14,6 +15,7 @@ import CustomDatePicker from '@/components/shared/CustomDatePicker';
 import CustomButton from '@/components/shared/CustomButton';
 
 const CreateGenerals: FC = () => {
+  const { t } = useTranslation('create');
   const {
     control,
     formState: { errors, isValid },
@@ -33,15 +35,18 @@ const CreateGenerals: FC = () => {
           name="title"
           control={control}
           rules={{
-            required: 'Título obligatorio',
-            minLength: { value: 4, message: 'Al menos 4 caracteres' },
+            required: t('general.validation.titleRequired'),
+            minLength: {
+              value: 4,
+              message: t('general.validation.minimumCharacters', { count: 4 }),
+            },
           }}
           render={({ field }) => (
             <CustomInput
               {...field}
               inputType={InputEnumType.title}
               inputName="title"
-              placeholder="Título"
+              placeholder={t('general.fields.title')}
               error={errors.title?.message}
             />
           )}
@@ -51,14 +56,17 @@ const CreateGenerals: FC = () => {
           name="centralIdea"
           control={control}
           rules={{
-            required: 'Idea central obligatoria',
-            minLength: { value: 4, message: 'Al menos 4 caracteres' },
+            required: t('general.validation.centralIdeaRequired'),
+            minLength: {
+              value: 4,
+              message: t('general.validation.minimumCharacters', { count: 4 }),
+            },
           }}
           render={({ field }) => (
             <CustomTextArea
               {...field}
               inputName="centralIdea"
-              placeholder="Idea Central"
+              placeholder={t('general.fields.centralIdea')}
               rows={6}
               error={errors.centralIdea?.message}
               maxChar={1000}
@@ -70,12 +78,12 @@ const CreateGenerals: FC = () => {
           <Controller
             name="contextType"
             control={control}
-            rules={{ required: 'El tipo de contexto es obligatorio' }}
+            rules={{ required: t('general.validation.contextRequired') }}
             render={({ field }) => (
               <CustomMultiSelect
                 {...field}
                 inputName="contextType"
-                placeholder="Tipo de Contexto"
+                placeholder={t('general.fields.contextType')}
                 options={contextCatalog}
                 error={errors.contextType?.message}
               />
@@ -85,12 +93,12 @@ const CreateGenerals: FC = () => {
           <Controller
             name="genderLabels"
             control={control}
-            rules={{ required: 'El tipo de contexto es obligatorio' }}
+            rules={{ required: t('general.validation.genresRequired') }}
             render={({ field }) => (
               <CustomMultiSelect
                 {...field}
                 inputName="genderLabel"
-                placeholder="Géneros"
+                placeholder={t('general.fields.genres')}
                 options={genderLabelCatalog}
                 error={errors.genderLabels?.message}
               />
@@ -103,10 +111,10 @@ const CreateGenerals: FC = () => {
             name="initialBasedDate"
             control={control}
             rules={{
-              required: 'La fecha inicial es obligatoria',
+              required: t('general.validation.initialDateRequired'),
               validate: (date) => {
                 if (!isValidDate(date)) {
-                  return 'Fecha inválida (formato: dd/mm/aaaa)';
+                  return t('general.validation.invalidDate');
                 }
                 return true;
               },
@@ -115,7 +123,7 @@ const CreateGenerals: FC = () => {
               <CustomDatePicker
                 {...field}
                 inputName="initialBasedDate"
-                placeholder="Fecha del comienzo"
+                placeholder={t('general.fields.initialDate')}
                 error={errors.initialBasedDate?.message}
               />
             )}
@@ -125,15 +133,15 @@ const CreateGenerals: FC = () => {
             name="storySize"
             control={control}
             rules={{
-              required: 'El tamaño de la historia es obligatorio',
+              required: t('general.validation.storySizeRequired'),
               validate: (value) =>
-                value !== 0 || 'El tamaño de la historia es obligatorio',
+                value !== 0 || t('general.validation.storySizeRequired'),
             }}
             render={({ field }) => (
               <CustomSelect
                 {...field}
                 inputName="storySize"
-                placeholder="Tamaño de la Historia"
+                placeholder={t('general.fields.storySize')}
                 options={storySizeCatalog}
                 error={errors.storySize?.message}
               />
@@ -144,9 +152,10 @@ const CreateGenerals: FC = () => {
             name="timeToComplete"
             control={control}
             rules={{
-              required: 'El tiempo es obligatorio',
+              required: t('general.validation.timeRequired'),
               validate: (value) =>
-                /^[0-9]+$/.test(value as string) || 'Solo se permiten números',
+                /^[0-9]+$/.test(value as string) ||
+                t('general.validation.numbersOnly'),
             }}
             render={({ field }) => (
               <CustomInput
@@ -158,7 +167,7 @@ const CreateGenerals: FC = () => {
                 }}
                 inputType={InputEnumType.time}
                 inputName="timeToComplete"
-                placeholder="Tiempo para completar (Días)"
+                placeholder={t('general.fields.timeToComplete')}
                 error={errors.timeToComplete?.message}
                 maxLength={3}
               />
@@ -177,7 +186,7 @@ const CreateGenerals: FC = () => {
           disabled={isLocked || !isValid}
           onClick={() => void continueFromGenerals()}
         >
-          Continuar
+          {t('general.continue')}
         </CustomButton>
       </div>
     </Fragment>

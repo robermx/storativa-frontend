@@ -54,6 +54,7 @@ const Create = () => {
       initialBasedDate: '',
       genderLabels: [],
       content: '',
+      narrativeInput: undefined,
     },
   });
   const catalogs: CreateCatalogs = {

@@ -1,7 +1,7 @@
 export const createSteps = [
-  'generales',
-  'Períodos',
-  'Personajes',
+  { id: 'general' },
+  { id: 'periods' },
+  { id: 'characters' },
 ] as const;
 
 

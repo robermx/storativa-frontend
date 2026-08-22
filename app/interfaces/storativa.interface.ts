@@ -42,7 +42,7 @@ export type NarrativePointOfView =
   'first_person' | 'third_person_limited' | 'third_person_omniscient';
 
 export interface NarrativeInput {
-  language?: 'es';
+  language?: 'es' | 'en';
   protagonistCharacterKey?: string;
   tone?: string;
   pointOfView?: NarrativePointOfView;
@@ -79,7 +79,7 @@ export interface NarrativeChapterPlan {
 
 export interface NarrativePlan {
   status: NarrativePlanStatus;
-  language: 'es';
+  language: 'es' | 'en';
   premise: string;
   theme: string;
   centralConflict: string;

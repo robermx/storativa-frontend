@@ -1,6 +1,7 @@
 import { type FC, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useFormContext, useWatch } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import { createUserStorativa } from '@/services/storativa.service';
 import type { IReqStorativa } from '@/interfaces/storativa.interface';
@@ -12,10 +13,13 @@ import CreateAlert from './CreateAlert';
 import { getErrorMessage } from '@/utils/getErrorMessage';
 import { LayersPlus } from 'lucide-react';
 import { useCreateFlow } from '@/context/CreateFlowContext';
+import { useLanguageStore } from '@/store/languageStore';
 
 const CreateFormData: FC = () => {
+  const { t } = useTranslation('create');
   const [submitError, setSubmitError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const language = useLanguageStore((state) => state.language);
   const {
     control,
     handleSubmit,
@@ -44,6 +48,10 @@ const CreateFormData: FC = () => {
       ...data,
       timeToComplete: Number(data.timeToComplete),
       initialBasedDate: toIsoDate(data.initialBasedDate),
+      narrativeInput: {
+        ...data.narrativeInput,
+        language,
+      },
       adaptedPeriods: data.adaptedPeriods.map((period) => {
         // useFieldArray adds an internal `id` for rendering. It is not part
         // of the API contract for a new adapted period.
@@ -73,7 +81,7 @@ const CreateFormData: FC = () => {
       setSubmitError(
         getErrorMessage(
           error,
-          'No pudimos crear tu Storativa. Intenta de nuevo.',
+          t('submit.failed'),
         ),
       );
     }
@@ -101,7 +109,7 @@ const CreateFormData: FC = () => {
               icon={<LayersPlus />}
               size="md"
             >
-              {isSubmitting ? 'Creando...' : 'Crear Storativa'}
+              {isSubmitting ? t('submit.creating') : t('submit.create')}
             </CustomButton>
           </div>
         </>

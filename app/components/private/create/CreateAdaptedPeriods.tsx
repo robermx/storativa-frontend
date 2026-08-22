@@ -7,6 +7,7 @@ import {
   useWatch,
 } from 'react-hook-form';
 import { CalendarPlus, Check, Pencil, Trash2, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import type {
   AdaptedPeriod,
@@ -28,6 +29,7 @@ const emptyPeriod: AdaptedPeriod = {
 };
 
 const CreateAdaptedPeriods: FC = () => {
+  const { t } = useTranslation('create');
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [pendingRemoval, setPendingRemoval] = useState<number | null>(null);
   const { control: createControl } = useFormContext<IReqStorativa>();
@@ -88,8 +90,7 @@ const CreateAdaptedPeriods: FC = () => {
   return (
     <Fragment>
       <p className="mb-6 text-sm text-dark/65 dark:text-light/65">
-        Añade cada período por separado. Podrás revisarlo, editarlo o eliminarlo
-        antes de continuar.
+        {t('periods.description')}
       </p>
 
       {periods.length > 0 && (
@@ -115,7 +116,7 @@ const CreateAdaptedPeriods: FC = () => {
                     onClick={() => confirmRemoval(index)}
                     disabled={isLocked}
                   >
-                    Eliminar
+                    {t('periods.delete')}
                   </button>
                   <button
                     type="button"
@@ -123,14 +124,14 @@ const CreateAdaptedPeriods: FC = () => {
                     onClick={() => setPendingRemoval(null)}
                     disabled={isLocked}
                   >
-                    Cancelar
+                    {t('periods.cancel')}
                   </button>
                 </div>
               ) : (
                 <div className="flex gap-2 sm:w-28">
                   <button
                     type="button"
-                    aria-label={`Editar ${period.name}`}
+                    aria-label={t('periods.editAriaLabel', { name: period.name })}
                     className="flex-1 rounded-md bg-primary/10 p-2 text-primary hover:bg-primary/20 disabled:cursor-not-allowed"
                     onClick={() => startEditing(index)}
                     disabled={isLocked}
@@ -139,7 +140,7 @@ const CreateAdaptedPeriods: FC = () => {
                   </button>
                   <button
                     type="button"
-                    aria-label={`Eliminar ${period.name}`}
+                    aria-label={t('periods.deleteAriaLabel', { name: period.name })}
                     className="flex-1 rounded-md bg-red-500/10 p-2 text-red-500 hover:bg-red-500/20 disabled:cursor-not-allowed"
                     onClick={() => setPendingRemoval(index)}
                     disabled={isLocked}
@@ -155,21 +156,26 @@ const CreateAdaptedPeriods: FC = () => {
 
       <div className="border-t border-primary/15 pt-6 dark:border-light/10">
         <p className="mb-4 text-sm font-semibold text-dark dark:text-light">
-          {editingIndex === null ? 'Añadir período' : 'Editar período'}
+          {editingIndex === null ? t('periods.add') : t('periods.edit')}
         </p>
         <div className="grid gap-y-7 md:grid-cols-2 md:gap-x-6 xl:grid-cols-4 xl:gap-y-0">
           <Controller
             name="from"
             control={periodControl}
             rules={{
-              required: 'Fecha inicio obligatoria',
-              validate: (from) => validateDateField(from, draft.to, true),
+              required: t('periods.validation.startRequired'),
+              validate: (from) =>
+                validateDateField(from, draft.to, true, {
+                  invalidDate: t('periods.validation.invalidDate'),
+                  startBeforeEnd: t('periods.validation.startBeforeEnd'),
+                  endAfterStart: t('periods.validation.endAfterStart'),
+                }),
             }}
             render={({ field }) => (
               <CustomDatePicker
                 {...field}
                 inputName="period-from"
-                placeholder="Desde (dd/mm/aaaa)"
+                placeholder={t('periods.fields.from')}
                 error={errors.from?.message}
               />
             )}
@@ -178,14 +184,19 @@ const CreateAdaptedPeriods: FC = () => {
             name="to"
             control={periodControl}
             rules={{
-              required: 'La fecha de fin es obligatoria',
-              validate: (to) => validateDateField(to, draft.from, false),
+              required: t('periods.validation.endRequired'),
+              validate: (to) =>
+                validateDateField(to, draft.from, false, {
+                  invalidDate: t('periods.validation.invalidDate'),
+                  startBeforeEnd: t('periods.validation.startBeforeEnd'),
+                  endAfterStart: t('periods.validation.endAfterStart'),
+                }),
             }}
             render={({ field }) => (
               <CustomDatePicker
                 {...field}
                 inputName="period-to"
-                placeholder="Hasta (dd/mm/aaaa)"
+                placeholder={t('periods.fields.to')}
                 error={errors.to?.message}
               />
             )}
@@ -193,13 +204,13 @@ const CreateAdaptedPeriods: FC = () => {
           <Controller
             name="place"
             control={periodControl}
-            rules={{ required: 'El lugar es obligatorio' }}
+            rules={{ required: t('periods.validation.placeRequired') }}
             render={({ field }) => (
               <CustomInput
                 {...field}
                 inputType={InputEnumType.place}
                 inputName="period-place"
-                placeholder="Lugar"
+                placeholder={t('periods.fields.place')}
                 error={errors.place?.message}
               />
             )}
@@ -207,13 +218,13 @@ const CreateAdaptedPeriods: FC = () => {
           <Controller
             name="name"
             control={periodControl}
-            rules={{ required: 'El período es obligatorio' }}
+            rules={{ required: t('periods.validation.periodRequired') }}
             render={({ field }) => (
               <CustomInput
                 {...field}
                 inputType={InputEnumType.period}
                 inputName="period-name"
-                placeholder="Época / Período"
+                placeholder={t('periods.fields.name')}
                 error={errors.name?.message}
               />
             )}
@@ -227,7 +238,7 @@ const CreateAdaptedPeriods: FC = () => {
               onClick={() => void handleSubmit(savePeriod)()}
               disabled={!isValid || isLocked}
             >
-              {editingIndex === null ? 'Añadir período' : 'Guardar cambios'}
+              {editingIndex === null ? t('periods.add') : t('periods.saveChanges')}
             </CustomButton>
           </div>
           <div className="flex gap-3 sm:w-auto">
@@ -239,7 +250,7 @@ const CreateAdaptedPeriods: FC = () => {
                   onClick={cancelEditing}
                   disabled={isLocked}
                 >
-                  Cancelar
+                  {t('periods.cancel')}
                 </CustomButton>
               </div>
             )}
@@ -251,7 +262,7 @@ const CreateAdaptedPeriods: FC = () => {
                 }
                 onClick={continueFromPeriods}
               >
-                Continuar
+                {t('periods.continue')}
               </CustomButton>
             </div>
           </div>
