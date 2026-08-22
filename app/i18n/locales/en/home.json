@@ -1,0 +1,43 @@
+{
+  "hero": {
+    "title": "We all have something within us that wants to become a great story... <highlight>an idea or a memory tied to a distinctive way of seeing the world.</highlight>",
+    "description": "Storativa helps you turn what inspires you into a work of your own by exploring eras, places, and possibilities."
+  },
+  "stages": {
+    "impulse": {
+      "title": "Impulse",
+      "subtitle": "Everything begins with something that moves you",
+      "description": "An emotion, a memory, a question, or a concern awakens the desire to tell. Before there is a plot, there is already something that needs to be expressed."
+    },
+    "meeting": {
+      "title": "Encounter",
+      "subtitle": "The story that sparks your interest",
+      "description": "An era, a place, or a historical event becomes the starting point. It is not only about knowing the past, but discovering which part of it has something to tell you."
+    },
+    "look": {
+      "title": "Perspective",
+      "subtitle": "Your way of interpreting the world",
+      "description": "The story gains its own perspective. Your questions, experiences, and imagination find a distinctive way of observing what happened and what might have happened."
+    },
+    "narrative": {
+      "title": "Narrative",
+      "subtitle": "Where the story begins to breathe",
+      "description": "Time, place, customs, and characters build a coherent setting. Research provides context; your imagination brings it to life."
+    },
+    "tension": {
+      "title": "Tension",
+      "subtitle": "Every story needs something at stake",
+      "description": "Desires collide, decisions have consequences, and familiar reality begins to change. In conflict, the story finds its direction and strength."
+    },
+    "opus": {
+      "title": "Work",
+      "subtitle": "A personal vision ready to be shared",
+      "description": "What began as a concern becomes an authentic narrative: a story that preserves your voice, engages with the past, and can connect with someone else."
+    }
+  },
+  "conclusion": {
+    "title": "Your story could <highlight>create connections</highlight>",
+    "description": "What begins with an emotion, a memory, or a personal perspective can become a story able to cross eras, awaken new ideas, and connect with those who find something of themselves in it.",
+    "cta": "Begin my Storativa"
+  }
+}

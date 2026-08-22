@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import { Trans, useTranslation } from 'react-i18next';
 
 import {
   homeConstellationLinks,
@@ -9,6 +10,7 @@ import {
 
 const HomeMain = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
+  const { t } = useTranslation('home');
 
   useGSAP(
     () => {
@@ -163,15 +165,14 @@ const HomeMain = () => {
       </div>
 
       <h1 className="home-hero-copy relative z-10 max-w-4xl text-3xl md:text-4xl lg:text-5xl font-bold text-dark dark:text-light tracking-tighter mb-6">
-        Todos tenemos algo dentro que busca convertirse en una gran historia...{' '}
-        <span className="text-primary">
-          una idea o algún recuerdo asociado a una peculiar forma de ver el
-          mundo.
-        </span>
+        <Trans
+          ns="home"
+          i18nKey="hero.title"
+          components={{ highlight: <span className="text-primary" /> }}
+        />
       </h1>
       <p className="home-hero-copy relative z-10 max-w-2xl text-lg md:text-xl text-dark dark:text-light font-light leading-relaxed">
-        Storativa te acompaña a transformar aquello que te inspira, en una obra
-        propia: explorando épocas, lugares y posibilidades.
+        {t('hero.description')}
       </p>
     </section>
   );

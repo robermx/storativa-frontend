@@ -5,6 +5,7 @@ import { useThemeStore } from './store/themeStore';
 import { useOverlayPanelStore } from './store/overlayPanelStore';
 import { DEFAULT_LANGUAGE, useLanguageStore } from './store/languageStore';
 import { ensureAuthSession } from './services/auth.service';
+import i18n from './i18n/i18n';
 import MainLayout from './layouts/MainLayout';
 import { NavigationVisibilityProvider } from './context/NavigationVisibilityContext';
 import './app.css';
@@ -22,6 +23,10 @@ export default function App() {
   useEffect(() => {
     void ensureAuthSession();
   }, []);
+
+  useEffect(() => {
+    void i18n.changeLanguage(language);
+  }, [language]);
 
   return (
     <html

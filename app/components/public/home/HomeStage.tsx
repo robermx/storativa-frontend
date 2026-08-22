@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useTranslation } from 'react-i18next';
 
 import { useSmoothScroll } from '@/context/SmoothScrollContext';
 import {
@@ -18,6 +19,7 @@ const HomeStage = () => {
   const stageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const isDarkMode = useThemeStore((state) => state.isDarkMode);
+  const { t } = useTranslation('home');
 
   useGSAP(
     () => {
@@ -253,17 +255,17 @@ const HomeStage = () => {
                 }`}
               >
                 <h2 className="stage-title text-3xl md:text-4xl lg:text-5xl font-bold text-primary tracking-tight mb-1">
-                  {stage.title}
+                  {t(`stages.${stage.id}.title`)}
                 </h2>
                 <p className="stage-subtitle text-xl md:text-2xl text-dark dark:text-light font-medium mb-3 tracking-wide">
-                  {stage.subtitle}
+                  {t(`stages.${stage.id}.subtitle`)}
                 </p>
                 <p className="stage-progress mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-primary">
                   {String(index + 1).padStart(2, '0')} /{' '}
                   {String(homeStages.length).padStart(2, '0')}
                 </p>
                 <p className="stage-desc text-base md:text-lg text-dark dark:text-light leading-relaxed">
-                  {stage.description}
+                  {t(`stages.${stage.id}.description`)}
                 </p>
               </div>
             </div>
