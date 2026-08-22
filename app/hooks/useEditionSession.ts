@@ -3,12 +3,20 @@ import type { JSONContent } from '@tiptap/react';
 import { useBeforeUnload, useBlocker } from 'react-router';
 
 import {
+  confirmNarrativePlan,
   createStorativaChapter,
   deleteStorativaChapter,
+  generateNarrativePlan,
+  getNarrativePlan,
   reorderStorativaChapters,
+  updateNarrativePlan,
   updateStorativaChapter,
 } from '@/services/storativa.service';
-import type { Chapter, IResStorativa } from '@/interfaces/storativa.interface';
+import type {
+  Chapter,
+  IResStorativa,
+  NarrativePlan,
+} from '@/interfaces/storativa.interface';
 import type { SaveState } from '@/constants/common/edition.constants';
 import { useOverlayPanelStore } from '@/store/overlayPanelStore';
 import { getErrorMessage } from '@/utils/getErrorMessage';
@@ -37,8 +45,19 @@ export const useEditionSession = (storativa: IResStorativa) => {
     loadedChapters.length === 0,
   );
   const [isChapterMutation, setIsChapterMutation] = useState(false);
+  const [narrativePlan, setNarrativePlan] = useState<NarrativePlan | null>(
+    () => storativa.narrativePlan ?? null,
+  );
+  const [narrativePlanError, setNarrativePlanError] = useState<string | null>(
+    null,
+  );
+  const [isNarrativePlanLoading, setIsNarrativePlanLoading] = useState(
+    !storativa.narrativePlan,
+  );
+  const [isNarrativePlanSaving, setIsNarrativePlanSaving] = useState(false);
 
   const initializationStartedRef = useRef(false);
+  const narrativePlanStartedRef = useRef(false);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pendingSaveRef = useRef<{
     chapterId: string;
@@ -80,6 +99,79 @@ export const useEditionSession = (storativa: IResStorativa) => {
   useEffect(() => {
     if (loadedChapters.length === 0) void initializeFirstChapter();
   }, [initializeFirstChapter, loadedChapters.length]);
+
+  const loadNarrativePlan = useCallback(async () => {
+    if (narrativePlanStartedRef.current || narrativePlan) return;
+
+    narrativePlanStartedRef.current = true;
+    setIsNarrativePlanLoading(true);
+    setNarrativePlanError(null);
+
+    try {
+      setNarrativePlan(await getNarrativePlan(storativa._id));
+    } catch (error: unknown) {
+      setNarrativePlanError(
+        getErrorMessage(error, 'No pudimos preparar el plan narrativo.'),
+      );
+    } finally {
+      setIsNarrativePlanLoading(false);
+    }
+  }, [narrativePlan, storativa._id]);
+
+  useEffect(() => {
+    void loadNarrativePlan();
+  }, [loadNarrativePlan]);
+
+  const regeneratePlan = useCallback(async () => {
+    setIsNarrativePlanSaving(true);
+    setNarrativePlanError(null);
+    try {
+      setNarrativePlan(await generateNarrativePlan(storativa._id));
+      return true;
+    } catch (error: unknown) {
+      setNarrativePlanError(
+        getErrorMessage(error, 'No pudimos regenerar el plan narrativo.'),
+      );
+      return false;
+    } finally {
+      setIsNarrativePlanSaving(false);
+    }
+  }, [storativa._id]);
+
+  const saveNarrativePlan = useCallback(
+    async (plan: NarrativePlan) => {
+      setIsNarrativePlanSaving(true);
+      setNarrativePlanError(null);
+      try {
+        setNarrativePlan(await updateNarrativePlan(storativa._id, plan));
+        return true;
+      } catch (error: unknown) {
+        setNarrativePlanError(
+          getErrorMessage(error, 'No pudimos guardar el plan narrativo.'),
+        );
+        return false;
+      } finally {
+        setIsNarrativePlanSaving(false);
+      }
+    },
+    [storativa._id],
+  );
+
+  const confirmPlan = useCallback(async () => {
+    setIsNarrativePlanSaving(true);
+    setNarrativePlanError(null);
+    try {
+      setNarrativePlan(await confirmNarrativePlan(storativa._id));
+      return true;
+    } catch (error: unknown) {
+      setNarrativePlanError(
+        getErrorMessage(error, 'No pudimos confirmar el plan narrativo.'),
+      );
+      return false;
+    } finally {
+      setIsNarrativePlanSaving(false);
+    }
+  }, [storativa._id]);
 
   const persistPending = useCallback(async (): Promise<boolean> => {
     if (savePromiseRef.current) return savePromiseRef.current;
@@ -340,5 +432,12 @@ export const useEditionSession = (storativa: IResStorativa) => {
     updateContent,
     retrySave: flushPending,
     retryInitialization,
+    narrativePlan,
+    narrativePlanError,
+    isNarrativePlanLoading,
+    isNarrativePlanSaving,
+    regeneratePlan,
+    saveNarrativePlan,
+    confirmPlan,
   };
 };

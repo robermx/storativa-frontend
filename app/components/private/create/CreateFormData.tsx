@@ -57,6 +57,14 @@ const CreateFormData: FC = () => {
           to: toIsoDate(period.to),
         };
       }),
+      characters: data.characters.map((character) => {
+        const { id: _fieldId, ...characterData } =
+          character as typeof character & {
+            id?: string;
+          };
+
+        return characterData;
+      }),
     };
     try {
       const storativa = await createUserStorativa(adaptedData);
@@ -72,10 +80,7 @@ const CreateFormData: FC = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit, () => goToStep(0))}
-      noValidate
-    >
+    <form onSubmit={handleSubmit(onSubmit, () => goToStep(0))} noValidate>
       <CreateAlert submitError={submitError} />
       <div className={activeStep === 0 ? 'py-6 px-4 min-h-140' : 'hidden'}>
         <CreateGenerals />

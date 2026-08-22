@@ -5,6 +5,7 @@ import { useEdition } from '@/context/EditionContext';
 import EditionChapterPanel from './EditionChapterPanel';
 import EditionEditorSection from './EditionEditorSection';
 import EditionInitializationState from './EditionInitializationState';
+import NarrativePlanPanel from './NarrativePlanPanel';
 
 const EditionWorkspace: FC = () => {
   const {
@@ -28,6 +29,7 @@ const EditionWorkspace: FC = () => {
 
   return (
     <>
+      <NarrativePlanPanel />
       <EditionChapterPanel />
       <div
         aria-hidden={isChapterPanelOpen}

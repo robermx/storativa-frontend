@@ -14,7 +14,7 @@ const DashboardEmpty = () => {
 
   return (
     <div
-      className={`flex flex-col min-h-[calc(100vh-var(--nav-height))] items-center justify-center text-dark/70 dark:text-light/70`}
+      className={`flex flex-col min-h-[calc(100vh-var(--nav-height)*1px)] items-center justify-center text-dark/70 dark:text-light/70`}
     >
       <EmptyState className="sm:h-80 mb-10 sm:mb-15 sm:mt-5" />
       <p className="text-xl">
