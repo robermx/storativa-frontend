@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { DashboardStorativa } from '@/interfaces/storativa.interface';
 import { daysPassed, percentageDays } from '@/utils/percentageDays';
@@ -20,6 +21,8 @@ const ContentTable: FC<ContentTableProps> = ({
   onDeleteRequest,
   isDeleting,
 }) => {
+  const { t, i18n } = useTranslation('dashboard');
+
   return (
     <div className="overflow-x-auto min-h-90">
       <table className="w-full min-w-255 table-fixed">
@@ -34,22 +37,22 @@ const ContentTable: FC<ContentTableProps> = ({
         <thead className="bg-lightness/80 dark:bg-darkness/80">
           <tr>
             <th className="text-left pl-3 sm:pl-6 py-3 font-medium text-primary">
-              Título
+              {t('table.columns.title')}
             </th>
             <th className="text-left px-4 py-3 font-medium text-primary">
-              Estado
+              {t('table.columns.status')}
             </th>
             <th className="text-left px-4 py-3 font-medium text-primary">
-              Días de avance
+              {t('table.columns.progress')}
             </th>
             <th className="text-left px-4 py-3 font-medium text-primary">
-              Fecha de creación
+              {t('table.columns.createdAt')}
             </th>
             <th className="text-left px-4 py-3 font-medium text-primary">
-              Última actualización
+              {t('table.columns.updatedAt')}
             </th>
             <th className="text-left pr-6 py-3 font-medium text-primary">
-              Eliminar
+              {t('table.columns.delete')}
             </th>
           </tr>
         </thead>
@@ -60,7 +63,7 @@ const ContentTable: FC<ContentTableProps> = ({
                 colSpan={6}
                 className="absolute flex justify-center items-end h-40 w-full max-w-6xl text-dark/60 dark:text-light/60"
               >
-                No se encontraron Storativas.
+                {t('table.noResults')}
               </td>
             </tr>
           ) : (
@@ -85,7 +88,7 @@ const ContentTable: FC<ContentTableProps> = ({
                   <span
                     className={`inline-flex px-2.5 py-1 text-xs font-medium rounded-full border ${statusStyles(item.status).style}`}
                   >
-                    {statusStyles(item.status).status}
+                    {t(`table.status.${statusStyles(item.status).statusKey}`)}
                   </span>
                 </td>
                 <td className="px-4 py-3">
@@ -108,19 +111,21 @@ const ContentTable: FC<ContentTableProps> = ({
                 </td>
                 <td className="px-4 py-3">
                   <p className="text-sm text-dark/70 dark:text-light/70">
-                    {formatDate(item.createdAt)}
+                    {formatDate(item.createdAt, i18n.language)}
                   </p>
                 </td>
                 <td className="px-4 py-3">
                   <p className="text-sm text-dark/70 dark:text-light/70">
-                    {formatDate(item.updatedAt)}
+                    {formatDate(item.updatedAt, i18n.language)}
                   </p>
                 </td>
                 <td className="pr-6 py-3">
                   <CustomButton
                     variant="danger"
                     icon={<Trash2 />}
-                    aria-label={`Eliminar ${titleFormat(item.title)}`}
+                    aria-label={t('table.deleteAriaLabel', {
+                      title: titleFormat(item.title),
+                    })}
                     className="cursor-pointer"
                     disabled={isDeleting}
                     onClick={() => onDeleteRequest(item)}

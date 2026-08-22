@@ -12,7 +12,7 @@ void i18n.use(initReactI18next).init({
   lng: DEFAULT_LANGUAGE,
   fallbackLng: DEFAULT_LANGUAGE,
   supportedLngs: LANGUAGES.map(({ code }) => code),
-  ns: ['about', 'auth', 'home', 'navigation'],
+  ns: ['about', 'auth', 'dashboard', 'home', 'navigation'],
   defaultNS: 'home',
   interpolation: {
     escapeValue: false,

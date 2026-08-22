@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router';
 import { Plus } from 'lucide-react';
+import { Trans, useTranslation } from 'react-i18next';
 
 import { useOverlayPanelStore } from '@/store/overlayPanelStore';
 
@@ -7,6 +8,7 @@ import CustomButton from '@/components/shared/CustomButton';
 import EmptyState from '@/assets/icons/EmptyState';
 
 const DashboardEmpty = () => {
+  const { t } = useTranslation('dashboard');
   const navigate = useNavigate();
   const isSettingsPanelOpen = useOverlayPanelStore(
     (state) => state.activePanel === 'settings',
@@ -18,11 +20,14 @@ const DashboardEmpty = () => {
     >
       <EmptyState className="sm:h-80 mb-10 sm:mb-15 sm:mt-5" />
       <p className="text-xl">
-        No tienes <span className="text-primary font-semibold">Storativas</span>{' '}
-        guardadas.
+        <Trans
+          ns="dashboard"
+          i18nKey="empty.message"
+          components={{ highlight: <span className="text-primary font-semibold" /> }}
+        />
       </p>
       <p className="text-3xl font-semibold text-primary mb-4">
-        ¡Crea una desde cero!
+        {t('empty.headline')}
       </p>
       <div className="w-50 mb-8">
         <CustomButton
@@ -32,7 +37,7 @@ const DashboardEmpty = () => {
           disabled={isSettingsPanelOpen}
           className="cursor-pointer"
         >
-          Crear Storativa
+          {t('empty.action')}
         </CustomButton>
       </div>
     </div>

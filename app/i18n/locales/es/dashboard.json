@@ -1,0 +1,49 @@
+{
+  "stats": {
+    "total": "Totales",
+    "active": "Activas",
+    "inactive": "Inactivas"
+  },
+  "empty": {
+    "message": "No tienes <highlight>Storativas</highlight> guardadas.",
+    "headline": "¡Crea una desde cero!",
+    "action": "Crear Storativa"
+  },
+  "table": {
+    "title": "Storativas",
+    "searchPlaceholder": "Buscar por título",
+    "searchAriaLabel": "Buscar Storativas por título",
+    "columns": {
+      "title": "Título",
+      "status": "Estado",
+      "progress": "Días de avance",
+      "createdAt": "Fecha de creación",
+      "updatedAt": "Última actualización",
+      "delete": "Eliminar"
+    },
+    "noResults": "No se encontraron Storativas.",
+    "deleteAriaLabel": "Eliminar {{title}}",
+    "status": {
+      "active": "Activa",
+      "inactive": "Inactiva"
+    }
+  },
+  "pagination": {
+    "shown": "Mostrado",
+    "noResults": "0 resultados",
+    "results": "{{first}}–{{last}} de {{total}}",
+    "previous": "Anterior",
+    "page": "{{page}} de {{pageCount}}",
+    "next": "Siguiente"
+  },
+  "deleteDialog": {
+    "title": "Eliminar Storativa",
+    "subtitle": "Se eliminará “{{title}}” junto con todos sus capítulos y contenido.",
+    "closeLabel": "Cerrar eliminación de Storativa",
+    "warning": "Esta acción no se puede deshacer.",
+    "cancel": "Cancelar",
+    "deleting": "Eliminando...",
+    "delete": "Eliminar",
+    "failed": "No pudimos eliminar la Storativa."
+  }
+}
