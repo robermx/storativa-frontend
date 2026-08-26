@@ -110,6 +110,7 @@ const Login = () => {
             disabled={!isValid || isSubmitting}
             icon={<LogIn />}
             size="md"
+            className="cursor-pointer"
           >
             {isSubmitting ? t('common.loading') : t('login.submit')}
           </CustomButton>

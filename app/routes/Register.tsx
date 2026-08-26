@@ -157,6 +157,7 @@ const Register = () => {
               disabled={!isValid || isSubmitting}
               icon={<Airplay />}
               size="md"
+              className="cursor-pointer"
             >
               {isSubmitting ? t('common.loading') : t('register.submit')}
             </CustomButton>
@@ -170,6 +171,7 @@ const Register = () => {
           </p>
         </Fragment>
       </div>
+
       <CustomDialog
         openDialog={isVerificationModalOpen && Boolean(pendingRegistration)}
         onCloseDialog={() => setIsVerificationModalOpen(false)}
