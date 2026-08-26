@@ -3,21 +3,12 @@ import type { JSONContent } from '@tiptap/react';
 import { useBeforeUnload, useBlocker } from 'react-router';
 
 import {
-  confirmNarrativePlan,
-  createManualNarrativePlan,
-  createNarrativePlanRevision,
   createStorativaChapter,
   deleteStorativaChapter,
-  generateNarrativePlan,
   reorderStorativaChapters,
-  updateNarrativePlan,
   updateStorativaChapter,
 } from '@/services/storativa.service';
-import type {
-  Chapter,
-  IResStorativa,
-  NarrativePlan,
-} from '@/interfaces/storativa.interface';
+import type { Chapter, IResStorativa } from '@/interfaces/storativa.interface';
 import type { SaveState } from '@/constants/common/edition.constants';
 import { useOverlayPanelStore } from '@/store/overlayPanelStore';
 import { getErrorMessage } from '@/utils/getErrorMessage';
@@ -25,20 +16,6 @@ import { legacyContentToJson } from '@/utils/editionContent';
 
 const sortChapters = (chapters: Chapter[]) =>
   [...chapters].sort((first, second) => first.order - second.order);
-
-const normalizeNarrativePlan = (
-  plan: NarrativePlan | null,
-): NarrativePlan | null => {
-  if (!plan) return null;
-
-  return {
-    ...plan,
-    revision:
-      Number.isInteger(plan.revision) && plan.revision > 0
-        ? plan.revision
-        : 1,
-  };
-};
 
 export const useEditionSession = (storativa: IResStorativa) => {
   const isSettingsPanelOpen = useOverlayPanelStore(
@@ -60,15 +37,6 @@ export const useEditionSession = (storativa: IResStorativa) => {
     loadedChapters.length === 0,
   );
   const [isChapterMutation, setIsChapterMutation] = useState(false);
-  const [narrativePlan, setNarrativePlan] = useState<NarrativePlan | null>(
-    () => normalizeNarrativePlan(storativa.narrativePlan),
-  );
-  const [narrativePlanError, setNarrativePlanError] = useState<string | null>(
-    null,
-  );
-  const [isNarrativePlanLoading, setIsNarrativePlanLoading] = useState(false);
-  const [isNarrativePlanSaving, setIsNarrativePlanSaving] = useState(false);
-
   const initializationStartedRef = useRef(false);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pendingSaveRef = useRef<{
@@ -112,107 +80,6 @@ export const useEditionSession = (storativa: IResStorativa) => {
       void initializeFirstChapter();
     }
   }, [initializeFirstChapter, loadedChapters.length]);
-
-  const createManualPlan = useCallback(async () => {
-    setIsNarrativePlanSaving(true);
-    setNarrativePlanError(null);
-    try {
-      setNarrativePlan(
-        normalizeNarrativePlan(
-          await createManualNarrativePlan(storativa._id),
-        ),
-      );
-      return true;
-    } catch (error: unknown) {
-      setNarrativePlanError(
-        getErrorMessage(error, 'No pudimos preparar el plan manual.'),
-      );
-      return false;
-    } finally {
-      setIsNarrativePlanSaving(false);
-    }
-  }, [storativa._id]);
-
-  const regeneratePlan = useCallback(async () => {
-    setIsNarrativePlanSaving(true);
-    setNarrativePlanError(null);
-    try {
-      setNarrativePlan(
-        normalizeNarrativePlan(await generateNarrativePlan(storativa._id)),
-      );
-      return true;
-    } catch (error: unknown) {
-      setNarrativePlanError(
-        getErrorMessage(error, 'No pudimos regenerar el plan narrativo.'),
-      );
-      return false;
-    } finally {
-      setIsNarrativePlanSaving(false);
-    }
-  }, [storativa._id]);
-
-  const createPlanRevision = useCallback(async () => {
-    setIsNarrativePlanSaving(true);
-    setNarrativePlanError(null);
-    try {
-      setNarrativePlan(
-        normalizeNarrativePlan(
-          await createNarrativePlanRevision(storativa._id),
-        ),
-      );
-      return true;
-    } catch (error: unknown) {
-      setNarrativePlanError(
-        getErrorMessage(error, 'No pudimos crear una revisión del plan.'),
-      );
-      return false;
-    } finally {
-      setIsNarrativePlanSaving(false);
-    }
-  }, [storativa._id]);
-
-  const saveNarrativePlan = useCallback(
-    async (plan: NarrativePlan) => {
-      setIsNarrativePlanSaving(true);
-      setNarrativePlanError(null);
-      try {
-        setNarrativePlan(
-          normalizeNarrativePlan(
-            await updateNarrativePlan(storativa._id, plan),
-          ),
-        );
-        return true;
-      } catch (error: unknown) {
-        setNarrativePlanError(
-          getErrorMessage(error, 'No pudimos guardar el plan narrativo.'),
-        );
-        return false;
-      } finally {
-        setIsNarrativePlanSaving(false);
-      }
-    },
-    [storativa._id],
-  );
-
-  const confirmPlan = useCallback(async () => {
-    setIsNarrativePlanSaving(true);
-    setNarrativePlanError(null);
-    try {
-      const confirmation = await confirmNarrativePlan(storativa._id);
-      const confirmedChapters = sortChapters(confirmation.chapters);
-      setNarrativePlan(normalizeNarrativePlan(confirmation.plan));
-      setChapters(confirmedChapters);
-      setActiveChapterId(confirmedChapters[0]?._id ?? '');
-      return true;
-    } catch (error: unknown) {
-      setNarrativePlanError(
-        getErrorMessage(error, 'No pudimos confirmar el plan narrativo.'),
-      );
-      return false;
-    } finally {
-      setIsNarrativePlanSaving(false);
-    }
-  }, [storativa._id]);
 
   const persistPending = useCallback(async (): Promise<boolean> => {
     if (savePromiseRef.current) return savePromiseRef.current;
@@ -473,14 +340,5 @@ export const useEditionSession = (storativa: IResStorativa) => {
     updateContent,
     retrySave: flushPending,
     retryInitialization,
-    narrativePlan,
-    narrativePlanError,
-    isNarrativePlanLoading,
-    isNarrativePlanSaving,
-    createManualPlan,
-    regeneratePlan,
-    createPlanRevision,
-    saveNarrativePlan,
-    confirmPlan,
   };
 };

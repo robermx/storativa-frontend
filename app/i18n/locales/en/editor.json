@@ -1,54 +1,7 @@
 {
-  "plan": {
-    "open": "Narrative plan",
-    "startTitle": "Set the direction for your story",
-    "startDescription": "The narrative plan is optional: use it to define your story's direction without changing chapters you have already written.",
-    "manual": "Complete it manually",
-    "automatic": "Create an automatic proposal",
-    "automaticHint": "Use an initial deterministic proposal that you can fully edit. It does not use AI.",
-    "draft": "Draft",
-    "confirmed": "Confirmed",
-    "revision": "Revision {{revision}}",
-    "title": "Narrative brief",
-    "subtitle": "Review the direction of your story",
-    "readOnly": "This confirmed plan guides the story and does not modify existing chapters. Create a revision to update it.",
-    "loading": "Preparing the narrative plan...",
-    "error": "There is no narrative plan available.",
-    "actions": {
-      "regenerate": "Regenerate proposal",
-      "save": "Save draft",
-      "confirm": "Confirm plan",
-      "createRevision": "Create revision",
-      "close": "Close plan"
-    },
-    "fields": {
-      "premise": "Premise",
-      "theme": "Theme",
-      "centralConflict": "Central conflict",
-      "protagonistGoal": "Protagonist's goal",
-      "stakes": "Narrative stakes",
-      "tone": "Tone",
-      "motivation": "Motivation",
-      "internalConflict": "Internal conflict",
-      "arc": "Transformation arc",
-      "title": "Title",
-      "objective": "Objective",
-      "summary": "Summary",
-      "conflict": "Conflict",
-      "turningPoint": "Turning point",
-      "endingHook": "Ending hook"
-    },
-    "characters": "Character arcs",
-    "chapters": "Chapter outline"
-  },
   "aiAssistant": {
     "open": "AI assistance",
     "comingSoon": "Coming soon"
-  },
-  "locked": {
-    "title": "Confirm your plan before you start writing",
-    "description": "The editor will be enabled when the narrative brief and chapter outline are complete.",
-    "action": "Open narrative plan"
   },
   "initialization": {
     "title": "We could not prepare your editor",

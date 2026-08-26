@@ -48,10 +48,7 @@ const CreateFormData: FC = () => {
       ...data,
       timeToComplete: Number(data.timeToComplete),
       initialBasedDate: toIsoDate(data.initialBasedDate),
-      narrativeInput: {
-        ...data.narrativeInput,
-        language,
-      },
+      language,
       adaptedPeriods: data.adaptedPeriods.map((period) => {
         // useFieldArray adds an internal `id` for rendering. It is not part
         // of the API contract for a new adapted period.
@@ -78,12 +75,7 @@ const CreateFormData: FC = () => {
       const storativa = await createUserStorativa(adaptedData);
       navigate(`/edition/${storativa._id}`, { replace: true });
     } catch (error: unknown) {
-      setSubmitError(
-        getErrorMessage(
-          error,
-          t('submit.failed'),
-        ),
-      );
+      setSubmitError(getErrorMessage(error, t('submit.failed')));
     }
   };
 

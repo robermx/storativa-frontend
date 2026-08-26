@@ -37,10 +37,8 @@ const Edition = () => {
   const { storativa } = useLoaderData<typeof clientLoader>();
   const lockLanguage = useLanguageStore((state) => state.lockLanguage);
   const unlockLanguage = useLanguageStore((state) => state.unlockLanguage);
-  const storativaLanguage =
-    storativa.narrativePlan?.language ?? storativa.narrativeInput?.language;
-  const language = isLanguageCode(storativaLanguage)
-    ? storativaLanguage
+  const language = isLanguageCode(storativa.language)
+    ? storativa.language
     : DEFAULT_LANGUAGE;
 
   useEffect(() => {

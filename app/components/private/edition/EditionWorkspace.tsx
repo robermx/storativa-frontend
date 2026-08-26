@@ -1,5 +1,5 @@
-import { useState, type FC } from 'react';
-import { Compass, Sparkles } from 'lucide-react';
+import { type FC } from 'react';
+import { Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { useOverlayPanelStore } from '@/store/overlayPanelStore';
@@ -7,7 +7,6 @@ import { useEdition } from '@/context/EditionContext';
 import EditionChapterPanel from './EditionChapterPanel';
 import EditionEditorSection from './EditionEditorSection';
 import EditionInitializationState from './EditionInitializationState';
-import NarrativePlanPanel from './NarrativePlanPanel';
 import CustomButton from '@/components/shared/CustomButton';
 
 const EditionWorkspace: FC = () => {
@@ -18,7 +17,6 @@ const EditionWorkspace: FC = () => {
     retryInitialization,
   } = useEdition();
   const { t } = useTranslation('editor');
-  const [isPlanOpen, setIsPlanOpen] = useState(false);
   const isChapterPanelOpen = useOverlayPanelStore(
     (state) => state.activePanel === 'edition-chapters',
   );
@@ -34,10 +32,6 @@ const EditionWorkspace: FC = () => {
 
   return (
     <>
-      <NarrativePlanPanel
-        open={isPlanOpen}
-        onClose={() => setIsPlanOpen(false)}
-      />
       <EditionChapterPanel />
       <div
         aria-hidden={isChapterPanelOpen}
@@ -54,13 +48,6 @@ const EditionWorkspace: FC = () => {
           variant="outline"
         >
           {t('aiAssistant.open')}
-        </CustomButton>
-        <CustomButton
-          onClick={() => setIsPlanOpen(true)}
-          icon={<Compass />}
-          width="auto"
-        >
-          {t('plan.open')}
         </CustomButton>
       </div>
     </>

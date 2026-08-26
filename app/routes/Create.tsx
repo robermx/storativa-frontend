@@ -52,9 +52,9 @@ const Create = () => {
       storySize: 0,
       timeToComplete: '',
       initialBasedDate: '',
+      language: 'es',
       genderLabels: [],
       content: '',
-      narrativeInput: undefined,
     },
   });
   const catalogs: CreateCatalogs = {

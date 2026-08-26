@@ -9,9 +9,9 @@ export interface IReqStorativa {
   storySize: number;
   timeToComplete: number | string;
   initialBasedDate: string;
+  language: 'es' | 'en';
   genderLabels: number[];
   content: string;
-  narrativeInput?: NarrativeInput;
 }
 
 export interface IResStorativa {
@@ -33,70 +33,7 @@ export interface IResStorativa {
   createdAt: string;
   updatedAt: string;
   __v: number;
-  narrativeInput?: NarrativeInput;
-  narrativePlan: NarrativePlan | null;
-  narrativePlanBackup?: NarrativePlan | null;
-}
-
-export type NarrativePlanStatus = 'draft' | 'confirmed';
-export type NarrativePointOfView =
-  'first_person' | 'third_person_limited' | 'third_person_omniscient';
-
-export interface NarrativeInput {
-  language?: 'es' | 'en';
-  protagonistCharacterKey?: string;
-  tone?: string;
-  pointOfView?: NarrativePointOfView;
-  theme?: string;
-  desiredEnding?: 'open' | 'closed' | 'hopeful' | 'tragic' | 'surprising';
-  mustInclude?: string[];
-  mustAvoid?: string[];
-}
-
-export interface NarrativeCharacterPlan {
-  characterKey: string;
-  narrativeRole: string;
-  motivation: string;
-  internalConflict: string;
-  arc: string;
-}
-
-export interface NarrativeCatalogSnapshot {
-  contextTypes: string[];
-  genderLabels: string[];
-  storySize: string;
-  characterRoles: Record<string, string>;
-}
-
-export interface NarrativeChapterPlan {
-  order: number;
-  title: string;
-  objective: string;
-  summary: string;
-  conflict: string;
-  turningPoint: string;
-  endingHook: string;
-}
-
-export interface NarrativePlan {
-  status: NarrativePlanStatus;
-  revision: number;
   language: 'es' | 'en';
-  premise: string;
-  theme: string;
-  centralConflict: string;
-  protagonistGoal: string;
-  stakes: string;
-  tone: string;
-  pointOfView: NarrativePointOfView;
-  catalogSnapshot: NarrativeCatalogSnapshot;
-  characters: NarrativeCharacterPlan[];
-  chapters: NarrativeChapterPlan[];
-}
-
-export interface NarrativePlanConfirmation {
-  plan: NarrativePlan;
-  chapters: Chapter[];
 }
 
 export interface DashboardStorativa {
