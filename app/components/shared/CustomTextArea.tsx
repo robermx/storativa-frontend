@@ -7,6 +7,7 @@ const CustomTextArea: FC<CustomTextAreaProps> = ({
   error,
   rows = 3,
   maxChar,
+  readOnly = undefined,
   ...rest
 }) => {
   return (
@@ -19,6 +20,7 @@ const CustomTextArea: FC<CustomTextAreaProps> = ({
           placeholder={placeholder}
           className={`block w-full rounded-md bg-transparent px-3 py-2.25 text-base text-dark outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 resize-none ${error ? 'focus:outline-red-600/50' : 'focus:outline-primary'} sm:text-sm/6 dark:text-light dark:outline-white/10 dark:placeholder:text-gray-500 transition-all`}
           maxLength={maxChar}
+          readOnly={readOnly}
         />
       </div>
       {maxChar && (

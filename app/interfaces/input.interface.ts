@@ -22,6 +22,7 @@ export interface CustomTextAreaProps {
   onBlur?: (e: React.FocusEvent<HTMLTextAreaElement>) => void;
   rows?: number;
   maxChar?: number;
+  readOnly?: boolean;
 }
 
 export interface CustomSelectProps {

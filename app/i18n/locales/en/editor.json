@@ -1,0 +1,130 @@
+{
+  "plan": {
+    "open": "Narrative plan",
+    "startTitle": "Set the direction for your story",
+    "startDescription": "The narrative plan is optional: use it to define your story's direction without changing chapters you have already written.",
+    "manual": "Complete it manually",
+    "automatic": "Create an automatic proposal",
+    "automaticHint": "Use an initial deterministic proposal that you can fully edit. It does not use AI.",
+    "draft": "Draft",
+    "confirmed": "Confirmed",
+    "revision": "Revision {{revision}}",
+    "title": "Narrative brief",
+    "subtitle": "Review the direction of your story",
+    "readOnly": "This confirmed plan guides the story and does not modify existing chapters. Create a revision to update it.",
+    "loading": "Preparing the narrative plan...",
+    "error": "There is no narrative plan available.",
+    "actions": {
+      "regenerate": "Regenerate proposal",
+      "save": "Save draft",
+      "confirm": "Confirm plan",
+      "createRevision": "Create revision",
+      "close": "Close plan"
+    },
+    "fields": {
+      "premise": "Premise",
+      "theme": "Theme",
+      "centralConflict": "Central conflict",
+      "protagonistGoal": "Protagonist's goal",
+      "stakes": "Narrative stakes",
+      "tone": "Tone",
+      "motivation": "Motivation",
+      "internalConflict": "Internal conflict",
+      "arc": "Transformation arc",
+      "title": "Title",
+      "objective": "Objective",
+      "summary": "Summary",
+      "conflict": "Conflict",
+      "turningPoint": "Turning point",
+      "endingHook": "Ending hook"
+    },
+    "characters": "Character arcs",
+    "chapters": "Chapter outline"
+  },
+  "aiAssistant": {
+    "open": "AI assistance",
+    "comingSoon": "Coming soon"
+  },
+  "locked": {
+    "title": "Confirm your plan before you start writing",
+    "description": "The editor will be enabled when the narrative brief and chapter outline are complete.",
+    "action": "Open narrative plan"
+  },
+  "initialization": {
+    "title": "We could not prepare your editor",
+    "retry": "Try again"
+  },
+  "editor": {
+    "contentAriaLabel": "Chapter content",
+    "sectionAriaLabel": "Editing {{title}}",
+    "chapterProgress": "{{current}} of {{total}}"
+  },
+  "chapters": {
+    "title": "Chapters",
+    "create": "Create chapter",
+    "placeholder": "Chapter",
+    "saveName": "Save title",
+    "cancelEdit": "Cancel editing",
+    "moveUp": "Move {{title}} up",
+    "moveDown": "Move {{title}} down",
+    "rename": "Rename {{title}}",
+    "delete": "Delete {{title}}",
+    "deleteDialogTitle": "Delete chapter",
+    "deleteDialogSubtitle": "“{{title}}” and its content will be deleted. This action cannot be undone.",
+    "deleteDialogClose": "Close chapter deletion dialog",
+    "cancel": "Cancel",
+    "confirmDelete": "Delete"
+  },
+  "navigation": {
+    "openChapters": "Open chapters",
+    "closeChapters": "Close chapters"
+  },
+  "error": {
+    "notFoundTitle": "Storativa not found",
+    "genericTitle": "Something went wrong",
+    "notFoundMessage": "This Storativa does not exist or you do not have access to it.",
+    "genericMessage": "We could not load the editing workspace.",
+    "retry": "Try again",
+    "backToDashboard": "Back to dashboard"
+  },
+  "saveState": {
+    "saved": "Saved",
+    "dirty": "Pending",
+    "saving": "Saving…",
+    "error": "Could not save"
+  },
+  "toolbar": {
+    "ariaLabel": "Text formatting",
+    "textColor": "Text color",
+    "blockType": "Block type",
+    "fontFamily": "Font family",
+    "bold": "Bold",
+    "italic": "Italic",
+    "underline": "Underline",
+    "strike": "Strikethrough",
+    "bulletList": "Bullet list",
+    "orderedList": "Numbered list",
+    "quote": "Quote",
+    "alignLeft": "Align left",
+    "alignCenter": "Center",
+    "alignRight": "Align right",
+    "justify": "Justify",
+    "undo": "Undo",
+    "redo": "Redo"
+  },
+  "toolbarOptions": {
+    "paragraph": "Paragraph",
+    "heading": "Heading",
+    "subheading": "Subheading",
+    "font": "Font",
+    "sans": "Sans",
+    "serif": "Serif",
+    "mono": "Mono",
+    "default": "Default",
+    "primary": "Primary",
+    "green": "Green",
+    "red": "Red",
+    "violet": "Violet",
+    "yellow": "Yellow"
+  }
+}

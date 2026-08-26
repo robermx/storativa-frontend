@@ -35,6 +35,7 @@ export interface IResStorativa {
   __v: number;
   narrativeInput?: NarrativeInput;
   narrativePlan: NarrativePlan | null;
+  narrativePlanBackup?: NarrativePlan | null;
 }
 
 export type NarrativePlanStatus = 'draft' | 'confirmed';
@@ -79,6 +80,7 @@ export interface NarrativeChapterPlan {
 
 export interface NarrativePlan {
   status: NarrativePlanStatus;
+  revision: number;
   language: 'es' | 'en';
   premise: string;
   theme: string;
@@ -90,6 +92,11 @@ export interface NarrativePlan {
   catalogSnapshot: NarrativeCatalogSnapshot;
   characters: NarrativeCharacterPlan[];
   chapters: NarrativeChapterPlan[];
+}
+
+export interface NarrativePlanConfirmation {
+  plan: NarrativePlan;
+  chapters: Chapter[];
 }
 
 export interface DashboardStorativa {

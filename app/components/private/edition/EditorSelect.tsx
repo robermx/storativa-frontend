@@ -13,7 +13,7 @@ import { EDITOR_THEME_SWATCH } from '@/constants/common/toolbar.constants';
 
 export interface EditorSelectOption {
   value: string;
-  label: string;
+  labelKey: string;
   swatch?: string;
 }
 
@@ -62,7 +62,7 @@ const EditorSelect = ({
             />
           )}
           <span className="min-w-0 flex-1 truncate">
-            {selectedOption?.label ?? ariaLabel}
+            {selectedOption?.labelKey ?? ariaLabel}
           </span>
           <ChevronDown
             aria-hidden="true"
@@ -79,7 +79,7 @@ const EditorSelect = ({
 
             return (
               <ListboxOption
-                key={option.value || option.label}
+                key={option.value || option.labelKey}
                 value={option.value}
                 className="group flex cursor-default items-center gap-2 px-3 py-2 text-dark select-none data-focus:bg-primary data-focus:text-light dark:text-light"
               >
@@ -91,7 +91,7 @@ const EditorSelect = ({
                   />
                 )}
                 <span className="flex-1 truncate group-data-selected:font-semibold">
-                  {option.label}
+                  {option.labelKey}
                 </span>
                 <Check
                   aria-hidden="true"

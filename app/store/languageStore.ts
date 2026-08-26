@@ -29,8 +29,11 @@ export const getLanguageDefinition = (languageCode: LanguageCode) =>
 
 interface LanguageState {
   language: LanguageCode;
+  lockedLanguage: LanguageCode | null;
   setLanguage: (language: LanguageCode) => void;
   cycleLanguage: () => void;
+  lockLanguage: (language: LanguageCode) => void;
+  unlockLanguage: () => void;
 }
 
 type PersistedLanguageState = Pick<LanguageState, 'language'>;
@@ -39,10 +42,12 @@ export const useLanguageStore = create<LanguageState>()(
   persist(
     (set, get) => ({
       language: DEFAULT_LANGUAGE,
+      lockedLanguage: null,
       setLanguage: (language) => {
-        if (isLanguageCode(language)) set({ language });
+        if (isLanguageCode(language) && !get().lockedLanguage) set({ language });
       },
       cycleLanguage: () => {
+        if (get().lockedLanguage) return;
         const currentIndex = LANGUAGES.findIndex(
           (language) => language.code === get().language,
         );
@@ -50,6 +55,10 @@ export const useLanguageStore = create<LanguageState>()(
 
         set({ language: LANGUAGES[nextIndex].code });
       },
+      lockLanguage: (language) => {
+        if (isLanguageCode(language)) set({ lockedLanguage: language });
+      },
+      unlockLanguage: () => set({ lockedLanguage: null }),
     }),
     {
       name: 'language-storage',
@@ -64,6 +73,7 @@ export const useLanguageStore = create<LanguageState>()(
           language: isLanguageCode(persistedLanguage)
             ? persistedLanguage
             : DEFAULT_LANGUAGE,
+          lockedLanguage: null,
         };
       },
     },

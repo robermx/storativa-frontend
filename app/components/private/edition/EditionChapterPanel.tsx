@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Dialog,
   DialogBackdrop,
@@ -25,6 +26,7 @@ import CustomInput from '@/components/shared/CustomInput';
 import CustomDialog from '@/components/shared/CustomDialog';
 
 const EditionChapterPanel = () => {
+  const { t } = useTranslation('editor');
   const {
     activeChapterId,
     addChapter,
@@ -84,7 +86,7 @@ const EditionChapterPanel = () => {
           <div className="mb-6 flex items-center justify-between gap-3">
             <div className="flex items-center">
               <DialogTitle className="text-lg font-bold text-dark dark:text-light">
-                Capítulos
+                {t('chapters.title')}
               </DialogTitle>
             </div>
             <div className="flex items-center gap-1">
@@ -92,8 +94,8 @@ const EditionChapterPanel = () => {
                 icon={<Plus />}
                 onClick={() => void addChapter()}
                 disabled={isChapterLocked}
-                aria-label="Crear capítulo"
-                title="Crear capítulo"
+                aria-label={t('chapters.create')}
+                title={t('chapters.create')}
                 className="cursor-pointer"
               />
             </div>
@@ -118,7 +120,7 @@ const EditionChapterPanel = () => {
                       <CustomInput
                         inputType={InputEnumType.chapter}
                         inputName={`chapter-${chapter._id}`}
-                        placeholder="Capítulo"
+                        placeholder={t('chapters.placeholder')}
                         value={titleDraft}
                         onChange={(e) => setTitleDraft(e.target.value)}
                         onKeyDown={(event) => {
@@ -133,7 +135,7 @@ const EditionChapterPanel = () => {
                           icon={<Check />}
                           onClick={() => void submitRename()}
                           disabled={!titleDraft.trim() || isChapterLocked}
-                          aria-label="Guardar nombre"
+                          aria-label={t('chapters.saveName')}
                           width="auto"
                           className="h-fit"
                           size="md"
@@ -142,7 +144,7 @@ const EditionChapterPanel = () => {
                           variant="text"
                           icon={<X />}
                           onClick={() => setRenamingId(null)}
-                          aria-label="Cancelar edición"
+                          aria-label={t('chapters.cancelEdit')}
                           width="auto"
                           className="h-fit text-dark dark:text-light"
                           size="md"
@@ -168,7 +170,9 @@ const EditionChapterPanel = () => {
                           width="auto"
                           onClick={() => void moveChapter(chapter._id, -1)}
                           disabled={isChapterLocked || index === 0}
-                          aria-label={`Subir ${chapter.title}`}
+                          aria-label={t('chapters.moveUp', {
+                            title: chapter.title,
+                          })}
                           size="lg"
                           className="h-fit cursor-pointer text-primary/70"
                         />
@@ -181,7 +185,9 @@ const EditionChapterPanel = () => {
                           disabled={
                             isChapterLocked || index === chapters.length - 1
                           }
-                          aria-label={`Bajar ${chapter.title}`}
+                          aria-label={t('chapters.moveDown', {
+                            title: chapter.title,
+                          })}
                           size="lg"
                           className="h-fit cursor-pointer text-primary/70"
                         />
@@ -192,7 +198,9 @@ const EditionChapterPanel = () => {
                           width="auto"
                           onClick={() => startRename(chapter)}
                           disabled={isChapterLocked}
-                          aria-label={`Renombrar ${chapter.title}`}
+                          aria-label={t('chapters.rename', {
+                            title: chapter.title,
+                          })}
                           size="sm"
                           className="h-fit cursor-pointer text-secondary"
                         />
@@ -204,7 +212,9 @@ const EditionChapterPanel = () => {
                           type="button"
                           onClick={() => setDeleteCandidate(chapter)}
                           disabled={isChapterLocked || chapters.length === 1}
-                          aria-label={`Eliminar ${chapter.title}`}
+                          aria-label={t('chapters.delete', {
+                            title: chapter.title,
+                          })}
                           size="sm"
                           className="h-fit cursor-pointer text-red-700/70"
                         />
@@ -231,9 +241,11 @@ const EditionChapterPanel = () => {
         openDialog={Boolean(deleteCandidate)}
         onCloseDialog={() => setDeleteCandidate(null)}
         initialFocus={cancelDeleteRef}
-        title="Eliminar Capítulo"
-        subtitle={`Se eliminará "${deleteCandidate?.title}" y su contenido. Esta acción no se puede deshacer`}
-        closeLabel="cerrar diálogo eliminar capítulo"
+        title={t('chapters.deleteDialogTitle')}
+        subtitle={t('chapters.deleteDialogSubtitle', {
+          title: deleteCandidate?.title ?? '',
+        })}
+        closeLabel={t('chapters.deleteDialogClose')}
       >
         <div className="mt-6 flex justify-end gap-6">
           <CustomButton
@@ -242,7 +254,7 @@ const EditionChapterPanel = () => {
             variant="outline"
             className="cursor-pointer"
           >
-            Cancelar
+            {t('chapters.cancel')}
           </CustomButton>
           <CustomButton
             variant="danger"
@@ -255,7 +267,7 @@ const EditionChapterPanel = () => {
             }}
             className="cursor-pointer"
           >
-            Eliminar
+            {t('chapters.confirmDelete')}
           </CustomButton>
         </div>
       </CustomDialog>

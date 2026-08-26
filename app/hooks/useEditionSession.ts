@@ -4,10 +4,11 @@ import { useBeforeUnload, useBlocker } from 'react-router';
 
 import {
   confirmNarrativePlan,
+  createManualNarrativePlan,
+  createNarrativePlanRevision,
   createStorativaChapter,
   deleteStorativaChapter,
   generateNarrativePlan,
-  getNarrativePlan,
   reorderStorativaChapters,
   updateNarrativePlan,
   updateStorativaChapter,
@@ -24,6 +25,20 @@ import { legacyContentToJson } from '@/utils/editionContent';
 
 const sortChapters = (chapters: Chapter[]) =>
   [...chapters].sort((first, second) => first.order - second.order);
+
+const normalizeNarrativePlan = (
+  plan: NarrativePlan | null,
+): NarrativePlan | null => {
+  if (!plan) return null;
+
+  return {
+    ...plan,
+    revision:
+      Number.isInteger(plan.revision) && plan.revision > 0
+        ? plan.revision
+        : 1,
+  };
+};
 
 export const useEditionSession = (storativa: IResStorativa) => {
   const isSettingsPanelOpen = useOverlayPanelStore(
@@ -46,18 +61,15 @@ export const useEditionSession = (storativa: IResStorativa) => {
   );
   const [isChapterMutation, setIsChapterMutation] = useState(false);
   const [narrativePlan, setNarrativePlan] = useState<NarrativePlan | null>(
-    () => storativa.narrativePlan ?? null,
+    () => normalizeNarrativePlan(storativa.narrativePlan),
   );
   const [narrativePlanError, setNarrativePlanError] = useState<string | null>(
     null,
   );
-  const [isNarrativePlanLoading, setIsNarrativePlanLoading] = useState(
-    !storativa.narrativePlan,
-  );
+  const [isNarrativePlanLoading, setIsNarrativePlanLoading] = useState(false);
   const [isNarrativePlanSaving, setIsNarrativePlanSaving] = useState(false);
 
   const initializationStartedRef = useRef(false);
-  const narrativePlanStartedRef = useRef(false);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pendingSaveRef = useRef<{
     chapterId: string;
@@ -69,7 +81,6 @@ export const useEditionSession = (storativa: IResStorativa) => {
     () => chapters.find((chapter) => chapter._id === activeChapterId),
     [activeChapterId, chapters],
   );
-
   const initializeFirstChapter = useCallback(async () => {
     if (initializationStartedRef.current) return;
 
@@ -97,40 +108,62 @@ export const useEditionSession = (storativa: IResStorativa) => {
   }, [storativa._id, storativa.content]);
 
   useEffect(() => {
-    if (loadedChapters.length === 0) void initializeFirstChapter();
+    if (loadedChapters.length === 0) {
+      void initializeFirstChapter();
+    }
   }, [initializeFirstChapter, loadedChapters.length]);
 
-  const loadNarrativePlan = useCallback(async () => {
-    if (narrativePlanStartedRef.current || narrativePlan) return;
-
-    narrativePlanStartedRef.current = true;
-    setIsNarrativePlanLoading(true);
+  const createManualPlan = useCallback(async () => {
+    setIsNarrativePlanSaving(true);
     setNarrativePlanError(null);
-
     try {
-      setNarrativePlan(await getNarrativePlan(storativa._id));
+      setNarrativePlan(
+        normalizeNarrativePlan(
+          await createManualNarrativePlan(storativa._id),
+        ),
+      );
+      return true;
     } catch (error: unknown) {
       setNarrativePlanError(
-        getErrorMessage(error, 'No pudimos preparar el plan narrativo.'),
+        getErrorMessage(error, 'No pudimos preparar el plan manual.'),
       );
+      return false;
     } finally {
-      setIsNarrativePlanLoading(false);
+      setIsNarrativePlanSaving(false);
     }
-  }, [narrativePlan, storativa._id]);
-
-  useEffect(() => {
-    void loadNarrativePlan();
-  }, [loadNarrativePlan]);
+  }, [storativa._id]);
 
   const regeneratePlan = useCallback(async () => {
     setIsNarrativePlanSaving(true);
     setNarrativePlanError(null);
     try {
-      setNarrativePlan(await generateNarrativePlan(storativa._id));
+      setNarrativePlan(
+        normalizeNarrativePlan(await generateNarrativePlan(storativa._id)),
+      );
       return true;
     } catch (error: unknown) {
       setNarrativePlanError(
         getErrorMessage(error, 'No pudimos regenerar el plan narrativo.'),
+      );
+      return false;
+    } finally {
+      setIsNarrativePlanSaving(false);
+    }
+  }, [storativa._id]);
+
+  const createPlanRevision = useCallback(async () => {
+    setIsNarrativePlanSaving(true);
+    setNarrativePlanError(null);
+    try {
+      setNarrativePlan(
+        normalizeNarrativePlan(
+          await createNarrativePlanRevision(storativa._id),
+        ),
+      );
+      return true;
+    } catch (error: unknown) {
+      setNarrativePlanError(
+        getErrorMessage(error, 'No pudimos crear una revisión del plan.'),
       );
       return false;
     } finally {
@@ -143,7 +176,11 @@ export const useEditionSession = (storativa: IResStorativa) => {
       setIsNarrativePlanSaving(true);
       setNarrativePlanError(null);
       try {
-        setNarrativePlan(await updateNarrativePlan(storativa._id, plan));
+        setNarrativePlan(
+          normalizeNarrativePlan(
+            await updateNarrativePlan(storativa._id, plan),
+          ),
+        );
         return true;
       } catch (error: unknown) {
         setNarrativePlanError(
@@ -161,7 +198,11 @@ export const useEditionSession = (storativa: IResStorativa) => {
     setIsNarrativePlanSaving(true);
     setNarrativePlanError(null);
     try {
-      setNarrativePlan(await confirmNarrativePlan(storativa._id));
+      const confirmation = await confirmNarrativePlan(storativa._id);
+      const confirmedChapters = sortChapters(confirmation.chapters);
+      setNarrativePlan(normalizeNarrativePlan(confirmation.plan));
+      setChapters(confirmedChapters);
+      setActiveChapterId(confirmedChapters[0]?._id ?? '');
       return true;
     } catch (error: unknown) {
       setNarrativePlanError(
@@ -436,7 +477,9 @@ export const useEditionSession = (storativa: IResStorativa) => {
     narrativePlanError,
     isNarrativePlanLoading,
     isNarrativePlanSaving,
+    createManualPlan,
     regeneratePlan,
+    createPlanRevision,
     saveNarrativePlan,
     confirmPlan,
   };

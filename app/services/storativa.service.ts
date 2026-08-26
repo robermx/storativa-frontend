@@ -7,6 +7,7 @@ import {
   IReqStorativa,
   IResStorativa,
   NarrativePlan,
+  NarrativePlanConfirmation,
   NarrativePlanStatus,
   PaginatedDashboardStorativas,
   UpdateChapterPayload,
@@ -48,9 +49,27 @@ export const getUserStorativa = async (
 
 export const getNarrativePlan = async (
   storativaId: string,
-): Promise<NarrativePlan> => {
-  const { data } = await api.get<NarrativePlan>(
+): Promise<NarrativePlan | null> => {
+  const { data } = await api.get<NarrativePlan | null>(
     `/storativa/${storativaId}/narrative/plan`,
+  );
+  return data;
+};
+
+export const createManualNarrativePlan = async (
+  storativaId: string,
+): Promise<NarrativePlan> => {
+  const { data } = await api.post<NarrativePlan>(
+    `/storativa/${storativaId}/narrative/plan/manual`,
+  );
+  return data;
+};
+
+export const createNarrativePlanRevision = async (
+  storativaId: string,
+): Promise<NarrativePlan> => {
+  const { data } = await api.post<NarrativePlan>(
+    `/storativa/${storativaId}/narrative/plan/revision`,
   );
   return data;
 };
@@ -77,8 +96,8 @@ export const updateNarrativePlan = async (
 
 export const confirmNarrativePlan = async (
   storativaId: string,
-): Promise<NarrativePlan> => {
-  const { data } = await api.post<NarrativePlan>(
+): Promise<NarrativePlanConfirmation> => {
+  const { data } = await api.post<NarrativePlanConfirmation>(
     `/storativa/${storativaId}/narrative/plan/confirm`,
   );
   return data;

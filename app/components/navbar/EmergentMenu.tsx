@@ -14,7 +14,12 @@ interface EmergentMenuProps {
 
 const EmergentMenu: FC<EmergentMenuProps> = ({ addMenuRef }) => {
   const user = useAuthStore((state) => state.user);
-  const language = useLanguageStore((state) => state.language);
+  const language = useLanguageStore(
+    (state) => state.lockedLanguage ?? state.language,
+  );
+  const isLanguageLocked = useLanguageStore(
+    (state) => state.lockedLanguage !== null,
+  );
   const cycleLanguage = useLanguageStore((state) => state.cycleLanguage);
   const { t } = useTranslation('navigation');
   const languageSwitchAriaLabel = t('languageSwitch.ariaLabel', {
@@ -51,10 +56,10 @@ const EmergentMenu: FC<EmergentMenuProps> = ({ addMenuRef }) => {
           width="auto"
           variant="text"
           onClick={cycleLanguage}
+          disabled={isLanguageLocked}
           aria-label={languageSwitchAriaLabel}
           title={languageSwitchAriaLabel}
           className="cursor-pointer text-dark/60 disabled:text-gray-700/30"
-          // disabled={Boolean(user)}
         >
           {language.toUpperCase()}
         </CustomButton>

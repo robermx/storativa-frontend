@@ -17,7 +17,9 @@ export default function App() {
     () => false,
   );
   const isDarkMode = useThemeStore((state) => state.isDarkMode);
-  const language = useLanguageStore((state) => state.language);
+  const language = useLanguageStore(
+    (state) => state.lockedLanguage ?? state.language,
+  );
   const activePanel = useOverlayPanelStore((state) => state.activePanel);
 
   useEffect(() => {
