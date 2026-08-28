@@ -6,6 +6,7 @@ import { InputEnumType } from '@/interfaces/input.interface';
 import type { IReqStorativa } from '@/interfaces/storativa.interface';
 import { isValidDate } from '@/utils/dateValidation';
 import { useCreateFlow } from '@/context/CreateFlowContext';
+import { useLocalizedCatalog } from '@/hooks/useLocalizedCatalog';
 
 import CustomInput from '@/components/shared/CustomInput';
 import CustomMultiSelect from '@/components/shared/CustomMultiSelect';
@@ -27,6 +28,9 @@ const CreateGenerals: FC = () => {
     continueFromGenerals,
     isLocked,
   } = useCreateFlow();
+  const localizedContextCatalog = useLocalizedCatalog(contextCatalog);
+  const localizedGenderLabelCatalog = useLocalizedCatalog(genderLabelCatalog);
+  const localizedStorySizeCatalog = useLocalizedCatalog(storySizeCatalog);
 
   return (
     <Fragment>
@@ -84,7 +88,7 @@ const CreateGenerals: FC = () => {
                 {...field}
                 inputName="contextType"
                 placeholder={t('general.fields.contextType')}
-                options={contextCatalog}
+                options={localizedContextCatalog}
                 error={errors.contextType?.message}
               />
             )}
@@ -99,7 +103,7 @@ const CreateGenerals: FC = () => {
                 {...field}
                 inputName="genderLabel"
                 placeholder={t('general.fields.genres')}
-                options={genderLabelCatalog}
+                options={localizedGenderLabelCatalog}
                 error={errors.genderLabels?.message}
               />
             )}
@@ -142,7 +146,7 @@ const CreateGenerals: FC = () => {
                 {...field}
                 inputName="storySize"
                 placeholder={t('general.fields.storySize')}
-                options={storySizeCatalog}
+                options={localizedStorySizeCatalog}
                 error={errors.storySize?.message}
               />
             )}

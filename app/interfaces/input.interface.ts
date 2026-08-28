@@ -1,5 +1,3 @@
-
-
 export interface CustomInputProps {
   inputType: string;
   inputName: string;
@@ -10,7 +8,7 @@ export interface CustomInputProps {
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   'aria-label'?: string;
   maxLength?: number;
-  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 export interface CustomTextAreaProps {
@@ -49,7 +47,7 @@ export interface CustomMultiSelectProps {
 export interface IOption {
   _id: string;
   value: number;
-  name: string;
+  label: string;
   avatar?: string;
 }
 export interface CustomCalendarInputProps {

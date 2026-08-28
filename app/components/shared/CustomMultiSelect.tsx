@@ -32,7 +32,7 @@ const CustomMultiSelect: FC<CustomMultiSelectProps> = ({
   );
 
   const filteredOptions = options.filter((opt) =>
-    opt.name.toLowerCase().includes(searchQuery.toLowerCase()),
+    opt.label.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const handleChange = (newValue: number[] | number) => {
@@ -81,7 +81,7 @@ const CustomMultiSelect: FC<CustomMultiSelectProps> = ({
                       key={opt.value}
                       className="inline-flex items-center gap-1 rounded-md bg-primary/20 text-primary px-2 py-1 text-xs font-medium"
                     >
-                      {titleFormat(opt.name)}
+                      {titleFormat(opt.label)}
                       <span
                         role="button"
                         tabIndex={0}
@@ -161,7 +161,7 @@ const CustomMultiSelect: FC<CustomMultiSelectProps> = ({
                             )}
                           </div>
                           <span className="ml-3 block truncate font-normal group-data-selected:font-semibold">
-                            {titleFormat(option.name)}
+                            {titleFormat(option.label)}
                           </span>
                         </div>
                       </ListboxOption>

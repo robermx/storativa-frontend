@@ -44,10 +44,10 @@ const CustomSelect: FC<CustomSelectProps> = ({
             } sm:text-sm/6 ${error ? 'outline-2 -outline-offset-2 outline-red-400' : ''}`}
           >
             <span
-              className={`col-start-1 row-start-1 ${selectedOption?.name ? 'text-dark dark:text-light' : 'text-dark/40 dark:text-light/40'} flex items-center gap-3 pr-6`}
+              className={`col-start-1 row-start-1 ${selectedOption?.label ? 'text-dark dark:text-light' : 'text-dark/40 dark:text-light/40'} flex items-center gap-3 pr-6`}
             >
               <span className="block truncate">
-                {titleFormat(selectedOption?.name || '') || placeholder}
+                {titleFormat(selectedOption?.label || '') || placeholder}
               </span>
             </span>
             <ChevronDown
@@ -68,7 +68,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
               >
                 <div className="flex items-center">
                   <span className="ml-3 block truncate font-normal group-data-selected:font-semibold">
-                    {titleFormat(option.name)}
+                    {titleFormat(option.label)}
                   </span>
                 </div>
 
