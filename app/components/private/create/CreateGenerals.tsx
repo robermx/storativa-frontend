@@ -177,12 +177,6 @@ const CreateGenerals: FC = () => {
               />
             )}
           />
-
-          <Controller
-            name="content"
-            control={control}
-            render={({ field }) => <input type="hidden" {...field} />}
-          />
         </div>
       </div>
       <div className="mt-8 sm:w-60 sm:ml-auto">

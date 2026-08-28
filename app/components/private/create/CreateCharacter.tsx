@@ -9,7 +9,7 @@ import { Check, Pencil, Trash2, UserRoundPlus, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import type {
-  Character,
+  CharacterDraft,
   IReqStorativa,
 } from '@/interfaces/storativa.interface';
 import { InputEnumType } from '@/interfaces/input.interface';
@@ -21,7 +21,7 @@ import CustomInput from '@/components/shared/CustomInput';
 import CustomSelect from '@/components/shared/CustomSelect';
 import CustomTextArea from '@/components/shared/CustomTextArea';
 
-const emptyCharacter: Character = {
+const emptyCharacter: CharacterDraft = {
   type: 0,
   name: '',
   social: '',
@@ -51,12 +51,12 @@ const CreateCharacter: FC = () => {
     handleSubmit,
     reset,
     formState: { errors, isValid },
-  } = useForm<Character>({
+  } = useForm<CharacterDraft>({
     mode: 'onChange',
     defaultValues: emptyCharacter,
   });
 
-  const saveCharacter = (character: Character) => {
+  const saveCharacter = (character: CharacterDraft) => {
     if (editingIndex === null) {
       append(character);
     } else {

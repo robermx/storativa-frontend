@@ -12,7 +12,7 @@ import type { Chapter, IResStorativa } from '@/interfaces/storativa.interface';
 import type { SaveState } from '@/constants/common/edition.constants';
 import { useOverlayPanelStore } from '@/store/overlayPanelStore';
 import { getErrorMessage } from '@/utils/getErrorMessage';
-import { legacyContentToJson } from '@/utils/editionContent';
+import { EMPTY_EDITOR_CONTENT } from '@/constants/common/edition.constants';
 
 const sortChapters = (chapters: Chapter[]) =>
   [...chapters].sort((first, second) => first.order - second.order);
@@ -59,7 +59,7 @@ export const useEditionSession = (storativa: IResStorativa) => {
     try {
       const chapter = await createStorativaChapter(storativa._id, {
         title: 'Capítulo 1',
-        content: legacyContentToJson(storativa.content || ''),
+        content: EMPTY_EDITOR_CONTENT,
       });
       setChapters([chapter]);
       setActiveChapterId(chapter._id);
@@ -73,7 +73,7 @@ export const useEditionSession = (storativa: IResStorativa) => {
     } finally {
       setIsInitializing(false);
     }
-  }, [storativa._id, storativa.content]);
+  }, [storativa._id]);
 
   useEffect(() => {
     if (loadedChapters.length === 0) {

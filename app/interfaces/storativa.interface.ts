@@ -4,14 +4,28 @@ export interface IReqStorativa {
   title: string;
   centralIdea: string;
   adaptedPeriods: AdaptedPeriod[];
-  characters: Character[];
+  characters: CharacterDraft[];
   contextType: number[];
   storySize: number;
   timeToComplete: number | string;
   initialBasedDate: string;
   language: 'es' | 'en';
   genderLabels: number[];
-  content: string;
+}
+
+export interface CatalogReference {
+  key: string;
+  value: number;
+}
+
+export interface CreateStorativaPayload extends Omit<
+  IReqStorativa,
+  'characters' | 'contextType' | 'storySize' | 'genderLabels'
+> {
+  characters: Character[];
+  contextType: CatalogReference[];
+  storySize: CatalogReference;
+  genderLabels: CatalogReference[];
 }
 
 export interface IResStorativa {
@@ -20,13 +34,12 @@ export interface IResStorativa {
   author: string;
   centralIdea: string;
   characters: Character[];
-  contextType: number[];
-  storySize: number;
+  contextType: CatalogReference[];
+  storySize: CatalogReference;
   timeToComplete: number;
   initialBasedDate: string;
   adaptedPeriods: AdaptedPeriod[];
-  genderLabels: number[];
-  content: string;
+  genderLabels: CatalogReference[];
   chapters: Chapter[];
   status: number;
   _id: string;
@@ -98,12 +111,21 @@ export interface UpdateChapterPayload {
 
 export interface Character {
   type: number;
+  typeKey: string;
   name: string;
   physical: string;
   psychological: string;
   social: string;
   additional?: string;
-  characterKey?: string;
+}
+
+export interface CharacterDraft {
+  type: number;
+  name: string;
+  physical: string;
+  psychological: string;
+  social: string;
+  additional?: string;
 }
 
 export interface AdaptedPeriod {

@@ -54,7 +54,6 @@ const Create = () => {
       initialBasedDate: '',
       language: 'es',
       genderLabels: [],
-      content: '',
     },
   });
   const catalogs: CreateCatalogs = {

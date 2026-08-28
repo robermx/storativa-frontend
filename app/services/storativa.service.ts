@@ -1,6 +1,7 @@
 import api from '@/lib/api';
 import {
   Chapter,
+  CreateStorativaPayload,
   CreateChapterPayload,
   DeleteStorativaResponse,
   DashboardStorativasQuery,
@@ -31,7 +32,7 @@ export const deleteUserStorativa = async (
 };
 
 export const createUserStorativa = async (
-  reqData: IReqStorativa,
+  reqData: CreateStorativaPayload,
 ): Promise<IResStorativa> => {
   const { data } = await api.post('/storativa', reqData);
   return data;

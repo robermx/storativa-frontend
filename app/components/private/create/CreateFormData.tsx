@@ -4,7 +4,12 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { createUserStorativa } from '@/services/storativa.service';
-import type { IReqStorativa } from '@/interfaces/storativa.interface';
+import type {
+  CatalogReference,
+  CreateStorativaPayload,
+  IReqStorativa,
+} from '@/interfaces/storativa.interface';
+import type { ICatalog } from '@/interfaces/catalog.interface';
 import CustomButton from '@/components/shared/CustomButton';
 import CreateGenerals from './CreateGenerals';
 import CreateAdaptedPeriods from './CreateAdaptedPeriods';
@@ -25,7 +30,15 @@ const CreateFormData: FC = () => {
     handleSubmit,
     formState: { isSubmitting, isValid },
   } = useFormContext<IReqStorativa>();
-  const { activeStep, goToStep, isLocked } = useCreateFlow();
+  const {
+    activeStep,
+    goToStep,
+    isLocked,
+    characterCatalog,
+    contextCatalog,
+    storySizeCatalog,
+    genderLabelCatalog,
+  } = useCreateFlow();
   const characters = useWatch({ control, name: 'characters' }) ?? [];
 
   const onSubmit = async (data: IReqStorativa) => {
@@ -44,34 +57,65 @@ const CreateFormData: FC = () => {
       return day && month && year ? `${year}-${month}-${day}` : date;
     };
 
-    const adaptedData: IReqStorativa = {
-      ...data,
-      timeToComplete: Number(data.timeToComplete),
-      initialBasedDate: toIsoDate(data.initialBasedDate),
-      language,
-      adaptedPeriods: data.adaptedPeriods.map((period) => {
-        // useFieldArray adds an internal `id` for rendering. It is not part
-        // of the API contract for a new adapted period.
-        const { id: _fieldId, ...periodData } = period as typeof period & {
-          id?: string;
-        };
+    const getCatalogReference = (
+      catalog: ICatalog[],
+      value: number,
+      catalogName: string,
+    ): CatalogReference => {
+      const entry = catalog.find((item) => item.value === value);
+      if (!entry) {
+        throw new Error(`La opción seleccionada no existe en ${catalogName}.`);
+      }
 
-        return {
-          ...periodData,
-          from: toIsoDate(period.from),
-          to: toIsoDate(period.to),
-        };
-      }),
-      characters: data.characters.map((character) => {
-        const { id: _fieldId, ...characterData } =
-          character as typeof character & {
+      return { key: entry.key, value: entry.value };
+    };
+
+    try {
+      const adaptedData: CreateStorativaPayload = {
+        ...data,
+        timeToComplete: Number(data.timeToComplete),
+        initialBasedDate: toIsoDate(data.initialBasedDate),
+        language,
+        contextType: data.contextType.map((value) =>
+          getCatalogReference(contextCatalog, value, 'tipos de contexto'),
+        ),
+        storySize: getCatalogReference(
+          storySizeCatalog,
+          data.storySize,
+          'tamaños de historia',
+        ),
+        genderLabels: data.genderLabels.map((value) =>
+          getCatalogReference(genderLabelCatalog, value, 'géneros'),
+        ),
+        adaptedPeriods: data.adaptedPeriods.map((period) => {
+          // useFieldArray adds an internal `id` for rendering. It is not part
+          // of the API contract for a new adapted period.
+          const { id: _fieldId, ...periodData } = period as typeof period & {
             id?: string;
           };
 
-        return characterData;
-      }),
-    };
-    try {
+          return {
+            ...periodData,
+            from: toIsoDate(period.from),
+            to: toIsoDate(period.to),
+          };
+        }),
+        characters: data.characters.map((character) => {
+          const { id: _fieldId, ...characterData } =
+            character as typeof character & {
+              id?: string;
+            };
+
+          return {
+            ...characterData,
+            typeKey: getCatalogReference(
+              characterCatalog,
+              character.type,
+              'tipos de personaje',
+            ).key,
+          };
+        }),
+      };
       const storativa = await createUserStorativa(adaptedData);
       navigate(`/edition/${storativa._id}`, { replace: true });
     } catch (error: unknown) {
