@@ -3,7 +3,9 @@ import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router';
 
 import { useThemeStore } from './store/themeStore';
 import { useOverlayPanelStore } from './store/overlayPanelStore';
+import { DEFAULT_LANGUAGE, useLanguageStore } from './store/languageStore';
 import { ensureAuthSession } from './services/auth.service';
+import i18n from './i18n/i18n';
 import MainLayout from './layouts/MainLayout';
 import { NavigationVisibilityProvider } from './context/NavigationVisibilityContext';
 import './app.css';
@@ -15,14 +17,24 @@ export default function App() {
     () => false,
   );
   const isDarkMode = useThemeStore((state) => state.isDarkMode);
+  const language = useLanguageStore(
+    (state) => state.lockedLanguage ?? state.language,
+  );
   const activePanel = useOverlayPanelStore((state) => state.activePanel);
 
   useEffect(() => {
     void ensureAuthSession();
   }, []);
 
+  useEffect(() => {
+    void i18n.changeLanguage(language);
+  }, [language]);
+
   return (
-    <html lang="es" className={hasMounted && isDarkMode ? 'dark' : ''}>
+    <html
+      lang={hasMounted ? language : DEFAULT_LANGUAGE}
+      className={hasMounted && isDarkMode ? 'dark' : ''}
+    >
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

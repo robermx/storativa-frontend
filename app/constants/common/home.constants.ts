@@ -1,50 +1,26 @@
 export const homeStages = [
   {
     id: 'impulse',
-    title: 'Impulso',
-    subtitle: 'Todo comienza con algo que te mueve',
-    description:
-      'Una emoción, un recuerdo, una pregunta o una inquietud despierta el deseo de contar. Antes de existir una trama, ya existe algo que necesita ser expresado.',
     svgColor: 'var(--color-amber-400)',
   },
   {
     id: 'meeting',
-    title: 'Encuentro',
-    subtitle: 'La historia que despierta tu interés',
-    description:
-      'Un periodo, un lugar o un suceso histórico se convierte en el punto de partida. No se trata solo de conocer el pasado, sino de descubrir qué parte de él tiene algo que decirte.',
     svgColor: 'var(--color-purple-400)',
   },
   {
     id: 'look',
-    title: 'Mirada',
-    subtitle: 'Tu forma de interpretar el mundo',
-    description:
-      'La historia adquiere una perspectiva propia. Tus preguntas, experiencias e imaginación encuentran una manera particular de observar lo que ocurrió y lo que pudo haber ocurrido.',
     svgColor: 'var(--color-lime-400)',
   },
   {
     id: 'narrative',
-    title: 'Narrativa',
-    subtitle: 'Donde la historia comienza a respirar',
-    description:
-      'El tiempo, el lugar, las costumbres y los personajes construyen un entorno coherente. La investigación aporta contexto; tu imaginación le da vida.',
     svgColor: 'var(--color-red-500)',
   },
   {
     id: 'tension',
-    title: 'Tensión',
-    subtitle: 'Toda historia necesita algo en juego',
-    description:
-      'Los deseos chocan, las decisiones tienen consecuencias y la realidad conocida comienza a transformarse. En el conflicto, la historia encuentra su dirección y su fuerza.',
     svgColor: 'var(--color-fuchsia-400)',
   },
   {
     id: 'opus',
-    title: 'Obra',
-    subtitle: 'Una visión propia que puede ser compartida',
-    description:
-      'Lo que nació como una inquietud se convierte en una narrativa auténtica: una historia que conserva tu voz, dialoga con el pasado y puede conectar con alguien más.',
     svgColor: 'var(--color-primary)',
   },
 ];

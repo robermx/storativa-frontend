@@ -52,6 +52,7 @@ const Create = () => {
       storySize: 0,
       timeToComplete: '',
       initialBasedDate: '',
+      language: 'es',
       genderLabels: [],
       content: '',
     },
@@ -69,7 +70,7 @@ const Create = () => {
         <div
           aria-hidden={isSettingsPanelOpen}
           inert={isSettingsPanelOpen}
-          className="max-w-7xl mx-auto min-h-[calc(100vh-var(--nav-height))]"
+          className="max-w-7xl mx-auto min-h-[calc(100vh-var(--nav-height)*1px)]"
         >
           <CreateStepper />
           <CreateFormData />

@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useTranslation } from 'react-i18next';
 
 import { useSmoothScroll } from '@/context/SmoothScrollContext';
 import {
@@ -18,6 +19,7 @@ const HomeStage = () => {
   const stageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const isDarkMode = useThemeStore((state) => state.isDarkMode);
+  const { t } = useTranslation('home');
 
   useGSAP(
     () => {
@@ -145,17 +147,18 @@ const HomeStage = () => {
   return (
     <section
       ref={sectionRef}
-      className="bg-radial from-transparent via-transparent to-primary/20 dark:to-primary/10 border-y border-primary/20"
+      className="bg-radial min-h-screen from-transparent via-transparent to-primary/40 dark:to-primary/25 border-y border-primary/20"
     >
-      <div className={`relative h-[calc(100vh)] max-w-7xl mx-auto`}>
+      <div className="relative min-h-screen max-w-7xl mx-auto">
         <div className="absolute inset-0 flex items-start lg:items-center mt-[22%] lg:mt-0 justify-center pointer-events-none">
           <div className="relative w-78 h-78 lg:w-100 lg:h-100">
             <div className="absolute inset-[-12%] rounded-full bg-primary/10 blur-3xl" />
+            {/** constellation lines */}
             <svg
               aria-hidden="true"
               viewBox="0 0 100 100"
               preserveAspectRatio="none"
-              className="absolute inset-0 h-full w-full opacity-30"
+              className="absolute inset-0 h-full w-full opacity-40"
             >
               {homeConstellationLinks.map((link) => {
                 const from = homeConstellationNodes.find(
@@ -179,6 +182,7 @@ const HomeStage = () => {
                 );
               })}
             </svg>
+            {/** constellation nodes */}
             {homeConstellationNodes.map((node) => (
               <span
                 key={node.id}
@@ -251,17 +255,17 @@ const HomeStage = () => {
                 }`}
               >
                 <h2 className="stage-title text-3xl md:text-4xl lg:text-5xl font-bold text-primary tracking-tight mb-1">
-                  {stage.title}
+                  {t(`stages.${stage.id}.title`)}
                 </h2>
                 <p className="stage-subtitle text-xl md:text-2xl text-dark dark:text-light font-medium mb-3 tracking-wide">
-                  {stage.subtitle}
+                  {t(`stages.${stage.id}.subtitle`)}
                 </p>
                 <p className="stage-progress mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-primary">
                   {String(index + 1).padStart(2, '0')} /{' '}
                   {String(homeStages.length).padStart(2, '0')}
                 </p>
                 <p className="stage-desc text-base md:text-lg text-dark dark:text-light leading-relaxed">
-                  {stage.description}
+                  {t(`stages.${stage.id}.description`)}
                 </p>
               </div>
             </div>

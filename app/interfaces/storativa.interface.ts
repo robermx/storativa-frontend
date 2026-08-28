@@ -9,6 +9,7 @@ export interface IReqStorativa {
   storySize: number;
   timeToComplete: number | string;
   initialBasedDate: string;
+  language: 'es' | 'en';
   genderLabels: number[];
   content: string;
 }
@@ -32,6 +33,7 @@ export interface IResStorativa {
   createdAt: string;
   updatedAt: string;
   __v: number;
+  language: 'es' | 'en';
 }
 
 export interface DashboardStorativa {
@@ -101,6 +103,7 @@ export interface Character {
   psychological: string;
   social: string;
   additional?: string;
+  characterKey?: string;
 }
 
 export interface AdaptedPeriod {

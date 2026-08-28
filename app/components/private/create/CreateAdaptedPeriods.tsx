@@ -7,6 +7,7 @@ import {
   useWatch,
 } from 'react-hook-form';
 import { CalendarPlus, Check, Pencil, Trash2, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import type {
   AdaptedPeriod,
@@ -28,6 +29,7 @@ const emptyPeriod: AdaptedPeriod = {
 };
 
 const CreateAdaptedPeriods: FC = () => {
+  const { t } = useTranslation('create');
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [pendingRemoval, setPendingRemoval] = useState<number | null>(null);
   const { control: createControl } = useFormContext<IReqStorativa>();
@@ -87,177 +89,181 @@ const CreateAdaptedPeriods: FC = () => {
 
   return (
     <Fragment>
-      <div className="bg-primary/15 dark:bg-primary/10 px-6 py-7 rounded-b-md rounded-tr-md">
-        <p className="mb-6 text-sm text-dark/65 dark:text-light/65">
-          Añade cada período por separado. Podrás revisarlo, editarlo o
-          eliminarlo antes de continuar.
-        </p>
+      <p className="mb-6 text-sm text-dark/65 dark:text-light/65">
+        {t('periods.description')}
+      </p>
 
-        {periods.length > 0 && (
-          <div className="mb-7 divide-y divide-primary/15 dark:divide-light/10">
-            {periods.map((period, index) => (
-              <div
-                key={period.id}
-                className="flex flex-col gap-3 py-4 first:pt-0 sm:flex-row sm:items-center sm:justify-between"
-              >
-                <div>
-                  <p className="font-semibold text-dark dark:text-light">
-                    {period.name}
-                  </p>
-                  <p className="text-sm text-dark/65 dark:text-light/65">
-                    {period.from} — {period.to} · {period.place}
-                  </p>
-                </div>
-                {pendingRemoval === index ? (
-                  <div className="flex gap-2 sm:w-52">
-                    <button
-                      type="button"
-                      className="flex-1 rounded-md bg-red-500/10 px-3 py-2 text-sm font-semibold text-red-500 hover:bg-red-500/20 disabled:cursor-not-allowed"
-                      onClick={() => confirmRemoval(index)}
-                      disabled={isLocked}
-                    >
-                      Eliminar
-                    </button>
-                    <button
-                      type="button"
-                      className="flex-1 rounded-md bg-dark/10 px-3 py-2 text-sm font-semibold text-dark hover:bg-dark/20 dark:bg-light/10 dark:text-light dark:hover:bg-light/20 disabled:cursor-not-allowed"
-                      onClick={() => setPendingRemoval(null)}
-                      disabled={isLocked}
-                    >
-                      Cancelar
-                    </button>
-                  </div>
-                ) : (
-                  <div className="flex gap-2 sm:w-28">
-                    <button
-                      type="button"
-                      aria-label={`Editar ${period.name}`}
-                      className="flex-1 rounded-md bg-primary/10 p-2 text-primary hover:bg-primary/20 disabled:cursor-not-allowed"
-                      onClick={() => startEditing(index)}
-                      disabled={isLocked}
-                    >
-                      <Pencil size={18} className="mx-auto" />
-                    </button>
-                    <button
-                      type="button"
-                      aria-label={`Eliminar ${period.name}`}
-                      className="flex-1 rounded-md bg-red-500/10 p-2 text-red-500 hover:bg-red-500/20 disabled:cursor-not-allowed"
-                      onClick={() => setPendingRemoval(index)}
-                      disabled={isLocked}
-                    >
-                      <Trash2 size={18} className="mx-auto" />
-                    </button>
-                  </div>
-                )}
+      {periods.length > 0 && (
+        <div className="mb-7 divide-y divide-primary/15 dark:divide-light/10">
+          {periods.map((period, index) => (
+            <div
+              key={period.id}
+              className="flex flex-col gap-3 py-4 first:pt-0 sm:flex-row sm:items-center sm:justify-between"
+            >
+              <div>
+                <p className="font-semibold text-dark dark:text-light">
+                  {period.name}
+                </p>
+                <p className="text-sm text-dark/65 dark:text-light/65">
+                  {period.from} — {period.to} · {period.place}
+                </p>
               </div>
-            ))}
-          </div>
-        )}
-
-        <div className="border-t border-primary/15 pt-6 dark:border-light/10">
-          <p className="mb-4 text-sm font-semibold text-dark dark:text-light">
-            {editingIndex === null ? 'Añadir período' : 'Editar período'}
-          </p>
-          <div className="grid gap-y-7 md:grid-cols-2 md:gap-x-6 xl:grid-cols-4 xl:gap-y-0">
-            <Controller
-              name="from"
-              control={periodControl}
-              rules={{
-                required: 'Fecha inicio obligatoria',
-                validate: (from) => validateDateField(from, draft.to, true),
-              }}
-              render={({ field }) => (
-                <CustomDatePicker
-                  {...field}
-                  inputName="period-from"
-                  placeholder="Desde (dd/mm/aaaa)"
-                  error={errors.from?.message}
-                />
-              )}
-            />
-            <Controller
-              name="to"
-              control={periodControl}
-              rules={{
-                required: 'La fecha de fin es obligatoria',
-                validate: (to) => validateDateField(to, draft.from, false),
-              }}
-              render={({ field }) => (
-                <CustomDatePicker
-                  {...field}
-                  inputName="period-to"
-                  placeholder="Hasta (dd/mm/aaaa)"
-                  error={errors.to?.message}
-                />
-              )}
-            />
-            <Controller
-              name="place"
-              control={periodControl}
-              rules={{ required: 'El lugar es obligatorio' }}
-              render={({ field }) => (
-                <CustomInput
-                  {...field}
-                  inputType={InputEnumType.place}
-                  inputName="period-place"
-                  placeholder="Lugar"
-                  error={errors.place?.message}
-                />
-              )}
-            />
-            <Controller
-              name="name"
-              control={periodControl}
-              rules={{ required: 'El período es obligatorio' }}
-              render={({ field }) => (
-                <CustomInput
-                  {...field}
-                  inputType={InputEnumType.period}
-                  inputName="period-name"
-                  placeholder="Época / Período"
-                  error={errors.name?.message}
-                />
-              )}
-            />
-          </div>
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-between">
-            <div className="sm:w-56">
-              <CustomButton
-                variant="soft"
-                icon={editingIndex === null ? <CalendarPlus /> : <Check />}
-                onClick={() => void handleSubmit(savePeriod)()}
-                disabled={!isValid || isLocked}
-              >
-                {editingIndex === null ? 'Añadir período' : 'Guardar cambios'}
-              </CustomButton>
-            </div>
-            <div className="flex gap-3 sm:w-auto">
-              {editingIndex !== null && (
-                <div className="flex-1 sm:w-32">
-                  <CustomButton
-                    variant="ghost"
-                    icon={<X />}
-                    onClick={cancelEditing}
+              {pendingRemoval === index ? (
+                <div className="flex gap-2 sm:w-52">
+                  <button
+                    type="button"
+                    className="flex-1 rounded-md bg-red-500/10 px-3 py-2 text-sm font-semibold text-red-500 hover:bg-red-500/20 disabled:cursor-not-allowed"
+                    onClick={() => confirmRemoval(index)}
                     disabled={isLocked}
                   >
-                    Cancelar
-                  </CustomButton>
+                    {t('periods.delete')}
+                  </button>
+                  <button
+                    type="button"
+                    className="flex-1 rounded-md bg-dark/10 px-3 py-2 text-sm font-semibold text-dark hover:bg-dark/20 dark:bg-light/10 dark:text-light dark:hover:bg-light/20 disabled:cursor-not-allowed"
+                    onClick={() => setPendingRemoval(null)}
+                    disabled={isLocked}
+                  >
+                    {t('periods.cancel')}
+                  </button>
+                </div>
+              ) : (
+                <div className="flex gap-2 sm:w-28">
+                  <button
+                    type="button"
+                    aria-label={t('periods.editAriaLabel', { name: period.name })}
+                    className="flex-1 rounded-md bg-primary/10 p-2 text-primary hover:bg-primary/20 disabled:cursor-not-allowed"
+                    onClick={() => startEditing(index)}
+                    disabled={isLocked}
+                  >
+                    <Pencil size={18} className="mx-auto" />
+                  </button>
+                  <button
+                    type="button"
+                    aria-label={t('periods.deleteAriaLabel', { name: period.name })}
+                    className="flex-1 rounded-md bg-red-500/10 p-2 text-red-500 hover:bg-red-500/20 disabled:cursor-not-allowed"
+                    onClick={() => setPendingRemoval(index)}
+                    disabled={isLocked}
+                  >
+                    <Trash2 size={18} className="mx-auto" />
+                  </button>
                 </div>
               )}
-              <div className="flex-1 sm:w-44">
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className="border-t border-primary/15 pt-6 dark:border-light/10">
+        <p className="mb-4 text-sm font-semibold text-dark dark:text-light">
+          {editingIndex === null ? t('periods.add') : t('periods.edit')}
+        </p>
+        <div className="grid gap-y-7 md:grid-cols-2 md:gap-x-6 xl:grid-cols-4 xl:gap-y-0">
+          <Controller
+            name="from"
+            control={periodControl}
+            rules={{
+              required: t('periods.validation.startRequired'),
+              validate: (from) =>
+                validateDateField(from, draft.to, true, {
+                  invalidDate: t('periods.validation.invalidDate'),
+                  startBeforeEnd: t('periods.validation.startBeforeEnd'),
+                  endAfterStart: t('periods.validation.endAfterStart'),
+                }),
+            }}
+            render={({ field }) => (
+              <CustomDatePicker
+                {...field}
+                inputName="period-from"
+                placeholder={t('periods.fields.from')}
+                error={errors.from?.message}
+              />
+            )}
+          />
+          <Controller
+            name="to"
+            control={periodControl}
+            rules={{
+              required: t('periods.validation.endRequired'),
+              validate: (to) =>
+                validateDateField(to, draft.from, false, {
+                  invalidDate: t('periods.validation.invalidDate'),
+                  startBeforeEnd: t('periods.validation.startBeforeEnd'),
+                  endAfterStart: t('periods.validation.endAfterStart'),
+                }),
+            }}
+            render={({ field }) => (
+              <CustomDatePicker
+                {...field}
+                inputName="period-to"
+                placeholder={t('periods.fields.to')}
+                error={errors.to?.message}
+              />
+            )}
+          />
+          <Controller
+            name="place"
+            control={periodControl}
+            rules={{ required: t('periods.validation.placeRequired') }}
+            render={({ field }) => (
+              <CustomInput
+                {...field}
+                inputType={InputEnumType.place}
+                inputName="period-place"
+                placeholder={t('periods.fields.place')}
+                error={errors.place?.message}
+              />
+            )}
+          />
+          <Controller
+            name="name"
+            control={periodControl}
+            rules={{ required: t('periods.validation.periodRequired') }}
+            render={({ field }) => (
+              <CustomInput
+                {...field}
+                inputType={InputEnumType.period}
+                inputName="period-name"
+                placeholder={t('periods.fields.name')}
+                error={errors.name?.message}
+              />
+            )}
+          />
+        </div>
+        <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-between">
+          <div className="sm:w-56">
+            <CustomButton
+              variant="soft"
+              icon={editingIndex === null ? <CalendarPlus /> : <Check />}
+              onClick={() => void handleSubmit(savePeriod)()}
+              disabled={!isValid || isLocked}
+            >
+              {editingIndex === null ? t('periods.add') : t('periods.saveChanges')}
+            </CustomButton>
+          </div>
+          <div className="flex gap-3 sm:w-auto">
+            {editingIndex !== null && (
+              <div className="flex-1 sm:w-32">
                 <CustomButton
-                  variant="primary"
-                  disabled={
-                    !canOpenStep(1) ||
-                    periods.length === 0 ||
-                    isDirty ||
-                    isLocked
-                  }
-                  onClick={continueFromPeriods}
+                  variant="ghost"
+                  icon={<X />}
+                  onClick={cancelEditing}
+                  disabled={isLocked}
                 >
-                  Continuar
+                  {t('periods.cancel')}
                 </CustomButton>
               </div>
+            )}
+            <div className="flex-1 sm:w-44">
+              <CustomButton
+                variant="primary"
+                disabled={
+                  !canOpenStep(1) || periods.length === 0 || isDirty || isLocked
+                }
+                onClick={continueFromPeriods}
+              >
+                {t('periods.continue')}
+              </CustomButton>
             </div>
           </div>
         </div>

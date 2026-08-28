@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 import { useAuthStore } from '@/store/authStore';
 import {
@@ -38,6 +39,7 @@ const CustomFormCode: FC<CustomFormCodeProps> = ({
   firstCodeInputRef,
   onClose,
 }) => {
+  const { t } = useTranslation('auth');
   const navigate = useNavigate();
   const location = useLocation();
   const setAuth = useAuthStore((state) => state.setAuth);
@@ -83,7 +85,7 @@ const CustomFormCode: FC<CustomFormCodeProps> = ({
       navigate(from, { replace: true });
     } catch (error) {
       setError('root.server', {
-        message: getErrorMessage(error, 'No fue posible verificar el código'),
+        message: getErrorMessage(error, t('verification.verificationFailed')),
       });
     }
   };
@@ -104,7 +106,7 @@ const CustomFormCode: FC<CustomFormCodeProps> = ({
       codeInputRefs.current[0]?.focus();
     } catch (error) {
       setError('root.server', {
-        message: getErrorMessage(error, 'No fue posible reenviar el código'),
+        message: getErrorMessage(error, t('verification.resendFailed')),
       });
     } finally {
       setIsResending(false);
@@ -163,7 +165,7 @@ const CustomFormCode: FC<CustomFormCodeProps> = ({
     <form onSubmit={handleSubmit(onVerify)} className="mt-7 space-y-5">
       <div
         className="flex justify-between gap-1"
-        aria-label="Código de verificación"
+        aria-label={t('verification.codeAriaLabel')}
       >
         {codeDigits.map((digit, index) => (
           <Controller
@@ -177,7 +179,9 @@ const CustomFormCode: FC<CustomFormCodeProps> = ({
                   codeInputRefs.current[index] = element;
                   if (index === 0) firstCodeInputRef.current = element;
                 }}
-                aria-label={`Dígito ${index + 1} del código`}
+                aria-label={t('verification.digitAriaLabel', {
+                  position: index + 1,
+                })}
                 autoComplete={index === 0 ? 'one-time-code' : 'off'}
                 inputMode="numeric"
                 maxLength={CODE_LENGTH}
@@ -197,8 +201,7 @@ const CustomFormCode: FC<CustomFormCodeProps> = ({
         ))}
       </div>
       <p className="text-center text-sm text-gray-500 dark:text-gray-400">
-        El código vence en {expiresMinutes} minuto
-        {expiresMinutes === 1 ? '' : 's'}.
+        {t('verification.expires', { count: expiresMinutes })}
       </p>
 
       {errors.root?.server?.message && (
@@ -208,7 +211,7 @@ const CustomFormCode: FC<CustomFormCodeProps> = ({
       )}
 
       <p className="text-center text-sm text-gray-500 dark:text-gray-400">
-        ¿No recibiste el código?{' '}
+        {t('verification.notReceived')}{' '}
         <button
           type="button"
           onClick={onResend}
@@ -216,22 +219,22 @@ const CustomFormCode: FC<CustomFormCodeProps> = ({
           className="font-bold text-primary underline underline-offset-2 disabled:text-gray-400 disabled:no-underline"
         >
           {isResending
-            ? 'Reenviando...'
+            ? t('verification.resending')
             : resendSeconds > 0
-              ? `Reenviar en ${resendSeconds}s`
-              : 'Reenviar'}
+              ? t('verification.resendIn', { seconds: resendSeconds })
+              : t('verification.resend')}
         </button>
       </p>
       <div className="flex gap-3 pt-1">
         <CustomButton onClick={onClose} variant="ghost">
-          Cancelar
+          {t('verification.cancel')}
         </CustomButton>
         <CustomButton
           type="submit"
           variant="primary"
           disabled={!isCodeComplete || isSubmitting}
         >
-          {isSubmitting ? 'Verificando...' : 'Verificar'}
+          {isSubmitting ? t('verification.verifying') : t('verification.verify')}
         </CustomButton>
       </div>
     </form>

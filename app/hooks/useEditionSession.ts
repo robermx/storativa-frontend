@@ -37,7 +37,6 @@ export const useEditionSession = (storativa: IResStorativa) => {
     loadedChapters.length === 0,
   );
   const [isChapterMutation, setIsChapterMutation] = useState(false);
-
   const initializationStartedRef = useRef(false);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pendingSaveRef = useRef<{
@@ -50,7 +49,6 @@ export const useEditionSession = (storativa: IResStorativa) => {
     () => chapters.find((chapter) => chapter._id === activeChapterId),
     [activeChapterId, chapters],
   );
-
   const initializeFirstChapter = useCallback(async () => {
     if (initializationStartedRef.current) return;
 
@@ -78,7 +76,9 @@ export const useEditionSession = (storativa: IResStorativa) => {
   }, [storativa._id, storativa.content]);
 
   useEffect(() => {
-    if (loadedChapters.length === 0) void initializeFirstChapter();
+    if (loadedChapters.length === 0) {
+      void initializeFirstChapter();
+    }
   }, [initializeFirstChapter, loadedChapters.length]);
 
   const persistPending = useCallback(async (): Promise<boolean> => {

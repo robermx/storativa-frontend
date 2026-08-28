@@ -1,0 +1,91 @@
+{
+  "steps": {
+    "general": "Generales",
+    "periods": "Períodos",
+    "characters": "Personajes",
+    "progressAriaLabel": "Progreso del formulario",
+    "progress": "{{current}} de {{total}}"
+  },
+  "general": {
+    "fields": {
+      "title": "Título",
+      "centralIdea": "Idea central",
+      "contextType": "Tipo de contexto",
+      "genres": "Géneros",
+      "initialDate": "Fecha del comienzo",
+      "storySize": "Tamaño de la historia",
+      "timeToComplete": "Tiempo para completar (días)"
+    },
+    "validation": {
+      "titleRequired": "El título es obligatorio",
+      "centralIdeaRequired": "La idea central es obligatoria",
+      "contextRequired": "El tipo de contexto es obligatorio",
+      "genresRequired": "Selecciona al menos un género",
+      "initialDateRequired": "La fecha inicial es obligatoria",
+      "storySizeRequired": "El tamaño de la historia es obligatorio",
+      "timeRequired": "El tiempo es obligatorio",
+      "minimumCharacters": "Al menos {{count}} caracteres",
+      "numbersOnly": "Solo se permiten números",
+      "invalidDate": "Fecha inválida (formato: dd/mm/aaaa)"
+    },
+    "continue": "Continuar"
+  },
+  "periods": {
+    "description": "Añade cada período por separado. Podrás revisarlo, editarlo o eliminarlo antes de continuar.",
+    "add": "Añadir período",
+    "edit": "Editar período",
+    "saveChanges": "Guardar cambios",
+    "delete": "Eliminar",
+    "cancel": "Cancelar",
+    "continue": "Continuar",
+    "editAriaLabel": "Editar {{name}}",
+    "deleteAriaLabel": "Eliminar {{name}}",
+    "fields": {
+      "from": "Desde (dd/mm/aaaa)",
+      "to": "Hasta (dd/mm/aaaa)",
+      "place": "Lugar",
+      "name": "Época / período"
+    },
+    "validation": {
+      "startRequired": "La fecha de inicio es obligatoria",
+      "endRequired": "La fecha de fin es obligatoria",
+      "placeRequired": "El lugar es obligatorio",
+      "periodRequired": "El período es obligatorio",
+      "invalidDate": "Fecha inválida (formato: dd/mm/aaaa)",
+      "startBeforeEnd": "La fecha de inicio debe ser anterior a la de fin",
+      "endAfterStart": "La fecha de fin debe ser posterior a la de inicio"
+    }
+  },
+  "characters": {
+    "description": "Añade un personaje a la vez para mantener la historia clara y manejable.",
+    "summary": "{{type}} · rasgos completos",
+    "unknownType": "Sin tipo",
+    "add": "Añadir personaje",
+    "edit": "Editar personaje",
+    "saveChanges": "Guardar cambios",
+    "delete": "Eliminar",
+    "cancel": "Cancelar",
+    "editAriaLabel": "Editar {{name}}",
+    "deleteAriaLabel": "Eliminar {{name}}",
+    "fields": {
+      "type": "Tipo de personaje",
+      "name": "Nombre del personaje",
+      "social": "Rasgos sociales",
+      "physical": "Rasgos físicos",
+      "psychological": "Rasgos psicológicos",
+      "additional": "Rasgos adicionales (opcional)"
+    },
+    "validation": {
+      "typeRequired": "El tipo de personaje es obligatorio",
+      "nameRequired": "El nombre del personaje es obligatorio",
+      "socialRequired": "Los rasgos sociales son obligatorios",
+      "physicalRequired": "Los rasgos físicos son obligatorios",
+      "psychologicalRequired": "Los rasgos psicológicos son obligatorios"
+    }
+  },
+  "submit": {
+    "creating": "Creando...",
+    "create": "Crear Storativa",
+    "failed": "No pudimos crear tu Storativa. Intenta de nuevo."
+  }
+}

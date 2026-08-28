@@ -7,6 +7,7 @@ import {
   Transition,
 } from '@headlessui/react';
 import { Check, ChevronDown, X, Search } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { CustomMultiSelectProps } from '@/interfaces/input.interface';
 import { titleFormat } from '@/utils/titleFormat';
 import clsx from 'clsx';
@@ -21,6 +22,7 @@ const CustomMultiSelect: FC<CustomMultiSelectProps> = ({
   onBlur,
   options,
 }) => {
+  const { t } = useTranslation('common');
   const [isFocused, setIsFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const selectedValues = Array.isArray(value) ? value : [];
@@ -30,7 +32,7 @@ const CustomMultiSelect: FC<CustomMultiSelectProps> = ({
   );
 
   const filteredOptions = options.filter((opt) =>
-    opt.name.toLowerCase().includes(searchQuery.toLowerCase()),
+    opt.label.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const handleChange = (newValue: number[] | number) => {
@@ -79,7 +81,7 @@ const CustomMultiSelect: FC<CustomMultiSelectProps> = ({
                       key={opt.value}
                       className="inline-flex items-center gap-1 rounded-md bg-primary/20 text-primary px-2 py-1 text-xs font-medium"
                     >
-                      {titleFormat(opt.name)}
+                      {titleFormat(opt.label)}
                       <span
                         role="button"
                         tabIndex={0}
@@ -128,7 +130,7 @@ const CustomMultiSelect: FC<CustomMultiSelectProps> = ({
                       type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Buscar..."
+                      placeholder={t('search')}
                       className="w-full rounded-md border border-gray-300 dark:border-light/20 bg-transparent py-1.5 pl-9 pr-3 text-dark dark:text-light placeholder:text-gray-400 outline-1 -outline-offset-1 focus:outline-2 focus:-outline-offset-2 focus:outline-primary sm:text-sm"
                       onClick={(e) => e.stopPropagation()}
                     />
@@ -137,7 +139,7 @@ const CustomMultiSelect: FC<CustomMultiSelectProps> = ({
 
                 {filteredOptions.length === 0 ? (
                   <div className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
-                    Sin resultados
+                    {t('noResults')}
                   </div>
                 ) : (
                   filteredOptions.map((option) => {
@@ -159,7 +161,7 @@ const CustomMultiSelect: FC<CustomMultiSelectProps> = ({
                             )}
                           </div>
                           <span className="ml-3 block truncate font-normal group-data-selected:font-semibold">
-                            {titleFormat(option.name)}
+                            {titleFormat(option.label)}
                           </span>
                         </div>
                       </ListboxOption>

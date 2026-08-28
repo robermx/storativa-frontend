@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Dialog,
   DialogBackdrop,
@@ -25,6 +26,7 @@ import CustomInput from '@/components/shared/CustomInput';
 import CustomDialog from '@/components/shared/CustomDialog';
 
 const EditionChapterPanel = () => {
+  const { t } = useTranslation('editor');
   const {
     activeChapterId,
     addChapter,
@@ -73,169 +75,177 @@ const EditionChapterPanel = () => {
       >
         <DialogBackdrop
           transition
-          className="fixed inset-x-0 bottom-0 top-(--nav-height) bg-lightness/20 backdrop-blur-sm duration-300 ease-out data-closed:opacity-0 dark:bg-darkness/20"
+          className="fixed inset-0 top-[calc(var(--nav-height)*1px)] pointer-events-none bg-lightness/20 backdrop-blur-sm duration-300 ease-out data-closed:opacity-0 dark:bg-darkness/20"
         />
-        <div className="fixed inset-x-0 bottom-0 top-(--nav-height) pointer-events-none">
-          <DialogPanel
-            id="edition-chapter-panel"
-            transition
-            className="pointer-events-auto flex h-full w-full flex-col overflow-x-hidden overflow-y-auto border-r border-dark/10 bg-lightness px-5 py-6 shadow-2xl duration-300 ease-out data-closed:-translate-x-full dark:border-light/10 dark:bg-darkness sm:w-90"
-          >
-            <div className="mb-6 flex items-center justify-between gap-3">
-              <div className="flex items-center">
-                {/* <BookOpen className="text-primary" size={20} /> */}
-                <DialogTitle className="text-lg font-bold text-dark dark:text-light">
-                  Capítulos
-                </DialogTitle>
-              </div>
-              <div className="flex items-center gap-1">
-                <CustomButton
-                  icon={<Plus />}
-                  onClick={() => void addChapter()}
-                  disabled={isChapterLocked}
-                  aria-label="Crear capítulo"
-                  title="Crear capítulo"
-                  className="cursor-pointer"
-                />
-              </div>
+
+        <DialogPanel
+          id="edition-chapter-panel"
+          transition
+          className="fixed inset-0 top-[calc(var(--nav-height)*1px)] pointer-events-auto flex w-full flex-col gap-y-5 overflow-x-hidden overflow-y-auto border-r border-dark/10 bg-lightness px-6 py-10 shadow-2xl duration-300 ease-out data-closed:-translate-x-full dark:border-light/10 dark:bg-darkness sm:w-90"
+        >
+          <div className="mb-6 flex items-center justify-between gap-3">
+            <div className="flex items-center">
+              <DialogTitle className="text-lg font-bold text-dark dark:text-light">
+                {t('chapters.title')}
+              </DialogTitle>
             </div>
+            <div className="flex items-center gap-1">
+              <CustomButton
+                icon={<Plus />}
+                onClick={() => void addChapter()}
+                disabled={isChapterLocked}
+                aria-label={t('chapters.create')}
+                title={t('chapters.create')}
+                className="cursor-pointer"
+              />
+            </div>
+          </div>
 
-            <ol className="space-y-2">
-              {chapters.map((chapter, index) => {
-                const isActive = chapter._id === activeChapterId;
-                const isRenaming = chapter._id === renamingId;
+          <ol className="space-y-2">
+            {chapters.map((chapter, index) => {
+              const isActive = chapter._id === activeChapterId;
+              const isRenaming = chapter._id === renamingId;
 
-                return (
-                  <li
-                    key={chapter._id}
-                    className={`rounded-lg border p-3 transition-colors ${
-                      isActive
-                        ? 'border-primary bg-primary/15'
-                        : 'border-transparent hover:border-primary/20 hover:bg-primary/5'
-                    }`}
-                  >
-                    {isRenaming ? (
-                      <div className="flex flex-col gap-3">
-                        <CustomInput
-                          inputType={InputEnumType.chapter}
-                          inputName={`chapter-${chapter._id}`}
-                          placeholder="Capítulo"
-                          value={titleDraft}
-                          onChange={(e) => setTitleDraft(e.target.value)}
-                          onKeyDown={(event) => {
-                            if (event.key === 'Enter') void submitRename();
-                            if (event.key === 'Escape') setRenamingId(null);
-                          }}
-                          maxLength={100}
-                        />
-                        <div className="flex justify-end gap-3">
-                          <CustomButton
-                            variant="text"
-                            icon={<Check />}
-                            onClick={() => void submitRename()}
-                            disabled={!titleDraft.trim() || isChapterLocked}
-                            aria-label="Guardar nombre"
-                            width="auto"
-                            className="h-fit"
-                            size="md"
-                          />
-                          <CustomButton
-                            variant="text"
-                            icon={<X />}
-                            onClick={() => setRenamingId(null)}
-                            aria-label="Cancelar edición"
-                            width="auto"
-                            className="h-fit text-dark dark:text-light"
-                            size="md"
-                          />
-                        </div>
-                      </div>
-                    ) : (
-                      <>
+              return (
+                <li
+                  key={chapter._id}
+                  className={`rounded-lg border p-3 transition-colors ${
+                    isActive
+                      ? 'border-primary bg-primary/15'
+                      : 'border-transparent hover:border-primary/20 hover:bg-primary/5'
+                  }`}
+                >
+                  {isRenaming ? (
+                    <div className="flex flex-col gap-3">
+                      <CustomInput
+                        inputType={InputEnumType.chapter}
+                        inputName={`chapter-${chapter._id}`}
+                        placeholder={t('chapters.placeholder')}
+                        value={titleDraft}
+                        onChange={(e) => setTitleDraft(e.target.value)}
+                        onKeyDown={(event) => {
+                          if (event.key === 'Enter') void submitRename();
+                          if (event.key === 'Escape') setRenamingId(null);
+                        }}
+                        maxLength={100}
+                      />
+                      <div className="flex justify-end gap-3">
                         <CustomButton
-                          variant="ghost"
-                          onClick={() => void handleSelectChapter(chapter._id)}
+                          variant="text"
+                          icon={<Check />}
+                          onClick={() => void submitRename()}
+                          disabled={!titleDraft.trim() || isChapterLocked}
+                          aria-label={t('chapters.saveName')}
+                          width="auto"
+                          className="h-fit"
+                          size="md"
+                        />
+                        <CustomButton
+                          variant="text"
+                          icon={<X />}
+                          onClick={() => setRenamingId(null)}
+                          aria-label={t('chapters.cancelEdit')}
+                          width="auto"
+                          className="h-fit text-dark dark:text-light"
+                          size="md"
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <CustomButton
+                        variant="text"
+                        onClick={() => void handleSelectChapter(chapter._id)}
+                        disabled={isChapterLocked}
+                        aria-current={isActive ? 'page' : undefined}
+                        className="[&>span]:justify-start [&>span]:text-primary cursor-pointer mb-4 py-2"
+                        truncate
+                      >
+                        {chapter.title}
+                      </CustomButton>
+                      <div className="flex justify-end gap-4">
+                        <CustomButton
+                          variant="text"
+                          icon={<ArrowUp />}
+                          width="auto"
+                          onClick={() => void moveChapter(chapter._id, -1)}
+                          disabled={isChapterLocked || index === 0}
+                          aria-label={t('chapters.moveUp', {
+                            title: chapter.title,
+                          })}
+                          size="lg"
+                          className="h-fit cursor-pointer text-primary/70"
+                        />
+
+                        <CustomButton
+                          variant="text"
+                          icon={<ArrowDown />}
+                          width="auto"
+                          onClick={() => void moveChapter(chapter._id, 1)}
+                          disabled={
+                            isChapterLocked || index === chapters.length - 1
+                          }
+                          aria-label={t('chapters.moveDown', {
+                            title: chapter.title,
+                          })}
+                          size="lg"
+                          className="h-fit cursor-pointer text-primary/70"
+                        />
+
+                        <CustomButton
+                          variant="text"
+                          icon={<Pencil />}
+                          width="auto"
+                          onClick={() => startRename(chapter)}
                           disabled={isChapterLocked}
-                          aria-current={isActive ? 'page' : undefined}
-                          className="[&>span]:justify-start [&>span]:text-primary cursor-pointer mb-4"
-                          truncate
-                        >
-                          {chapter.title}
-                        </CustomButton>
-                        <div className="flex justify-end gap-4">
-                          <CustomButton
-                            variant="text"
-                            icon={<ArrowUp />}
-                            width="auto"
-                            onClick={() => void moveChapter(chapter._id, -1)}
-                            disabled={isChapterLocked || index === 0}
-                            aria-label={`Subir ${chapter.title}`}
-                            size="lg"
-                            className="h-fit cursor-pointer text-primary/70"
-                          />
+                          aria-label={t('chapters.rename', {
+                            title: chapter.title,
+                          })}
+                          size="sm"
+                          className="h-fit cursor-pointer text-secondary"
+                        />
 
-                          <CustomButton
-                            variant="text"
-                            icon={<ArrowDown />}
-                            width="auto"
-                            onClick={() => void moveChapter(chapter._id, 1)}
-                            disabled={
-                              isChapterLocked || index === chapters.length - 1
-                            }
-                            aria-label={`Bajar ${chapter.title}`}
-                            size="lg"
-                            className="h-fit cursor-pointer text-primary/70"
-                          />
+                        <CustomButton
+                          variant="text"
+                          icon={<Trash2 />}
+                          width="auto"
+                          type="button"
+                          onClick={() => setDeleteCandidate(chapter)}
+                          disabled={isChapterLocked || chapters.length === 1}
+                          aria-label={t('chapters.delete', {
+                            title: chapter.title,
+                          })}
+                          size="sm"
+                          className="h-fit cursor-pointer text-red-700/70"
+                        />
+                      </div>
+                    </>
+                  )}
+                </li>
+              );
+            })}
+          </ol>
 
-                          <CustomButton
-                            variant="text"
-                            icon={<Pencil />}
-                            width="auto"
-                            onClick={() => startRename(chapter)}
-                            disabled={isChapterLocked}
-                            aria-label={`Renombrar ${chapter.title}`}
-                            size="sm"
-                            className="h-fit cursor-pointer text-secondary"
-                          />
-
-                          <CustomButton
-                            variant="text"
-                            icon={<Trash2 />}
-                            width="auto"
-                            type="button"
-                            onClick={() => setDeleteCandidate(chapter)}
-                            disabled={isChapterLocked || chapters.length === 1}
-                            aria-label={`Eliminar ${chapter.title}`}
-                            size="sm"
-                            className="h-fit cursor-pointer text-red-700/70"
-                          />
-                        </div>
-                      </>
-                    )}
-                  </li>
-                );
-              })}
-            </ol>
-
-            {chapterError && (
-              <p
-                role="alert"
-                className="mt-4 text-sm text-red-600 dark:text-red-300"
-              >
-                {chapterError}
-              </p>
-            )}
-          </DialogPanel>
-        </div>
+          {chapterError && (
+            <p
+              role="alert"
+              className="mt-4 text-sm text-red-600 dark:text-red-300"
+            >
+              {chapterError}
+            </p>
+          )}
+        </DialogPanel>
       </Dialog>
 
       <CustomDialog
         openDialog={Boolean(deleteCandidate)}
         onCloseDialog={() => setDeleteCandidate(null)}
         initialFocus={cancelDeleteRef}
-        title="Eliminar Capítulo"
-        subtitle={`Se eliminará "${deleteCandidate?.title}" y su contenido. Esta acción no se puede deshacer`}
-        closeLabel="cerrar diálogo eliminar capítulo"
+        title={t('chapters.deleteDialogTitle')}
+        subtitle={t('chapters.deleteDialogSubtitle', {
+          title: deleteCandidate?.title ?? '',
+        })}
+        closeLabel={t('chapters.deleteDialogClose')}
       >
         <div className="mt-6 flex justify-end gap-6">
           <CustomButton
@@ -244,7 +254,7 @@ const EditionChapterPanel = () => {
             variant="outline"
             className="cursor-pointer"
           >
-            Cancelar
+            {t('chapters.cancel')}
           </CustomButton>
           <CustomButton
             variant="danger"
@@ -257,7 +267,7 @@ const EditionChapterPanel = () => {
             }}
             className="cursor-pointer"
           >
-            Eliminar
+            {t('chapters.confirmDelete')}
           </CustomButton>
         </div>
       </CustomDialog>

@@ -1,0 +1,91 @@
+{
+  "steps": {
+    "general": "General",
+    "periods": "Periods",
+    "characters": "Characters",
+    "progressAriaLabel": "Form progress",
+    "progress": "{{current}} of {{total}}"
+  },
+  "general": {
+    "fields": {
+      "title": "Title",
+      "centralIdea": "Central idea",
+      "contextType": "Context type",
+      "genres": "Genres",
+      "initialDate": "Starting date",
+      "storySize": "Story size",
+      "timeToComplete": "Time to complete (days)"
+    },
+    "validation": {
+      "titleRequired": "Title is required",
+      "centralIdeaRequired": "Central idea is required",
+      "contextRequired": "Context type is required",
+      "genresRequired": "Select at least one genre",
+      "initialDateRequired": "Starting date is required",
+      "storySizeRequired": "Story size is required",
+      "timeRequired": "Time to complete is required",
+      "minimumCharacters": "At least {{count}} characters",
+      "numbersOnly": "Only numbers are allowed",
+      "invalidDate": "Invalid date (format: dd/mm/yyyy)"
+    },
+    "continue": "Continue"
+  },
+  "periods": {
+    "description": "Add each period separately. You can review, edit, or remove it before continuing.",
+    "add": "Add period",
+    "edit": "Edit period",
+    "saveChanges": "Save changes",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "editAriaLabel": "Edit {{name}}",
+    "deleteAriaLabel": "Delete {{name}}",
+    "fields": {
+      "from": "From (dd/mm/yyyy)",
+      "to": "To (dd/mm/yyyy)",
+      "place": "Place",
+      "name": "Era / period"
+    },
+    "validation": {
+      "startRequired": "Start date is required",
+      "endRequired": "End date is required",
+      "placeRequired": "Place is required",
+      "periodRequired": "Period is required",
+      "invalidDate": "Invalid date (format: dd/mm/yyyy)",
+      "startBeforeEnd": "Start date must be before the end date",
+      "endAfterStart": "End date must be after the start date"
+    }
+  },
+  "characters": {
+    "description": "Add one character at a time to keep the story clear and manageable.",
+    "summary": "{{type}} · complete traits",
+    "unknownType": "No type",
+    "add": "Add character",
+    "edit": "Edit character",
+    "saveChanges": "Save changes",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "editAriaLabel": "Edit {{name}}",
+    "deleteAriaLabel": "Delete {{name}}",
+    "fields": {
+      "type": "Character type",
+      "name": "Character name",
+      "social": "Social traits",
+      "physical": "Physical traits",
+      "psychological": "Psychological traits",
+      "additional": "Additional traits (optional)"
+    },
+    "validation": {
+      "typeRequired": "Character type is required",
+      "nameRequired": "Character name is required",
+      "socialRequired": "Social traits are required",
+      "physicalRequired": "Physical traits are required",
+      "psychologicalRequired": "Psychological traits are required"
+    }
+  },
+  "submit": {
+    "creating": "Creating...",
+    "create": "Create Storativa",
+    "failed": "We could not create your Storativa. Please try again."
+  }
+}

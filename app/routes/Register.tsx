@@ -2,6 +2,7 @@ import { NavLink } from 'react-router';
 import { useForm, Controller } from 'react-hook-form';
 import { Fragment, useRef, useState } from 'react';
 import { Airplay } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import MainIso from '@/assets/logo/MainIso';
 import CustomInput from '@/components/shared/CustomInput';
@@ -16,6 +17,7 @@ import CustomFormCode from '@/components/shared/CustomFormCode';
 import CustomLink from '@/components/shared/CustomLink';
 
 const Register = () => {
+  const { t } = useTranslation('auth');
   const firstCodeInputRef = useRef<HTMLInputElement | null>(null);
   const [pendingRegistration, setPendingRegistration] =
     useState<PendingRegistration | null>(null);
@@ -67,7 +69,7 @@ const Register = () => {
     } catch (e) {
       setError('password', {
         type: 'server',
-        message: getErrorMessage(e, 'No fue posible completar el registro'),
+        message: getErrorMessage(e, t('register.registrationFailed')),
       });
     }
   };
@@ -80,7 +82,7 @@ const Register = () => {
             to="/"
             icon={<MainIso />}
             iconSize="none"
-            aria-label="Ir al inicio"
+            aria-label={t('common.homeAriaLabel')}
           />
         </div>
 
@@ -90,15 +92,18 @@ const Register = () => {
               name="fullName"
               control={control}
               rules={{
-                required: 'El nombre es obligatorio',
-                minLength: { value: 4, message: 'Mínimo 4 caracteres' },
+                required: t('validation.fullNameRequired'),
+                minLength: {
+                  value: 4,
+                  message: t('validation.minimumCharacters', { count: 4 }),
+                },
               }}
               render={({ field }) => (
                 <CustomInput
                   {...field}
                   inputType={InputEnumType.fullName}
                   inputName="fullName"
-                  placeholder="Nombre Completo"
+                  placeholder={t('fields.fullName')}
                   error={errors.fullName?.message}
                 />
               )}
@@ -108,10 +113,10 @@ const Register = () => {
               name="email"
               control={control}
               rules={{
-                required: 'El correo es obligatorio',
+                required: t('validation.emailRequired'),
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: 'Correo no válido',
+                  message: t('validation.emailInvalid'),
                 },
               }}
               render={({ field }) => (
@@ -119,7 +124,7 @@ const Register = () => {
                   {...field}
                   inputType={InputEnumType.Email}
                   inputName="email"
-                  placeholder="Correo Electrónico"
+                  placeholder={t('fields.email')}
                   error={errors.email?.message}
                 />
               )}
@@ -129,15 +134,18 @@ const Register = () => {
               name="password"
               control={control}
               rules={{
-                required: 'La contraseña es obligatoria',
-                minLength: { value: 6, message: 'Mínimo 6 caracteres' },
+                required: t('validation.passwordRequired'),
+                minLength: {
+                  value: 6,
+                  message: t('validation.minimumCharacters', { count: 6 }),
+                },
               }}
               render={({ field }) => (
                 <CustomInput
                   {...field}
                   inputType={InputEnumType.Password}
                   inputName="password"
-                  placeholder="Contraseña"
+                  placeholder={t('fields.password')}
                   error={errors.password?.message}
                 />
               )}
@@ -149,25 +157,34 @@ const Register = () => {
               disabled={!isValid || isSubmitting}
               icon={<Airplay />}
               size="md"
+              className="cursor-pointer"
             >
-              {isSubmitting ? 'Cargando...' : 'Registrarse'}
+              {isSubmitting ? t('common.loading') : t('register.submit')}
             </CustomButton>
           </form>
 
           <p className="mt-3 text-center text-sm/6 text-gray-500 dark:text-gray-400">
-            ¿Tienes una cuenta activa?{' '}
+            {t('register.hasAccount')}{' '}
             <NavLink to="/login" className="font-bold text-primary">
-              inicia Sesión
+              {t('register.loginLink')}
             </NavLink>
           </p>
         </Fragment>
       </div>
+
       <CustomDialog
         openDialog={isVerificationModalOpen && Boolean(pendingRegistration)}
         onCloseDialog={() => setIsVerificationModalOpen(false)}
         initialFocus={firstCodeInputRef}
-        title="Revisa tu correo"
-        subtitle={`Hola, ${pendingRegistration?.fullName.split(' ')[0] || 'User'}. Enviamos un código a ${pendingRegistration?.email || 'email@example.com'}.`}
+        title={t('verification.dialog.title')}
+        subtitle={t('verification.dialog.subtitle', {
+          name:
+            pendingRegistration?.fullName.split(' ')[0] ||
+            t('verification.dialog.defaultName'),
+          email:
+            pendingRegistration?.email || t('verification.dialog.defaultEmail'),
+        })}
+        closeLabel={t('verification.dialog.closeLabel')}
       >
         <CustomFormCode
           firstCodeInputRef={firstCodeInputRef}

@@ -46,10 +46,6 @@ pnpm start        # Serve production build
 
 Run `prettier --write` before committing.
 
-## No Tests
-
-No test files (`*.test.*` or `*.spec.*`).
-
 ## Package Manager
 
 pnpm required. Use `pnpm install`, not `npm install`.

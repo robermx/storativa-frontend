@@ -3,6 +3,7 @@ import { EditorContent, type JSONContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import TextAlign from '@tiptap/extension-text-align';
 import { Color, FontFamily, TextStyle } from '@tiptap/extension-text-style';
+// import { useTranslation } from 'react-i18next';
 
 import EditorToolbar from './EditorToolbar';
 
@@ -17,6 +18,7 @@ const RichTextEditor = ({
   content,
   onChange,
 }: RichTextEditorProps) => {
+  // const { t } = useTranslation('editor');
   const activeChapterRef = useRef(chapterId);
   const onChangeRef = useRef(onChange);
 
@@ -40,7 +42,7 @@ const RichTextEditor = ({
     editorProps: {
       attributes: {
         class:
-          'storativa-editor overflow-y-auto px-3 pt-3 pb-10 h-[calc(100vh-330px)] min-[344px]:h-[calc(100vh-295px)] min-[471px]:h-[calc(100vh-250px)] min-[928px]:h-[calc(100vh-210px)]  text-dark outline-none dark:text-light',
+          'storativa-editor overflow-y-auto px-3 pt-3 pb-10 h-[calc(100vh-380px)] min-[344px]:h-[calc(100vh-350px)] min-[380px]:h-[calc(100vh-320px)] min-[513px]:h-[calc(100vh-270px)] min-[1008px]:h-[calc(100vh-240px)] text-dark outline-none dark:text-light',
         'aria-label': 'Contenido del capítulo',
       },
     },

@@ -1,0 +1,83 @@
+{
+  "aiAssistant": {
+    "open": "Asistencia de IA",
+    "comingSoon": "Próximamente"
+  },
+  "initialization": {
+    "title": "No pudimos preparar tu editor",
+    "retry": "Reintentar"
+  },
+  "editor": {
+    "contentAriaLabel": "Contenido del capítulo",
+    "sectionAriaLabel": "Edición de {{title}}",
+    "chapterProgress": "{{current}} de {{total}}"
+  },
+  "chapters": {
+    "title": "Capítulos",
+    "create": "Crear capítulo",
+    "placeholder": "Capítulo",
+    "saveName": "Guardar nombre",
+    "cancelEdit": "Cancelar edición",
+    "moveUp": "Subir {{title}}",
+    "moveDown": "Bajar {{title}}",
+    "rename": "Renombrar {{title}}",
+    "delete": "Eliminar {{title}}",
+    "deleteDialogTitle": "Eliminar capítulo",
+    "deleteDialogSubtitle": "Se eliminará “{{title}}” y su contenido. Esta acción no se puede deshacer.",
+    "deleteDialogClose": "Cerrar diálogo de eliminación de capítulo",
+    "cancel": "Cancelar",
+    "confirmDelete": "Eliminar"
+  },
+  "navigation": {
+    "openChapters": "Abrir capítulos",
+    "closeChapters": "Cerrar capítulos"
+  },
+  "error": {
+    "notFoundTitle": "Storativa no encontrada",
+    "genericTitle": "Algo salió mal",
+    "notFoundMessage": "La Storativa no existe o no tienes acceso a ella.",
+    "genericMessage": "No pudimos cargar el espacio de edición.",
+    "retry": "Reintentar",
+    "backToDashboard": "Volver al panel"
+  },
+  "saveState": {
+    "saved": "Guardado",
+    "dirty": "Pendiente",
+    "saving": "Guardando…",
+    "error": "No se pudo guardar"
+  },
+  "toolbar": {
+    "ariaLabel": "Formato del texto",
+    "textColor": "Color de texto",
+    "blockType": "Tipo de bloque",
+    "fontFamily": "Familia tipográfica",
+    "bold": "Negrita",
+    "italic": "Cursiva",
+    "underline": "Subrayado",
+    "strike": "Tachado",
+    "bulletList": "Lista",
+    "orderedList": "Lista numerada",
+    "quote": "Cita",
+    "alignLeft": "Alinear a la izquierda",
+    "alignCenter": "Centrar",
+    "alignRight": "Alinear a la derecha",
+    "justify": "Justificar",
+    "undo": "Deshacer",
+    "redo": "Rehacer"
+  },
+  "toolbarOptions": {
+    "paragraph": "Párrafo",
+    "heading": "Título",
+    "subheading": "Subtítulo",
+    "font": "Tipografía",
+    "sans": "Sans",
+    "serif": "Serif",
+    "mono": "Mono",
+    "default": "Predeterminado",
+    "primary": "Primario",
+    "green": "Verde",
+    "red": "Rojo",
+    "violet": "Violeta",
+    "yellow": "Amarillo"
+  }
+}

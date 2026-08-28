@@ -1,5 +1,5 @@
-export const formatDate = (iso: string) =>
-  new Date(iso).toLocaleDateString('es-MX', {
+export const formatDate = (iso: string, locale: string) =>
+  new Date(iso).toLocaleDateString(locale, {
     day: '2-digit',
     month: 'short',
     year: 'numeric',

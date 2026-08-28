@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLoaderData, useRevalidator, useSearchParams } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 import { createClientLoader } from '@/lib/createClientLoader';
 import {
@@ -53,6 +54,7 @@ export const clientLoader = createClientLoader({
 export const HydrateFallback = () => <DashboardSkeleton />;
 
 const Dashboard = () => {
+  const { t } = useTranslation('dashboard');
   const { dashboard } = useLoaderData<typeof clientLoader>();
   const { revalidate } = useRevalidator();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -132,7 +134,7 @@ const Dashboard = () => {
       }
     } catch (error: unknown) {
       setDeleteError(
-        getErrorMessage(error, 'No pudimos eliminar la Storativa.'),
+        getErrorMessage(error, t('deleteDialog.failed')),
       );
     } finally {
       setIsDeleting(false);
@@ -146,7 +148,7 @@ const Dashboard = () => {
       className="flex flex-col gap-y-7 max-w-6xl mx-auto"
     >
       {dashboard.stats.total > 0 ? (
-        <div className="p-6 flex flex-col gap-6">
+        <div className="flex flex-col gap-y-3 sm:gap-y-4 md:gap-y-6">
           <DashboardStats stats={dashboard.stats} />
           <DashboardTable
             storativas={dashboard.data}
@@ -166,14 +168,16 @@ const Dashboard = () => {
         openDialog={Boolean(deleteCandidate)}
         onCloseDialog={handleDeleteDialogClose}
         initialFocus={cancelDeleteRef}
-        title="Eliminar Storativa"
-        subtitle={`Se eliminará “${deleteCandidate?.title ?? ''}” junto con todos sus capítulos y contenido.`}
-        closeLabel="Cerrar eliminación de Storativa"
+        title={t('deleteDialog.title')}
+        subtitle={t('deleteDialog.subtitle', {
+          title: deleteCandidate?.title ?? '',
+        })}
+        closeLabel={t('deleteDialog.closeLabel')}
         isCloseDisabled={isDeleting}
       >
         <div className="space-y-5 pt-4">
           <p className="text-sm text-dark/70 dark:text-light/70">
-            Esta acción no se puede deshacer.
+            {t('deleteDialog.warning')}
           </p>
           {deleteError && (
             <p role="alert" className="text-sm text-red-600 dark:text-red-300">
@@ -188,7 +192,7 @@ const Dashboard = () => {
               disabled={isDeleting}
               className="rounded-md border border-dark/15 px-4 py-2 text-sm font-medium text-dark disabled:cursor-not-allowed disabled:opacity-50 dark:border-light/15 dark:text-light"
             >
-              Cancelar
+              {t('deleteDialog.cancel')}
             </button>
             <CustomButton
               variant="danger"
@@ -196,7 +200,7 @@ const Dashboard = () => {
               disabled={isDeleting}
               onClick={() => void handleDeleteConfirm()}
             >
-              {isDeleting ? 'Eliminando...' : 'Eliminar'}
+              {isDeleting ? t('deleteDialog.deleting') : t('deleteDialog.delete')}
             </CustomButton>
           </div>
         </div>

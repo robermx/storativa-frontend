@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { BookOpen } from 'lucide-react';
 import { useMatch, useRouteLoaderData } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 import { getInitials } from '@/utils/getInitials';
 // import { getSubtitleByPath } from '@/utils/getSubtitleByPath';
@@ -11,6 +12,7 @@ import { useOpenOverlayPanel } from '@/hooks/useOpenOverlayPanel';
 import { clientLoader as eLoader } from '@/routes/Edition';
 
 const UserInfo: FC = () => {
+  const { t } = useTranslation('editor');
   const editionData = useRouteLoaderData<typeof eLoader>('routes/Edition');
   // const { pathname } = useLocation();
   const editionMatch = useMatch('/edition/:storativaId');
@@ -30,7 +32,9 @@ const UserInfo: FC = () => {
             type="button"
             onClick={() => handlePanelClick('edition-chapters')}
             aria-label={
-              isChapterPanelOpen ? 'Cerrar capítulos' : 'Abrir capítulos'
+              isChapterPanelOpen
+                ? t('navigation.closeChapters')
+                : t('navigation.openChapters')
             }
             aria-controls="edition-chapter-panel"
             aria-expanded={isChapterPanelOpen}

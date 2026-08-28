@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useEffect, useRef, useState } from 'react';
+import { FC, Fragment, PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { useLocation, useMatches } from 'react-router';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
@@ -77,7 +77,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   );
 
   return (
-    <div className="overflow-hidden">
+    <Fragment>
       <ThemeButton />
       {isNavbarMounted && (
         <Navbar
@@ -89,13 +89,13 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
         {Boolean(user) && <SettingsPanel />}
         <main className="selection:bg-primary/30 relative" ref={mainRef}>
           <div
-            className={`main-wrapper ${shouldShowNavigation ? 'pt-(--nav-height)' : 'pt-0'}`}
+            className={`main-wrapper ${shouldShowNavigation ? 'pt-[calc(var(--nav-height)*1px)]' : 'pt-0'}`}
           >
             {children}
           </div>
         </main>
       </SmoothScrollProvider>
-    </div>
+    </Fragment>
   );
 };
 

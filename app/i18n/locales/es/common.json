@@ -1,0 +1,8 @@
+{
+  "search": "Buscar...",
+  "noResults": "Sin resultados",
+  "calendar": {
+    "openAriaLabel": "Abrir calendario",
+    "chooseDateAriaLabel": "Elegir fecha"
+  }
+}

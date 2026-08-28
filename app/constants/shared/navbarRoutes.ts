@@ -1,9 +1,9 @@
 export const publicRoutes = [
-  { id: 1, path: '/about', displayName: 'Acerca' },
-  { id: 2, path: '/login', displayName: 'Login' },
+  { id: 1, path: '/about', labelKey: 'about' },
+  { id: 2, path: '/login', labelKey: 'login' },
 ];
 
 export const privateRoutes = [
-  { id: 1, path: '/dashboard', displayName: 'Dashboard' },
-  { id: 2, path: '/create', displayName: 'crear' },
+  { id: 1, path: '/dashboard', labelKey: 'dashboard' },
+  { id: 2, path: '/create', labelKey: 'create' },
 ];

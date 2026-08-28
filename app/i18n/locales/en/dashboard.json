@@ -1,0 +1,49 @@
+{
+  "stats": {
+    "total": "Total",
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "empty": {
+    "message": "You don't have any saved <highlight>Storativas</highlight> yet.",
+    "headline": "Create one from scratch!",
+    "action": "Create Storativa"
+  },
+  "table": {
+    "title": "Storativas",
+    "searchPlaceholder": "Search by title",
+    "searchAriaLabel": "Search Storativas by title",
+    "columns": {
+      "title": "Title",
+      "status": "Status",
+      "progress": "Days elapsed",
+      "createdAt": "Created on",
+      "updatedAt": "Last updated",
+      "delete": "Delete"
+    },
+    "noResults": "No Storativas found.",
+    "deleteAriaLabel": "Delete {{title}}",
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    }
+  },
+  "pagination": {
+    "shown": "Showing",
+    "noResults": "0 results",
+    "results": "{{first}}–{{last}} of {{total}}",
+    "previous": "Previous",
+    "page": "{{page}} of {{pageCount}}",
+    "next": "Next"
+  },
+  "deleteDialog": {
+    "title": "Delete Storativa",
+    "subtitle": "“{{title}}” and all of its chapters and content will be deleted.",
+    "closeLabel": "Close Storativa deletion dialog",
+    "warning": "This action cannot be undone.",
+    "cancel": "Cancel",
+    "deleting": "Deleting...",
+    "delete": "Delete",
+    "failed": "We could not delete the Storativa."
+  }
+}

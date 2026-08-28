@@ -5,8 +5,11 @@ import { DayPicker, getDefaultClassNames } from '@daypicker/react';
 import '@daypicker/react/style.css';
 import { CustomCalendarInputProps } from '@/interfaces/input.interface';
 import { es } from 'date-fns/locale';
+import { enUS } from 'date-fns/locale';
+import { useTranslation } from 'react-i18next';
 
 const INPUT_FORMAT = 'dd/MM/yyyy';
+const calendarLocales = { es, en: enUS } as const;
 
 const CustomDatePicker: FC<CustomCalendarInputProps> = ({
   inputName,
@@ -16,6 +19,7 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
   onChange,
   onBlur,
 }) => {
+  const { t, i18n } = useTranslation('common');
   const inputId = useId();
   const dropdownId = useId();
 
@@ -133,7 +137,7 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
         <input
           ref={inputRef}
           id={inputId}
-          type="text"
+          type="tel"
           name={inputName}
           value={inputValue}
           placeholder={placeholder}
@@ -150,7 +154,7 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
         <button
           type="button"
           onClick={toggleDropdown}
-          aria-label="Abrir calendario"
+          aria-label={t('calendar.openAriaLabel')}
           aria-haspopup="listbox"
           aria-controls={dropdownId}
           className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 transition-colors"
@@ -164,7 +168,7 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
           ref={dropdownRef}
           id={dropdownId}
           role="listbox"
-          aria-label="Elegir fecha"
+          aria-label={t('calendar.chooseDateAriaLabel')}
           className="absolute z-10 mt-1 left-0 bg-light dark:bg-dark rounded-lg shadow-lg border border-gray-200 dark:border-white/10 p-3 rdp-datepicker-dropdown"
         >
           <DayPicker
@@ -182,7 +186,7 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
               weekday: defaultClassNames.weekday,
               day_button: defaultClassNames.day_button,
             }}
-            locale={es}
+            locale={calendarLocales[i18n.language as keyof typeof calendarLocales] ?? es}
             styles={{
               caption_label: { color: 'var(--color-primary)' },
             }}

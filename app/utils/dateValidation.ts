@@ -23,15 +23,22 @@ const parseDate = (value: string): Date | null => {
   return isValid(parsed) ? parsed : null;
 };
 
+export interface DateValidationMessages {
+  invalidDate: string;
+  startBeforeEnd: string;
+  endAfterStart: string;
+}
+
 export const validateDateField = (
   value: string,
   otherValue: string | undefined,
   isFrom: boolean,
+  messages: DateValidationMessages,
 ): true | string => {
   if (!value) return true;
 
   if (!isValidDate(value)) {
-    return 'Fecha inválida (formato: dd/mm/aaaa)';
+    return messages.invalidDate;
   }
 
   if (otherValue && isValidDate(otherValue)) {
@@ -39,10 +46,10 @@ export const validateDateField = (
     const otherDate = parseDate(otherValue);
     if (thisDate && otherDate) {
       if (isFrom && thisDate >= otherDate) {
-        return 'La fecha de inicio debe ser anterior a la de fin';
+        return messages.startBeforeEnd;
       }
       if (!isFrom && thisDate <= otherDate) {
-        return 'La fecha de fin debe ser posterior a la de inicio';
+        return messages.endAfterStart;
       }
     }
   }

@@ -19,25 +19,27 @@ interface SavePresentation {
   Icon: LucideIcon;
 }
 
-export const savePresentationByState: Record<SaveState, SavePresentation> = {
+export const getSavePresentationByState = (
+  translate: (key: string) => string,
+): Record<SaveState, SavePresentation> => ({
   saved: {
-    label: 'Guardado',
+    label: translate('saveState.saved'),
     className: 'text-emerald-700 dark:text-emerald-300',
     Icon: CheckCircle2,
   },
   dirty: {
-    label: 'Pendiente',
+    label: translate('saveState.dirty'),
     className: 'text-amber-600 dark:text-amber-400',
     Icon: AlertCircle,
   },
   saving: {
-    label: 'Guardando…',
+    label: translate('saveState.saving'),
     className: 'text-primary',
     Icon: LoaderCircle,
   },
   error: {
-    label: 'No se pudo guardar',
+    label: translate('saveState.error'),
     className: 'text-red-700 dark:text-red-300',
     Icon: AlertCircle,
   },
-};
+});

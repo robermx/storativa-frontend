@@ -1,0 +1,15 @@
+{
+  "links": {
+    "about": "Acerca de",
+    "login": "Iniciar sesión",
+    "dashboard": "Panel",
+    "create": "Crear"
+  },
+  "languageSwitch": {
+    "ariaLabel": "Cambiar idioma. Idioma actual: {{language}}"
+  },
+  "languages": {
+    "es": "Español",
+    "en": "Inglés"
+  }
+}
