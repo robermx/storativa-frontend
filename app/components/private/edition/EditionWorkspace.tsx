@@ -1,13 +1,13 @@
 import { type FC } from 'react';
-import { Sparkles } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+// import { Sparkles } from 'lucide-react';
+// import { useTranslation } from 'react-i18next';
 
 import { useOverlayPanelStore } from '@/store/overlayPanelStore';
 import { useEdition } from '@/context/EditionContext';
 import EditionChapterPanel from './EditionChapterPanel';
 import EditionEditorSection from './EditionEditorSection';
 import EditionInitializationState from './EditionInitializationState';
-import CustomButton from '@/components/shared/CustomButton';
+// import CustomButton from '@/components/shared/CustomButton';
 
 const EditionWorkspace: FC = () => {
   const {
@@ -16,7 +16,7 @@ const EditionWorkspace: FC = () => {
     isInitializing,
     retryInitialization,
   } = useEdition();
-  const { t } = useTranslation('editor');
+  // const { t } = useTranslation('editor');
   const isChapterPanelOpen = useOverlayPanelStore(
     (state) => state.activePanel === 'edition-chapters',
   );
@@ -40,7 +40,8 @@ const EditionWorkspace: FC = () => {
       >
         <EditionEditorSection />
       </div>
-      <div className="fixed bottom-3 right-3 z-30 flex items-center gap-3">
+      {/** TODO: IA implementation */}
+      {/* <div className="fixed bottom-3 right-3 z-30 flex items-center gap-3">
         <CustomButton
           title={t('aiAssistant.comingSoon')}
           icon={<Sparkles />}
@@ -49,7 +50,7 @@ const EditionWorkspace: FC = () => {
         >
           {t('aiAssistant.open')}
         </CustomButton>
-      </div>
+      </div> */}
     </>
   );
 };

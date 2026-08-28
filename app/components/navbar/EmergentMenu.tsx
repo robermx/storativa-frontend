@@ -59,7 +59,10 @@ const EmergentMenu: FC<EmergentMenuProps> = ({ addMenuRef }) => {
           disabled={isLanguageLocked}
           aria-label={languageSwitchAriaLabel}
           title={languageSwitchAriaLabel}
-          className="cursor-pointer text-dark/60 disabled:text-gray-700/30"
+          className="cursor-pointer text-dark/60 hover:text-dark"
+          style={
+            isLanguageLocked ? { color: 'var(--color-dark)', opacity: 0.4 } : {}
+          }
         >
           {language.toUpperCase()}
         </CustomButton>

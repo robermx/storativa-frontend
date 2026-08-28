@@ -186,7 +186,10 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
               weekday: defaultClassNames.weekday,
               day_button: defaultClassNames.day_button,
             }}
-            locale={calendarLocales[i18n.language as keyof typeof calendarLocales] ?? es}
+            locale={
+              calendarLocales[i18n.language as keyof typeof calendarLocales] ??
+              es
+            }
             styles={{
               caption_label: { color: 'var(--color-primary)' },
             }}
@@ -195,12 +198,11 @@ const CustomDatePicker: FC<CustomCalendarInputProps> = ({
       )}
 
       {error && (
-        <span
-          id={`${inputId}-error`}
-          className="mt-1 block text-xs text-red-500 dark:text-red-600 font-medium"
-        >
-          {error}
-        </span>
+        <div className="relative top-1">
+          <span className="absolute text-xs text-red-600/80 font-medium">
+            {error}
+          </span>
+        </div>
       )}
     </div>
   );
