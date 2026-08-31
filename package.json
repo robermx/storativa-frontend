@@ -1,8 +1,9 @@
 {
   "name": "storativa-front",
   "private": true,
-  "version": "1.0.12",
+  "version": "1.0.13",
   "type": "module",
+  "author": "Roberto Arenas",
   "engines": {
     "node": ">=24.0.0"
   },

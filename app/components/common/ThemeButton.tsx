@@ -39,7 +39,7 @@ const ThemeButton: FC = () => {
   return (
     <section
       ref={themeRef}
-      className="fixed z-60 -right-10 top-5"
+      className="fixed z-60 -right-10 top-6.5"
     >
       <div className="theme-wrapper relative bg-lightness dark:bg-darkness rounded-bl-md rounded-tl-md">
         <div className="flex justify-end items-center gap-2 border-dark/20 dark:border-light/20 py-1">
