@@ -34,7 +34,7 @@ const AboutMain = () => {
           {t('hero.description')}
         </p>
 
-        <div className="mt-8 space-y-8 sm:space-x-8">
+        <div className="mt-8 flex gap-8 flex-wrap">
           {aboutLinks.map(({ id, to, labelKey, variant, icon: Icon }) => (
             <CustomLink
               key={id}
