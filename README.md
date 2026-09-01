@@ -1,93 +1,89 @@
 # Storativa Frontend
 
-## Dev Commands
+Storativa's web application for creating, organizing, and editing stories. It is built with React Router in SSR mode and communicates with the Storativa API.
 
-```sh
-pnpm dev          # Start dev server (react-router dev)
-pnpm build        # Production build (react-router build)
-pnpm typegen      # Generate React Router types to .react-router/types/
-pnpm start        # Serve production build
+## Technology
+
+- Node.js 24 or later and pnpm 11.24
+- React 19, React Router 8, and Vite 8
+- TypeScript, Tailwind CSS 4, and Zustand
+- Axios, React Hook Form, i18next, GSAP, and Tiptap
+
+## Prerequisites and installation
+
+Install Node.js 24+ and pnpm 11.24. With the Storativa API available, run:
+
+```bash
+pnpm install
+cp .env.template .env
+pnpm dev
 ```
 
-## Project Structure
+The development server starts at `http://localhost:5174` by default.
 
-- **Framework**: React Router v8 (SSR mode, not CRA)
-- **Entry point**: `app/root.tsx` and `app/routes.ts`
-- **Path alias**: `@/*` maps to `app/*`
-- **Source**: `app/` — all routes, components, stores, services go here
-- **Build output**: `build/`
+## Configuration
 
-## Key Config
+Set the variables in `.env`, based on `.env.template`:
 
-- `vite.config.ts`: Dev server port from `env.PORT` (via `loadEnv`), defaults to 5174. Allowed host `dev.storativa.com`.
-- **Env types**: `vite-env.d.ts` at project root for Vite config types (separate tsconfig scope from `app/env.d.ts`).
-- `eslint.config.js`: `prettier/prettier` is `"error"` — format before committing.
-- `app/app.css`: Tailwind CSS v4 with custom theme vars (`--color-primary`, `--color-dark`, etc.) and dark mode via `.dark` class on `<html>`.
+```env
+VITE_API_URL=http://localhost:3000/api/v1
+PORT=5174
+```
 
-## React Router
+`VITE_API_URL` must always include the `/api/v1` prefix; it is a Vite build-time variable. For cookie-based authentication to work, its origin must match the `FRONTEND_URL` configured in the backend.
 
-- Routes defined in `app/routes.ts` using route config API, **not** file-system routing.
-- Run `pnpm typegen` after adding routes to generate types in `.react-router/types/`.
-- Catch-all 404 route: `route('*', 'routes/NotFound.tsx')`.
-- Auth routes live under `AuthLayout` at path `/`.
+## Commands
 
-## GSAP + React
+```bash
+pnpm dev       # React Router development server
+pnpm typegen   # generates route types in .react-router/types/
+pnpm build     # creates the SSR build in build/
+pnpm start     # serves build/server/index.js
+```
 
-- ThemeButton uses `@gsap/react` hook with `scope` config for automatic cleanup.
-- `useGSAP` dependencies array handles state-reactive animations.
+There are no dedicated lint or test scripts. ESLint treats Prettier differences as errors; format changed files manually before committing.
 
-## TypeScript
+## Routes and features
 
-- Strict mode (`noUnusedLocals`, `noUnusedParameters`, `noFallthroughCasesInSwitch`).
-- CSS modules typed in `app/env.d.ts`.
-- Env vars: `VITE_*` prefix (e.g. `VITE_API_URL`).
+Routes are explicitly declared in `app/routes.ts`:
 
-## Formatting
+- Public: `/`, `/about`, `/login`, and `/register`.
+- Protected: `/dashboard`, `/create`, and `/edition/:storativaId`.
+- `*` renders the 404 page.
 
-Run `prettier --write` before committing.
+The application includes code-verified registration, sign-in, a Storativa dashboard, a creation flow, and a rich chapter editor. It provides Spanish and English interfaces, light and dark themes, and shared UI state with Zustand.
 
-## Package Manager
+## Authentication and API
 
-pnpm required. Use `pnpm install`, not `npm install`.
+The access token remains in memory and is not persisted in the browser. Axios sends it as a Bearer token on protected requests and includes credentials for the HTTP-only refresh cookie. On a `401`, one shared refresh request is made; if it fails, the session returns to the anonymous state.
 
-## VPS Deployment
+For this reason, do not independently change `VITE_API_URL`, the frontend origin, or the backend CORS and cookie configuration.
 
-The `dev` branch is deployed to `dev.storativa.com` with Docker. The root Compose project is stored on the VPS at `/opt/storativa`:
+## Structure
 
 ```text
-/opt/storativa/
-├── backend/       # backend repository, branch dev
-├── frontend/      # this repository, branch dev
-├── docker-compose.yml
-└── .env           # VPS secrets and deployment variables
+app/
+├── routes/       # pages and route data loading
+├── layouts/      # public and authenticated containers
+├── components/   # shared and feature-specific components
+├── services/     # API operations
+├── store/        # Zustand global state
+├── context/      # cross-cutting UI state
+├── hooks/        # reusable behaviors
+├── i18n/         # configuration and es/en resources
+├── interfaces/   # domain contracts
+├── constants/    # shared values
+└── utils/        # pure utilities
 ```
 
-Prepare and publish frontend changes locally:
+The `@/*` alias maps to `app/*`. After modifying `app/routes.ts`, run `pnpm typegen`. Keep every user-visible string in both languages and use the tokens defined in `app/app.css` to preserve the visual theme.
 
-```bash
-git checkout dev
-git pull origin dev
-pnpm install
-pnpm run build
-git add .
-git commit -m "describe the change"
-git push origin dev
-```
+## Docker deployment
 
-Update the VPS from SSH:
-
-```bash
-cd /opt/storativa
-git -C frontend pull origin dev
-docker compose build frontend
-docker compose up -d frontend
-docker compose logs --tail=100 frontend
-```
-
-The production image uses Node 24, builds the SSR output, and starts it with `react-router-serve`. `VITE_API_URL` is a build-time variable and should be set in the VPS `.env` as:
+The production image uses Node.js 24, builds the SSR output, and serves it with `react-router-serve`. In the VPS Compose project, supply `VITE_API_URL` while building the image; do not add it as a runtime-only variable.
 
 ```env
 VITE_API_URL=https://dev.storativa.com/api/v1
 ```
 
-Nginx serves the frontend at `https://dev.storativa.com/` and forwards API requests under `/api/` to the backend. Do not commit the VPS `.env` or private SSH keys.
+Keep secrets and `.env` files outside the repository. Nginx must serve the frontend and forward requests under `/api/` to the backend.
