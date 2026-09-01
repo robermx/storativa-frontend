@@ -42,7 +42,7 @@ const Navbar: FC<NavbarProps> = ({ isVisible, onExitComplete }) => {
         },
       });
       gsap.to('.navbar-wrapper', {
-        paddingRight: themeExpanded ? 100 : 60,
+        paddingRight: themeExpanded ? 88 : 48,
         duration: 0.3,
         ease: 'power2.in',
       });
@@ -73,7 +73,7 @@ const Navbar: FC<NavbarProps> = ({ isVisible, onExitComplete }) => {
   return (
     <nav ref={menuRef} className="fixed w-full z-50">
       <div
-        className={`navbar-wrapper flex gap-x-3 justify-between items-center transition-colors ${user ? 'dark:bg-darkness bg-lightness' : 'bg-primary'} py-3 pl-3 sm:pl-4 md:pl-6 pr-15`}
+        className={`navbar-wrapper flex gap-x-3 justify-between items-center transition-colors ${user ? 'dark:bg-darkness bg-lightness' : 'bg-primary'} py-3 pl-3 sm:pl-4 md:pl-6 pr-12`}
       >
         {Boolean(user) ? <UserInfo /> : <BrandLink />}
         <ToggleButton />
