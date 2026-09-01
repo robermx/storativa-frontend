@@ -2,6 +2,8 @@
 
 Storativa's web application for creating, organizing, and editing stories. It is built with React Router in SSR mode and communicates with the Storativa API.
 
+[Visit Storativa](https://storativa.com)
+
 ## Technology
 
 - Node.js 24 or later and pnpm 11.24
