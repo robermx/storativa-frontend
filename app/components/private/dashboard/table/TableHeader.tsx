@@ -1,16 +1,13 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { InputEnumType } from '@/interfaces/input.interface';
 import CustomInput from '@/components/shared/CustomInput';
+import useDebounce from '@/hooks/useDebounce';
 
-interface HeaderTableProps {
-  search: string;
-  onSearchChange: Dispatch<SetStateAction<string>>;
-}
-
-const HeaderTable: FC<HeaderTableProps> = ({ search, onSearchChange }) => {
+const TableHeader: FC = () => {
   const { t } = useTranslation('dashboard');
+  const { search, setSearch } = useDebounce();
 
   return (
     <div className="grid items-center grid-cols-3 gap-3 sm:gap-4 md:gap-6">
@@ -23,7 +20,7 @@ const HeaderTable: FC<HeaderTableProps> = ({ search, onSearchChange }) => {
           inputName="search"
           placeholder={t('table.searchPlaceholder')}
           value={search}
-          onChange={(event) => onSearchChange(event.target.value)}
+          onChange={(event) => setSearch(event.target.value)}
           aria-label={t('table.searchAriaLabel')}
         />
       </div>
@@ -31,4 +28,4 @@ const HeaderTable: FC<HeaderTableProps> = ({ search, onSearchChange }) => {
   );
 };
 
-export default HeaderTable;
+export default TableHeader;

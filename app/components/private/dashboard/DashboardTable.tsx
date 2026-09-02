@@ -1,44 +1,42 @@
 import { Dispatch, FC, SetStateAction } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import {
   DashboardStorativa,
   PaginationMeta,
 } from '@/interfaces/storativa.interface';
 
-import CustomButton from '@/components/shared/CustomButton';
-import HeaderTable from './table/HeaderTable';
-import ContentTable from './table/ContentTable';
-import PaginationTable from './table/PaginationTable';
+import TableHeader from './table/TableHeader';
+import TableContent from './table/TableContent';
+import TablePagination from './table/TablePagination';
 
 interface DashboardTableProps {
   storativas: DashboardStorativa[];
   meta: PaginationMeta;
-  search: string;
-  onSearchChange: Dispatch<SetStateAction<string>>;
-  onPageChange: (page: number) => void;
-  onDeleteRequest: (storativa: DashboardStorativa) => void;
   isDeleting: boolean;
+  onPageChange: (page: number) => void;
+  setDeleteStorativa: Dispatch<SetStateAction<DashboardStorativa | null>>
+  setDeleteError: Dispatch<SetStateAction<string | null>>
 }
 
 const DashboardTable: FC<DashboardTableProps> = ({
   storativas,
   meta,
-  search,
-  onSearchChange,
+  setDeleteStorativa,
+  setDeleteError,
   onPageChange,
-  onDeleteRequest,
   isDeleting,
 }) => {
+  
   return (
     <div className="flex flex-col gap-y-3 sm:gap-y-4 md:gap-y-6">
-      <HeaderTable search={search} onSearchChange={onSearchChange} />
-      <ContentTable
+      <TableHeader />
+      <TableContent
         storativas={storativas}
-        onDeleteRequest={onDeleteRequest}
         isDeleting={isDeleting}
+        setDeleteStorativa={setDeleteStorativa}
+        setDeleteError={setDeleteError}
       />
-      <PaginationTable
+      <TablePagination
         meta={meta}
         storativas={storativas}
         onPageChange={onPageChange}

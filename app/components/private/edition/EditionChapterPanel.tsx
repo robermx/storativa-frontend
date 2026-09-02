@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import {
   Dialog,
   DialogBackdrop,
@@ -9,7 +9,6 @@ import {
 import {
   ArrowDown,
   ArrowUp,
-  // BookOpen,
   Check,
   Pencil,
   Plus,
@@ -242,34 +241,45 @@ const EditionChapterPanel = () => {
         onCloseDialog={() => setDeleteCandidate(null)}
         initialFocus={cancelDeleteRef}
         title={t('chapters.deleteDialogTitle')}
-        subtitle={t('chapters.deleteDialogSubtitle', {
-          title: deleteCandidate?.title ?? '',
-        })}
+        subtitle={
+          <Trans
+            ns="editor"
+            i18nKey="chapters.deleteDialogSubtitle"
+            values={{ title: deleteCandidate?.title ?? '' }}
+            components={{
+              strong: (
+                <strong className="font-bold text-dark dark:text-light" />
+              ),
+            }}
+          />
+        }
         closeLabel={t('chapters.deleteDialogClose')}
       >
-        <div className="mt-6 flex justify-end gap-6">
-          <CustomButton
-            ref={cancelDeleteRef}
-            onClick={() => setDeleteCandidate(null)}
-            variant="outline"
-            className="cursor-pointer"
-          >
-            {t('chapters.cancel')}
-          </CustomButton>
-          <CustomButton
-            variant="danger"
-            disabled={isChapterLocked}
-            onClick={() => {
-              if (!deleteCandidate) return;
-              const chapterId = deleteCandidate._id;
-              setDeleteCandidate(null);
-              void deleteChapter(chapterId);
-            }}
-            className="cursor-pointer"
-          >
-            {t('chapters.confirmDelete')}
-          </CustomButton>
-        </div>
+        {(closeDialog) => (
+          <div className="mt-6 flex gap-6">
+            <CustomButton
+              ref={cancelDeleteRef}
+              onClick={closeDialog}
+              variant="outline"
+              className="cursor-pointer"
+            >
+              {t('chapters.cancel')}
+            </CustomButton>
+            <CustomButton
+              variant="danger"
+              disabled={isChapterLocked}
+              onClick={() => {
+                if (!deleteCandidate) return;
+                const chapterId = deleteCandidate._id;
+                closeDialog();
+                void deleteChapter(chapterId);
+              }}
+              className="cursor-pointer"
+            >
+              {t('chapters.confirmDelete')}
+            </CustomButton>
+          </div>
+        )}
       </CustomDialog>
     </>
   );

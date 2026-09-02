@@ -23,7 +23,7 @@
     "rename": "Rename {{title}}",
     "delete": "Delete {{title}}",
     "deleteDialogTitle": "Delete chapter",
-    "deleteDialogSubtitle": "“{{title}}” and its content will be deleted. This action cannot be undone.",
+    "deleteDialogSubtitle": "<strong>{{title}}</strong> and its content will be deleted. This action cannot be undone.",
     "deleteDialogClose": "Close chapter deletion dialog",
     "cancel": "Cancel",
     "confirmDelete": "Delete"

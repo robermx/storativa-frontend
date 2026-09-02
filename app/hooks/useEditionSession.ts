@@ -58,7 +58,6 @@ export const useEditionSession = (storativa: IResStorativa) => {
 
     try {
       const chapter = await createStorativaChapter(storativa._id, {
-        title: 'Capítulo 1',
         content: EMPTY_EDITOR_CONTENT,
       });
       setChapters([chapter]);

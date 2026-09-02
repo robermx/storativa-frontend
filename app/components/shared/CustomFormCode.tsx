@@ -226,15 +226,22 @@ const CustomFormCode: FC<CustomFormCodeProps> = ({
         </button>
       </p>
       <div className="flex gap-3 pt-1">
-        <CustomButton onClick={onClose} variant="ghost">
+        <CustomButton
+          onClick={onClose}
+          variant="ghost"
+          className="cursor-pointer"
+        >
           {t('verification.cancel')}
         </CustomButton>
         <CustomButton
           type="submit"
           variant="primary"
           disabled={!isCodeComplete || isSubmitting}
+          className="cursor-pointer"
         >
-          {isSubmitting ? t('verification.verifying') : t('verification.verify')}
+          {isSubmitting
+            ? t('verification.verifying')
+            : t('verification.verify')}
         </CustomButton>
       </div>
     </form>

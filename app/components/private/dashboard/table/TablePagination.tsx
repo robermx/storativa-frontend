@@ -13,7 +13,7 @@ interface PaginationTableProps {
   onPageChange: (page: number) => void;
 }
 
-const PaginationTable: FC<PaginationTableProps> = ({
+const TablePagination: FC<PaginationTableProps> = ({
   meta,
   storativas,
   onPageChange,
@@ -69,4 +69,4 @@ const PaginationTable: FC<PaginationTableProps> = ({
   );
 };
 
-export default PaginationTable;
+export default TablePagination;

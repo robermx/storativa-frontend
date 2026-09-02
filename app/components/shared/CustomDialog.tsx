@@ -1,4 +1,4 @@
-import { type FC, type PropsWithChildren, type RefObject } from 'react';
+import { type FC, type ReactNode, type RefObject } from 'react';
 import {
   Dialog,
   DialogBackdrop,
@@ -13,12 +13,13 @@ interface CustomDialogProps {
   onCloseDialog: () => void;
   initialFocus: RefObject<HTMLElement | null>;
   title: string;
-  subtitle: string;
+  subtitle: ReactNode;
   closeLabel?: string;
   isCloseDisabled?: boolean;
+  children: ReactNode | ((closeDialog: () => void) => ReactNode);
 }
 
-const CustomDialog: FC<PropsWithChildren<CustomDialogProps>> = ({
+const CustomDialog: FC<CustomDialogProps> = ({
   openDialog = false,
   onCloseDialog,
   initialFocus,
@@ -28,10 +29,23 @@ const CustomDialog: FC<PropsWithChildren<CustomDialogProps>> = ({
   isCloseDisabled = false,
   children,
 }) => {
+  const closeDialog = () => {
+    if (isCloseDisabled) return;
+
+    const activeElement = document.activeElement;
+
+    if (activeElement instanceof HTMLElement) activeElement.blur();
+    onCloseDialog();
+  };
+
+  const content =
+    typeof children === 'function' ? children(closeDialog) : children;
+
   return (
     <Dialog
       open={openDialog}
-      onClose={isCloseDisabled ? () => undefined : onCloseDialog}
+      transition
+      onClose={closeDialog}
       initialFocus={initialFocus}
       className="relative z-60 overflow-y-auto"
     >
@@ -54,7 +68,7 @@ const CustomDialog: FC<PropsWithChildren<CustomDialogProps>> = ({
               </p>
             </div>
             <CustomButton
-              onClick={onCloseDialog}
+              onClick={closeDialog}
               disabled={isCloseDisabled}
               aria-label={closeLabel}
               icon={<X />}
@@ -63,7 +77,7 @@ const CustomDialog: FC<PropsWithChildren<CustomDialogProps>> = ({
               className="text-dark dark:text-light cursor-pointer"
             />
           </div>
-          <div className="overflow-auto h-auto max-h-60">{children}</div>
+          <div className="overflow-auto h-auto max-h-60">{content}</div>
         </DialogPanel>
       </div>
     </Dialog>
