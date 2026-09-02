@@ -1,5 +1,6 @@
-import { FC } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Trash2 } from 'lucide-react';
 
 import { DashboardStorativa } from '@/interfaces/storativa.interface';
 import { daysPassed, percentageDays } from '@/utils/percentageDays';
@@ -8,20 +9,26 @@ import { titleFormat } from '@/utils/titleFormat';
 import CustomLink from '@/components/shared/CustomLink';
 import { formatDate } from '@/utils/formatDate';
 import CustomButton from '@/components/shared/CustomButton';
-import { Trash2 } from 'lucide-react';
 
 interface ContentTableProps {
   storativas: DashboardStorativa[];
-  onDeleteRequest: (storativa: DashboardStorativa) => void;
+  setDeleteStorativa: Dispatch<SetStateAction<DashboardStorativa | null>>;
+  setDeleteError: Dispatch<SetStateAction<string | null>>;
   isDeleting: boolean;
 }
 
-const ContentTable: FC<ContentTableProps> = ({
+const TableContent: FC<ContentTableProps> = ({
   storativas,
-  onDeleteRequest,
+  setDeleteStorativa,
+  setDeleteError,
   isDeleting,
 }) => {
   const { t, i18n } = useTranslation('dashboard');
+
+  const handleDeleteRequest = (storativa: DashboardStorativa) => {
+    setDeleteError(null);
+    setDeleteStorativa(storativa);
+  };
 
   return (
     <div className="overflow-x-auto min-h-90">
@@ -128,7 +135,7 @@ const ContentTable: FC<ContentTableProps> = ({
                     })}
                     className="cursor-pointer"
                     disabled={isDeleting}
-                    onClick={() => onDeleteRequest(item)}
+                    onClick={() => handleDeleteRequest(item)}
                   />
                 </td>
               </tr>
@@ -140,4 +147,4 @@ const ContentTable: FC<ContentTableProps> = ({
   );
 };
 
-export default ContentTable;
+export default TableContent;

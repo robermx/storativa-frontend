@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useLoaderData, useRevalidator, useSearchParams } from 'react-router';
 import { Trans, useTranslation } from 'react-i18next';
 
@@ -59,8 +59,6 @@ const Dashboard = () => {
   const { dashboard } = useLoaderData<typeof clientLoader>();
   const { revalidate } = useRevalidator();
   const [searchParams, setSearchParams] = useSearchParams();
-  const querySearch = searchParams.get('q') || '';
-  const [search, setSearch] = useState(querySearch);
   const [deleteStorativa, setDeleteStorativa] =
     useState<DashboardStorativa | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
@@ -69,29 +67,6 @@ const Dashboard = () => {
   const isSettingsPanelOpen = useOverlayPanelStore(
     (state) => state.activePanel === 'settings',
   );
-
-  useEffect(() => {
-    setSearch(querySearch);
-  }, [querySearch]);
-
-  useEffect(() => {
-    if (search === querySearch) return;
-
-    const timeoutId = window.setTimeout(() => {
-      const nextSearchParams = new URLSearchParams(searchParams);
-      const normalizedSearch = search.trim();
-
-      if (normalizedSearch) {
-        nextSearchParams.set('q', normalizedSearch);
-      } else {
-        nextSearchParams.delete('q');
-      }
-      nextSearchParams.delete('page');
-      setSearchParams(nextSearchParams, { replace: true });
-    }, 300);
-
-    return () => window.clearTimeout(timeoutId);
-  }, [querySearch, search, searchParams, setSearchParams]);
 
   const handlePageChange = (page: number) => {
     if (page < 1 || page > dashboard.meta.pageCount) return;
@@ -103,11 +78,6 @@ const Dashboard = () => {
       nextSearchParams.set('page', String(page));
     }
     setSearchParams(nextSearchParams);
-  };
-
-  const handleDeleteRequest = (storativa: DashboardStorativa) => {
-    setDeleteError(null);
-    setDeleteStorativa(storativa);
   };
 
   const handleDeleteDialogClose = () => {
@@ -141,28 +111,28 @@ const Dashboard = () => {
   };
 
   return (
-    <div
-      aria-hidden={isSettingsPanelOpen}
-      inert={isSettingsPanelOpen}
-      className="flex flex-col gap-y-7 max-w-6xl mx-auto"
-    >
-      {dashboard.stats.total > 0 ? (
-        <div className="flex flex-col gap-y-3 sm:gap-y-4 md:gap-y-6">
-          <DashboardStats stats={dashboard.stats} />
-          <DashboardTable
-            storativas={dashboard.data}
-            meta={dashboard.meta}
-            search={search}
-            onSearchChange={setSearch}
-            onPageChange={handlePageChange}
-            onDeleteRequest={handleDeleteRequest}
-            isDeleting={isDeleting}
-          />
-        </div>
-      ) : (
-        <DashboardEmpty />
-      )}
-
+    <>
+      <div
+        aria-hidden={isSettingsPanelOpen}
+        inert={isSettingsPanelOpen}
+        className="flex flex-col gap-y-7 max-w-6xl mx-auto"
+      >
+        {dashboard.stats.total > 0 ? (
+          <div className="flex flex-col gap-y-3 sm:gap-y-4 md:gap-y-6">
+            <DashboardStats stats={dashboard.stats} />
+            <DashboardTable
+              storativas={dashboard.data}
+              meta={dashboard.meta}
+              setDeleteError={setDeleteError}
+              isDeleting={isDeleting}
+              setDeleteStorativa={setDeleteStorativa}
+              onPageChange={handlePageChange}
+            />
+          </div>
+        ) : (
+          <DashboardEmpty />
+        )}
+      </div>
       <CustomDialog
         openDialog={Boolean(deleteStorativa)}
         onCloseDialog={handleDeleteDialogClose}
@@ -219,7 +189,7 @@ const Dashboard = () => {
           </div>
         </div>
       </CustomDialog>
-    </div>
+    </>
   );
 };
 
