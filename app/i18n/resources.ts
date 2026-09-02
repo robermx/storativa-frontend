@@ -6,6 +6,7 @@ import enDashboard from './locales/en/dashboard.json';
 import enEditor from './locales/en/editor.json';
 import enHome from './locales/en/home.json';
 import enNavigation from './locales/en/navigation.json';
+import enSettings from './locales/en/settings.json';
 import esAbout from './locales/es/about.json';
 import esAuth from './locales/es/auth.json';
 import esCommon from './locales/es/common.json';
@@ -14,6 +15,7 @@ import esDashboard from './locales/es/dashboard.json';
 import esEditor from './locales/es/editor.json';
 import esHome from './locales/es/home.json';
 import esNavigation from './locales/es/navigation.json';
+import esSettings from './locales/es/settings.json';
 
 export const i18nResources = {
   es: {
@@ -25,6 +27,7 @@ export const i18nResources = {
     editor: esEditor,
     home: esHome,
     navigation: esNavigation,
+    settings: esSettings,
   },
   en: {
     about: enAbout,
@@ -35,5 +38,6 @@ export const i18nResources = {
     editor: enEditor,
     home: enHome,
     navigation: enNavigation,
+    settings: enSettings,
   },
 } as const;

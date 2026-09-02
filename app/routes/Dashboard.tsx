@@ -61,7 +61,7 @@ const Dashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const querySearch = searchParams.get('q') || '';
   const [search, setSearch] = useState(querySearch);
-  const [deleteCandidate, setDeleteCandidate] =
+  const [deleteStorativa, setDeleteStorativa] =
     useState<DashboardStorativa | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -107,27 +107,27 @@ const Dashboard = () => {
 
   const handleDeleteRequest = (storativa: DashboardStorativa) => {
     setDeleteError(null);
-    setDeleteCandidate(storativa);
+    setDeleteStorativa(storativa);
   };
 
   const handleDeleteDialogClose = () => {
     if (isDeleting) return;
 
     setDeleteError(null);
-    setDeleteCandidate(null);
+    setDeleteStorativa(null);
   };
 
   const handleDeleteConfirm = async () => {
-    if (!deleteCandidate) return;
+    if (!deleteStorativa) return;
 
     setIsDeleting(true);
     setDeleteError(null);
     try {
-      await deleteUserStorativa(deleteCandidate._id);
+      await deleteUserStorativa(deleteStorativa._id);
       const shouldGoToPreviousPage =
         dashboard.data.length === 1 && dashboard.meta.page > 1;
 
-      setDeleteCandidate(null);
+      setDeleteStorativa(null);
       if (shouldGoToPreviousPage) {
         handlePageChange(dashboard.meta.page - 1);
       } else {
@@ -164,7 +164,7 @@ const Dashboard = () => {
       )}
 
       <CustomDialog
-        openDialog={Boolean(deleteCandidate)}
+        openDialog={Boolean(deleteStorativa)}
         onCloseDialog={handleDeleteDialogClose}
         initialFocus={cancelDeleteRef}
         title={t('deleteDialog.title')}
@@ -172,7 +172,11 @@ const Dashboard = () => {
           <Trans
             ns="dashboard"
             i18nKey="deleteDialog.subtitle"
-            values={{ title: titleFormat(deleteCandidate?.title ?? '') }}
+            values={{
+              title: titleFormat(
+                deleteStorativa?.title ?? t('deleteDialog.titleNotFound'),
+              ),
+            }}
             components={{
               strong: (
                 <strong className="font-bold text-dark dark:text-light" />

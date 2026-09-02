@@ -40,6 +40,7 @@
     "title": "Delete Storativa",
     "subtitle": "<strong>{{title}}</strong> and all of its chapters and content will be deleted.",
     "closeLabel": "Close Storativa deletion dialog",
+    "titleNotFound": "Title not found",
     "warning": "This action cannot be undone.",
     "cancel": "Cancel",
     "deleting": "Deleting...",

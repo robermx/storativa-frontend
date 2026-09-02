@@ -1,0 +1,16 @@
+{
+  "panel": {
+    "title": "Configuración",
+    "closeLabel": "Cerrar configuración",
+    "openLabel": "Abrir configuración",
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "subscription": "Suscripción",
+    "plan": {
+      "free": "Gratis"
+    },
+    "logout": "Cerrar sesión",
+    "defaultName": "usuario",
+    "defaultEmail": "usuario@email.com"
+  }
+}

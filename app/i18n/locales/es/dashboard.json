@@ -40,6 +40,7 @@
     "title": "Eliminar Storativa",
     "subtitle": "Se eliminará <strong>{{title}}</strong> junto con todos sus capítulos y contenido.",
     "closeLabel": "Cerrar eliminación de Storativa",
+    "titleNotFound": "Título no encontrado",
     "warning": "Esta acción no se puede deshacer.",
     "cancel": "Cancelar",
     "deleting": "Eliminando...",

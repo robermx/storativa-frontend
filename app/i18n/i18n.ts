@@ -1,10 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import {
-  DEFAULT_LANGUAGE,
-  LANGUAGES,
-} from '@/store/languageStore';
+import { DEFAULT_LANGUAGE, LANGUAGES } from '@/store/languageStore';
 import { i18nResources } from './resources';
 
 void i18n.use(initReactI18next).init({
@@ -21,6 +18,7 @@ void i18n.use(initReactI18next).init({
     'editor',
     'home',
     'navigation',
+    'settings',
   ],
   defaultNS: 'home',
   interpolation: {

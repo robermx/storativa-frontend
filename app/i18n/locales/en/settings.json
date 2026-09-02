@@ -1,0 +1,16 @@
+{
+  "panel": {
+    "title": "Settings",
+    "closeLabel": "Close settings",
+    "openLabel": "Open settings",
+    "name": "Name",
+    "email": "Email",
+    "subscription": "Subscription",
+    "plan": {
+      "free": "Free"
+    },
+    "logout": "Log out",
+    "defaultName": "user",
+    "defaultEmail": "user@example.com"
+  }
+}
