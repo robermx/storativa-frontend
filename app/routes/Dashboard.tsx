@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLoaderData, useRevalidator, useSearchParams } from 'react-router';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 
 import { createClientLoader } from '@/lib/createClientLoader';
 import {
@@ -8,6 +8,7 @@ import {
   getUserStorativas,
 } from '@/services/storativa.service';
 
+import { titleFormat } from '@/utils/titleFormat';
 import { useOverlayPanelStore } from '@/store/overlayPanelStore';
 import DashboardSkeleton from '@/components/skeleton/DashboardSkeleton';
 import DashboardStats from '@/components/private/dashboard/DashboardStats';
@@ -133,9 +134,7 @@ const Dashboard = () => {
         revalidate();
       }
     } catch (error: unknown) {
-      setDeleteError(
-        getErrorMessage(error, t('deleteDialog.failed')),
-      );
+      setDeleteError(getErrorMessage(error, t('deleteDialog.failed')));
     } finally {
       setIsDeleting(false);
     }
@@ -169,9 +168,18 @@ const Dashboard = () => {
         onCloseDialog={handleDeleteDialogClose}
         initialFocus={cancelDeleteRef}
         title={t('deleteDialog.title')}
-        subtitle={t('deleteDialog.subtitle', {
-          title: deleteCandidate?.title ?? '',
-        })}
+        subtitle={
+          <Trans
+            ns="dashboard"
+            i18nKey="deleteDialog.subtitle"
+            values={{ title: titleFormat(deleteCandidate?.title ?? '') }}
+            components={{
+              strong: (
+                <strong className="font-bold text-dark dark:text-light" />
+              ),
+            }}
+          />
+        }
         closeLabel={t('deleteDialog.closeLabel')}
         isCloseDisabled={isDeleting}
       >
@@ -184,23 +192,25 @@ const Dashboard = () => {
               {deleteError}
             </p>
           )}
-          <div className="flex justify-end gap-3">
-            <button
+          <div className="flex gap-6">
+            <CustomButton
+              variant="ghost"
               ref={cancelDeleteRef}
-              type="button"
               onClick={handleDeleteDialogClose}
               disabled={isDeleting}
-              className="rounded-md border border-dark/15 px-4 py-2 text-sm font-medium text-dark disabled:cursor-not-allowed disabled:opacity-50 dark:border-light/15 dark:text-light"
+              className="cursor-pointer"
             >
               {t('deleteDialog.cancel')}
-            </button>
+            </CustomButton>
             <CustomButton
               variant="danger"
-              width="auto"
               disabled={isDeleting}
               onClick={() => void handleDeleteConfirm()}
+              className="cursor-pointer"
             >
-              {isDeleting ? t('deleteDialog.deleting') : t('deleteDialog.delete')}
+              {isDeleting
+                ? t('deleteDialog.deleting')
+                : t('deleteDialog.delete')}
             </CustomButton>
           </div>
         </div>

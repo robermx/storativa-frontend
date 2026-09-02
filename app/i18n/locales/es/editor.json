@@ -23,7 +23,7 @@
     "rename": "Renombrar {{title}}",
     "delete": "Eliminar {{title}}",
     "deleteDialogTitle": "Eliminar capítulo",
-    "deleteDialogSubtitle": "Se eliminará “{{title}}” y su contenido. Esta acción no se puede deshacer.",
+    "deleteDialogSubtitle": "Se eliminará <strong>{{title}}</strong> y su contenido. Esta acción no se puede deshacer.",
     "deleteDialogClose": "Cerrar diálogo de eliminación de capítulo",
     "cancel": "Cancelar",
     "confirmDelete": "Eliminar"

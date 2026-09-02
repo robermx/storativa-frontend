@@ -1,12 +1,10 @@
 import { Dispatch, FC, SetStateAction } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import {
   DashboardStorativa,
   PaginationMeta,
 } from '@/interfaces/storativa.interface';
 
-import CustomButton from '@/components/shared/CustomButton';
 import HeaderTable from './table/HeaderTable';
 import ContentTable from './table/ContentTable';
 import PaginationTable from './table/PaginationTable';

@@ -38,7 +38,7 @@
   },
   "deleteDialog": {
     "title": "Delete Storativa",
-    "subtitle": "“{{title}}” and all of its chapters and content will be deleted.",
+    "subtitle": "<strong>{{title}}</strong> and all of its chapters and content will be deleted.",
     "closeLabel": "Close Storativa deletion dialog",
     "warning": "This action cannot be undone.",
     "cancel": "Cancel",
