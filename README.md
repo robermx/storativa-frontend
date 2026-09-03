@@ -29,10 +29,19 @@ Set the variables in `.env`, based on `.env.template`:
 
 ```env
 VITE_API_URL=http://localhost:3000/api/v1
+VITE_DEPLOY_TARGET=local
+VITE_PUBLIC_ACCESS_MODE=open
 PORT=5174
 ```
 
 `VITE_API_URL` must always include the `/api/v1` prefix; it is a Vite build-time variable. For cookie-based authentication to work, its origin must match the `FRONTEND_URL` configured in the backend.
+
+### Public-launch hold
+
+The production image defaults to `VITE_DEPLOY_TARGET=prod`. In that target,
+the public launch screen is shown unless `VITE_PUBLIC_ACCESS_MODE=open` is
+provided at build time. Local and dev builds remain open. Reopen production
+only after setting the matching frontend and backend access modes to `open`.
 
 ## Commands
 

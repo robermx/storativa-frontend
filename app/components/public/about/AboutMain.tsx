@@ -7,6 +7,7 @@ import {
   aboutDynamicContent,
   aboutLinks,
 } from '@/constants/common/about.constants';
+import { isPublicAccessPaused } from '@/utils/publicAccess';
 
 const AboutMain = () => {
   const { t } = useTranslation('about');
@@ -34,19 +35,21 @@ const AboutMain = () => {
           {t('hero.description')}
         </p>
 
-        <div className="mt-8 flex gap-8 flex-wrap">
-          {aboutLinks.map(({ id, to, labelKey, variant, icon: Icon }) => (
-            <CustomLink
-              key={id}
-              to={to}
-              variant={variant}
-              icon={Icon ? <Icon /> : undefined}
-              className="px-7"
-            >
-              {t(`links.${labelKey}`)}
-            </CustomLink>
-          ))}
-        </div>
+        {!isPublicAccessPaused && (
+          <div className="mt-8 flex gap-8 flex-wrap">
+            {aboutLinks.map(({ id, to, labelKey, variant, icon: Icon }) => (
+              <CustomLink
+                key={id}
+                to={to}
+                variant={variant}
+                icon={Icon ? <Icon /> : undefined}
+                className="px-7"
+              >
+                {t(`links.${labelKey}`)}
+              </CustomLink>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="grid gap-4 rounded-4xl border border-dark/10 bg-lightness/80 p-5 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.25)] backdrop-blur dark:border-light/10 dark:bg-darkness/80">

@@ -17,6 +17,7 @@ import Navbar from '@/components/common/Navbar';
 import SettingsPanel from '@/components/navbar/SettingsPanel';
 import ThemeButton from '@/components/common/ThemeButton';
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider';
+import Footer from '@/components/common/Footer';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, MorphSVGPlugin);
 
@@ -94,6 +95,7 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
             {children}
           </div>
         </main>
+        {isNavbarMounted && <Footer />}
       </SmoothScrollProvider>
     </Fragment>
   );

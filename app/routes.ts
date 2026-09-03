@@ -9,6 +9,7 @@ export default [
   layout('layouts/PublicLayout.tsx', [
     index('routes/Home.tsx'),
     route('about', 'routes/About.tsx'),
+    route('legal', 'routes/Legal.tsx'),
     route('login', 'routes/Login.tsx'),
     route('register', 'routes/Register.tsx'),
   ]),

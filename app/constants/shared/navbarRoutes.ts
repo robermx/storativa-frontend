@@ -1,6 +1,10 @@
+import { isPublicAccessPaused } from '@/utils/publicAccess';
+
 export const publicRoutes = [
   { id: 1, path: '/about', labelKey: 'about' },
-  { id: 2, path: '/login', labelKey: 'login' },
+  ...(!isPublicAccessPaused
+    ? [{ id: 3, path: '/login', labelKey: 'login' }]
+    : []),
 ];
 
 export const privateRoutes = [

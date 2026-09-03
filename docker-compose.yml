@@ -9,6 +9,8 @@ services:
       - '5174:5174'
     environment:
       VITE_API_URL: ${VITE_API_URL}
+      VITE_DEPLOY_TARGET: ${VITE_DEPLOY_TARGET:-local}
+      VITE_PUBLIC_ACCESS_MODE: ${VITE_PUBLIC_ACCESS_MODE:-open}
       PORT: ${PORT}
       CI: 'true'
     command: sh -c "corepack enable && CI=true pnpm install && pnpm run dev"
