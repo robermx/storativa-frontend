@@ -4,7 +4,9 @@ import enCommon from './locales/en/common.json';
 import enCreate from './locales/en/create.json';
 import enDashboard from './locales/en/dashboard.json';
 import enEditor from './locales/en/editor.json';
+import enFooter from './locales/en/footer.json';
 import enHome from './locales/en/home.json';
+import enLegal from './locales/en/legal.json';
 import enNavigation from './locales/en/navigation.json';
 import enSettings from './locales/en/settings.json';
 import esAbout from './locales/es/about.json';
@@ -13,7 +15,9 @@ import esCommon from './locales/es/common.json';
 import esCreate from './locales/es/create.json';
 import esDashboard from './locales/es/dashboard.json';
 import esEditor from './locales/es/editor.json';
+import esFooter from './locales/es/footer.json';
 import esHome from './locales/es/home.json';
+import esLegal from './locales/es/legal.json';
 import esNavigation from './locales/es/navigation.json';
 import esSettings from './locales/es/settings.json';
 
@@ -25,7 +29,9 @@ export const i18nResources = {
     create: esCreate,
     dashboard: esDashboard,
     editor: esEditor,
+    footer: esFooter,
     home: esHome,
+    legal: esLegal,
     navigation: esNavigation,
     settings: esSettings,
   },
@@ -36,7 +42,9 @@ export const i18nResources = {
     create: enCreate,
     dashboard: enDashboard,
     editor: enEditor,
+    footer: enFooter,
     home: enHome,
+    legal: enLegal,
     navigation: enNavigation,
     settings: enSettings,
   },

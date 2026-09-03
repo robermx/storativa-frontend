@@ -1,6 +1,12 @@
 {
   "search": "Search...",
   "noResults": "No results",
+  "publicAccess": {
+    "eyebrow": "Public access paused",
+    "title": "We are preparing Storativa for launch.",
+    "description": "While we complete the platform's legal review, public access to create accounts and use the tools is temporarily paused.",
+    "legalLink": "Learn about legal information"
+  },
   "calendar": {
     "openAriaLabel": "Open calendar",
     "chooseDateAriaLabel": "Choose date"

@@ -1,0 +1,45 @@
+{
+  "hero": {
+    "eyebrow": "Aspectos legales",
+    "title": "Claridad para crear, compartir y cuidar tu obra.",
+    "description": "Aquí reunimos una explicación general de los temas legales que Storativa está preparando para su lanzamiento público."
+  },
+  "notice": {
+    "title": "Información para orientarte",
+    "description": "Esta sección no constituye el aviso de privacidad ni los términos y condiciones de Storativa. No sustituye el asesoramiento de una persona profesional en derecho para tu caso particular."
+  },
+  "topics": {
+    "eyebrow": "Lo esencial",
+    "title": "Conoce cómo se relacionan estos temas con Storativa.",
+    "description": "La información legal debe ser comprensible. Por eso organizamos los aspectos que normalmente necesitas revisar antes de usar o compartir contenido en la plataforma.",
+    "items": {
+      "use": {
+        "title": "Uso de la plataforma",
+        "description": "Entiende las reglas generales para crear una cuenta, utilizar las herramientas de Storativa y mantener un espacio respetuoso para todas las personas usuarias."
+      },
+      "privacy": {
+        "title": "Privacidad y datos",
+        "description": "Conoce qué aspectos debes revisar sobre el tratamiento de tus datos personales, la seguridad de tu cuenta y las comunicaciones relacionadas con el servicio."
+      },
+      "authorship": {
+        "title": "Contenido y autoría",
+        "description": "Infórmate sobre los criterios que aplican a las historias y materiales que incorporas, incluidos los derechos de terceros y el uso responsable del contenido."
+      }
+    }
+  },
+  "consultation": {
+    "eyebrow": "Guía de consulta",
+    "title": "Qué podrás revisar en los documentos legales.",
+    "description": "Los documentos legales de Storativa deben ayudarte a tomar decisiones informadas al utilizar el servicio. Busca especialmente información sobre:",
+    "items": {
+      "terms": "Las condiciones para acceder y usar las herramientas de Storativa.",
+      "data": "La forma en que se tratan y protegen tus datos personales.",
+      "content": "Tus responsabilidades al crear, cargar o compartir contenido.",
+      "account": "La gestión de tu cuenta, seguridad y avisos importantes del servicio."
+    }
+  },
+  "support": {
+    "title": "¿Tienes una duda sobre estos temas?",
+    "description": "Consulta los documentos aplicables antes de usar una función o compartir una obra. Si tu situación requiere una interpretación jurídica específica, te recomendamos acudir a una persona profesional en derecho calificada en tu jurisdicción."
+  }
+}

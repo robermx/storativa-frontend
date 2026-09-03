@@ -1,13 +1,15 @@
 import { useEffect, useSyncExternalStore } from 'react';
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router';
 
+import i18n from './i18n/i18n';
+import { NavigationVisibilityProvider } from './context/NavigationVisibilityContext';
+import { ensureAuthSession } from './services/auth.service';
+import { isPublicAccessPaused } from './utils/publicAccess';
+import { useAuthStore } from './store/authStore';
 import { useThemeStore } from './store/themeStore';
 import { useOverlayPanelStore } from './store/overlayPanelStore';
 import { DEFAULT_LANGUAGE, useLanguageStore } from './store/languageStore';
-import { ensureAuthSession } from './services/auth.service';
-import i18n from './i18n/i18n';
 import MainLayout from './layouts/MainLayout';
-import { NavigationVisibilityProvider } from './context/NavigationVisibilityContext';
 import './app.css';
 
 export default function App() {
@@ -21,10 +23,16 @@ export default function App() {
     (state) => state.lockedLanguage ?? state.language,
   );
   const activePanel = useOverlayPanelStore((state) => state.activePanel);
+  const setAnonymous = useAuthStore((state) => state.setAnonymous);
 
   useEffect(() => {
+    if (isPublicAccessPaused) {
+      setAnonymous();
+      return;
+    }
+
     void ensureAuthSession();
-  }, []);
+  }, [setAnonymous]);
 
   useEffect(() => {
     void i18n.changeLanguage(language);

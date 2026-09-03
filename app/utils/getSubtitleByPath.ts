@@ -14,6 +14,8 @@ export const getSubtitleByPath = (path: string): string => {
       return 'Home';
     case '/about':
       return 'Acerca'
+    case '/legal':
+      return 'Aspectos legales';
     case '/dashboard':
       return 'Dashboard';
     case '/create':

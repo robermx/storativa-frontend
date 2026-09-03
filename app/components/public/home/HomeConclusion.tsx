@@ -2,6 +2,7 @@ import { ChevronRight } from 'lucide-react';
 import { Trans, useTranslation } from 'react-i18next';
 
 import CustomLink from '@/components/shared/CustomLink';
+import { isPublicAccessPaused } from '@/utils/publicAccess';
 
 const HomeConclusion = () => {
   const { t } = useTranslation('home');
@@ -31,14 +32,16 @@ const HomeConclusion = () => {
           {t('conclusion.description')}
         </p>
 
-        <CustomLink
-          to="/register"
-          variant="primary"
-          icon={<ChevronRight />}
-          className="pl-8 pr-7"
-        >
-          {t('conclusion.cta')}
-        </CustomLink>
+        {!isPublicAccessPaused && (
+          <CustomLink
+            to="/register"
+            variant="primary"
+            icon={<ChevronRight />}
+            className="pl-8 pr-7"
+          >
+            {t('conclusion.cta')}
+          </CustomLink>
+        )}
       </div>
     </section>
   );

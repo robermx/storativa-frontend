@@ -1,0 +1,45 @@
+{
+  "hero": {
+    "eyebrow": "Legal information",
+    "title": "Clarity to create, share, and care for your work.",
+    "description": "Here we bring together a general explanation of the legal topics Storativa is preparing for its public launch."
+  },
+  "notice": {
+    "title": "Information to guide you",
+    "description": "This section is not Storativa's privacy notice or terms and conditions. It does not replace advice from a qualified legal professional for your particular situation."
+  },
+  "topics": {
+    "eyebrow": "The essentials",
+    "title": "See how these topics relate to Storativa.",
+    "description": "Legal information should be understandable. That is why we organize the aspects you will usually need to review before using or sharing content on the platform.",
+    "items": {
+      "use": {
+        "title": "Using the platform",
+        "description": "Understand the general rules for creating an account, using Storativa's tools, and helping keep a respectful space for every user."
+      },
+      "privacy": {
+        "title": "Privacy and data",
+        "description": "Learn which aspects to review regarding the handling of your personal data, account security, and communications related to the service."
+      },
+      "authorship": {
+        "title": "Content and authorship",
+        "description": "Learn about the criteria that apply to the stories and materials you add, including third-party rights and responsible use of content."
+      }
+    }
+  },
+  "consultation": {
+    "eyebrow": "Reference guide",
+    "title": "What you can review in the legal documents.",
+    "description": "Storativa's legal documents should help you make informed decisions when using the service. Look especially for information about:",
+    "items": {
+      "terms": "The conditions for accessing and using Storativa's tools.",
+      "data": "How your personal data is handled and protected.",
+      "content": "Your responsibilities when creating, uploading, or sharing content.",
+      "account": "Managing your account, security, and important service notices."
+    }
+  },
+  "support": {
+    "title": "Do you have a question about these topics?",
+    "description": "Review the applicable documents before using a feature or sharing a work. If your situation requires a specific legal interpretation, we recommend consulting a qualified legal professional in your jurisdiction."
+  }
+}
