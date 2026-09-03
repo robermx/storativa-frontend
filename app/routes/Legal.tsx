@@ -25,7 +25,7 @@ const Legal = () => {
           </p>
         </div>
 
-        <aside className="rounded-[2rem] border border-primary/20 bg-linear-to-br from-primary/15 via-lightness to-secondary/25 p-7 shadow-sm dark:border-primary/25 dark:via-darkness dark:to-secondary/10">
+        <aside className="rounded-4xl border border-primary/20 bg-linear-to-br from-primary/15 via-lightness to-secondary/25 p-7 shadow-sm dark:border-primary/25 dark:via-darkness dark:to-secondary/10">
           <Scale className="h-7 w-7 text-primary" aria-hidden="true" />
           <h2 className="mt-5 text-2xl font-bold tracking-tight text-dark dark:text-light">
             {t('notice.title')}
@@ -72,24 +72,24 @@ const Legal = () => {
         </div>
       </section>
 
-      <section className="grid gap-8 rounded-[2rem] border border-dark/10 bg-dark p-7 text-light dark:border-light/10 dark:bg-darkness lg:grid-cols-[0.8fr_1.2fr] lg:p-10">
+      <section className="grid gap-8 rounded-4xl border border-dark/10 bg-lightness/70 p-7 text-light dark:border-light/10 dark:bg-darkness/70 lg:grid-cols-[0.8fr_1.2fr] lg:p-10">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-secondary">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">
             {t('consultation.eyebrow')}
           </p>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+          <h2 className="mt-4 text-dark dark:text-light text-3xl font-bold tracking-tight sm:text-4xl">
             {t('consultation.title')}
           </h2>
         </div>
         <div>
-          <p className="leading-relaxed text-light/80">
+          <p className="leading-relaxed text-dark/80 dark:text-light/80">
             {t('consultation.description')}
           </p>
           <ul className="mt-6 grid gap-4 sm:grid-cols-2">
             {(['terms', 'data', 'content', 'account'] as const).map((item) => (
               <li
                 key={item}
-                className="rounded-2xl border border-light/15 bg-light/5 px-4 py-3 leading-relaxed text-light/90"
+                className="rounded-2xl border border-light/15 bg-secondary/25 px-4 py-3 leading-relaxed text-dark/80 dark:bg-accent/10 dark:text-light/80"
               >
                 {t(`consultation.items.${item}`)}
               </li>
@@ -98,7 +98,7 @@ const Legal = () => {
         </div>
       </section>
 
-      <section className="rounded-[2rem] border border-dark/10 bg-lightness/70 p-7 dark:border-light/10 dark:bg-darkness/70 lg:p-10">
+      <section className="rounded-4xl border border-dark/10 bg-lightness/70 p-7 dark:border-light/10 dark:bg-darkness/70 lg:p-10">
         <h2 className="text-2xl font-bold tracking-tight text-dark dark:text-light">
           {t('support.title')}
         </h2>
