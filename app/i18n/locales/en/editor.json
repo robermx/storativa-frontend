@@ -1,7 +1,21 @@
 {
   "aiAssistant": {
     "open": "AI assistance",
-    "comingSoon": "Coming soon"
+    "title": "AI assistance",
+    "description": "A guide to orient you; you decide what to write.",
+    "close": "Close AI assistance",
+    "panelAriaLabel": "AI assistance panel",
+    "generating": "We are preparing your introductory panorama…",
+    "notRequested": "Generate an introductory panorama based on this Storativa's periods, characters, and central idea.",
+    "generate": "Generate panorama",
+    "retry": "Try again",
+    "failed": "We could not generate the introductory panorama. Please try again.",
+    "sections": {
+      "temporalContext": "Era and periods",
+      "characterCompass": "Character compass",
+      "narrativeCore": "Narrative core",
+      "writingQuestions": "Questions to begin writing"
+    }
   },
   "initialization": {
     "title": "We could not prepare your editor",

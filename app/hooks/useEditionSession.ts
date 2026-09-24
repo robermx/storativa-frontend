@@ -323,6 +323,7 @@ export const useEditionSession = (storativa: IResStorativa) => {
     saveState === 'error';
 
   return {
+    storativaId: storativa._id,
     chapters,
     activeChapter,
     activeChapterId,

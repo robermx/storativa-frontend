@@ -87,5 +87,11 @@
     "creating": "Creando...",
     "create": "Crear Storativa",
     "failed": "No pudimos crear tu Storativa. Intenta de nuevo."
+  },
+  "aiDialog": {
+    "title": "¿Deseas un panorama inicial?",
+    "description": "La IA analizará los periodos, personajes y la idea central para ofrecerte una guía introductoria. No escribirá nada en tu historia.",
+    "generate": "Generar panorama",
+    "notNow": "Ahora no"
   }
 }

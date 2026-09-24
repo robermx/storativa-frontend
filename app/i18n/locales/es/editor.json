@@ -1,7 +1,21 @@
 {
   "aiAssistant": {
     "open": "Asistencia de IA",
-    "comingSoon": "Próximamente"
+    "title": "Asistencia de IA",
+    "description": "Una guía para orientarte; tú decides qué escribir.",
+    "close": "Cerrar asistencia de IA",
+    "panelAriaLabel": "Panel de asistencia de IA",
+    "generating": "Estamos preparando tu panorama introductorio…",
+    "notRequested": "Genera un panorama introductorio basado en los periodos, personajes y la idea central de esta Storativa.",
+    "generate": "Generar panorama",
+    "retry": "Reintentar",
+    "failed": "No pudimos generar el panorama introductorio. Intenta de nuevo.",
+    "sections": {
+      "temporalContext": "Época y periodos",
+      "characterCompass": "Brújula de personajes",
+      "narrativeCore": "Núcleo narrativo",
+      "writingQuestions": "Preguntas para empezar a escribir"
+    }
   },
   "initialization": {
     "title": "No pudimos preparar tu editor",

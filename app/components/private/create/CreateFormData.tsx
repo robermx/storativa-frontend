@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +8,7 @@ import type {
   CatalogReference,
   CreateStorativaPayload,
   IReqStorativa,
+  IResStorativa,
 } from '@/interfaces/storativa.interface';
 import type { ICatalog } from '@/interfaces/catalog.interface';
 import CustomButton from '@/components/shared/CustomButton';
@@ -19,10 +20,16 @@ import { getErrorMessage } from '@/utils/getErrorMessage';
 import { LayersPlus } from 'lucide-react';
 import { useCreateFlow } from '@/context/CreateFlowContext';
 import { useLanguageStore } from '@/store/languageStore';
+import CustomDialog from '@/components/shared/CustomDialog';
+import { isAiFeatureEnabled } from '@/utils/aiFeature';
 
 const CreateFormData: FC = () => {
   const { t } = useTranslation('create');
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [createdStorativa, setCreatedStorativa] =
+    useState<IResStorativa | null>(null);
+  const [isAiDialogOpen, setIsAiDialogOpen] = useState(false);
+  const generatePanoramaRef = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
   const language = useLanguageStore((state) => state.language);
   const {
@@ -40,6 +47,18 @@ const CreateFormData: FC = () => {
     genderLabelCatalog,
   } = useCreateFlow();
   const characters = useWatch({ control, name: 'characters' }) ?? [];
+
+  const navigateToEdition = (requestInitialPanorama = false) => {
+    if (!createdStorativa) return;
+
+    setIsAiDialogOpen(false);
+    navigate(`/edition/${createdStorativa._id}`, {
+      replace: true,
+      ...(requestInitialPanorama
+        ? { state: { initialPanoramaRequested: true } }
+        : {}),
+    });
+  };
 
   const onSubmit = async (data: IReqStorativa) => {
     setSubmitError(null);
@@ -117,6 +136,12 @@ const CreateFormData: FC = () => {
         }),
       };
       const storativa = await createUserStorativa(adaptedData);
+      if (isAiFeatureEnabled) {
+        setCreatedStorativa(storativa);
+        setIsAiDialogOpen(true);
+        return;
+      }
+
       navigate(`/edition/${storativa._id}`, { replace: true });
     } catch (error: unknown) {
       setSubmitError(getErrorMessage(error, t('submit.failed')));
@@ -124,33 +149,56 @@ const CreateFormData: FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit, () => goToStep(0))} noValidate>
-      <CreateAlert submitError={submitError} />
-      <div className={activeStep === 0 ? 'py-6 px-4 min-h-140' : 'hidden'}>
-        <CreateGenerals />
-      </div>
+    <>
+      <form onSubmit={handleSubmit(onSubmit, () => goToStep(0))} noValidate>
+        <CreateAlert submitError={submitError} />
+        <div className={activeStep === 0 ? 'py-6 px-4 min-h-140' : 'hidden'}>
+          <CreateGenerals />
+        </div>
 
-      <div className={activeStep === 1 ? 'py-6 px-4 min-h-140' : 'hidden'}>
-        <CreateAdaptedPeriods />
-      </div>
+        <div className={activeStep === 1 ? 'py-6 px-4 min-h-140' : 'hidden'}>
+          <CreateAdaptedPeriods />
+        </div>
 
-      <div className={activeStep === 2 ? 'py-6 px-4 min-h-140' : 'hidden'}>
-        <>
-          <CreateCharacter />
-          <div className="py-7">
-            <CustomButton
-              type="submit"
-              variant="primary"
-              disabled={!isValid || characters.length === 0 || isLocked}
-              icon={<LayersPlus />}
-              size="md"
-            >
-              {isSubmitting ? t('submit.creating') : t('submit.create')}
-            </CustomButton>
-          </div>
-        </>
-      </div>
-    </form>
+        <div className={activeStep === 2 ? 'py-6 px-4 min-h-140' : 'hidden'}>
+          <>
+            <CreateCharacter />
+            <div className="py-7">
+              <CustomButton
+                type="submit"
+                variant="primary"
+                disabled={!isValid || characters.length === 0 || isLocked}
+                icon={<LayersPlus />}
+                size="md"
+              >
+                {isSubmitting ? t('submit.creating') : t('submit.create')}
+              </CustomButton>
+            </div>
+          </>
+        </div>
+      </form>
+
+      <CustomDialog
+        openDialog={isAiDialogOpen}
+        onCloseDialog={() => navigateToEdition()}
+        initialFocus={generatePanoramaRef}
+        title={t('aiDialog.title')}
+        subtitle={t('aiDialog.description')}
+        closeLabel={t('aiDialog.notNow')}
+      >
+        <div className="flex flex-col-reverse gap-3 pt-4 sm:flex-row sm:justify-end">
+          <CustomButton onClick={() => navigateToEdition()} variant="outline">
+            {t('aiDialog.notNow')}
+          </CustomButton>
+          <CustomButton
+            ref={generatePanoramaRef}
+            onClick={() => navigateToEdition(true)}
+          >
+            {t('aiDialog.generate')}
+          </CustomButton>
+        </div>
+      </CustomDialog>
+    </>
   );
 };
 
